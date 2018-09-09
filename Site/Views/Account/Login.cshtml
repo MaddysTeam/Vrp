@@ -1,0 +1,50 @@
+﻿@model LoginViewModel
+@{
+	Layout = "~/Views/Shared/_Row.cshtml";
+	ViewBag.Title = "登录";
+}
+
+<div class="page-login text-center">
+	<div class="login-box center-block">
+		@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "form-horizontal" }))
+		{ 
+			@Html.AntiForgeryToken()
+			@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+				
+			<p class="title">用户登录</p>
+			<div class="form-group">
+				<label for="username" class="control-label sr-only">登录名称</label>
+				<div class="col-sm-12">
+					<div class="input-group">
+						<input type="text" placeholder="登录名称" name="username" class="form-control">
+						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+					</div>
+				</div>
+			</div>
+			<label for="password" class="control-label sr-only">登录口令</label>
+			<div class="form-group">
+				<div class="col-sm-12">
+					<div class="input-group">
+						<input type="password" placeholder="登录口令" name="password" class="form-control">
+						<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+					</div>
+				</div>
+			</div>
+			@*<label class="rememberme">
+				<input id="rememberme" name="rememberme" type="checkbox" value="true" />
+				<span>记住我（在公共场所请勿勾选此项）</span><input name="rememberme" type="hidden" value="false" />
+			</label>*@
+			<button class="btn btn-block btn-login" type="submit">登录 <i class="fa fa-sign-in fa-lg"></i></button>
+		}
+			<div class="links">
+				<p>
+					<a href="@Url.Action("Forget", "Account")">忘记密码？</a> |
+					<a href="@Url.Action("Register", "Account")">注册</a>
+				</p>
+			</div>
+	</div>
+</div>
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}

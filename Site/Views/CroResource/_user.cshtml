@@ -1,0 +1,23 @@
+﻿<div class="div_cont fr w100">
+	<div class="title">
+			<b>活跃用户</b><a href="@Url.Action("MoreUser", "CroUser")" class="glyphicon glyphicon-option-horizontal fr more" target="_blank"></a>
+	</div>
+	<div class="d_user_list">
+		<ul class="user_list">
+
+			@foreach (ResActiveUser item in ViewBag.RankingOfActiveUser)
+			{
+				<li>
+					<a class="user_square" href="@Url.Action("Index", "CroMy", new { id=item.UserId })">
+						<img src="@item.FitPhotoPath" /></a>
+						<div>
+							<p>@item.RealName</p>
+						</div>
+					
+				</li>
+			}
+
+		</ul>
+	</div>
+</div>
+

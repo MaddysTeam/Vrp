@@ -1,0 +1,24 @@
+﻿@model List<CroResourceRanking>
+<ul class="res_list">
+
+	@foreach (CroResourceRanking item in Model)
+	{
+		<li>
+			<a href="@Url.Action("ZcView", "CroResource", new { id = item.CrosourceId })">
+				<div>
+					<img src="@item.FitCoverPath" height="110" />
+				</div>
+				<p>@item.Title</p>
+				<p><span>作者：</span>@item.Author</p>
+				<p><span>单位：</span>@item.AuthorCompany</p>
+				<p><span>下载次数：</span>@item.DownCount</p>
+				<p><span>更新时间：</span>@item.CreatedTime</p>
+				@if(item.RType=="2"){
+				<p><span>资源出处：</span>@item.RSource</p>
+				}
+				
+			</a>
+		</li>
+	}
+
+</ul>

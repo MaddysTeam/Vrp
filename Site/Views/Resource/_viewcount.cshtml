@@ -1,0 +1,28 @@
+﻿<!--热门资源 -->
+<div class="block_panel blue_edge">
+	<div class="panel_title nav">
+		<span><img src="~/assets/img/ico_view.png" />热门资源</span>
+	<!--	<a class="more" href="@Url.Action("More", "Resource", new { type = "viewcount" })">浏览更多 >></a>-->
+	</div>
+	<div class="body">
+		<ul class="compact_list">
+			@{
+			int i = 1;
+			foreach (ResResourceRecommand item in ViewBag.RankingOfViewCount)
+			{
+			<li>
+				@if (i < 4)
+				{
+					<a href="@Url.Action("View", "Resource", new { id=item.ResourceId })"><span class="square">@i</span> @item.Title</a>
+				}
+				else
+				{
+				<a href="@Url.Action("View", "Resource", new { id=item.ResourceId })"><span>@i</span> @item.Title</a>
+				}
+			</li>
+				i++;
+			}
+			}
+		</ul>
+	</div>
+</div>

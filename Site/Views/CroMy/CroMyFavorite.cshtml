@@ -1,0 +1,56 @@
+﻿
+@{
+	var id = this.ViewContext.RouteData.Values["id"];
+	Layout = "~/Views/Shared/_CroLayout.cshtml";
+	ViewBag.Title = "我的收藏资源列表";
+}
+
+
+
+<div class="menu">
+	<div class="fl">首页 > <span>资源收藏列表</span></div>
+
+</div>
+
+
+<div class="ranking">
+	@foreach (CroMyResource item in ViewBag.ListOfResource)
+	{
+		<div class="ranking_square">
+
+			<div class="details wide">
+				<a href="@Url.Action("ZcView", "CroResource", new { id = item.CrosourceId })"><span class="restitle">@item.Title</span></a>
+
+
+				<div class="info">
+					<div class="col-md-11">
+						作者：<span>@item.Author</span>
+						收藏日期：<span>@item.OccurTime.ToShortDateString()</span>
+						格式：<span>@item.FileExtName</span>
+					</div>
+@if (ResSettings.SettingsInSession.UserId==Convert.ToInt64(id)) {
+					<div class="col-md-1">
+						<a href="@Url.Action("DeleteFavorite", "CroMy",  new { id = ResSettings.SettingsInSession.UserId, resid = item.OccurId })" class="btn btn-default  ">删除收藏</a>
+						</div>
+}
+					</div>
+				
+			</div>
+			
+		</div>
+	}
+</div>
+
+
+
+
+
+
+<div>
+	@Html.Pager((int)ViewBag.PageSize, (int)ViewBag.PageNumber, (int)ViewBag.TotalItemCount).Options(o => o
+							.DisplayTemplate("_Bootstrap3Pagination")
+						  .MaxNrOfPages(10)
+						  .AlwaysAddFirstPageNumber()
+						  .AddRouteValue("type", ViewBag.ParamType)
+		  )
+</div>

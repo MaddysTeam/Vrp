@@ -1,0 +1,52 @@
+﻿@model List<ZSResource>
+@{
+	Layout = "~/Views/Shared/_ZSLayout.cshtml";
+	ViewBag.Title = "首页";
+	var Hot = ViewBag.Hot as List<ZSResource>;
+}
+<div class="row">
+	<div class="col-md-12">
+	
+		<div class="c_img">
+			<img src="~/assets/img/zs-banner.png" />
+		</div>
+		
+	</div>
+
+</div>
+
+<div class="row mt-20">
+
+	<div class="col-md-9">
+
+		<!--热门资源-->
+		<div class="col-md-12 fl z_cont">
+			<div class="title">
+				<b>热门资源</b>
+				@*<a class="glyphicon glyphicon-option-horizontal fr more" id="more_hot" href="@Url.Action("Search", "ZSResource",  new { Level = "品德与社会" })"></a>*@
+			</div>
+			<div class="d_res_list">
+				<ul class="res_list">
+					@foreach (var item in Model)
+					{
+						<li>
+							<a href="@Url.Action("Detail", "ZSResource", new { id = item.ResourceId })">
+								<img class="cover" src="@item.CoverPath" height="124" />
+								<p>@item.Title</p>
+								<p><span>访问量：</span>@item.ViewCount</p>
+							</a>
+						</li>
+					}
+				</ul>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="col-md-3">
+
+		@Html.Partial("_Hot", Hot)
+
+	</div>
+
+</div>

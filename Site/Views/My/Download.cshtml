@@ -1,0 +1,48 @@
+﻿@model ResUser
+@{
+	ViewBag.Title = "我的下载";
+}
+<ul class="nav nav-tabs my_nav">
+	<li><a href="@Url.Action("Index", "My", new { id = Model.UserId })">个人信息</a></li>
+	<li class="active"><a>我的下载</a></li>
+	<li><a href="@Url.Action("Favorite", "My", new { id = Model.UserId })">我的收藏</a></li>
+	<li><a href="@Url.Action("Comment", "My", new { id = Model.UserId })">我的评论</a></li>
+</ul>
+<div class="full_white">
+
+	<!--资源列表 -->
+	<div class="block_panel blue_edge">
+		<div class="panel_title nav">
+			<a href="@Url.Action("Index", "My")">我的空间</a> > <span>@ViewBag.Title</span>
+		</div>
+		<div class="body">
+			<div class="ranking">
+				@foreach (ResMyResource item in ViewBag.ListOfResource)
+				{
+					<div class="ranking_square">
+						
+						<div class="details downwide">
+							<a href="@Url.Action("View", "Resource", new { id=item.ResourceId })" title="@item.Title"><span class="restitle">@item.Title</span></a><br />
+
+							<div class="info">
+								作者：<span>@item.Author</span>
+								下载日期：<span>@item.OccurTime.ToShortDateString()</span>
+								格式：<span>@item.FileExtName</span>
+							</div>
+						</div>
+					@if (ResSettings.SettingsInSession.UserId==Model.UserId) {
+	<a href="@Url.Action("DeleteDownload", new { id = item.OccurId })" class="btn btn-default">删除下载</a>
+					}	</div>
+				}
+			</div>
+			<div>
+				@Html.Pager((int)ViewBag.PageSize, (int)ViewBag.PageNumber, (int)ViewBag.TotalItemCount).Options(o => o
+							.DisplayTemplate("_Bootstrap3Pagination")
+						  .MaxNrOfPages(10)
+						  .AlwaysAddFirstPageNumber()
+		  )
+			</div>
+		</div>
+	</div>
+
+</div>

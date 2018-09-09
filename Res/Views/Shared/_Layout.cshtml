@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<head>
+	<title>@ViewBag.Title - 上海特教资源库管理系统</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<!-- CSS -->
+	@Styles.Render("~/css/bootstrap")
+	@Styles.Render("~/css/alertify")
+	@RenderSection("css", required: false)
+	@Styles.Render("~/css/themes/king")
+	@Styles.Render("~/css/app")
+
+	<!--[if lte IE 9]>
+		<link href="/assets/themes/king/css/main-ie.min.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="/assets/themes/king/css/main-ie-part2.min.css" rel="stylesheet" type="text/css" media="screen" />
+	<![endif]-->
+</head>
+<body class="full-page">
+	<!-- WRAPPER -->
+	<div class="wrapper">
+
+		<!-- TOP BAR -->
+		<div class="top-bar">
+			<div class="container">
+				<div class="row">
+					<!-- logo -->
+					<div class="col-md-2 logo">
+						<a href="/">
+							<img src="~/assets/img/trainingadmin-logo-white.png" alt="Training Admin" />
+						</a>
+						<h1 class="sr-only">Training Admin</h1>
+					</div>
+					<!-- end logo -->
+					<div class="col-md-10">
+						<div class="row">
+							<div class="col-md-3">
+								<!-- search box -->
+								<div id="tour-searchbox" class="input-group searchbox">
+									<input type="search" class="form-control" placeholder="输入筛选关键字 ...">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+									</span>
+								</div>
+								<!-- end search box -->
+							</div>
+							<div class="col-md-9">
+								<div class="top-bar-right">
+									<!-- responsive menu bar icon -->
+									<a href="#" class="hidden-md hidden-lg main-nav-toggle"><i class="fa fa-bars"></i></a>
+									<!-- end responsive menu bar icon -->
+									@*<button type="button" id="start-tour" class="btn btn-link"><i class="fa fa-refresh"></i> 使用说明</button>
+										<button type="button" id="global-volume" class="btn btn-link btn-global-volume"><i class="fa"></i></button>*@
+									@Html.Partial("_notice")
+
+									@Html.Partial("_user")
+								</div>
+								<!-- /top-bar-right -->
+							</div>
+						</div>
+						<!-- /row -->
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /top -->
+		<!-- BOTTOM: LEFT NAV AND RIGHT MAIN CONTENT -->
+		<div class="bottom">
+			<div class="container">
+				<div class="row">
+					@Html.Partial("_sidebar")
+
+					<!-- top general alert -->
+					@*<div class="alert alert-danger top-general-alert">
+							<span>If you <strong>can't see the logo</strong>on the top left, please reset the style on right style switcher (for upgraded theme only).</span>
+							<button type="button" class="close">&times;</button>
+						</div>*@
+					<!-- end top general alert -->
+					<!-- content-wrapper -->
+					@RenderBody()
+					<!-- /content-wrapper -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- END BOTTOM: LEFT NAV AND RIGHT MAIN CONTENT -->
+		<div class="push-sticky-footer"></div>
+	</div>
+	<!-- /wrapper -->
+	<!-- FOOTER -->
+	<footer class="footer">
+		版权所有 Copy right &copy; 2015 上海教育软件发展有限公司
+	</footer>
+	<!-- END FOOTER -->
+	<!-- STYLE SWITCHER -->
+	@*<div class="del-style-switcher">
+			<div class="del-switcher-toggle toggle-hide"></div>
+			<form>
+				<section class="del-section del-section-skin">
+					<h5 class="del-switcher-header">Choose Skins:</h5>
+
+					<ul>
+						<li>
+							<a href="#" title="Slate Gray" class="switch-skin slategray" data-skin="/assets/themes/king/css/skins/slategray.css">Slate Gray</a>
+						</li>
+						<li>
+							<a href="#" title="Dark Blue" class="switch-skin darkblue" data-skin="/assets/themes/king/css/skins/darkblue.css">Dark Blue</a>
+						</li>
+						<li>
+							<a href="#" title="Dark Brown" class="switch-skin darkbrown" data-skin="/assets/themes/king/css/skins/darkbrown.css">Dark Brown</a>
+						</li>
+						<li>
+							<a href="#" title="Light Green" class="switch-skin lightgreen" data-skin="/assets/themes/king/css/skins/lightgreen.css">Light Green</a>
+						</li>
+						<li>
+							<a href="#" title="Orange" class="switch-skin orange" data-skin="/assets/themes/king/css/skins/orange.css">Orange</a>
+						</li>
+						<li>
+							<a href="#" title="Red" class="switch-skin red" data-skin="/assets/themes/king/css/skins/red.css">Red</a>
+						</li>
+						<li>
+							<a href="#" title="Teal" class="switch-skin teal" data-skin="/assets/themes/king/css/skins/teal.css">Teal</a>
+						</li>
+						<li>
+							<a href="#" title="Yellow" class="switch-skin yellow" data-skin="/assets/themes/king/css/skins/yellow.css">Yellow</a>
+						</li>
+					</ul>
+
+					<button type="button" class="switch-skin-full fulldark" data-skin="/assets/themes/king/css/skins/fulldark.css">Full Dark</button>
+					<button type="button" class="switch-skin-full fullbright" data-skin="/assets/themes/king/css/skins/fullbright.css">Full Bright</button>
+				</section>
+				<label class="fancy-checkbox">
+					<input type="checkbox" id="fixed-top-nav">
+					<span>Fixed Top Navigation</span>
+				</label>
+				<p>
+					<a href="#" title="Reset Style" class="del-reset-style">Reset Style</a>
+				</p>
+			</form>
+		</div>*@
+	<!-- END STYLE SWITCHER -->
+	<!-- Javascript -->
+	@Scripts.Render("~/js/jquery")
+	@Scripts.Render("~/js/bootstrap")
+	@Scripts.Render("~/js/alertify")
+	@Scripts.Render("~/js/modernizr")
+	@Scripts.Render("~/js/jqueryval")
+	@Scripts.Render("~/js/knockout")
+	@Scripts.Render("~/js/themes/king")
+	@Scripts.Render("~/js/app")
+	@RenderSection("plugins", required: false)
+	@RenderSection("scripts", required: false)
+</body>
+</html>

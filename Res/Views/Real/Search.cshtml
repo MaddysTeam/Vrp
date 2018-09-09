@@ -1,0 +1,218 @@
+﻿@{
+	ViewBag.Title = "查询实名";
+}
+<div class="col-md-10 content-wrapper">
+	<div class="row">
+		<div class="col-lg-4 ">
+			<ul class="breadcrumb">
+				<li>
+					<i class="fa fa-home"></i>
+					<a href="@Url.Action("Index", "Home")">首页</a>
+				</li>
+				<li><a href="@Url.Action("Index", "User")">用户</a></li>
+				<li class="active">@ViewBag.Title</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- main -->
+	<div class="content">
+		<div class="main-header">
+			<h2>@ViewBag.Title</h2>
+			<em>按实名或单位查询</em>
+		</div>
+
+		<div class="main-content">
+
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="col-sm-4">
+						<button class="btn btn-custom-primary btn-md" id="addReal"><i class="fa fa-plus-square"></i> 添加新用户</button>
+					</div>
+				</div>
+			</div>
+
+			<hr />
+
+			<!-- widget -->
+			<div class="widget">
+				<div class="widget-header">
+					<h3><i class="fa fa-paperclip"></i> @ViewBag.Title</h3>
+					<div class="btn-group widget-header-toolbar">
+						<a href="#" title="专注" class="btn-borderless btn-focus"><i class="fa fa-eye"></i></a>
+					</div>
+				</div>
+
+				<div class="widget-content">
+					<!-- Condition -->
+					<div class="col-sm-12">
+						<form class="pull-right condition col-sm-4">
+							<div class="input-group">
+								<input type="text" class="form-control" disabled id="companyName" aria-label="...">
+								<div class="input-group-btn">
+									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">单位 <span class="caret"></span></button>
+									<div class="dropdown-menu dropdown-menu-right" style="max-height:340px; width: 300px; overflow-y:auto">
+										<div id="jstree"></div>
+									</div>
+								</div><!-- /btn-group -->
+							</div><!-- /input-group -->
+						</form>
+					</div>
+					<!-- end Condition-->
+					<div class="col-sm-12">
+						<hr />
+					</div>
+					<!-- Grid -->
+					<div id="table-responsive">
+						<table id="bootgrid" class="table table-striped table-hover">
+							<thead>
+								<tr>
+									<th data-column-id="RealName">实名</th>
+									<th data-column-id="CompanyName" data-headercs="titlewidth">单位</th>
+									<th data-column-id="IDCard">身份证</th>
+									<th data-column-id="State">状态</th>
+									<th data-column-id="CardNo">实名卡号</th>
+									<th data-column-id="CardPwd">实名卡密码</th>
+									<th data-column-id="cmd_edit" data-formatter="cmd_edit" data-sortable="false" data-headercs="cmdwidth"></th>
+									<th data-column-id="cmd_delete" data-formatter="cmd_delete" data-sortable="false" data-headercs="cmdwidth"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<!-- end Grid-->
+				</div>
+				<!-- end widget content -->
+
+			</div>
+			<!-- end widget -->
+
+			<!-- modal frame -->
+				<div class="modal fade" id="inner-edit-form" tabindex="-1" role="dialog"></div>
+			<!-- end modal frame -->
+
+		</div>
+		<!-- /main-content -->
+	</div>
+	<!-- /main -->
+</div>
+@section Css {
+	@Styles.Render("~/css/bootgrid")
+	@Styles.Render("~/css/jstree")
+}
+@section Plugins {
+	@Scripts.Render("~/js/bootgrid")
+	@Scripts.Render("~/js/jstree")
+}
+@section Scripts {
+	<script type="text/javascript">
+
+	function getGlobalRequest() {
+		return { companyId: $('#jstree').jstree("get_selected") | 0 };
+	}
+
+	function getGridOptions() {
+
+		return $.extend(true, {}, gridOptions, {
+
+			url: "/Real/Search",
+
+			formatters: {
+				"cmd_edit": function (column, row) {
+					return "<button type='button' class='btn btn-xs cmd_edit' data-row-id='" + row.id + "' data-row-title='" + row.RealName + "' title='编辑'><span class='fa fa-edit'></span></button>";
+					},
+				"cmd_delete": function (column, row) {
+					return "<button type='button' class='btn btn-xs cmd_delete' data-row-id='" + row.id + "' data-row-title='" + row.RealName + "' title='删除'><span class='fa fa-trash-o'></span></button>";
+				},
+			},
+
+			defaultSearch: decodeURI(window.location.search.substr(3)),
+
+			requestHandler: function (request) { return $.extend(true, request, getGlobalRequest()); },
+
+			labels: {
+				search: "实名或单位名称搜索"
+			},
+
+		});
+
+	}
+
+	function showModal(id) {
+
+		$.get("@Url.Action("Edit", "Real")", { id: id }, function (response) {
+			$("#inner-edit-form")
+				.html(response).modal("show")
+				.find(".form-control").first().focus();
+		});
+
+	}
+
+	$(function () {
+
+		$("#addReal").on("click", function () {
+			showModal();
+		});
+
+		$('#jstree')
+			.on("click.jstree", function (e) {
+				e.stopImmediatePropagation();
+			})
+			.on("changed.jstree", function (e, data) {
+				$("#companyName").val(data.instance.get_node(data.selected).text);
+				$("#bootgrid").bootgrid("reload");
+				data.instance.click();
+			})
+			.jstree({
+				"core": {
+					"animation": 0,
+					"multiple": false,
+					"check_callback": true,
+					"themes": {},
+					'data': {
+						'url': function (node) {
+							return '/Company/Tree';
+						},
+						'data': function (node) {
+							return { 'id': node.id };
+						}
+					}
+				},
+				"plugins": [
+					"wholerow"
+				]
+			});
+
+		var grid = $("#bootgrid")
+				.bootgrid(getGridOptions())
+				.on("loaded.rs.jquery.bootgrid", function () {
+
+					grid.find("tbody tr:has(button.isactived)").addClass("flagactived");
+
+					grid
+						// 编辑
+						.find(".cmd_edit").on("click", function (e) {
+							var id = $(this).data("row-id");
+							showModal(id);
+						}).end()
+
+						// 删除
+						.find(".cmd_delete").on("click", function (e) {
+							var id = $(this).data("row-id"), title = $(this).data("row-title");
+							var msg = "确认要删除用户 【" + title + "】 吗？";
+							alertify.confirm(msg, function (e) {
+								if (e) {
+									$.post("/Real/Delete", { id: id }, function (data, status) {
+										if (data.cmd == "Deleted") { alertify.success(data.msg); grid.bootgrid("reload"); }
+										else { alertify.error(data.msg); }
+									});
+								}
+							});
+						});
+
+				});
+
+	});
+
+	</script>
+
+}

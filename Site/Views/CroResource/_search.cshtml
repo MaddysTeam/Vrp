@@ -1,0 +1,117 @@
+﻿@{
+	long domainPKID = 0;
+	long deformityPKID = 0;
+	if (!String.IsNullOrEmpty(Request["Domain"])) { 
+		domainPKID = Int64.Parse((string)Request["Domain"]);
+	}
+	if (!String.IsNullOrEmpty(Request["Deformity"]))
+	{
+		deformityPKID = Int64.Parse((string)Request["Deformity"]);
+	}
+}
+<!--资源检索-->
+<div class="block_panel blue_edge">
+	<p class="panel_title">
+		<span><img src="~/assets/img//ico_gift.png" />资源检索</span>
+	</p>
+
+
+
+		@using (Html.BeginForm("Search", "CroResource", FormMethod.Get))
+		{
+			<div class="category_hit">
+				<dl>
+					<dt>领 域：</dt>
+					<dd>
+						@Html.Hidden("Domain", null)
+						<ul id="domainChoose" class="items">
+							@if (0 == domainPKID)
+							{
+								<li><a href="javascript:void(0)" class="actived" data-id="">全部</a></li>
+							}
+							else
+							{
+								<li><a href="javascript:void(0)" data-id="">全部</a></li>
+							}
+							@foreach (var item in ResResourceHelper.Domain.GetItems())
+							{
+
+								if (item.PickListItemId != 10001 & item.PickListItemId != 10002)
+								{
+								
+									if (item.PickListItemId == domainPKID)
+									{
+												<li><a href="javascript:void(0)" class="actived" data-id="@item.PickListItemId">@item.Name</a></li>
+							
+								
+									}
+									else
+									{
+										<li><a href="javascript:void(0)" data-id="@item.PickListItemId">@item.Name</a></li>
+									}
+								}
+							}
+						</ul>
+					</dd>
+				</dl>
+
+				<dl>
+					<dt>分 类：</dt>
+					<dd>
+						@Html.Hidden("Deformity", null)
+						<ul id="deformityChoose" class="items">
+							@if (0 == deformityPKID)
+							{
+								<li><a href="javascript:void(0)" class="actived" data-id="">全部</a></li>
+							}
+							else
+							{
+								<li><a href="javascript:void(0)" data-id="">全部</a></li>
+							}
+							@foreach (var item in ResResourceHelper.Deformity.GetItems())
+							{
+								if (item.PickListItemId == deformityPKID)
+								{
+
+								
+									<li><a href="javascript:void(0)" class="actived" data-id="@item.PickListItemId">@item.Name</a></li>
+								
+								}
+								else
+								{
+									<li><a href="javascript:void(0)" data-id="@item.PickListItemId">@item.Name</a></li>
+								}
+							}
+						</ul>
+					</dd>
+				</dl>
+				<dl>
+					<dt>过 滤：</dt>
+					<dd>
+						@if (domainPKID == 0)
+						{
+							@Html.DropDownList("ResourceType", ResResourceHelper.ResourceType.GetSelectList(), "全部资源类型", new { @class = "hit" })
+						}
+						else
+						{
+							@Html.DropDownList("ResourceType", ResResourceHelper.ResourceType.GetSelectList(domainPKID), "全部资源类型", new { @class = "hit" })
+						}
+						@Html.DropDownList("Subject", ResResourceHelper.Subject.GetSelectList(), "全部学科", new { @class = "hit" })
+						@Html.DropDownList("Stage", ResResourceHelper.Stage.GetSelectList(), "全部学段", new { @class = "hit", id = "StagePKID" })
+						@Html.DropDownList("Grade", ResResourceHelper.Grade.GetSelectList(), "全部年级", new { @class = "hit", id = "GradePKID" })
+						@Html.DropDownList("SchoolType", ResResourceHelper.SchoolType.GetSelectList(), "全部学校类型", new { @class = "hit" })
+						@Html.DropDownList("LearnFrom", ResResourceHelper.LearnFrom.GetSelectList(), "全部安置形式", new { @class = "hit" })
+						@Html.DropDownList("MediumType", ResResourceHelper.MediumType.GetSelectList(), "全部媒体格式", new { @class = "hit" })
+					</dd>
+				</dl>
+				<dl>
+					<dt>搜 索：</dt>
+					<dd>
+						@Html.Hidden("Sort", null)
+						@Html.TextBox("Keywords", null, new { @class = "hit", placeholder = "输入关键字、标题名称或资源编码进行搜索" })
+						<button id="searchbutton" type="submit">搜索</button>
+					</dd>
+				</dl>
+			</div>
+		}
+	</div>

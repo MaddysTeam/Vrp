@@ -1,0 +1,1801 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3E0DB802-D093-46EA-8A26-995F0D93A570}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Res</RootNamespace>
+    <AssemblyName>Res</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvcCheckBoxList, Version=1.4.4.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcCheckBoxList.1.4.4.5\lib\net45\MvcCheckBoxList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvcPaging, Version=2.1.2.28, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcPaging.2.1.2\lib\net40\MvcPaging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Symber.Web.APQuery, Version=4.0.3.5, Culture=neutral, PublicKeyToken=5f8081ae21b51971, processorArchitecture=MSIL">
+      <HintPath>..\packages\Symber.Web.APQuery.4.0.3.5\lib\net40\Symber.Web.APQuery.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=__MvcPagesVersion__, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Business\DataLogic\Business.apgen.cs" />
+    <Compile Include="Business\DataLogic\Entity.cs" />
+    <Compile Include="Business\DataLogic\APBplDef.cs" />
+    <Compile Include="Business\DataLogic\APDalDef.initialize.cs" />
+    <Compile Include="Business\DataLogic\APDataDef.cs" />
+    <Compile Include="Business\Identity\Identity.cs" />
+    <Compile Include="Business\Identity\UserStore.cs" />
+    <Compile Include="Business\Identity\RoleStore.cs" />
+    <Compile Include="Business\Project\Columns\PickListAPRptColumn.cs" />
+    <Compile Include="Business\Project\ResSettings.cs" />
+    <Compile Include="Business\Project\ThisApp.Config.cs" />
+    <Compile Include="Business\Project\ThisApp.PickList.cs" />
+    <Compile Include="Business\Utils\GridOrder.cs" />
+    <Compile Include="Business\Utils\IDCardCheck.cs" />
+    <Compile Include="Business\Utils\ResCommentTypeHelper.cs" />
+    <Compile Include="Business\Utils\ResModelBinder.cs" />
+    <Compile Include="Business\Utils\CroResourceHelper.cs" />
+    <Compile Include="Business\Utils\ResResourceHelper.cs" />
+    <Compile Include="Business\Utils\ResApproveHelper.cs" />
+    <Compile Include="Business\Utils\ResUserHelper.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AttachmentController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CroBulletinController.cs" />
+    <Compile Include="Controllers\BulletinController.cs" />
+    <Compile Include="Controllers\CroCommentController.cs" />
+    <Compile Include="Controllers\CrosourceController.cs" />
+    <Compile Include="Controllers\InitializeController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\ChartController.cs" />
+    <Compile Include="Controllers\RealController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ResourceController.cs" />
+    <Compile Include="Controllers\ZSResourceController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Cro\CroReport.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\css\app.css" />
+    <Content Include="assets\css\audio.png" />
+    <Content Include="assets\css\binary.png" />
+    <Content Include="assets\css\excel.png" />
+    <Content Include="assets\css\file.png" />
+    <Content Include="assets\css\image.png" />
+    <Content Include="assets\css\pdf.png" />
+    <Content Include="assets\css\ppt.png" />
+    <Content Include="assets\css\swf.png" />
+    <Content Include="assets\css\txt.png" />
+    <Content Include="assets\css\video.png" />
+    <Content Include="assets\css\word.png" />
+    <Content Include="assets\css\zip.png" />
+    <Content Include="assets\ico\favicon.png" />
+    <Content Include="assets\ico\favicon1.png" />
+    <Content Include="assets\ico\kingadmin-favicon114x114.png" />
+    <Content Include="assets\ico\kingadmin-favicon144x144.png" />
+    <Content Include="assets\ico\kingadmin-favicon57x57.png" />
+    <Content Include="assets\ico\kingadmin-favicon72x72.png" />
+    <Content Include="assets\ico\trainningadmin-favicon114x114.png" />
+    <Content Include="assets\ico\trainningadmin-favicon144x144.png" />
+    <Content Include="assets\ico\trainningadmin-favicon57x57.png" />
+    <Content Include="assets\ico\trainningadmin-favicon72x72.png" />
+    <Content Include="assets\img\default_m.gif" />
+    <Content Include="assets\img\default_s.gif" />
+    <Content Include="assets\img\diagonal-stripe.png" />
+    <Content Include="assets\img\kingadmin-logo-white.png" />
+    <Content Include="assets\img\kingadmin-logo.png" />
+    <Content Include="assets\img\loading_5.gif" />
+    <Content Include="assets\img\trainingadmin-logo-white.png" />
+    <Content Include="assets\img\trainingadmin-logo.png" />
+    <Content Include="assets\img\user-avatar.png" />
+    <Content Include="assets\img\user.png" />
+    <Content Include="assets\img\user1.png" />
+    <Content Include="assets\img\user2.png" />
+    <Content Include="assets\img\user3.png" />
+    <Content Include="assets\img\user4.png" />
+    <Content Include="assets\img\user5.png" />
+    <Content Include="assets\js\app.js" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\example\assets\css\main.css" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\example\assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\example\assets\img\banner.jpg" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\example\assets\img\dialogs.png" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\example\assets\img\treehouse.png" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\example\assets\img\webdev.png" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\example\assets\js\lib\sh\shBrushJScript.js" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\example\assets\js\lib\sh\shCore.css" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\example\assets\js\lib\sh\shCore.js" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\example\assets\js\lib\sh\shCoreDefault.css" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\example\index.html" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\Gruntfile.js" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\lib\alertify.js" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\lib\alertify.min.js" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\src\alertify.js" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\test\index.html" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\test\qunit\qunit.css" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\test\qunit\qunit.js" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\test\specs\alert.test.js" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\test\specs\confirm.test.js" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\test\specs\global.test.js" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\test\specs\log.test.js" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\test\specs\prompt.test.js" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\themes\alertify.bootstrap.css" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\themes\alertify.core.css" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\themes\alertify.default.css" />
+    <Content Include="assets\plugins\bootstrap-3.2.0\css\bootstrap-theme.css" />
+    <Content Include="assets\plugins\bootstrap-3.2.0\css\bootstrap-theme.min.css" />
+    <Content Include="assets\plugins\bootstrap-3.2.0\css\bootstrap.css" />
+    <Content Include="assets\plugins\bootstrap-3.2.0\css\bootstrap.min.css" />
+    <Content Include="assets\plugins\bootstrap-3.2.0\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\plugins\bootstrap-3.2.0\js\bootstrap.js" />
+    <Content Include="assets\plugins\bootstrap-3.2.0\js\bootstrap.min.js" />
+    <Content Include="assets\plugins\bootstrap-3.3.2\css\bootstrap-theme.css" />
+    <Content Include="assets\plugins\bootstrap-3.3.2\css\bootstrap-theme.min.css" />
+    <Content Include="assets\plugins\bootstrap-3.3.2\css\bootstrap.css" />
+    <Content Include="assets\plugins\bootstrap-3.3.2\css\bootstrap.min.css" />
+    <Content Include="assets\plugins\bootstrap-3.3.2\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\plugins\bootstrap-3.3.2\js\bootstrap.js" />
+    <Content Include="assets\plugins\bootstrap-3.3.2\js\bootstrap.min.js" />
+    <Content Include="assets\plugins\bootstrap-3.3.2\js\npm.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\css\datepicker.css" />
+    <Content Include="assets\plugins\bootstrap-datepicker\css\datepicker3.css" />
+    <Content Include="assets\plugins\bootstrap-datepicker\Gruntfile.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\bootstrap-datepicker.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ar.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.az.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.bg.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ca.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.cs.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.cy.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.da.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.de.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.el.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.es.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.et.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.fa.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.fi.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.fr.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.gl.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.he.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.hr.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.hu.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.id.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.is.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.it.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ja.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ka.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.kk.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.kr.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.lt.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.lv.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.mk.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ms.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.nb.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.nl-BE.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.nl.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.no.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.pl.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.pt.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ro.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.rs.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ru.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.sk.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.sl.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.sq.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.sv.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.sw.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.th.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.tr.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ua.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.vi.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\dist\css\bootstrap-multiselect.css" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\dist\js\bootstrap-multiselect.js" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\docs\css\bootstrap-3.1.1.min.css" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\docs\css\bootstrap-3.2.0.min.css" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\docs\css\bootstrap-example.css" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\docs\css\prettify.css" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\docs\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\docs\js\bootstrap-3.1.1.min.js" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\docs\js\bootstrap-3.2.0.min.js" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\docs\js\jquery-2.1.0.min.js" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\docs\js\jquery-2.1.1.min.js" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\docs\js\prettify.js" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\example.png" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\index.html" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\tests\lib\jasmine-2.0.2\boot.js" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\tests\lib\jasmine-2.0.2\console.js" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\tests\lib\jasmine-2.0.2\jasmine-html.js" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\tests\lib\jasmine-2.0.2\jasmine.css" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\tests\lib\jasmine-2.0.2\jasmine.js" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\tests\lib\jasmine-2.0.2\jasmine_favicon.png" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\tests\SpecRunner.html" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\tests\spec\bootstrap-multiselect.js" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\dist\css\bootstrap2\bootstrap-switch.css" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\dist\css\bootstrap2\bootstrap-switch.min.css" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\dist\css\bootstrap3\bootstrap-switch.css" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\dist\css\bootstrap3\bootstrap-switch.min.css" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\dist\js\bootstrap-switch.js" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\dist\js\bootstrap-switch.min.js" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\docs\css\bootstrap.min.css" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\docs\css\highlight.css" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\docs\css\main.css" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\docs\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\docs\js\bootstrap.min.js" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\docs\js\highlight.js" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\docs\js\jquery.min.js" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\docs\js\main.js" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\documentation-2.html" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\events.html" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\examples.html" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\gulpfile.js" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\index.html" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\main.html" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\methods.html" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\options.html" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\docs\css\highlight.css" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\docs\js\highlight.js" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\test\bootstrap-switch.js" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\test\bootstrap-switch.tests.js" />
+    <Content Include="assets\plugins\bootstrap-tagsinput-0.4.2\bootstrap-tagsinput-angular.js" />
+    <Content Include="assets\plugins\bootstrap-tagsinput-0.4.2\bootstrap-tagsinput-angular.min.js" />
+    <Content Include="assets\plugins\bootstrap-tagsinput-0.4.2\bootstrap-tagsinput.css" />
+    <Content Include="assets\plugins\bootstrap-tagsinput-0.4.2\bootstrap-tagsinput.js" />
+    <Content Include="assets\plugins\bootstrap-tagsinput-0.4.2\bootstrap-tagsinput.min.js" />
+    <Content Include="assets\plugins\doT-1.0.3\doT.js" />
+    <Content Include="assets\plugins\doT-1.0.3\doT.min.js" />
+    <Content Include="assets\plugins\doT-1.0.3\doU.js" />
+    <Content Include="assets\plugins\doT-1.0.3\index.js" />
+    <Content Include="assets\plugins\dropzone-4.0.0\dropzone.js" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\ajax\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\annotating\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-interacting\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-multiple\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\date.js" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\background.png" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\basic-options\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\basic-usage\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\canvas\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\categories\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\examples.css" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\image\hs-2004-27-a-large-web.jpg" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\image\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\interacting\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\navigate\arrow-down.gif" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\navigate\arrow-left.gif" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\navigate\arrow-right.gif" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\navigate\arrow-up.gif" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\navigate\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\percentiles\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\realtime\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\resize\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\selection\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\series-errorbars\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\series-pie\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\series-toggle\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\series-types\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\shared\jquery-ui\jquery-ui.min.css" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\shared\jquery-ui\jquery-ui.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\stacking\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\symbols\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\threshold\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\tracking\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\visitors\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\zooming\index.html" />
+    <Content Include="assets\plugins\flot-0.8.3\excanvas.js" />
+    <Content Include="assets\plugins\flot-0.8.3\excanvas.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.colorhelpers.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.colorhelpers.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.canvas.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.canvas.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.categories.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.categories.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.crosshair.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.crosshair.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.errorbars.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.errorbars.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.fillbetween.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.fillbetween.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.image.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.image.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.navigate.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.navigate.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.pie.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.pie.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.resize.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.resize.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.selection.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.selection.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.stack.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.stack.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.symbol.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.symbol.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.threshold.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.threshold.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.time.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.flot.time.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.js" />
+    <Content Include="assets\plugins\flot-0.8.3\jquery.min.js" />
+    <Content Include="assets\plugins\flot-0.8.3\LICENSE.txt" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\examples\custom-label-text.html" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\examples\custom_ticks.html" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\examples\dollar_in_tickformatter.html" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\examples\many_series.html" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\examples\multiple-axes.html" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\examples\pie.html" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\examples\plugins\jquery.flot.pie.js" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\examples\plugins\jquery.flot.stack.js" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\examples\plugins\jquery.flot.threshold.js" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\examples\real_data.html" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\examples\stacking.html" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\examples\threshold.html" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\examples\time_bars.html" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\examples\two_chars.html" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\js\excanvas.min.js" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\js\jquery.flot.js" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\js\jquery.flot.tooltip.js" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\js\jquery.flot.tooltip.min.js" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\js\jquery.flot.tooltip.source.js" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\js\old\jquery.flot.tooltip_0.1.js" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\js\old\jquery.flot.tooltip_0.2.js" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\js\old\jquery.flot.tooltip_0.3.js" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\js\old\jquery.flot.tooltip_0.4.1.js" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\js\old\jquery.flot.tooltip_0.4.2.js" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\js\old\jquery.flot.tooltip_0.4.3.js" />
+    <Content Include="assets\plugins\flot.tooltip-0.8.4\js\old\jquery.flot.tooltip_0.4.js" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\css\font-awesome.css" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\css\font-awesome.min.css" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\fonts\fontawesome-webfont.svg" />
+    <None Include="assets\plugins\jquery-1.11.1\jquery-1.11.1.intellisense.js" />
+    <Content Include="assets\plugins\jquery-1.11.1\jquery-1.11.1.js" />
+    <Content Include="assets\plugins\jquery-1.11.1\jquery-1.11.1.min.js" />
+    <None Include="assets\plugins\jquery-2.1.1\jquery-2.1.1.intellisense.js" />
+    <Content Include="assets\plugins\jquery-2.1.1\jquery-2.1.1.js" />
+    <Content Include="assets\plugins\jquery-2.1.1\jquery-2.1.1.min.js" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\components\jquery-ui-1.8.1.custom.js" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\components\jquery-ui-1.8.1.custom.min.js" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\components\jquery.pager.js" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\css\jquery-ui-1.8.1.custom.css" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\css\movies.css" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\images\ui-bg_diagonals-thick_75_f3d8d8_40x40.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\images\ui-bg_dots-small_65_a6a6a6_2x2.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\images\ui-bg_flat_0_333333_40x100.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\images\ui-bg_flat_65_ffffff_40x100.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\images\ui-bg_glass_55_fbf8ee_1x400.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\images\ui-bg_highlight-hard_100_eeeeee_1x100.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\images\ui-bg_highlight-hard_100_f6f6f6_1x100.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\images\ui-bg_highlight-soft_15_cc0000_1x100.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\images\ui-icons_004276_256x240.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\PagesCore\movies.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\PagesCore\moviesNoGlobals.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\PagesTmplPlus\movies1.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\PagesTmplPlus\movies2.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\movies\PagesTmplPlus\movies3.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\resources\demos.css" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\resources\movielist.css" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\resources\syntaxhighlighter.css" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\resources\syntaxhighlighter.min.js" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\basic.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\composition.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\conditional.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\each.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\Interactive\resources\collapsed.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\Interactive\resources\empty.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\Interactive\resources\expanded.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\Interactive\resources\folder.png" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\Interactive\resources\tabs.css" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\Interactive\resources\treeView.css" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\Interactive\tabsTmpl.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\Interactive\tabsWrap.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\Interactive\tabsWrapImperative.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\Interactive\tabsWrapNested.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\Interactive\treeView.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesCore\parameters.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesTmplPlus\basic.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesTmplPlus\composition.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\samplesTmplPlus\parameters.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\0_tmpl-read-only\0_local-data-source.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\0_tmpl-read-only\0_local-data.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\0_tmpl-read-only\1_remote-data-source.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\0_tmpl-read-only\1_remote-data.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\0_tmpl-read-only\2_html-tag-source.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\0_tmpl-read-only\2_html-tag.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\0_tmpl-read-only\3_if-else-tag-source.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\0_tmpl-read-only\3_if-else-tag.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\0_tmpl-read-only\4_each-tag-source.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\0_tmpl-read-only\4_each-tag.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\0_tmpl-read-only\5_javascript-source.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\0_tmpl-read-only\5_javascript.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\0_tmpl-read-only\6_hierarchical-data-source.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\0_tmpl-read-only\6_hierarchical-data.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\1_tmpl-interactive\0_accordion-switching-template-source.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\1_tmpl-interactive\0_accordion-switching-template.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\1_tmpl-interactive\1_tree-view-using-tmpl-tag-source.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\1_tmpl-interactive\1_tree-view-using-tmpl-tag.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\1_tmpl-interactive\2_tabs-using-wrap-tag-source.html" />
+    <Content Include="assets\plugins\jquery-tmpl\demos\step-by-step\1_tmpl-interactive\2_tabs-using-wrap-tag.html" />
+    <Content Include="assets\plugins\jquery-tmpl\jquery.tmpl.js" />
+    <Content Include="assets\plugins\jquery-tmpl\jquery.tmpl.min.js" />
+    <Content Include="assets\plugins\jquery-tmpl\jquery.tmplPlus.js" />
+    <Content Include="assets\plugins\jquery-tmpl\jquery.tmplPlus.min.js" />
+    <Content Include="assets\plugins\jquery-tmpl\tests\core.js" />
+    <Content Include="assets\plugins\jquery-tmpl\tests\index.html" />
+    <Content Include="assets\plugins\jquery-tmpl\tests\qunit.css" />
+    <Content Include="assets\plugins\jquery-tmpl\tests\qunit.js" />
+    <Content Include="assets\plugins\jquery.bootgrid-1.1.4\jquery.bootgrid.css" />
+    <Content Include="assets\plugins\jquery.bootgrid-1.1.4\jquery.bootgrid.filters.js" />
+    <Content Include="assets\plugins\jquery.bootgrid-1.1.4\jquery.bootgrid.js" />
+    <Content Include="assets\plugins\jquery.bootgrid-1.1.4\jquery.bootgrid.min.css" />
+    <Content Include="assets\plugins\jquery.bootgrid-1.1.4\jquery.bootgrid.min.js" />
+    <Content Include="assets\plugins\jquery.cookie-1.3.1\jquery.cookie-1.3.1.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\Changelog.txt" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\dist\jquery.sparkline.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\dist\jquery.sparkline.min.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\minheader.txt" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\base.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\chart-bar.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\chart-box.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\chart-bullet.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\chart-discrete.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\chart-line.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\chart-pie.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\chart-tristate.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\defaults.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\footer.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\header.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\interact.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\rangemap.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\simpledraw.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\utils.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\vcanvas-base.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\vcanvas-canvas.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\src\vcanvas-vml.js" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\version.txt" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\ajaxSubmit-integration-demo.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\captcha\captcha.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\captcha\images\button.png" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\captcha\style.css" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\css\cmxform.css" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\css\cmxformTemplate.css" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\css\core.css" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\css\reset.css" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\css\screen.css" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\custom-messages-data-demo.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\custom-methods-demo.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\dynamic-totals.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\errorcontainer-demo.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\errors-within-labels.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\file_input.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\images\bg.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\images\checked.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\images\cmxform-divider.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\images\cmxform-fieldset.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\images\loading.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\images\unchecked.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\index.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\jquerymobile.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\login\images\bg.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\login\images\header1.jpg" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\login\images\page.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\login\images\required_star.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\login\index.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\login\screen.css" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\backRequiredGray.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\back_green-fade.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\back_nav_blue.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\blank.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\button-submit.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\favicon.ico" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\help.png" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\left-nav-callout-long.png" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\login-sprite.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\logo_marketo.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\sf.png" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\step1-24.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\step2-24.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\step3-24.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\tab-sprite.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\tab_green.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\time.png" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\toggle.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\images\warning.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\index.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\jquery.maskedinput.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\mktSignup.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\step2.htm" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\marketo\stylesheet.css" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\milk\bg.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\milk\index.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\milk\left_white.png" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\milk\milk.css" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\milk\milk.png" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\milk\right_white.png" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\multipart\index.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\multipart\style.css" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\radio-checkbox-select-demo.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\requirejs\app.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\requirejs\index.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\site-demos.css" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\themerollered.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\tinymce\index.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\tinymce\themes\simple\editor_template.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\tinymce\themes\simple\img\icons.gif" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\tinymce\themes\simple\langs\en.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\tinymce\themes\simple\skins\default\ui.css" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\tinymce\tiny_mce.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\additional-methods.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\additional-methods.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\jquery.validate.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\jquery.validate.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_ar.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_ar.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_bg.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_bg.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_ca.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_ca.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_cs.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_cs.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_da.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_da.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_de.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_de.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_el.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_el.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_es.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_es.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_es_AR.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_es_AR.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_et.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_et.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_eu.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_eu.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_fa.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_fa.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_fi.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_fi.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_fr.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_fr.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_gl.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_gl.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_he.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_he.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_hr.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_hr.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_hu.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_hu.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_id.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_id.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_is.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_is.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_it.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_it.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_ja.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_ja.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_ka.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_ka.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_kk.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_kk.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_ko.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_ko.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_lt.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_lt.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_lv.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_lv.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_my.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_my.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_nl.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_nl.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_no.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_no.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_pl.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_pl.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_pt_BR.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_pt_BR.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_pt_PT.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_pt_PT.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_ro.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_ro.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_ru.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_ru.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_si.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_si.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_sk.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_sk.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_sl.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_sl.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_sr.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_sr.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_sr_lat.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_sr_lat.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_sv.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_sv.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_th.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_th.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_tj.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_tj.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_tr.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_tr.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_uk.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_uk.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_vi.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_vi.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_zh.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_zh.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_zh_TW.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\messages_zh_TW.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\methods_de.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\methods_de.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\methods_es_CL.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\methods_es_CL.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\methods_fi.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\methods_fi.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\methods_nl.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\methods_nl.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\methods_pt.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\dist\localization\methods_pt.min.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\Gruntfile.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\lib\jquery-1.11.1.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\lib\jquery-1.6.4.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\lib\jquery-1.7.2.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\lib\jquery-1.8.3.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\lib\jquery-1.9.1.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\lib\jquery.form.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\lib\jquery.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\lib\jquery.mockjax.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\lib\jquery.simulate.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\lib\require.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\accept.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\additional.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\alphanumeric.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\bankaccountNL.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\bankorgiroaccountNL.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\bic.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\cifES.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\creditcardtypes.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\currency.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\dateFA.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\dateITA.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\dateNL.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\extension.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\giroaccountNL.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\iban.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\integer.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\ipv4.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\ipv6.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\lettersonly.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\letterswithbasicpunc.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\mobileNL.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\mobileUK.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\nieES.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\nifES.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\nowhitespace.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\pattern.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\phoneNL.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\phonesUK.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\phoneUK.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\phoneUS.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\postalcodeBR.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\postalCodeCA.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\postalcodeIT.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\postalcodeNL.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\postcodeUK.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\require_from_group.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\skip_or_fill_minimum.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\statesUS.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\strippedminlength.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\time.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\time12h.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\url2.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\vinUS.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\zipcodeUS.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\additional\ziprange.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\ajax.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\core.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\delegate.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_ar.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_bg.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_ca.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_cs.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_da.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_de.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_el.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_es.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_es_AR.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_et.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_eu.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_fa.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_fi.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_fr.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_gl.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_he.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_hr.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_hu.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_id.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_is.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_it.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_ja.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_ka.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_kk.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_ko.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_lt.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_lv.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_my.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_nl.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_no.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_pl.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_pt_BR.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_pt_PT.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_ro.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_ru.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_si.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_sk.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_sl.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_sr.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_sr_lat.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_sv.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_th.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_tj.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_tr.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_uk.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_vi.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_zh.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\messages_zh_TW.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\methods_de.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\methods_es_CL.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\methods_fi.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\methods_nl.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\src\localization\methods_pt.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\test\aria.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\test\error-placement.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\test\index.html" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\test\messages.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\test\methods.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\test\qunit\qunit.css" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\test\qunit\qunit.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\test\rules.js" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\test\test.js" />
+    <Content Include="assets\plugins\jquery.validate.unobtrusive\jquery.validate.unobtrusive.js" />
+    <Content Include="assets\plugins\jquery.validate.unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\basic\index.html" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\asdf\New Text Document.txt" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\ajax_nodes.html" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\apple-touch-icon-precomposed.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\bootstrap\css\bootstrap.css" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\bootstrap\css\bootstrap.min.css" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\bootstrap\js\bootstrap.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\bootstrap\js\bootstrap.min.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\dist\jstree.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\dist\jstree.min.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\dist\libs\jquery.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\dist\libs\jquery.ui.touch.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\dist\libs\require.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\dist\themes\default\32px.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\dist\themes\default\40px.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\dist\themes\default\style.css" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\dist\themes\default\style.min.css" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\dist\themes\default\throbber.gif" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\docs.css" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\docs.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\favicon.ico" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\html5.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\images\browsers.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\images\find.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\images\logo.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\images\tree.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\images\tree_icon.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\jquery-1.10.2.min.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\jquery.address-1.6.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\respond.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\vakata.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\index.html" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\file_sprite.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\sitebrowser\data.sql" />
+    <Content Include="assets\plugins\jstree-3.1.1\dist\jstree.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\dist\jstree.min.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\dist\themes\default-dark\32px.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\dist\themes\default-dark\40px.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\dist\themes\default-dark\style.css" />
+    <Content Include="assets\plugins\jstree-3.1.1\dist\themes\default-dark\style.min.css" />
+    <Content Include="assets\plugins\jstree-3.1.1\dist\themes\default-dark\throbber.gif" />
+    <Content Include="assets\plugins\jstree-3.1.1\dist\themes\default\32px.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\dist\themes\default\40px.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\dist\themes\default\style.css" />
+    <Content Include="assets\plugins\jstree-3.1.1\dist\themes\default\style.min.css" />
+    <Content Include="assets\plugins\jstree-3.1.1\dist\themes\default\throbber.gif" />
+    <Content Include="assets\plugins\jstree-3.1.1\gruntfile.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\intro.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\jstree.checkbox.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\jstree.contextmenu.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\jstree.dnd.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\jstree.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\jstree.massload.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\jstree.search.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\jstree.sort.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\jstree.state.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\jstree.types.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\jstree.unique.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\jstree.wholerow.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\misc.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\outro.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\sample.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\themes\default-dark\32px.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\themes\default-dark\40px.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\themes\default-dark\style.css" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\themes\default-dark\throbber.gif" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\themes\default\32px.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\themes\default\40px.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\themes\default\style.css" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\themes\default\throbber.gif" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\vakata-jstree.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\test\unit\index.html" />
+    <Content Include="assets\plugins\jstree-3.1.1\test\unit\libs\qunit.css" />
+    <Content Include="assets\plugins\jstree-3.1.1\test\unit\libs\qunit.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\test\unit\test.js" />
+    <Content Include="assets\plugins\jstree-3.1.1\test\visual\d.html" />
+    <Content Include="assets\plugins\jstree-3.1.1\test\visual\m.html" />
+    <Content Include="assets\plugins\jstree-3.1.1\test\visual\screenshots\d.png" />
+    <Content Include="assets\plugins\jstree-3.1.1\test\visual\screenshots\m.png" />
+    <Content Include="assets\plugins\knockout-3.2.0\knockout-3.2.0.debug.js" />
+    <Content Include="assets\plugins\knockout-3.2.0\knockout-3.2.0.js" />
+    <Content Include="assets\plugins\modernizr-2.6.2\modernizr-2.6.2.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\dist\parsley.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\dist\parsley.min.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\dist\parsley.remote.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\dist\parsley.remote.min.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\doc\assets\docs.css" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\doc\assets\docs.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\doc\assets\help.css" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\doc\download.html" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\doc\examples.html" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\doc\examples\customvalidator.html" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\doc\examples\events.html" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\doc\examples\multisteps.html" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\doc\examples\simple.html" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\doc\help.html" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\doc\index.html" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\doc\tests.html" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\Gruntfile.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\index.html" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\config.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\extra\plugin\bind.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\extra\plugin\remote.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\extra\validator\comparison.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\extra\validator\dateiso.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\extra\validator\luhn.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\extra\validator\words.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\ar.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\bg.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\cs.extra.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\cs.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\da.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\de.extra.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\de.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\en.extra.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\en.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\es.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\fa.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\fi.extra.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\fi.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\fr.extra.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\fr.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\he.extra.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\he.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\id.extra.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\id.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\it.extra.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\it.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\ja.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\ko.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\ms_MY.extra.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\ms_MY.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\nl.extra.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\nl.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\pl.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\pt-br.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\ru.extra.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\ru.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\sv.extra.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\sv.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\th.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\tr.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\zh_cn.extra.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\zh_cn.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\i18n\zh_tw.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\main.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\parsley.css" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\parsley.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\parsley\abstract.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\parsley\defaults.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\parsley\factory\constraint.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\parsley\factory\options.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\parsley\field.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\parsley\form.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\parsley\multiple.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\parsley\pubsub.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\parsley\ui.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\parsley\utils.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\parsley\validator.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\wrap\append.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\src\wrap\prepend.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\config.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\dev.html" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\dev.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\env\amd.html" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\env\amd.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\env\browerify_bundle.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\env\browserify.html" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\env\browserify.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\env\browserify_bundle.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\features\abstract.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\features\extra.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\features\field.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\features\form.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\features\multiple.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\features\options.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\features\parsley.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\features\pubsub.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\features\remote.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\features\ui.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\features\utils.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\features\validator.js" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\index.html" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\standalone.html" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\test\tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\css\select2.css" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\css\select2.min.css" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\az.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\bg.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\cs.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\da.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\de.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\en.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\es.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\et.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\eu.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\fi.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\fr.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\gl.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\hr.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\hu.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\id.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\is.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\it.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\lt.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\lv.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\mk.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\nb.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\nl.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\ro.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\ru.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\sk.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\sr.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\th.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\tr.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\uk.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\vi.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\i18n\zh-TW.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\select2.amd.full.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\select2.amd.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\select2.full.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\select2.full.min.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\select2.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\dist\js\select2.min.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\announcements-4.0.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\community.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\examples.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\index.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\options.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\vendor\css\bootstrap.min.css" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\vendor\css\font-awesome.min.css" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\vendor\css\prettify.css" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\vendor\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\vendor\js\bootstrap.min.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\vendor\js\jquery.min.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\vendor\js\prettify.min.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\_includes\footer.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\_includes\head.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\_includes\navigation.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\_layouts\default.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\_layouts\home.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\Gruntfile.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\jquery.select2.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\jquery.shim.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\compat\initSelection.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\compat\matcher.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\compat\query.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\core.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\data\ajax.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\data\array.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\data\base.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\data\maximumInputLength.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\data\maximumSelectionLength.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\data\minimumInputLength.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\data\select.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\data\tags.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\data\tokenizer.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\defaults.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\diacritics.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\dropdown.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\dropdown\attachBody.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\dropdown\attachContainer.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\dropdown\hidePlaceholder.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\dropdown\infiniteScroll.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\dropdown\minimumResultsForSearch.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\dropdown\search.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\dropdown\selectOnClose.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\az.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\bg.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\cs.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\da.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\de.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\en.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\es.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\et.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\eu.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\fi.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\fr.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\gl.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\hr.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\hu.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\id.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\is.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\it.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\lt.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\lv.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\mk.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\nb.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\nl.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\ro.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\ru.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\sk.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\sr.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\th.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\tr.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\uk.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\vi.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\i18n\zh-TW.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\keys.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\options.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\results.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\selection\allowClear.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\selection\base.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\selection\clickMask.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\selection\eventRelay.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\selection\multiple.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\selection\placeholder.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\selection\search.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\selection\single.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\translation.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\select2\utils.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\a11y\selection-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\a11y\selection.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\data\array-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\data\array.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\data\base-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\data\base.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\data\maximumInputLength-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\data\maximumInputLength.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\data\maximumSelectionLength-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\data\maximumSelectionLength.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\data\minimumInputLength-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\data\minimumInputLength.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\data\select-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\data\select.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\data\tags-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\data\tags.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\dropdown\selectOnClose-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\dropdown\selectOnClose.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\helpers.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\options\data-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\options\data.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\options\deprecated-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\options\deprecated.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\options\width-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\options\width.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\selection\allowClear-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\selection\allowClear.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\selection\multiple-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\selection\multiple.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\selection\placeholder-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\selection\placeholder.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\selection\single-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\selection\single.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\utils\decorator-tests.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\utils\decorator.html" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\vendor\qunit-1.14.0.css" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\tests\vendor\qunit-1.14.0.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\vendor\almond-0.2.9.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\vendor\jquery-2.1.0.js" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\vendor\jquery.mousewheel.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\build\grunt-build.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\dist\summernote-bs2.css" />
+    <Content Include="assets\plugins\summernote-0.6.0\dist\summernote-bs3.css" />
+    <Content Include="assets\plugins\summernote-0.6.0\dist\summernote.css" />
+    <Content Include="assets\plugins\summernote-0.6.0\dist\summernote.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\dist\summernote.min.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\examples\airmode.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\examples\bs2.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\examples\bs2fa4.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\examples\bs301fa4.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\examples\codemirror.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\examples\index.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\examples\jquery18lt.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\examples\lang.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\examples\nativestyle.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\examples\ondialog.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\examples\plugin-fontstyle.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\examples\plugin-hello.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\examples\plugin-video.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\examples\rtl.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\examples\textarea.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\Gruntfile.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\index.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-ar-AR.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-ca-ES.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-cs-CZ.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-da-DK.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-de-DE.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-es-ES.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-es-EU.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-fa-IR.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-fi-FI.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-fr-FR.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-he-IL.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-hu-HU.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-id-ID.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-it-IT.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-ja-JP.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-ko-KR.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-nb-NO.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-nl-NL.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-pl-PL.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-pt-BR.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-ro-RO.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-ru-RU.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-sk-SK.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-sl-SI.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-sr-RS-Latin.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-sr-RS.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-sv-SE.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-th-TH.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-tr-TR.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-uk-UA.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-vi-VN.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-zh-CN.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\lang\summernote-zh-TW.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\meteor\package.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\meteor\test.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\plugin\summernote-ext-fontstyle.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\plugin\summernote-ext-hello.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\plugin\summernote-ext-video.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\app.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\core\agent.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\core\async.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\core\dom.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\core\func.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\core\key.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\core\list.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\core\range.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\editing\Bullet.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\editing\Editor.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\editing\History.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\editing\Style.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\editing\Table.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\editing\Typing.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\EventHandler.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\intro.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\module\Button.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\module\Dialog.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\module\Handle.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\module\Popover.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\module\Toolbar.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\outro.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\Renderer.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\settings.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\js\summernote.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\test\libs\codemirror.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\test\libs\jquery-1.9.1.min.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\test\libs\require.min.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\test\unit.html" />
+    <Content Include="assets\plugins\summernote-0.6.0\test\unit.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\test\unit\dom.spec.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\test\unit\list.spec.js" />
+    <Content Include="assets\plugins\summernote-0.6.0\test\unit\range.spec.js" />
+    <Content Include="assets\plugins\swfobject-master\.gitignore" />
+    <Content Include="assets\plugins\swfobject-master\.jshintrc" />
+    <Content Include="assets\plugins\swfobject-master\bower.json" />
+    <Content Include="assets\plugins\swfobject-master\README.rdoc" />
+    <Content Include="assets\plugins\swfobject-master\swfobject\expressInstall.swf" />
+    <Content Include="assets\plugins\swfobject-master\swfobject\index.html" />
+    <Content Include="assets\plugins\swfobject-master\swfobject\index_dynamic.html" />
+    <Content Include="assets\plugins\swfobject-master\swfobject\src\expressInstall.as" />
+    <Content Include="assets\plugins\swfobject-master\swfobject\src\expressInstall.fla" />
+    <Content Include="assets\plugins\swfobject-master\swfobject\src\swfobject.js" />
+    <Content Include="assets\plugins\swfobject-master\swfobject\swfobject.js" />
+    <Content Include="assets\plugins\swfobject-master\swfobject\test.swf" />
+    <Content Include="assets\plugins\swfobject-master\swfobject_generator\air\AIRAliases.js" />
+    <Content Include="assets\plugins\swfobject-master\swfobject_generator\air\application.xml" />
+    <Content Include="assets\plugins\swfobject-master\swfobject_generator\air\index.html" />
+    <Content Include="assets\plugins\swfobject-master\swfobject_generator\html\index.html" />
+    <Content Include="assets\plugins\typeahead-0.10.5\bloodhound.js" />
+    <Content Include="assets\plugins\typeahead-0.10.5\bloodhound.min.js" />
+    <Content Include="assets\plugins\typeahead-0.10.5\typeahead.bundle.js" />
+    <Content Include="assets\plugins\typeahead-0.10.5\typeahead.bundle.min.js" />
+    <Content Include="assets\plugins\typeahead-0.10.5\typeahead.jquery.js" />
+    <Content Include="assets\plugins\typeahead-0.10.5\typeahead.jquery.min.js" />
+    <Content Include="assets\plugins\uploadify-2.2\Change Log.txt" />
+    <Content Include="assets\plugins\uploadify-2.2\jquery.uploadify.js" />
+    <Content Include="assets\plugins\uploadify-2.2\jquery.uploadify.min.js" />
+    <Content Include="assets\plugins\uploadify-2.2\license.txt" />
+    <Content Include="assets\plugins\uploadify-2.2\uploadify-cancel.png" />
+    <Content Include="assets\plugins\uploadify-2.2\uploadify.css" />
+    <Content Include="assets\plugins\uploadify-2.2\uploadify.swf" />
+    <Content Include="assets\plugins\uploadify-2.2\__MACOSX\._Change Log.txt" />
+    <Content Include="assets\plugins\uploadify-2.2\__MACOSX\._uploadify.swf" />
+    <Content Include="assets\plugins\Zepto-1.1.6\zepto.js" />
+    <Content Include="assets\plugins\Zepto-1.1.6\zepto.min.js" />
+    <Content Include="assets\themes\king\css\main-ie-part2.min.css" />
+    <Content Include="assets\themes\king\css\main-ie.min.css" />
+    <Content Include="assets\themes\king\css\main.css" />
+    <Content Include="assets\themes\king\css\main.min.css" />
+    <Content Include="assets\themes\king\css\skins\darkblue.css" />
+    <Content Include="assets\themes\king\css\skins\darkbrown.css" />
+    <Content Include="assets\themes\king\css\skins\fullbright.css" />
+    <Content Include="assets\themes\king\css\skins\fulldark.css" />
+    <Content Include="assets\themes\king\css\skins\lightgreen.css" />
+    <Content Include="assets\themes\king\css\skins\orange.css" />
+    <Content Include="assets\themes\king\css\skins\red.css" />
+    <Content Include="assets\themes\king\css\skins\slategray.css" />
+    <Content Include="assets\themes\king\css\skins\teal.css" />
+    <Content Include="assets\themes\king\css\skins\yellow.css" />
+    <Content Include="assets\themes\king\css\style-switcher.css" />
+    <Content Include="assets\themes\king\img\cog.png" />
+    <Content Include="assets\themes\king\img\diagonal-stripe.png" />
+    <Content Include="assets\themes\king\js\deliswitch.js" />
+    <Content Include="assets\themes\king\js\king-common.js" />
+    <Content Include="assets\themes\king\js\king-common.min.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="HtmlPage2 - 复制.html" />
+    <Content Include="HtmlPage2.html" />
+    <Content Include="memo.txt" />
+    <Content Include="Report\Def\APRptReportDef.xml" />
+    <Content Include="Report\Def\APRptViewDef.xml" />
+    <Content Include="Business\DataLogic\Business.apgen">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="assets\plugins\alertify.js-0.3.11\.gitignore" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\.travis.yml" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\bower.json" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\Contributors.md" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\example\assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\example\assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\example\assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\example\assets\fonts\FontAwesome.otf" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\package.json" />
+    <Content Include="assets\plugins\alertify.js-0.3.11\README.md" />
+    <Content Include="assets\plugins\bootstrap-3.2.0\css\bootstrap-theme.css.map" />
+    <Content Include="assets\plugins\bootstrap-3.2.0\css\bootstrap.css.map" />
+    <Content Include="assets\plugins\bootstrap-3.2.0\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\plugins\bootstrap-3.2.0\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\plugins\bootstrap-3.2.0\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\plugins\bootstrap-3.3.2\css\bootstrap-theme.css.map" />
+    <Content Include="assets\plugins\bootstrap-3.3.2\css\bootstrap.css.map" />
+    <Content Include="assets\plugins\bootstrap-3.3.2\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\plugins\bootstrap-3.3.2\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\plugins\bootstrap-3.3.2\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\plugins\bootstrap-3.3.2\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="assets\plugins\bootstrap-datepicker\build\build.less" />
+    <Content Include="assets\plugins\bootstrap-datepicker\build\build3.less" />
+    <Content Include="assets\plugins\bootstrap-datepicker\build\build_standalone.less" />
+    <Content Include="assets\plugins\bootstrap-datepicker\build\build_standalone3.less" />
+    <Content Include="assets\plugins\bootstrap-datepicker\less\datepicker.less" />
+    <Content Include="assets\plugins\bootstrap-datepicker\less\datepicker3.less" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\.gitignore" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\bower.json" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\dist\less\bootstrap-multiselect.less" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\docs\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\docs\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\docs\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\docs\less\bootstrap-example.less" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\LICENSE.md" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\post.php" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\README.md" />
+    <Content Include="assets\plugins\bootstrap-multiselect-0.9.8\tests\lib\MIT.LICENSE" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\.bowerrc" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\.gitignore" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\bower.json" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\CHANGELOG.md" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\CNAME" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\coffeelint.json" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\composer.json" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\CONTRIBUTING.md" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\docs\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\docs\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\docs\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\gulpfile.coffee" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\karma.json" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\LICENSE" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\package.json" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\README.md" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\coffee\bootstrap-switch.coffee" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\coffee\bootstrap-switch.tests.coffee" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\docs\coffee\main.coffee" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\docs\jade\documentation-2.jade" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\docs\jade\events.jade" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\docs\jade\examples.jade" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\docs\jade\index.jade" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\docs\jade\main.jade" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\docs\jade\methods.jade" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\docs\jade\options.jade" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\docs\less\main.less" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\less\bootstrap2\bootstrap-switch.less" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\less\bootstrap2\build.less" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\less\bootstrap2\mixins.less" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\less\bootstrap2\variables.less" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\less\bootstrap3\bootstrap-switch.less" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\less\bootstrap3\build.less" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\less\bootstrap3\mixins.less" />
+    <Content Include="assets\plugins\bootstrap-switch-3.3.2\src\less\bootstrap3\variables.less" />
+    <Content Include="assets\plugins\bootstrap-tagsinput-0.4.2\bootstrap-tagsinput-angular.min.js.map" />
+    <Content Include="assets\plugins\bootstrap-tagsinput-0.4.2\bootstrap-tagsinput.less" />
+    <Content Include="assets\plugins\bootstrap-tagsinput-0.4.2\bootstrap-tagsinput.min.js.map" />
+    <Content Include="assets\plugins\doT-1.0.3\package.json" />
+    <Content Include="assets\plugins\flot-0.8.3\API.md" />
+    <Content Include="assets\plugins\flot-0.8.3\CONTRIBUTING.md" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\ajax\data-eu-gdp-growth-1.json" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\ajax\data-eu-gdp-growth-2.json" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\ajax\data-eu-gdp-growth-3.json" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\ajax\data-eu-gdp-growth-4.json" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\ajax\data-eu-gdp-growth-5.json" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\ajax\data-eu-gdp-growth.json" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\ajax\data-japan-gdp-growth.json" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\ajax\data-usa-gdp-growth.json" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\africa" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\antarctica" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\asia" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\australasia" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\backward" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\etcetera" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\europe" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\factory" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\iso3166.tab" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\leapseconds" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\northamerica" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\pacificnew" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\solar87" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\solar88" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\solar89" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\southamerica" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\systemv" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\yearistype.sh" />
+    <Content Include="assets\plugins\flot-0.8.3\examples\axes-time-zones\tz\zone.tab" />
+    <Content Include="assets\plugins\flot-0.8.3\FAQ.md" />
+    <Content Include="assets\plugins\flot-0.8.3\Makefile" />
+    <Content Include="assets\plugins\flot-0.8.3\NEWS.md" />
+    <Content Include="assets\plugins\flot-0.8.3\PLUGINS.md" />
+    <Content Include="assets\plugins\flot-0.8.3\README.md" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\fonts\FontAwesome.otf" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\less\bordered-pulled.less" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\less\core.less" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\less\fixed-width.less" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\less\font-awesome.less" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\less\icons.less" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\less\larger.less" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\less\list.less" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\less\mixins.less" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\less\path.less" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\less\rotated-flipped.less" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\less\spinning.less" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\less\stacked.less" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\less\variables.less" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\scss\font-awesome.scss" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\scss\_bordered-pulled.scss" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\scss\_core.scss" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\scss\_fixed-width.scss" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\scss\_icons.scss" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\scss\_larger.scss" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\scss\_list.scss" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\scss\_mixins.scss" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\scss\_path.scss" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\scss\_rotated-flipped.scss" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\scss\_spinning.scss" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\scss\_stacked.scss" />
+    <Content Include="assets\plugins\font-awesome-4.2.0\scss\_variables.scss" />
+    <Content Include="assets\plugins\jquery-2.1.1\jquery-2.1.1.min.map" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\captcha\fonts\Anorexia.ttf" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\captcha\images\image.php" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\captcha\image_req.php" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\captcha\index.php" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\captcha\newsession.php" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\captcha\process.php" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\demo\captcha\rand.php" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\package.json" />
+    <Content Include="assets\plugins\jquery.validate-1.13.1\README.md" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\.gitignore" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\.travis.yml" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\bower.json" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\CHANGELOG.md" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\CONTRIBUTING.md" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\doc\assets\docs.less" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\doc\assets\help.less" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\LICENSE" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\package.json" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\README.md" />
+    <Content Include="assets\plugins\Parsley.js-2.0.7\UPGRADE-2.0.md" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\.editorconfig" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\.gitignore" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\.jshintignore" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\.jshintrc" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\.travis.yml" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\bower.json" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\component.json" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\composer.json" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\CONTRIBUTING.md" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\.gitignore" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\dist\.gitkeep" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\README.md" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\vendor\fonts\fontawesome-webfont.eot" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\vendor\fonts\fontawesome-webfont.ttf" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\vendor\fonts\fontawesome-webfont.woff" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\docs\vendor\fonts\FontAwesome.otf" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\LICENSE.md" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\package.json" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\README.md" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\select2.jquery.json" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\banner.amd.json" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\js\banner.json" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\scss\core.scss" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\scss\mixins\_gradients.scss" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\scss\theme\classic\layout.scss" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\scss\theme\classic\_defaults.scss" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\scss\theme\classic\_multiple.scss" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\scss\theme\classic\_single.scss" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\scss\theme\default\layout.scss" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\scss\theme\default\_multiple.scss" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\scss\theme\default\_single.scss" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\scss\_dropdown.scss" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\scss\_multiple.scss" />
+    <Content Include="assets\plugins\select2-4.0.0-beta.3\src\scss\_single.scss" />
+    <Content Include="assets\plugins\summernote-0.6.0\.gitignore" />
+    <Content Include="assets\plugins\summernote-0.6.0\.jshintignore" />
+    <Content Include="assets\plugins\summernote-0.6.0\.jshintrc" />
+    <Content Include="assets\plugins\summernote-0.6.0\.travis.yml" />
+    <Content Include="assets\plugins\summernote-0.6.0\bower.json" />
+    <Content Include="assets\plugins\summernote-0.6.0\composer.json" />
+    <Content Include="assets\plugins\summernote-0.6.0\History.md" />
+    <Content Include="assets\plugins\summernote-0.6.0\meteor\publish.sh" />
+    <Content Include="assets\plugins\summernote-0.6.0\meteor\README.md" />
+    <Content Include="assets\plugins\summernote-0.6.0\meteor\runtests.sh" />
+    <Content Include="assets\plugins\summernote-0.6.0\package.json" />
+    <Content Include="assets\plugins\summernote-0.6.0\README.md" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\less\elements.less" />
+    <Content Include="assets\plugins\summernote-0.6.0\src\less\summernote.less" />
+    <Content Include="assets\plugins\uploadify-2.2\check-exists.php" />
+    <Content Include="assets\plugins\uploadify-2.2\index.php" />
+    <Content Include="assets\plugins\uploadify-2.2\uploadify.php" />
+    <Content Include="assets\plugins\Zepto-1.1.6\zepto-master.zip" />
+    <Content Include="assets\plugins\jstree-3.1.1\.gitignore" />
+    <Content Include="assets\plugins\jstree-3.1.1\bower.json" />
+    <Content Include="assets\plugins\jstree-3.1.1\component.json" />
+    <Content Include="assets\plugins\jstree-3.1.1\composer.json" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\basic\root.json" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\.htaccess" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\asdf\ajax_children.json" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\asdf\ajax_children2.json" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\asdf\asdf asdf" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\asdf\asdfasdf" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\asdf\asdfasdfasdfasdfasdf" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\asdf\New file4" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\ajax_children.json" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\ajax_demo_children.json" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\ajax_demo_roots.json" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\ajax_roots.json" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\assets\images\ajax_children2.json" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\data\root\jstree.json" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\filebrowser\index.php" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\sitebrowser\class.db.php" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\sitebrowser\class.tree.php" />
+    <Content Include="assets\plugins\jstree-3.1.1\demo\sitebrowser\index.php" />
+    <Content Include="assets\plugins\jstree-3.1.1\jstree.jquery.json" />
+    <Content Include="assets\plugins\jstree-3.1.1\LICENSE-MIT" />
+    <Content Include="assets\plugins\jstree-3.1.1\package.json" />
+    <Content Include="assets\plugins\jstree-3.1.1\README.md" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\themes\base.less" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\themes\default-dark\style.less" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\themes\default\style.less" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\themes\main.less" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\themes\mixins.less" />
+    <Content Include="assets\plugins\jstree-3.1.1\src\themes\responsive.less" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\.gitignore" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\dist\.gitignore" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\Makefile" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\README.md" />
+    <Content Include="assets\plugins\jquery.sparkline-2.1.2\sparkline.jquery.json" />
+    <Content Include="assets\plugins\jquery-tmpl\.gitignore" />
+    <Content Include="assets\plugins\jquery-tmpl\README.md" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_Anonymous.cshtml" />
+    <Content Include="Views\Shared\_notice.cshtml" />
+    <Content Include="Views\Shared\_sidebar.cshtml" />
+    <Content Include="Views\Shared\_user.cshtml" />
+    <Content Include="Views\Resource\Index.cshtml" />
+    <Content Include="Views\Resource\Search.cshtml" />
+    <Content Include="Views\Resource\Category.cshtml" />
+    <Content Include="Views\Resource\Edit.cshtml" />
+    <Content Include="Views\Resource\Details.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Role\Edit.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Search.cshtml" />
+    <Content Include="Views\Real\Search.cshtml" />
+    <Content Include="Views\Real\Edit.cshtml" />
+    <Content Include="Views\User\Approve.cshtml" />
+    <Content Include="Views\Account\ChgPwd.cshtml" />
+    <Content Include="Views\User\Info.cshtml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Report\Main.cshtml" />
+    <Content Include="Views\Report\Summary.cshtml" />
+    <Content Include="Views\Report\UserState.cshtml" />
+    <Content Include="Views\Report\ResourceState.cshtml" />
+    <Content Include="Views\Bulletin\Index.cshtml" />
+    <Content Include="Views\Bulletin\Edit.cshtml" />
+    <Content Include="Views\Crosource\Category.cshtml" />
+    <Content Include="Views\Crosource\Details.cshtml" />
+    <Content Include="Views\Crosource\Edit.cshtml" />
+    <Content Include="Views\Crosource\Index.cshtml" />
+    <Content Include="Views\Crosource\Search.cshtml" />
+    <None Include="Properties\PublishProfiles\Admin.pubxml" />
+    <None Include="Properties\PublishProfiles\MapRes.pubxml" />
+    <Content Include="Views\Comment\Comment.cshtml" />
+    <Content Include="Views\CroComment\Comment.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\_Bootstrap3Pagination.cshtml" />
+    <Content Include="Views\CroBulletin\Edit.cshtml" />
+    <Content Include="Views\CroBulletin\Index.cshtml" />
+    <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\Company\Edit.cshtml" />
+    <Content Include="Views\ZSResource\Index.cshtml" />
+    <Content Include="Views\ZSResource\Search.cshtml" />
+    <Content Include="Views\ZSResource\Details.cshtml" />
+    <Content Include="Views\ZSResource\Edit.cshtml" />
+    <Content Include="Views\Crosource\Report.cshtml" />
+    <None Include="xml.schema.definition\apgen.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="xml.schema.definition\apgen.xsx">
+      <DependentUpon>apgen.xsd</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="assets\fonts\" />
+    <Folder Include="assets\plugins\flot-0.8.3\examples\gauge\" />
+    <Folder Include="assets\plugins\jquery.bootgrid-1.1.4\demo\" />
+    <Folder Include="assets\plugins\jquery.bootgrid-1.1.4\test\" />
+    <Folder Include="Attachments\" />
+    <Folder Include="Views\Attachment\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>17555</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:17544/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

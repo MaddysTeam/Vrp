@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="renderer" content="webkit" />
+	<title>@ViewBag.Title - 上海特教资源众筹平台</title>
+	<!-- CSS -->
+	@Styles.Render("~/css/bootstrapzc")
+	@RenderSection("css", required: false)
+	@Styles.Render("~/css/Ace")
+</head>
+<body>
+	<div class="d_top">
+		<div class="container top_nav">
+			<div class="div_ml_mr95">
+				@if (Request.IsAuthenticated)
+				{
+					<a class="top_s_text p_l0" href="@Url.Action("Index", "CroMy", new { id = ResSettings.SettingsInSession.UserId })">进入我的个人中心</a>
+					<span class="top_s_bo"></span>
+					<a class="top_s_text" href="@Url.Action("LogOff2", "Account")">退出我的登录</a>
+				}
+				<span class="fr "><a class="top_s_text" href="@Url.Action("Index", "CroHome")">欢迎访问特教资源众筹平台</a><span class="top_s_bo"></span><a class="top_s_text p_20" href="@Url.Action("Index", "Home")">进入上海特教资源库</a></span>
+			</div>
+		</div>
+	</div>
+
+	<div class="container i_banner">
+		<a href="@Url.Action("Index", "CroHome")"><img src="~/assets/img/logo.png" /></a>
+
+		<div class="div_ml_mr96 d_nav">
+			<ul class="nav">
+				<li><a href="@Url.Action("Index", "CroHome")">首页</a></li>
+				
+				<li><a href="@Url.Action("Search", "CroResource", new { Domain = 10003 })">课程与教学</a></li>
+				<li><a href="@Url.Action("Search", "CroResource", new { Domain = 10004 })">康复与干预</a></li>
+				<li><a href="@Url.Action("Search", "CroResource", new { Domain = 10005 })">支持与服务</a></li>
+				<li><a href="@Url.Action("Search", "CroResource")">分类搜索</a></li>
+			</ul>
+			@using (Html.BeginForm("Search", "CroResource", FormMethod.Get, new { name = "searchform" }))
+			{
+				<div class="input-group">
+					<input name="Keywords" type="text" placeholder="点击输入文字搜索" class="form-control" />
+					<a href="javascript:searchform.submit();" class="input-group-addon glyphicon glyphicon-search"></a>
+				</div>
+			}
+		</div>
+	</div>
+
+
+
+	<div class="container d_container">
+		<div class="div_ml_mr96">
+
+			@RenderBody()
+
+		</div>
+	</div>
+
+
+
+	<div class="d_bottom">
+		<div class="container d_b w_1230">
+			<p>上海市教育委员会主管、上海教育软件发展有限公司承建</p>
+		</div>
+	</div>
+
+	@Scripts.Render("~/js/jquery")
+	@Scripts.Render("~/js/jqueryval")
+	@Scripts.Render("~/js/bootstrap")
+	@RenderSection("plugins", required: false)
+	@Scripts.Render("~/js/Ace")
+	@RenderSection("scripts", required: false)
+</body>
+</html>

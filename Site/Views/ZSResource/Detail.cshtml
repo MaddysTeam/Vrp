@@ -1,0 +1,174 @@
+﻿@model ZSResource
+@{
+	Layout = "~/Views/Shared/_ZSLayout.cshtml";
+	ViewBag.Title = "首页";
+}
+
+<div class="row">
+	<div class="col-md-12">
+
+
+		<div class="div_cont fl w100">
+
+			<div class="show">
+				<h1>
+					@Model.Title
+				</h1>
+
+				<div id="video" class="carousel slide">
+
+					<embed src="@Model.ResourcePath" quality=high
+							 pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"
+							 type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true"
+							 width="100%" height="300" id="v_swf">
+					</embed>
+
+					@*<embed type="application/x-mplayer2"
+							 pluginspage="http://www.microsoft.com/Windows/MediaPlayer/"
+							 width="100%" height="520"
+							 src="@Model.ResourcePath"
+							 wmode="transparent" autostart="false">*@
+				</div>
+
+				<div class="click">
+					<div class="show_btn fl">
+						<a href="@Model.ResourcePath" id="localPlay" title="视频不能内嵌播放时，请选择本地播放模式">
+							<button class="btn btn-lg btn-info btn-op btn-default">
+								<i class="fa fa-play"></i>
+								本地播放
+							</button>
+						</a>
+						<a href="@Model.ResourcePath" id="fullscreen" title="视频不能内嵌播放时，请选择本地播放模式">
+							<button class="btn btn-lg btn-info btn-op btn-default">
+								<i class="fa fa-play"></i>
+								全屏播放
+							</button>
+						</a>
+						<button id="toClipboard" class="btn btn-lg btn-info btn-op btn-default" title="点击复制资源地址到剪贴板中" data-clipboard-text="@Model.ResourcePath">
+							<i class="fa fa-copy"></i>
+							复制地址
+						</button>
+
+					</div>
+					@*<div class="eval_star fr">
+						<b>评分：</b>
+						@for (int i = 0; i < 5; i++)
+						{
+							if (Model.StarCount > i)
+							{
+								<span class="runtime_star yes"></span>
+							}
+							else
+							{
+								<span class="runtime_star no"></span>
+							}
+						}
+
+					</div>*@
+					<div class="source cb">
+						<p></p>
+					</div>
+				</div>
+
+
+
+
+				<div class="attr cb">
+
+					@*<div class="dzstyle">
+						<div class="boxes">
+							<div class="half left">
+								<div class="des">
+									<p><strong class="score">@ViewBag.avg</strong></p>
+									<p>
+										@for (int i = 0; i < 5; i++)
+										{
+											if (ViewBag.avg > i)
+											{
+
+												<img src="~/assets/img/ystar.png" />
+											}
+											else
+											{
+												<img src="~/assets/img/nstar.png" />
+											}
+										}
+									</p>
+									<p>共有 @ViewBag.count6 人参与了评价</p>
+								</div>
+							</div>
+							<div class="half right">
+								<ul class="bars">
+									<li>5分 <div class="bar"><div class="val" style="width:@ViewBag.ct5%}"></div></div> @ViewBag.count5 人</li>
+									<li>4分 <div class="bar"><div class="val" style="width:@ViewBag.ct4%}"></div></div> @ViewBag.count4 人</li>
+									<li>3分 <div class="bar"><div class="val" style="width:@ViewBag.ct3%}"></div></div> @ViewBag.count3 人</li>
+									<li>2分 <div class="bar"><div class="val" style="width:@ViewBag.ct2%}"></div></div> @ViewBag.count2 人</li>
+									<li>1分 <div class="bar"><div class="val" style="width:@ViewBag.ct1%}"></div></div> @ViewBag.count1 人</li>
+								</ul>
+							</div>
+						</div>
+						<div style="clear:both;"></div>
+					</div>*@
+
+
+
+					<div class="div ">
+						<p><span>关 键 字： @Model.Keywords </span></p>
+						
+						<p><span>上传日期： @Model.CreatedTime.ToShortDateString()</span><span>浏览次数： @Model.ViewCount 次</span></p>
+
+						<p><span>收藏次数： @Model.FavoriteCount</span><span>下载次数： @Model.DownCount 次</span></p>
+					</div>
+					<div class="div ">
+						<p>@Model.Description</p>
+						<h3>详细属性</h3>
+					</div>
+					<div class="div ">
+						<p><span>作　　者： @Model.Author</span> </p>
+						<p><span>单　　位： @Model.AuthorCompany</span><span>电子邮箱： @Model.AuthorEmail</span></p>
+						<p><span>电　　话： @Model.AuthorPhone</span><span>地　　址： @Model.AuthorAddress</span></p>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+@section plugins{
+	@Scripts.Render("~/js/zeroclipboard")
+}
+
+@section scripts{
+<script>
+
+	$('#localPlay').on('click', function () {
+		window.open($(this).attr('href'));
+		return false;
+	});
+
+	$('#fullscreen').on('click', function () {
+		//$('#v_swf').attr('allowfullscreen', 'true');
+		window.open($(this).attr('href'), '', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+		return false;
+	})
+
+	$(function () {
+		var flag = '@Model.IsLink';
+		var url = !flag ? '@Model.ResourcePath' : window.location.host + '@Model.ResourcePath';
+
+		$('#toClipboard').attr('data-clipboard-text', url);
+	})
+	
+
+	var clip = new ZeroClipboard($('#toClipboard'));
+
+	//clip.on("copy", function (e) {
+
+	//});
+
+</script>
+}

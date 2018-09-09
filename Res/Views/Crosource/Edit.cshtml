@@ -1,0 +1,391 @@
+﻿@model CroResource
+@{
+	ViewBag.Title = Model == null ? "添加新众筹资源" : "编辑众筹资源";
+}
+<div class="col-md-10 content-wrapper">
+	<div class="row">
+		<div class="col-lg-4 ">
+			<ul class="breadcrumb">
+				<li>
+					<i class="fa fa-home"></i>
+					<a href="@Url.Action("Index", "Home")">首页</a>
+				</li>
+				<li><a href="@Url.Action("Index", "Crosource")">众筹资源</a></li>
+				<li class="active">@ViewBag.Title</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- main -->
+	<div class="content">
+		<div class="main-header">
+			<h2>@ViewBag.Title</h2>
+			<em>本页面编辑众筹资源内容信息</em>
+		</div>
+
+		<div class="main-content">
+
+			<!-- widget -->
+			<div class="widget">
+				<div class="widget-header">
+					<h3><i class="fa fa-edit "></i> @ViewBag.Title</h3>
+				</div>
+				<div class="widget-content">
+					<form action="@Url.Action("UploadCover", "Attachment")" class="dropzone cover"></form>
+					<form action="@Url.Action("UploadResource", "Attachment")" class="dropzone file"></form>
+						<div class="row">
+					@using (Html.BeginForm("Edit", "Crosource", Model == null ? null : new { id = Model.CrosourceId }, FormMethod.Post, new { id = "form", role = "form", @class = "form-horizontal" }))
+					{
+						@Html.HiddenFor(m => m.CrosourceId)
+						@Html.HiddenFor(m => m.CoverPath)
+						@Html.HiddenFor(m => m.ResourcePath)
+						@Html.HiddenFor(m => m.FileExtName)
+						@Html.HiddenFor(m => m.FileSize)
+						@Html.HiddenFor(m => m.IsLink)
+							<fieldset class="col-sm-7">
+								<div class="form-group">
+									<label class="control-label col-sm-3"> <span class="request">*</span> 资源标题</label>
+									<div class="col-sm-9">
+										@Html.TextBoxFor(m => m.Title, new { @class = "form-control", maxlength = "255", placeholder = "资源标题" })
+										@Html.ValidationMessageFor(m => m.Title)
+									</div>
+								</div>
+								<div class="form-group">
+
+									<label class="control-label col-sm-3"> <span class="request">*</span> 资源类型</label>
+	                       <div class="col-sm-9">
+										@Html.RadioButtonFor(m => m.RType, "1", new { @name = "rdolstState", @class = "yuanchuang", @Checked = "checked" })原创资源
+
+										@Html.RadioButtonFor(m => m.RType, "2", new { @name = "rdolstState", @class = "tuijian" })推荐资源
+										@Html.TextBoxFor(m => m.RSource, new { @class = "form-control source", maxlength = "255", placeholder = "资源出处" })
+										@Html.ValidationMessageFor(m => m.RSource)
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-sm-3"> <span class="request">*</span> 资源添加</label>
+
+									<div class="col-sm-9">
+										<div class="input-group">
+											@Html.TextBoxFor(m => m.GhostFileName, new { @class = "form-control", maxlength = "255", placeholder = "资源添加" })
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="LocalRes">选择 <span class="caret"></span></button>
+										
+											</div>
+										</div>
+										<div class="progress" style="display:none">
+											<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+												<span class="sr-only"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									@Html.LabelFor(m => m.Description, new { @class = "control-label col-sm-3" })
+									<div class="col-sm-9">
+										@Html.TextAreaFor(m => m.Description, 4, 30, new { @class = "form-control  textarea", maxlength = "150", placeholder = "资源简介" })
+										<div class="img_ta_num">简介最多只允许填写150个字以内</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-3"> <span class="request">*</span> 关键词</label>
+
+									<div class="col-sm-9">
+										@Html.TextBoxFor(m => m.Keywords, new { @class = "form-control gjz", maxlength = "255", placeholder = "关键词" })
+										@Html.ValidationMessageFor(m => m.Keywords)
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-3"> <span class="request">*</span> 领域</label>
+									<div class="col-sm-9">
+										@Html.DropDownListFor(m => m.DomainPKID, ResResourceHelper.Domain.GetSelectListExclude(10001, 10002), new { @class = "form-control" })
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-3"> <span class="request">*</span> 资源类别</label>
+									<div class="col-sm-9">
+										@Html.DropDownListFor(m => m.ResourceTypePKID, ResResourceHelper.ResourceType.GetSelectList(), new { @class = "form-control zylb" })
+									</div>
+								</div>
+								<div class="form-group ">
+									<label class="control-label col-sm-3"> <span class="request">*</span> 学校类型</label>
+                        	<div class="col-sm-9">
+										@Html.DropDownListFor(m => m.SchoolTypePKID, ResResourceHelper.SchoolType.GetSelectList(), "不分学校类型", new { @class = "form-control" })
+									</div>
+								</div>
+								<div class="form-group ">
+									<label class="control-label col-sm-3"> <span class="request">*</span> 残疾类别</label>
+
+									<div class="col-sm-9">
+										@Html.DropDownListFor(m => m.DeformityPKID, ResResourceHelper.Deformity.GetSelectList(), "不分残疾类别", new { @class = "form-control", maxlength = "80" })
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-3"> <span class="request">*</span> 安置类型</label>
+									<div class="col-sm-9">
+										@Html.DropDownListFor(m => m.LearnFromPKID, ResResourceHelper.LearnFrom.GetSelectList(), "不分安置类型", new { @class = "form-control", maxlength = "80" })
+									</div>
+								</div>
+								<div class="form-group  ">
+									<label class="control-label col-sm-3"> <span class="request">*</span> 学段</label>
+									<div class="col-sm-9">
+										@Html.DropDownListFor(m => m.StagePKID, ResResourceHelper.Stage.GetSelectList(), "适用全体学段", new { @class = "form-control" })
+									</div>
+								</div>
+								<div class="form-group  ">
+									<label class="control-label col-sm-3"> <span class="request">*</span> 年级</label>
+									<div class="col-sm-9">
+										@Html.DropDownListFor(m => m.GradePKID, ResResourceHelper.Grade.GetSelectList(), "适用全体年级", new { @class = "form-control" })
+									</div>
+								</div>
+								<div class="form-group ">
+									<label class="control-label col-sm-3"> <span class="request">*</span> 学科</label>
+									<div class="col-sm-9">
+										@Html.DropDownListFor(m => m.SubjectPKID, ResResourceHelper.Subject.GetSelectList(), "不分学科", new { @class = "form-control" })
+									</div>
+								</div>
+					
+								<div class="form-group">
+									<label class="control-label col-sm-3"> <span class="request">*</span> 学科</label>
+									<div class="col-sm-9">
+										@Html.TextBoxFor(m => m.Author, new { @class = "form-control", maxlength = "100", placeholder = "作者" })
+										@Html.ValidationMessageFor(m => m.Author)
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-3"> <span class="request">*</span> 所在单位</label>
+									<div class="col-sm-9">
+										@Html.TextBoxFor(m => m.AuthorCompany, new { @class = "form-control", maxlength = "255", placeholder = "作者所在单位" })
+										@Html.ValidationMessageFor(m => m.AuthorCompany)
+									</div>
+								</div>
+								<div class="form-group">
+									@Html.LabelFor(m => m.AuthorAddress, new { @class = "control-label col-sm-3" })
+									<div class="col-sm-9">
+										@Html.TextBoxFor(m => m.AuthorAddress, new { @class = "form-control", maxlength = "255", placeholder = "作者单位地址" })
+										@Html.ValidationMessageFor(m => m.AuthorAddress)
+									</div>
+								</div>
+								<div class="form-group">
+									@Html.LabelFor(m => m.AuthorEmail, new { @class = "control-label col-sm-3" })
+									<div class="col-sm-9">
+										@Html.TextBoxFor(m => m.AuthorEmail, new { @class = "form-control", maxlength = "255", placeholder = "作者电子邮箱" })
+										@Html.ValidationMessageFor(m => m.AuthorEmail)
+									</div>
+								</div>
+								<div class="form-group">
+									@Html.LabelFor(m => m.AuthorPhone, new { @class = "control-label col-sm-3" })
+									<div class="col-sm-9">
+										@Html.TextBoxFor(m => m.AuthorPhone, new { @class = "form-control", maxlength = "255", placeholder = "作者联系电话" })
+										@Html.ValidationMessageFor(m => m.AuthorPhone)
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-10 col-sm-offset-2">
+										<button type="submit" id="submit" class="btn btn-primary btn-block"><i class="fa fa-check-circle"></i> 保存</button>
+									</div>
+								</div>
+							</fieldset>
+					}
+							<fieldset class="col-sm-5">
+								<div class="form-group">
+									<label class="control-label">封面</label>
+									<div class="col-sm-12">
+										<div id="showCover" title="点击选择封面" class="cover-bg">
+											@if (Model != null && Model.CoverPath != "")
+											{
+												<img src="@Url.Content(Model.CoverPath)" class="cover-img" />
+											}
+											else
+											{
+												<span>点击选择封面</span>
+											}
+										</div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+				</div>
+
+			</div>
+			<!-- end widget -->
+
+		</div>
+		<!-- /main-content -->
+	</div>
+	<!-- /main -->
+</div>
+@section Css {
+	@Styles.Render("~/css/tagsinput")
+}
+@section Plugins {
+	@Scripts.Render("~/js/dropzone")
+	@Scripts.Render("~/js/tagsinput")
+}
+@section Scripts {
+
+
+<script type="text/javascript">
+	$(function () {
+		$("#GhostFileName").val("").prop("disabled", true);
+		$(".textarea").keyup(function () {
+			$(".img_ta_num").html("简介还可以填写"+(150 - $(this).val().length)+"个字")		
+		})
+
+
+		$(".source").hide();
+
+		$(".tuijian").on("click", function () {
+			$(".source").show();
+		});
+		$(".yuanchuang").on("click", function () {
+			$(".source").hide();
+			$(".source").val("");
+		});
+
+		$("#submit").on("click", function () {
+			var istj = $("input[type='radio']:checked").val();
+			var source=$(".source").val();
+			if(istj==2){
+				if($.trim(source)==""){
+					alert("资源出处必须填写");
+					return false;
+				}}
+
+			var gjz=$(".gjz").val();
+			if($.trim(gjz)==""){
+				alert("关键字必须填写");
+				return false;
+			}
+
+			var zylb=$(".zylb").val();
+			if($.trim(zylb)==""){
+				alert("资源类别必须选择");
+				return false;
+			}
+
+		});
+	})
+</script>
+
+
+	<script type="text/javascript">
+
+	var resTypes = @Html.Raw(Json.Encode(ViewBag.ResTypes));
+	var grades = @Html.Raw(Json.Encode(ViewBag.Grades));
+
+		function RelationSelect(src, tat, rule, none) {
+			var $src = $(src), $tat = $(tat);
+
+			function doit(init){
+				var key = $src.val();
+				$tat.empty();
+				if (none) {
+					$tat.append($("<option>").val(0).text(none));
+				}
+				$.each(rule, function(i, n){
+					if (n.key == key) {
+						$tat.append($("<option>").val(n.id).text(n.name));
+					}
+				});
+				if (init) $tat.val(init);
+			}
+
+			$src.on("change", function() {
+				doit();
+			});
+
+			doit($tat.val());
+		}
+
+		$(function () {
+
+			$("select option[value='']").val("0");
+
+			var judge = $("#IsLink");
+			switch(judge.val()) {
+				case "" :
+					$("#IsLink").val(true);
+					break;
+				case "False" :
+					$("#GhostFileName").prop("disabled", true);
+					break;
+			}
+
+			// relation select
+			RelationSelect($("#DomainPKID"), $("#ResourceTypePKID"), resTypes);
+			RelationSelect($("#StagePKID"), $("#GradePKID"), grades, "适用全体年级");
+
+			Dropzone.autoDiscover = false;
+			// init dropzone upload plugin.
+			$(".dropzone.cover").dropzone({
+				addRemoveLinks: !0,
+				maxFiles: 100,
+				acceptedFiles: "image/*",
+				dictResponseError: "File Upload Error.",
+				init: function () {
+					this.on("success", function (file, data) {
+						$("#CoverPath").val(data.path);
+						$("#showCover").html("<img src='" + data.showPath + "' class='cover-img' />");
+					});
+					this.on("error", function (file, message) {
+						alert(message)
+					});
+				}
+			});
+			$(".dropzone.file").dropzone({
+				addRemoveLinks: !0,
+				maxFilesize: 400,
+				maxFiles: 100,
+				thumbnailHeight: 50,
+				dictResponseError: "File Upload Error.",
+				dictDefaultMessage: "上传资源文件",
+				init: function () {
+					this
+						.on("processing", function(i){
+							$(".progress").show();
+						})
+						.on("totaluploadprogress", function(i){
+							$(".progress-bar").css("width", parseInt(i)+"%");
+						})
+						.on("removedfile", function() {
+						})
+						.on("success", function (file, data) {
+							$("#ResourcePath").val(data.path);
+							$("#FileExtName").val(data.ext);
+							$("#FileSize").val(data.size);
+							$("#GhostFileName").val(data.name);
+						})
+						.on("error", function (file, message) {
+							alert(message)
+						});
+				}
+			})
+
+			// proxy click event to dropzone.
+			$("#showCover").on("click", function () {
+				$(".dropzone.cover").trigger('click');
+			});
+
+			$("#LocalRes").on("click", function(){
+				$("#GhostFileName").val("").prop("disabled", true);
+				$("#IsLink").val(false);
+				$(".progress").hide();
+				$(".dropzone.file").trigger('click');
+			});
+			$("#WebRes").on("click", function(){
+				$("#GhostFileName").val("").prop("disabled", false);
+				$("#IsLink").val(true);
+				$(".progress").hide();
+			});
+
+
+			$("#Keywords").tagsinput({
+				trimValue: true
+			});
+
+		})
+
+
+	</script>
+}

@@ -1,0 +1,57 @@
+﻿<!--资源推荐 -->
+<div class="block_panel">
+	<div class="panel_title">
+		<span><img src="~/assets/img/ico_recommand.png" />资源推荐</span>
+		<a class="more" href="@Url.Action("More", "Resource", new { type = "recommand" })">浏览更多 >></a>
+	</div>
+	<div class="body roll">
+		@foreach (ResResourceRecommand item in ViewBag.RankingOfRecommandPage1)
+		{ 
+		<div class="res_square">
+			<a href="@Url.Action("View", "Resource", new { id=item.ResourceId })" title="@item.Title"><img class="cover" src="@item.FitCoverPath" /></a>
+			<div class="hot"></div>
+			<div>
+				<a href="@Url.Action("View", "Resource", new { id=item.ResourceId })" title="@item.Title"><p>@item.Title</p></a>
+				<span>作者：@item.Author</span>
+				<span class="fr-star">
+				@for (int i = 0; i < 5; i++)
+				{
+					if (item.Star > i) { 
+					<img src="~/assets/img/ystar.png" />
+					}
+					else
+					{
+					<img src="~/assets/img/nstar.png" />
+					}
+				}
+				</span>
+			</div>
+		</div>
+		}
+	</div>
+	<div class="body roll hidden">
+		@foreach (ResResourceRecommand item in ViewBag.RankingOfRecommandPage2)
+		{ 
+		<div class="res_square">
+			<a href="@Url.Action("View", "Resource", new { id=item.ResourceId })" title="@item.Title"><img class="cover" src="@item.FitCoverPath" /></a>
+			<div class="hot"></div>
+			<div>
+				<a href="@Url.Action("View", "Resource", new { id=item.ResourceId })" title="@item.Title"><p>@item.Title</p></a>
+				<span>作者：@item.Author</span>
+				<span class="fr-star">
+				@for (int i = 0; i < 5; i++)
+				{
+					if (item.Star > i) { 
+					<img src="~/assets/img/ystar.png" />
+					}
+					else
+					{
+					<img src="~/assets/img/nstar.png" />
+					}
+				}
+				</span>
+			</div>
+		</div>
+		}
+	</div>
+</div>

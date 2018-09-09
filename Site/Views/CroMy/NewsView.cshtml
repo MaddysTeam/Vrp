@@ -1,0 +1,25 @@
+﻿@{
+	Layout = "~/Views/Shared/_CroLayout.cshtml";
+	ViewBag.Title = "首页";
+}
+@model ResBulletin
+<div class="row">
+
+		<div class="div_cont fl w100">
+			<div class="title ">
+				<b>活动公告</b>
+			</div>
+			<div class="d_news_show">
+				<h1>@Model.Title</h1>
+				<span>来源:@Model.Creator  发布日期:@Model.CreatedTime </span>
+				<p>
+					@Model.Content
+				</p>
+
+			</div>
+
+	
+		</div>
+
+</div>
+

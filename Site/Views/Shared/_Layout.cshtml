@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="renderer" content="webkit" />
+	<title>@ViewBag.Title - 上海特教资源库</title>
+	<!-- CSS -->
+	@Styles.Render("~/css/bootstrap")
+	@RenderSection("css", required: false)
+	@Styles.Render("~/css/app")
+</head>
+<body>
+	<div class="d_top">
+		<div class="container top_nav">
+			<div class="div_ml_mr95">
+				@if (Request.IsAuthenticated)
+				{
+					<a class="top_s_text p_l0" href="@Url.Action("Index", "My", new { id = ResSettings.SettingsInSession.UserId })">进入我的空间</a>
+					<span class="top_s_bo"></span>
+					<a class="top_s_text" href="@Url.Action("LogOff", "Account")">退出我的登录</a>
+				}
+				else
+				{
+					<a class="top_s_text p_l0" href="@Url.Action("Login", "Account", new { returnUrl = Request.RawUrl })">登录</a>
+					<span class="top_s_bo"></span>
+					<a class="top_s_text" href="@Url.Action("Register", "Account", new {returnUrl=Request.RawUrl})">注册</a>
+				}
+				
+				<span class="fr ">欢迎访问上海市特殊教育资源库</span>
+			</div>
+		</div>
+		<div class="container">
+			<a href="@Url.Action("Index", "Home")"><img src="~/assets/img/t_banner.jpg" /></a>
+		</div>
+	</div>
+	<div class="container bk_gray">
+		<div class="wrap">
+		@RenderBody()
+		</div>
+	</div>
+	<div class="d_bottom">
+		<div class="container d_b">
+			<p>上海市教育委员会主管、上海教育软件发展有限公司承建</p>
+		</div>
+	</div>
+
+	@Scripts.Render("~/js/jquery")
+	@Scripts.Render("~/js/bootstrap")
+	@Scripts.Render("~/js/modernizr")
+	@Scripts.Render("~/js/jqueryval")
+	@RenderSection("plugins", required: false)
+	@Scripts.Render("~/js/app")
+	@RenderSection("scripts", required: false)
+</body>
+</html>

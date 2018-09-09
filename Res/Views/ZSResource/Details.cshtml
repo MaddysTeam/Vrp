@@ -1,0 +1,181 @@
+﻿@model ZSResource
+@{
+	ViewBag.Title = "资源详情";
+}
+<div class="col-md-10 content-wrapper">
+	<div class="row">
+		<div class="col-lg-4 ">
+			<ul class="breadcrumb">
+				<li>
+					<i class="fa fa-home"></i>
+					<a href="@Url.Action("Index", "Home")">首页</a>
+				</li>
+				<li><a href="@Url.Action("Index", "ZSResource")">资源</a></li>
+				<li class="active">@ViewBag.Title</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- main -->
+	<div class="content">
+		<div class="main-header">
+			<h2>@ViewBag.Title</h2>
+			<em>本页面查看选中资源的详细信息</em>
+		</div>
+
+		<div class="main-content">
+			<!-- Details -->
+			<div class="details">
+				<!-- details header -->
+				<div class="details-header">
+					<div class="row">
+						<div class="col-lg-4 col-print-4">
+							<h3></h3>
+						</div>
+						<div class="col-lg-8 col-print-8 text-right">
+							<ul class="list-inline">
+								<li>
+									点击次数:
+									<strong class="badge">@Model.ViewCount</strong>
+								</li>
+								<li>
+									下载次数:
+									<strong class="badge">@Model.DownCount</strong>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- end details header -->
+				<!-- details summary -->
+				<div class="details-summary">
+					<div class="row">
+						<!-- left side, main content -->
+						<div class="col-lg-9">
+							<div class="row">
+								<div class="col-sm-6">
+									<img class="cover-img img-frame" src="@Model.CoverPath" />
+								</div>
+								<div class="col-sm-6">
+									<h3>@Model.Title</h3>
+									<div class="summary">
+										<p><label>创建时间</label> @Model.CreatedTime.ToString("yyyy-MM-dd")</p>
+										<p>
+											<label>关键字</label> @foreach (var item in Model.Keywords.Split(','))
+											{ <span class="badge">@item</span> }
+										</p>
+										<p><label>作者</label> @Model.Author</p>
+									</div>
+									<div class="buttons">
+										<a href="@Url.Action("Edit", "ZSResource", new { id = Model.ResourceId })" class="btn btn-primary btn-block"><i class="fa fa-edit"></i> 修改资源</a>
+									</div>
+								</div>
+							</div> <!-- row -->
+							<hr />
+							<div>
+								<div class="panel">
+									<div class="panel-body">
+										@Model.Description
+									</div>
+								</div>
+							</div> <!-- row -->
+						</div>
+						<!-- end left side, main content -->
+						<!-- right side, main content -->
+						<div class="col-lg-3">
+
+							<!-- widget -->
+							<div class="widget">
+								<div class="widget-header">
+									<h3><i class="fa fa-paperclip"></i> 资源</h3>
+								</div>
+								<div class="widget-content">
+
+									<div id="myContent">
+
+									</div>
+
+									@*<embed src="@Model.ResourcePath" quality=high 
+											 pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" 
+											 type="application/x-shockwave-flash" 
+											 width="100%" height="300">
+									</embed>*@
+
+									@*<embed type="application/x-mplayer2"
+											 pluginspage="http://www.microsoft.com/Windows/MediaPlayer/"
+											 width="100%" height="300"
+											 src="@Model.ResourcePath"
+											 wmode="transparent" autostart="false">*@
+								</div>
+							</div>
+							<!-- end widget -->
+							<!-- widget -->
+							<div class="widget">
+								<div class="widget-header">
+									<h3><i class="fa fa-paperclip"></i> 资源分类信息</h3>
+								</div>
+
+								<div class="widget-content">
+									<ul class="list-group">
+										<li class="list-group-item">领域：@Model.OneLevel</li>
+										<li class="list-group-item">资源类型：@Model.TowLevel</li>
+									</ul>
+								</div>
+							</div>
+							<!-- end widget -->
+							<!-- widget -->
+							<div class="widget">
+								<div class="widget-header">
+									<h3><i class="fa fa-paperclip"></i> 作者信息</h3>
+								</div>
+
+								<div class="widget-content">
+									<ul class="list-group">
+										<li class="list-group-item">作者：@Model.Author</li>
+										@if (@Model.AuthorCompany != "")
+										{
+											<li class="list-group-item">单位：@Model.AuthorCompany</li>
+										}
+										@if (@Model.AuthorEmail != "")
+										{
+											<li class="list-group-item">电子邮箱：@Model.AuthorEmail</li>
+										}
+										@if (@Model.AuthorPhone != "")
+										{
+											<li class="list-group-item">电话：@Model.AuthorPhone</li>
+										}
+										@if (@Model.AuthorAddress != "")
+										{
+											<li class="list-group-item">地址：@Model.AuthorAddress</li>
+										}
+									</ul>
+								</div>
+							</div>
+							<!-- end widget -->
+						</div>
+						<!-- end right side, main content -->
+
+					</div>
+				</div>
+				<!-- end details summary -->
+
+			</div>
+			<!-- Details -->
+
+		</div>
+		<!-- /main-content -->
+	</div>
+	<!-- /main -->
+</div>
+
+@section plugins{
+	<script src="~/assets/plugins/swfobject-master/swfobject/src/swfobject.js"></script>
+}
+@section scripts{
+<script>
+
+	var swf = '@Model.ResourcePath';
+	swfobject.embedSWF(swf, 'myContent', '100%', '300', '9.0.0');
+
+</script>
+}

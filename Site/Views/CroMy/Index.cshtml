@@ -1,0 +1,43 @@
+﻿@model ResUser
+@{
+	Layout = "~/Views/Shared/_CroLayout.cshtml";
+	ViewBag.Title = "我的信息";
+}
+
+
+	<div class="menu">
+		<div class="fl">首页 > <span>个人信息</span></div>
+		<div class="fr"><a href="@Url.Action("Edit", new { id = Model.Id })">
+			@if (ResSettings.SettingsInSession.UserId==Model.UserId) {
+			<span>修改个人信息</span>
+			}
+			</a></div>
+	</div>
+
+
+	<div class="user">
+		<div class="u_c">
+			<span>登录次数：@Model.LoginCount</span>
+			<span>收藏资源：@Model.FavoriteCount</span>
+			<span>下载次数：@Model.DownCount</span>
+			<span>评论次数：@Model.CommentCount</span>
+		</div>
+		<div class="u_t">
+			
+			<img id="photo" src="@ResActiveUser.FitPhotoPathWithUser(Model)" />
+			<div class="u_text">
+				<p class="u_name">@Model.RealName</p>
+				<p>
+					<span>用&nbsp;&nbsp;户&nbsp;&nbsp;名：@Model.UserName</span><span>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：@Model.Gender</span>
+				</p>
+				<p>
+					<span>出生年月：</span><span>电子邮件：@Model.Email</span>
+				</p>
+				<p>
+					<span>单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位：@Model.CompanyName</span><span>注册时间：@Model.RegisterTime.ToShortDateString()</span>
+				</p>
+			</div>
+		</div>
+		<div class="cb"></div>
+		
+	</div>

@@ -1,0 +1,27 @@
+﻿<!--最新评论 -->
+<div class="block_panel blue_edge">
+	<div class="panel_title nav">
+		<span><img src="~/assets/img/ico_comment.png" />最新评论</span>
+	</div>
+	<div class="body">
+		<ul class="compact_list">
+			@{
+			int i = 1;
+			foreach (ResResourceRecommand item in ViewBag.RankingOfNewComment)
+			{
+			<li>
+				@if (i < 4)
+				{
+					<a href="@Url.Action("View", "Resource", new { id=item.ResourceId })"><span class="square">@i</span> @item.Title</a>
+				}
+				else
+				{
+				<a href="@Url.Action("View", "Resource", new { id=item.ResourceId })"><span>@i</span> @item.Title</a>
+				}
+			</li>
+				i++;
+			}
+			}
+		</ul>
+	</div>
+</div>
