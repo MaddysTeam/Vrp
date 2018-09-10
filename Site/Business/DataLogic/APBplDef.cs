@@ -552,7 +552,8 @@ namespace Res.Business
 				var u = APDBDef.ResUser;
 
 				var query = APQuery
-					.select(t.CrosourceId, t.Title, u.RealName.As("Author"), t.MediumTypePKID, t.CreatedTime, t.StatePKID, t.EliteScore)
+					.select(t.CrosourceId, t.Title, u.RealName.As("Author") //TODO:t.MediumTypePKID
+               , t.CreatedTime, t.StatePKID, t.EliteScore)
 					.from(t, u.JoinInner(t.Creator == u.UserId))
 					.where(where)
 					.primary(t.CrosourceId)

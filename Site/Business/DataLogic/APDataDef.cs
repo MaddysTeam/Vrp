@@ -239,9 +239,9 @@ namespace Res.Business
 
 		public string Grade { get { return ResResourceHelper.Grade.GetName(GradePKID); } }
 
-		public string ImportSource { get { return ResResourceHelper.ImportSource.GetName(ImportSourcePKID); } }
+		//public string ImportSource { get { return ResResourceHelper.ImportSource.GetName(ImportSourcePKID); } }
 
-		public string MediumType { get { return ResResourceHelper.MediumType.GetName(MediumTypePKID); } }
+		//public string MediumType { get { return ResResourceHelper.MediumType.GetName(MediumTypePKID); } }
 
 		public string ResourceType { get { return ResResourceHelper.ResourceType.GetName(ResourceTypePKID); } }
 
@@ -253,7 +253,7 @@ namespace Res.Business
 		[Required]
 		public string GhostFileName { get; set; }
 
-		public string FileType { get { if (!String.IsNullOrEmpty(FileExtName)) return FileExtName.Substring(1); return ""; } }
+		// public string FileType { get { if (!String.IsNullOrEmpty(FileExtName)) return FileExtName.Substring(1); return ""; } }
 
 		// TODO: delete later public int Star { get { if (StarCount == 0)return 0; return StarTotal / StarCount; } }
 

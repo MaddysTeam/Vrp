@@ -68,6 +68,11 @@ namespace Res.Business
 		/// 性别
 		/// </summary>
 		public static readonly string PLKey_Gender = "PLKey_Gender";
-	}
+
+      /// <summary>
+      /// 微课 - 微课类型
+      /// </summary>
+      public static readonly string PLKey_CourseType = "PLKey_CourseType";
+   }
 
 }

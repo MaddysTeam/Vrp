@@ -76,10 +76,10 @@ namespace Res.Controllers
          //}
          ViewData["LearnFrom"] = tmp;
 
-         if (!String.IsNullOrEmpty(tmp = Request.Params.Get("MediumType")))
-         {
-            where.Add(t.MediumTypePKID == Int64.Parse(tmp));
-         }
+         //if (!String.IsNullOrEmpty(tmp = Request.Params.Get("MediumType")))
+         //{
+         //   where.Add(t.MediumTypePKID == Int64.Parse(tmp));
+         //}
          ViewData["MediumType"] = tmp;
 
          if (!String.IsNullOrEmpty(tmp = Request.Params.Get("Keywords")) && tmp.Trim() != "")
@@ -159,12 +159,12 @@ namespace Res.Controllers
          {
             if (type == "rmgd")
             {
-               ViewBag.ListOfMore = CroHomeRankingList(t.EliteScore.Desc, null, out total, 10, (page - 1) * 10, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
+             //  ViewBag.ListOfMore = CroHomeRankingList(t.EliteScore.Desc, null, out total, 10, (page - 1) * 10, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
                ViewBag.Title = "热门资源";
             }
             else if (type == "zxgd")
             {
-               ViewBag.ListOfMore = CroHomeRankingList(t.CreatedTime.Desc, null, out total, 10, (page - 1) * 10, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
+             //  ViewBag.ListOfMore = CroHomeRankingList(t.CreatedTime.Desc, null, out total, 10, (page - 1) * 10, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
                ViewBag.Title = "最新资源";
             }
 
@@ -176,9 +176,9 @@ namespace Res.Controllers
 
 
             // 右侧热门资源
-            ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5, 0, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
+            //ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5, 0, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
             //右侧最新资源
-            ViewBag.RankingROfNewCount = CroHomeRankingList(APDBDef.CroResource.CreatedTime.Desc, null, out total, 5, 0, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
+            //ViewBag.RankingROfNewCount = CroHomeRankingList(APDBDef.CroResource.CreatedTime.Desc, null, out total, 5, 0, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
 
          }
 
@@ -240,20 +240,20 @@ namespace Res.Controllers
          ViewBag.CommentCount = APBplDef.CroCommentBpl.ConditionQueryCount(APDBDef.CroComment
             .ResourceId == id & APDBDef.CroComment.Audittype == 1);
 
-         model.GhostFileName = Path.GetFullPath( model.ResourcePath); //model.IsLink ? model.ResourcePath : Path.GetFileName(model.ResourcePath);
+         //model.GhostFileName = Path.GetFullPath( model.ResourcePath); //model.IsLink ? model.ResourcePath : Path.GetFileName(model.ResourcePath);
 
 
-         // 相关资源
-         ViewBag.RankingOfRelation = CroHomeRelationList(id, model.Keywords.Split(','), 8, model.FileExtName, APDBDef.CroResource.MediumTypePKID == model.MediumTypePKID);
+         //// 相关资源
+         //ViewBag.RankingOfRelation = CroHomeRelationList(id, model.Keywords.Split(','), 8, model.FileExtName, APDBDef.CroResource.MediumTypePKID == model.MediumTypePKID);
 
-         //右侧热门资源
-         ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5, 0, t.MediumTypePKID == model.MediumTypePKID, model.FileExtName);
+         ////右侧热门资源
+         //ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5, 0, t.MediumTypePKID == model.MediumTypePKID, model.FileExtName);
 
-         //右侧最新资源
-         ViewBag.RankingROfNewCount = CroHomeRankingList(APDBDef.CroResource.CreatedTime.Desc, null, out total, 5, 0, t.MediumTypePKID == model.MediumTypePKID, model.FileExtName);
+         ////右侧最新资源
+         //ViewBag.RankingROfNewCount = CroHomeRankingList(APDBDef.CroResource.CreatedTime.Desc, null, out total, 5, 0, t.MediumTypePKID == model.MediumTypePKID, model.FileExtName);
 
-         ViewBag.mediumtypepkid = model.MediumTypePKID;
-         ViewBag.FileExtName = model.FileExtName;
+         //ViewBag.mediumtypepkid = model.MediumTypePKID;
+         //ViewBag.FileExtName = model.FileExtName;
 
          int cou1 = 0;
          int cou2 = 0;

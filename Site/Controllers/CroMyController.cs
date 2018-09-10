@@ -172,7 +172,7 @@ namespace Res.Controllers
 			else
 			{
 				var model = APBplDef.CroResourceBpl.PrimaryGet(resid.Value);
-            model.GhostFileName = model.ResourcePath;// model.IsLink ? model.ResourcePath : Path.GetFileName(model.ResourcePath);
+           // model.GhostFileName = model.ResourcePath;// model.IsLink ? model.ResourcePath : Path.GetFileName(model.ResourcePath);
 
 				return View(model);
 			}
@@ -187,17 +187,17 @@ namespace Res.Controllers
 			//if (model.IsLink)
 			//{
 			//	model.FileSize = 0;
-				model.ResourcePath = model.GhostFileName;
+			//	model.ResourcePath = model.GhostFileName;
 			//	model.FileExtName = GetSafeExt(model.ResourcePath);
 			//}
-			model.MediumTypePKID = CroResourceHelper.GetMediumType(model.FileExtName);
+			//model.MediumTypePKID = CroResourceHelper.GetMediumType(model.FileExtName);
 			ResUser user = new ResUser();
 			user.UserId = id;
 			if (resid == null)
 			{
 				model.CreatedTime = model.LastModifiedTime = DateTime.Now;
 				model.Creator = model.LastModifier = ResSettings.SettingsInSession.UserId;
-				model.ImportSourcePKID = CroResourceHelper.SourceUpload;
+			//	model.ImportSourcePKID = CroResourceHelper.SourceUpload;
 
 				model.StatePKID = CroResourceHelper.StateWait;	// 是否提供管理员自动审核功能
 	
@@ -223,10 +223,10 @@ namespace Res.Controllers
 					model.Author,
 					model.Keywords,
 					model.Description,
-					model.CoverPath,
-					model.ResourcePath,
-					model.FileExtName,
-					model.FileSize,
+					//model.CoverPath,
+					//model.ResourcePath,
+					//model.FileExtName,
+					//model.FileSize,
 					//model.IsLink,
 					model.AuthorCompany,
 					model.AuthorAddress,
@@ -239,7 +239,7 @@ namespace Res.Controllers
 					//model.SchoolTypePKID,
 					model.StagePKID,
 					model.GradePKID,
-					model.MediumTypePKID,
+					//model.MediumTypePKID,
 					model.ResourceTypePKID,
 					model.SubjectPKID,
 					//model.RType,
@@ -371,7 +371,7 @@ namespace Res.Controllers
 		{
 	
 			var model = APBplDef.CroResourceBpl.PrimaryGet(id);
-         model.GhostFileName = model.ResourcePath;// model.IsLink ? model.ResourcePath : Path.GetFileName(model.ResourcePath);
+        // model.GhostFileName = model.ResourcePath;// model.IsLink ? model.ResourcePath : Path.GetFileName(model.ResourcePath);
 			return View(model);
 		}
 

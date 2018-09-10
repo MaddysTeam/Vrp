@@ -20,8 +20,9 @@ namespace Res.Controllers
 		{
 			var t = APDBDef.CroResource;
 
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.CoverPath,
-				t.AuthorCompany, t.CreatedTime, t.ViewCount, t.CommentCount, t.DownCount, t.FileExtName, t.Description)
+			var query = APQuery.select(t.CrosourceId, t.Title, t.Author,// t.CoverPath,
+				t.AuthorCompany, t.CreatedTime, t.ViewCount, t.CommentCount, t.DownCount //t.FileExtName
+            ,t.Description)
 				.from(t)
 				.where(t.StatePKID == ResResourceHelper.StateAllow)
 				.order_by(t.CreatedTime.Desc, t.CrosourceId.Asc)
@@ -56,7 +57,7 @@ namespace Res.Controllers
 					CrosourceId = t.CrosourceId.GetValue(reader),
 					Title = t.Title.GetValue(reader),
 					Author = t.Author.GetValue(reader),
-					CoverPath = t.CoverPath.GetValue(reader),
+					//CoverPath = t.CoverPath.GetValue(reader),
 					//StarCount = t.StarCount.GetValue(reader),
 					//StarTotal = t.StarTotal.GetValue(reader),
 
@@ -65,7 +66,7 @@ namespace Res.Controllers
 					ViewCount = t.ViewCount.GetValue(reader),
 					CommentCount = t.CommentCount.GetValue(reader),
 					DownCount = t.DownCount.GetValue(reader),
-					FileExtName = t.FileExtName.GetValue(reader),
+					//FileExtName = t.FileExtName.GetValue(reader),
 					Description = des,
 				};
 			}).ToList();
@@ -79,7 +80,8 @@ namespace Res.Controllers
 		{
 			var t = APDBDef.CroResource;
 			var userid = id;
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.CoverPath, t.FileExtName, t.Description, t.CreatedTime, t.AuditOpinion, t.StatePKID)
+			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, //t.CoverPath, t.FileExtName, 
+             t.Description, t.CreatedTime, t.AuditOpinion, t.StatePKID)
 				.from(t)
 				.where(t.Creator == userid)
 
@@ -101,8 +103,8 @@ namespace Res.Controllers
 					CrosourceId = t.CrosourceId.GetValue(reader),
 					Title = t.Title.GetValue(reader),
 					Author = t.Author.GetValue(reader),
-					CoverPath = t.CoverPath.GetValue(reader),
-					FileExtName = t.FileExtName.GetValue(reader),
+					//CoverPath = t.CoverPath.GetValue(reader),
+					//FileExtName = t.FileExtName.GetValue(reader),
 					Description = des,
 					OccurTime = t.CreatedTime.GetValue(reader),
 					StatePKID = t.StatePKID.GetValue(reader),
@@ -119,7 +121,9 @@ namespace Res.Controllers
 			var t = APDBDef.CroResource;
 			var t1 = APDBDef.CroFavorite;
 			var userid = id;
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.CoverPath, t.FileExtName, t.Description, t1.OccurTime, t1.OccurId)
+			var query = APQuery.select(t.CrosourceId, t.Title, t.Author
+            //t.CoverPath, t.FileExtName, 
+            ,t.Description, t1.OccurTime, t1.OccurId)
 				.from(t, t1.JoinInner(t.CrosourceId == t1.ResourceId))
 				.where(t1.UserId == userid)
 				.order_by(t1.OccurTime.Desc)
@@ -139,8 +143,8 @@ namespace Res.Controllers
 					CrosourceId = t.CrosourceId.GetValue(reader),
 					Title = t.Title.GetValue(reader),
 					Author = t.Author.GetValue(reader),
-					CoverPath = t.CoverPath.GetValue(reader),
-					FileExtName = t.FileExtName.GetValue(reader),
+					//CoverPath = t.CoverPath.GetValue(reader),
+					//FileExtName = t.FileExtName.GetValue(reader),
 					Description = des,
 					OccurTime = t1.OccurTime.GetValue(reader),
 					OccurId = t1.OccurId.GetValue(reader),
@@ -156,7 +160,9 @@ namespace Res.Controllers
 			var t = APDBDef.CroResource;
 			var t1 = APDBDef.CroComment;
 			var userid = id;
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.CoverPath, t.FileExtName, t.Description, t1.OccurTime, t1.OccurId, t1.Content)
+			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, 
+            //t.CoverPath, t.FileExtName, 
+            t.Description, t1.OccurTime, t1.OccurId, t1.Content)
 				.from(t, t1.JoinInner(t.CrosourceId == t1.ResourceId))
 				.where(t1.UserId == userid)
 				.order_by(t1.OccurTime.Desc)
@@ -176,8 +182,8 @@ namespace Res.Controllers
 					CrosourceId = t.CrosourceId.GetValue(reader),
 					Title = t.Title.GetValue(reader),
 					Author = t.Author.GetValue(reader),
-					CoverPath = t.CoverPath.GetValue(reader),
-					FileExtName = t.FileExtName.GetValue(reader),
+					//CoverPath = t.CoverPath.GetValue(reader),
+					//FileExtName = t.FileExtName.GetValue(reader),
 					Description = des,
 					OccurTime = t1.OccurTime.GetValue(reader),
 					OccurId = t1.OccurId.GetValue(reader),
@@ -196,7 +202,9 @@ namespace Res.Controllers
 		{
 			var t = APDBDef.CroResource;
 			var userid = id;
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.CoverPath, t.FileExtName, t.Description, t.CreatedTime, t.StatePKID)
+			var query = APQuery.select(t.CrosourceId, t.Title, t.Author,
+           // t.CoverPath, t.FileExtName, 
+            t.Description, t.CreatedTime, t.StatePKID)
 				.from(t)
 				.where(t.Creator == userid)
 				.order_by(t.CreatedTime.Desc)
@@ -217,8 +225,8 @@ namespace Res.Controllers
 					CrosourceId = t.CrosourceId.GetValue(reader),
 					Title = t.Title.GetValue(reader),
 					Author = t.Author.GetValue(reader),
-					CoverPath = t.CoverPath.GetValue(reader),
-					FileExtName = t.FileExtName.GetValue(reader),
+					//CoverPath = t.CoverPath.GetValue(reader),
+					//FileExtName = t.FileExtName.GetValue(reader),
 					Description = des,
 					OccurTime = t.CreatedTime.GetValue(reader),
 					StatePKID = t.StatePKID.GetValue(reader)
@@ -236,7 +244,9 @@ namespace Res.Controllers
 			var t = APDBDef.CroResource;
 			var t1 = APDBDef.CroDownload;
 			var userid = id;
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.CoverPath, t.FileExtName, t.Description, t1.OccurTime, t1.OccurId)
+			var query = APQuery.select(t.CrosourceId, t.Title, t.Author,
+            //t.CoverPath, t.FileExtName,
+            t.Description, t1.OccurTime, t1.OccurId)
 				.from(t, t1.JoinInner(t.CrosourceId == t1.ResourceId))
 				.where(t1.UserId == userid)
 				.order_by(t1.OccurTime.Desc)
@@ -256,8 +266,8 @@ namespace Res.Controllers
 					CrosourceId = t.CrosourceId.GetValue(reader),
 					Title = t.Title.GetValue(reader),
 					Author = t.Author.GetValue(reader),
-					CoverPath = t.CoverPath.GetValue(reader),
-					FileExtName = t.FileExtName.GetValue(reader),
+					//CoverPath = t.CoverPath.GetValue(reader),
+					//FileExtName = t.FileExtName.GetValue(reader),
 					Description = des,
 					OccurTime = t1.OccurTime.GetValue(reader),
 					OccurId = t1.OccurId.GetValue(reader),
@@ -279,8 +289,9 @@ namespace Res.Controllers
 		{
 
 			var t = APDBDef.CroResource;
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.CoverPath,
-				t.AuthorCompany, t.CreatedTime, t.ViewCount, t.CommentCount, t.DownCount, t.FileExtName, t.Description)
+			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, //t.CoverPath,
+				t.AuthorCompany, t.CreatedTime, t.ViewCount, t.CommentCount, t.DownCount, //t.FileExtName, 
+            t.Description)
 				.from(t)
 				.where(t.StatePKID == CroResourceHelper.StateAllow)
 				.order_by(order, t.CrosourceId.Asc)
@@ -299,11 +310,11 @@ namespace Res.Controllers
 			{
 				if (FileExtName == ".pdf")
 				{
-					query.where_and(t.FileExtName == ".pdf");
+					//query.where_and(t.FileExtName == ".pdf");
 				}
 				else
 				{
-					query.where_and(t.FileExtName != ".pdf");
+					//query.where_and(t.FileExtName != ".pdf");
 				}
 
 			}
@@ -330,13 +341,13 @@ namespace Res.Controllers
 					CrosourceId = t.CrosourceId.GetValue(reader),
 					Title = t.Title.GetValue(reader),
 					Author = t.Author.GetValue(reader),
-					CoverPath = t.CoverPath.GetValue(reader),
+					//CoverPath = t.CoverPath.GetValue(reader),
 					AuthorCompany = t.AuthorCompany.GetValue(reader),
 					CreatedTime = t.CreatedTime.GetValue(reader),
 					ViewCount = t.ViewCount.GetValue(reader),
 					CommentCount = t.CommentCount.GetValue(reader),
 					DownCount = t.DownCount.GetValue(reader),
-					FileExtName = t.FileExtName.GetValue(reader),
+					//FileExtName = t.FileExtName.GetValue(reader),
 					Description = des,
 				};
 			}).ToList();
@@ -356,7 +367,7 @@ namespace Res.Controllers
 		public List<CroResourceRanking> CroHomeRelationList(long selfId, string[] keywords, int take, string FileExtName, APSqlWherePhrase moreWhere = null)
 		{
 			var t = APDBDef.CroResource;
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.CoverPath
+			var query = APQuery.select(t.CrosourceId, t.Title, t.Author //t.CoverPath
            // t.StarCount, t.StarTotal
             )
 				.from(t)
@@ -368,14 +379,14 @@ namespace Res.Controllers
 			if (moreWhere != null)
 				query.where_and(moreWhere);
 
-			if (FileExtName == ".pdf")
-			{
-				query.where_and(t.FileExtName == ".pdf");
-			}
-			else
-			{
-				query.where_and(t.FileExtName != ".pdf");
-			}
+			//if (FileExtName == ".pdf")
+			//{
+			//	query.where_and(t.FileExtName == ".pdf");
+			//}
+			//else
+			//{
+			//	query.where_and(t.FileExtName != ".pdf");
+			//}
 			List<APSqlWherePhrase> like = new List<APSqlWherePhrase>();
 			foreach (var key in keywords)
 			{
@@ -394,7 +405,7 @@ namespace Res.Controllers
 					CrosourceId = t.CrosourceId.GetValue(reader),
 					Title = t.Title.GetValue(reader),
 					Author = t.Author.GetValue(reader),
-					CoverPath = t.CoverPath.GetValue(reader),
+					//CoverPath = t.CoverPath.GetValue(reader),
 					StarCount =0, //t.StarCount.GetValue(reader),
 					StarTotal =0, //t.StarTotal.GetValue(reader),
 				};

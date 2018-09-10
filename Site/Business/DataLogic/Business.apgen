@@ -335,7 +335,7 @@
 
 
 
-      <table name="CroBulletin" comment="众筹公告">
+      <table name="CroBulletin" comment="活动公告">
         <columns>
           <add name="BulletinId" type="long" identityType="Provider" primaryKey="true" display="公告ID"/>
 
@@ -351,22 +351,16 @@
       </table>
 
 
-      <!-- 以下为众筹资源使用表  -->
-      <table name="CroResource" comment="微视频资源">
+      <!-- 以下为微课程资源使用表  -->
+      <table name="CroResource" comment="微课程资源">
         <columns>
           <add name="CrosourceId" type="long" identityType="Provider" primaryKey="true" display="资源ID"/>
-          <!--<add name="RType" type="string" dataLength="20" dbDefaultValue="''" display="资源类型"   />
-          <add name="RSource" type="string" dataLength="500" dbDefaultValue="''"  display="资源出处"  />-->
 
           <!-- Content -->
           <add name="Title" type="string" dataLength="255" required="true" display="标题"/>
           <add name="Author" type="string" dataLength="100" required="true" display="作者"/>
           <add name="Keywords" type="string" dataLength="255"  required="true"  display="关键字"/>
-          <add name="Description" type="string" dataLength="30000" display="资源简介"/>
-          <add name="CoverPath" type="string" dataLength="255" display="封面路径"/>
-          <add name="ResourcePath" type="string" dataLength="255" display="资源添加"/>
-          <add name="FileExtName" type="string" dataLength="200" display="资源文件扩展名"/>
-          <add name="FileSize" type="long" display="文件大小"/>
+          <add name="Description" type="string" dataLength="30000" display="微课信息简介"/>
 
           <add name="AuthorCompany" type="string" dataLength="255" required="true"  display="作者单位"/>
           <add name="AuthorAddress" type="string" dataLength="255" display="作者地址"/>
@@ -374,14 +368,12 @@
           <add name="AuthorPhone" type="string" dataLength="255" display="作者电话"/>
 
           <!-- Properties -->
-
           <add name="StagePKID" type="long" required="false" display="学段" comment="PickList - APEdu.net key is PLKey_ResourceStage"/>
           <add name="GradePKID" type="long" required="false" display="年级" comment="PickList - APEdu.net key is PLKey_ResourceGrade"/>
-          <add name="ImportSourcePKID" type="long" required="false" display="来源类型" comment="PickList - APEdu.net key is PLKey_ResourceImportSource"/>
-          <add name="MediumTypePKID" type="long" required="false" display="媒体类型" comment="PickList - APEdu.net key is PLKey_ResourceMedium"/>
           <add name="ResourceTypePKID" type="long" required="false" display="资源类型" comment="PickList - APEdu.net key is PLKey_ResourceType"/>
           <add name="SubjectPKID" type="long" required="false" display="学科" comment="PickList - APEdu.net key is PLKey_ResourceSubject"/>
-
+			 <add name="CourseTypePKID" type="long" required="true" display="微课类型" comment="PickList - APEdu.net key is PLKey_CourseType"/>
+			  
           <!-- Count -->
           <add name="DownCount" type="int" display="下载次数"/>
           <add name="FavoriteCount" type="int" display="收藏次数"/>
@@ -404,6 +396,59 @@
           <add name="LastModifiedTime" type="DateTime"/>
         </columns>
       </table>
+
+		 <!-- 以下为微课程表  -->
+		 <table name="MicroCourse">
+			 <columns>
+				 <add name="CourseId" type="long" identityType="Provider" primaryKey="true"/>
+				 <add name="ResourceId" type="long" display="微课程资源Id"  required="true" />
+				 <add name="VideoId" type="long" display="视频文件ID" required="true"/>
+				 <add name="CoverId" type="long" display="封面文件ID"/>
+				 <add name="DesignId" type="long" display="设计ID"/>
+				 <add name="SummaryId" type="long" display="反思ID"/>
+				 <add name="CharpterSortId" type="long"/>
+			 </columns>
+		 </table>
+
+		 <!-- 以下为微课程习题表  -->
+		 <table name="Exercises">
+			 <columns>
+				 <add name="ExerciseId" type="long" identityType="Provider" primaryKey="true"/>
+				 <add name="CourseId" type="long" required="true"/>
+				 <add name="Title" type="string" dataLength="1000" required="true"></add>
+				 <add name="Answer" type="string" dataLength="100" required="true" />
+			 </columns>
+		 </table>
+
+		 <!-- 以下为微课程习题明细表  -->
+		 <table name="ExercisesItem">
+			 <columns>
+				 <add name="ItemId" type="long" identityType="Provider" primaryKey="true"/>
+				 <add name="ExerciseId" type="long"  required="true" />
+				 <add name="Item" type="string" dataLength="1000" required="true" ></add>
+				 <add name="Code" type="string" dataLength="1000" required="true" />
+			 </columns>
+		 </table>
+
+		 <!-- 以下为文件表  -->
+		 <table name="Files">
+			 <columns>
+				 <add name="FileId" type="long" identityType="Provider" primaryKey="true" display="文件ID"/>
+				 <add name="FileName" type="string" dataLength="100" display="文件名称"   required="true"/>
+				 <add name="ExtName"  type="string" dataLength="10" display="后缀名称"  required="true"/>
+				 <add name="FilePath" type="string" dataLength="255" display="资源路径" required="true"/>
+				 <add name="FileSize" type="long" display="文件大小" required="true"/>
+				 <add name="FileTypePKID" type="long" display="文件类型" required="true"/>
+				 <add name="Md5" type="string" required="true"/>
+				 
+				 <!-- Object Mark -->
+				 <add name="Creator" type="long"/>
+				 <add name="CreatedTime" type="DateTime"/>
+				 <add name="LastModifier" type="long"/>
+				 <add name="LastModifiedTime" type="DateTime"/>
+			 </columns>
+		 </table>
+
 
 
       <table name="CroFavorite" comment="收藏">

@@ -5,7 +5,7 @@
 <p>管理菜单</p>
 <ul class="nav navmanager @act">
 	<li><a class="a_More" href="@Url.Action("More", "CroMy", new { id = id })" >通知公告</a></li>
-		<li`><a class="a_Index" href="@Url.Action("Index", "CroMy", new { id = id })" >个人信息</a></li`>
+		<li><a class="a_Index" href="@Url.Action("Index", "CroMy", new { id = id })" >个人信息</a></li>
 	@if (HttpContext.Current.Request.IsAuthenticated & ResSettings.SettingsInSession.UserId == Convert.ToInt64(id))
 	{ 
 		<li><a class="a_Upload" href="@Url.Action("Declare", "CroMy", new { id = id })">资源上传</a></li>

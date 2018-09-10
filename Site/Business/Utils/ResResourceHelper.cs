@@ -20,6 +20,7 @@ namespace Res.Business
 		public static PickListAPRptColumn ResourceType;
 		public static PickListAPRptColumn Subject;
 		public static PickListAPRptColumn State;
+      public static PickListAPRptColumn CourseType;
 
 		static ResResourceHelper()
 		{
@@ -34,7 +35,8 @@ namespace Res.Business
 			ResourceType = new PickListAPRptColumn(APDBDef.ResResource.ResourceTypePKID, ThisApp.PLKey_ResourceType);
 			Subject = new PickListAPRptColumn(APDBDef.ResResource.SubjectPKID, ThisApp.PLKey_ResourceSubject);
 			State = new PickListAPRptColumn(APDBDef.ResResource.StatePKID, ThisApp.PLKey_ResourceState);
-		}
+        // CourseType = new PickListAPRptColumn(APDBDef.ResResource.cour, ThisApp.PLKey_CourseType);
+      }
 
 
 		// 资源状态
