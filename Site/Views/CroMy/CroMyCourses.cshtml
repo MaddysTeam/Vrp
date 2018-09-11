@@ -1,0 +1,75 @@
+﻿
+@model MicroCourse
+
+
+@Html.HiddenFor(m => m.CoverId)
+@Html.HiddenFor(m => m.DesignId)
+@Html.HiddenFor(m => m.SummaryId)
+	<div class="courseArea" style="border:1px dashed #808080; padding-right:8%; margin-left:3%; padding-top:3%;">
+		<div class="form-group videoUploader">
+			<label class="control-label col-sm-3"> <span class="request">*</span>微课视频</label>
+
+			<div class="col-sm-9">
+				<div class="input-group">
+					@Html.HiddenFor(m => m.VideoId)
+					@Html.TextBoxFor(m => m.VideoPath, new { @class = "form-control resource-path", maxlength = "255", placeholder = "添加视频" })
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-default dropdown-toggle btn-upload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">选择 </button>
+					</div>
+				</div>
+				<div class="progress" style="display:none">
+					<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+						<span class="sr-only"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-3"><span class="request">*</span>视频封面</label>
+			<div class="col-sm-9">
+				<div id="showCover" title="点击选择封面" class="cover-bg">
+					<span>点击选择封面</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group wordUploader">
+			<label class="control-label col-sm-3"> <span class="request">*</span>教学设计</label>
+
+			<div class="col-sm-9">
+				<div class="input-group">
+					@Html.TextBoxFor(m => m.DesignPath, new { @class = "form-control", maxlength = "255", placeholder = "添加教学设计" })
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-default dropdown-toggle btn-upload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">选择 </button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group wordUploader">
+			<label class="control-label col-sm-3"> <span class="request"></span>教学反思</label>
+
+			<div class="col-sm-9">
+				<div class="input-group">
+					@Html.TextBoxFor(m => m.SummaryPath, new { @class = "form-control", maxlength = "255", placeholder = "添加教学设计" })
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-default dropdown-toggle btn-upload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >选择 </button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-3"> <span class="request"></span>练习/测试题</label>
+
+			<div class="col-sm-9">
+				<div class="input-group">
+					<button class="btn btn-info btn-exes">新增习题</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+

@@ -876,6 +876,7 @@
     <Content Include="Views\Shared\_ZSLayout.cshtml" />
     <Content Include="Views\ZSResource\Detail.cshtml" />
     <Content Include="Views\ZSResource\_Hot.cshtml" />
+    <Content Include="Views\CroMy\CroMyCourses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
