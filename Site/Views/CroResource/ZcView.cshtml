@@ -12,7 +12,8 @@
 
 			<div class="show">
 				<h1>
-					<div class="@Model.FileType"></div>@Model.Title
+					@*<div class="@Model.FileType"></div>*@
+					@Model.Title
 				</h1>
 
 				<div id="video" class="carousel slide">
@@ -55,7 +56,7 @@
 				<div class="click">
 					<div class="show_btn fl">
 
-						<a href="@Model.ResourcePath" id="download">
+						<a href="#" id="download">
 							<button class="d_btn">
 
 								下载此文件
@@ -76,7 +77,7 @@
 
 					<div class="div ">
 						<p><span>关 键 字： @Model.Keywords </span></p>
-						<p><span>资源类型： @Model.ResourceType</span><span>媒体格式： @Model.MediumType</span></p>
+						<p><span>资源类型： @Model.ResourceType</span><span>媒体格式： </span></p>
 						<p><span>上传日期： @Model.CreatedTime.ToShortDateString()</span><span>浏览次数： @Model.ViewCount 次</span></p>
 						<p><span>收藏次数： @Model.FavoriteCount</span><span>下载次数： @Model.DownCount 次</span></p>
 
@@ -132,10 +133,10 @@
 
 	</div>
 	<div class="col-md-3">
-		@Html.Partial("../CroResource/_relation", new { FileExtName = @Model.FileExtName, mediumtypepkid = @Model.MediumTypePKID })
+		@*@Html.Partial("../CroResource/_relation", new { FileExtName = @Model.FileExtName, mediumtypepkid = @Model.MediumTypePKID })
 		@Html.Partial("../CroResource/_viewcount", new { mediumtypepkid = @Model.MediumTypePKID, FileExtName = @Model.FileExtName })
 
-		@Html.Partial("../CroResource/_newcomment", new { mediumtypepkid = @Model.MediumTypePKID, FileExtName = @Model.FileExtName })
+		@Html.Partial("../CroResource/_newcomment", new { mediumtypepkid = @Model.MediumTypePKID, FileExtName = @Model.FileExtName })*@
 
 
 	</div>

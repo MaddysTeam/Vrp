@@ -2,3 +2,6 @@ Site/*.config
 Res/*.config
 Site/Attachment/
 Res/Attachment/
+*.config
+*.temp
+*.suo

@@ -259,7 +259,6 @@ namespace Res.Business
 
       public List<MicroCourse> Courses { get; set; }
 
-
       #endregion
 
 
@@ -271,10 +270,13 @@ namespace Res.Business
 
    #region [MicroCourse]
 
-   public partial class MicroCourse
+   public partial class MicroCourse : MicroCourseBase
    {
-
+      public string VideoName { get; set; }
       public string VideoPath { get; set; }
+      public string CoverName { get; set; }
+      public string DesignName { get; set; }
+      public string SummaryName { get; set; }
       public string CoverPath { get; set; }
       public string DesignPath { get; set; }
       public string SummaryPath { get; set; }

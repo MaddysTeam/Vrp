@@ -126,9 +126,18 @@
 
 							<div class="form-group">
 								@Html.LabelFor(m => m.CourseTypePKID, new { @class = "control-label col-sm-3" })
-								<div class="col-sm-9">
-									@Html.DropDownListFor(m => m.CourseTypePKID, CroResourceHelper.CourseType.GetSelectList(), new { @class = "form-control" })
-								</div>
+									@if (Model.CrosourceId > 0)
+									{
+										<div class="col-sm-9">
+											<input type="radio" readonly checked="checked" /> 微课程
+										</div>
+									}
+									else
+									{
+									  <div class="col-sm-9">
+										  		微课 @Html.RadioButton("courseType", 0, true) &nbsp;&nbsp;&nbsp;微课程 @Html.RadioButton("courseType", 1, false)
+									  </div>
+									}
 							</div>
 
 
@@ -213,7 +222,7 @@
 				//	alert("资源类别必须选择");
 				//	return false;
 				//}
-				$.post('@Url.Action("Upload", "CroMy")',{id:0,resid:0,model:o},function(){
+				$.post('@Url.Action("Upload", "CroMy")',{id:'@id',resid:'@Model.CrosourceId',model:o},function(){
 
 				});
 
@@ -249,7 +258,6 @@
 					SummaryId:$this.find('.summaryUploader .fileId').val(),
 					CharpterSortId:i+1,
 				};
-				console.log(course);
 				o.Courses.push(course);
 			});
 
@@ -344,6 +352,19 @@
 				trimValue: true
 			});
 
+			$('.addCourse').hide();
+			$("input[name='courseType']").on("click",function(){
+				var val=$(this).val();
+				if(val==1){
+					$('.addCourse').show();
+				}
+				else{
+					$('.addCourse').hide();
+					$('.courseArea').not(':first').remove();
+					$('.uploadForms').children().not('.uploaderForm0').remove();
+				}
+			});
+
 
 			$('#AddCourse').click(function(){
 				$('.courseArea:last').after(createCourse());
@@ -359,7 +380,7 @@
 			bindResourceUploader($('.designUploader'),'design','.doc,.docx');
 			bindResourceUploader($('.summaryUploader'),'summary','.doc,.docx');
 			bindExersies();
-			
+
 		});
 
 
@@ -440,7 +461,7 @@
 				var dropzoneName='dropzone_'+type+i;
 				if($('.'+dropzoneName).size()<=0){
 					var $uploader=$(this);
-					$('.uploadForms').append($('<form action="@Url.Action("UploadResource", "Attachment")" class="'+dropzoneName+'"></form>'));
+					$('.uploadForms').append($('<form action="@Url.Action("UploadResource", "Attachment")" class="'+dropzoneName+' uploaderForm'+i+'"></form>'));
 					$('.'+dropzoneName).dropzone({
 						addRemoveLinks: !0,
 						maxFilesize: 300,
@@ -465,7 +486,7 @@
 									$uploader.find('.fileId').val(data.fileId);
 									//如果是封面则显示
 									if(type =='cover'){
-										$(uploader).find('.coverImageArea').html('').append('<img src="'+data.path+'" style="width:100%; height:100%" class="btn-upload">');
+										$uploader.find('.coverImageArea').html('').append('<img src="'+data.path+'" style="width:100%; height:100%" class="btn-upload">');
 									}
 								})
 								.on("error", function (file, message) {
@@ -490,20 +511,20 @@
 				$this.parent().after(stem);
 				$(stem).append(answer)
 				   .find('.btn-opt').click(function(){
-						var option=createExercisesOption();
-						$(answer).find('select').append('<option>bbbb</option>');
-						$(answer).before(option);
-						$(stem).find('.btn-rem').off('click').on('click',function(){
-							$(this).parent().parent().remove();
-							return false;
-						});
+				   	var option=createExercisesOption();
+				   	$(answer).find('select').append('<option>bbbb</option>');
+				   	$(answer).before(option);
+				   	$(stem).find('.btn-rem').off('click').on('click',function(){
+				   		$(this).parent().parent().remove();
+				   		return false;
+				   	});
 
-					return false;
-				}).find('.btn-del').on('click',function(){
-					$(this).parents('.exercises').remove();
+				   	return false;
+				   }).find('.btn-del').on('click',function(){
+				   	$(this).parents('.exercises').remove();
 
-					return false;
-				});
+				   	return false;
+				   });
 
 				return false;
 			});
