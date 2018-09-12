@@ -5,14 +5,17 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 
 namespace Res.Controllers
 {
 
-   public class AttachmentController : Controller
+   public class AttachmentController : BaseController
    {
+
+      static APDBDef.FilesTableDef f = APDBDef.Files;
 
       //
       //	文件 - 上传封面图片
@@ -65,33 +68,39 @@ namespace Res.Controllers
          if (Request.Files.Count != 1)
             return Content("Error");
 
-         string dirForSaving = GetDirForSaving(Guid.NewGuid());
-         string mappedDir = Server.MapPath("~" + dirForSaving);
-         if (!Directory.Exists(mappedDir))
-         {
-            Directory.CreateDirectory(mappedDir);
-         }
-
          HttpPostedFileBase hpf = Request.Files[0];
-         hpf.SaveAs(Path.Combine(mappedDir, hpf.FileName));
+         var md5 = FileHelper.ConvertToMD5(hpf.InputStream);
+         var file = Files.ConditionQuery(f.Md5 == md5, null).FirstOrDefault();
+         if (file == null)
+         {
+            var dirForSaving = GetDirForSaving(Guid.NewGuid());
+            var mappedDir = Server.MapPath("~" + dirForSaving);
+            var url = dirForSaving + "/" + hpf.FileName;
+            var ext = Path.GetExtension(hpf.FileName);
 
-         string url = dirForSaving + "/" + hpf.FileName;
-         string ext = Path.GetExtension(hpf.FileName);
-         if (ext != null && ext.StartsWith("."))
-            ext = ext.Substring(1);
+            if (!Directory.Exists(mappedDir))
+            {
+               Directory.CreateDirectory(mappedDir);
+            }
 
-         // add file data
-         // new APDBDef().FilesDal.Insert(new Files);
+            hpf.SaveAs(Path.Combine(mappedDir, hpf.FileName));
 
+            if (ext != null && ext.StartsWith("."))
+               ext = ext.Substring(1);
+
+            file = new Files { Md5 = md5, FileName = hpf.FileName, FilePath = url, ExtName = ext, FileSize = hpf.ContentLength }; //TODO
+            db.FilesDal.Insert(file);
+            file.FileId = Files.ConditionQuery(f.Md5 == md5, null).FirstOrDefault().FileId;
+         }
          if (Request.IsAjaxRequest())
          {
             return Json(new
             {
-               fileId = 0,
-               name = hpf.FileName,
-               path = url,
-               size = hpf.ContentLength,
-               ext = Path.GetExtension(hpf.FileName),
+               fileId = file.FileId,
+               name = file.FileName,
+               path = file.FilePath,
+               size = file.FileSize,
+               ext = Path.GetExtension(file.ExtName),
             });
          }
          else
@@ -149,7 +158,6 @@ namespace Res.Controllers
          HttpPostedFileBase hpf = Request.Files[0];
          string filename = CutPhoto(hpf, 184, 184, mappedDir);
          //hpf.SaveAs(Path.Combine(mappedDir, hpf.FileName));
-
 
          string url = dirForSaving + "/" + filename;
 

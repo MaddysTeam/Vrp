@@ -368,10 +368,10 @@
           <add name="AuthorPhone" type="string" dataLength="255" display="作者电话"/>
 
           <!-- Properties -->
-          <add name="StagePKID" type="long" required="false" display="学段" comment="PickList - APEdu.net key is PLKey_ResourceStage"/>
-          <add name="GradePKID" type="long" required="false" display="年级" comment="PickList - APEdu.net key is PLKey_ResourceGrade"/>
+          <add name="StagePKID" type="long" required="true" display="学段" comment="PickList - APEdu.net key is PLKey_ResourceStage"/>
+          <add name="GradePKID" type="long" required="true" display="年级" comment="PickList - APEdu.net key is PLKey_ResourceGrade"/>
           <add name="ResourceTypePKID" type="long" required="false" display="资源类型" comment="PickList - APEdu.net key is PLKey_ResourceType"/>
-          <add name="SubjectPKID" type="long" required="false" display="学科" comment="PickList - APEdu.net key is PLKey_ResourceSubject"/>
+          <add name="SubjectPKID" type="long" required="true" display="学科" comment="PickList - APEdu.net key is PLKey_ResourceSubject"/>
 			 <add name="CourseTypePKID" type="long" required="true" display="微课类型" comment="PickList - APEdu.net key is PLKey_CourseType"/>
 			  
           <!-- Count -->
@@ -394,6 +394,8 @@
           <add name="CreatedTime" type="DateTime"/>
           <add name="LastModifier" type="long"/>
           <add name="LastModifiedTime" type="DateTime"/>
+
+			 <add name="IdentityId" type="Guid"  required="true"/>
         </columns>
       </table>
 
@@ -438,14 +440,7 @@
 				 <add name="ExtName"  type="string" dataLength="10" display="后缀名称"  required="true"/>
 				 <add name="FilePath" type="string" dataLength="255" display="资源路径" required="true"/>
 				 <add name="FileSize" type="long" display="文件大小" required="true"/>
-				 <add name="FileTypePKID" type="long" display="文件类型" required="true"/>
-				 <add name="Md5" type="string" required="true"/>
-				 
-				 <!-- Object Mark -->
-				 <add name="Creator" type="long"/>
-				 <add name="CreatedTime" type="DateTime"/>
-				 <add name="LastModifier" type="long"/>
-				 <add name="LastModifiedTime" type="DateTime"/>
+				 <add name="Md5" type="string" dataLength="50" required="true"/>
 			 </columns>
 		 </table>
 

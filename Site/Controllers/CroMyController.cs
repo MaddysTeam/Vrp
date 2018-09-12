@@ -81,9 +81,6 @@ namespace Res.Controllers
       }
 
 
-
-
-
       //
       // 修改个人信息
       // GET:		/My/Edit
@@ -106,11 +103,6 @@ namespace Res.Controllers
       }
 
 
-
-
-
-
-
       //众筹平台 公告
       public ActionResult More(long id, string type, int page = 1)
       {
@@ -127,16 +119,6 @@ namespace Res.Controllers
          return View(user);
 
       }
-
-
-
-
-
-
-
-
-
-
 
 
       //上传资源
@@ -158,6 +140,12 @@ namespace Res.Controllers
       }
 
 
+      static APDBDef.CroResourceTableDef cr = APDBDef.CroResource;
+      static APDBDef.MicroCourseTableDef mc = APDBDef.MicroCourse;
+      static APDBDef.FilesTableDef vf = APDBDef.Files;
+      static APDBDef.FilesTableDef cf = APDBDef.Files;
+      static APDBDef.FilesTableDef df = APDBDef.Files;
+      static APDBDef.FilesTableDef sf = APDBDef.Files;
 
       public ActionResult Upload(long id, long? resid)
       {
@@ -166,26 +154,90 @@ namespace Res.Controllers
          ResUser user = new ResUser();
          user.UserId = id;
          CroResource model = new CroResource { Courses = new List<MicroCourse> { new MicroCourse() } };
+
          if (resid == null)
          {
             return View(model);
          }
          else
          {
-           var existModel = APBplDef.CroResourceBpl.PrimaryGet(resid.Value);
-            existModel.Courses = existModel.Courses?? model.Courses;
-            // model.GhostFileName = model.ResourcePath;// model.IsLink ? model.ResourcePath : Path.GetFileName(model.ResourcePath);
 
-            return View(existModel);
+            var query = APQuery.select(cr.Asterisk,mc.Asterisk,
+                                     vf.FileId.As("VideoId"), vf.FileName.As("VideoName"),
+                                     cf.FileId.As("CoverId"), cf.FileName.As("CoverName"),
+                                     df.FileId.As("DesignId"), df.FileName.As("DesignName"),
+                                     sf.FileId.As("SummaryId"), sf.FileName.As("SummaryName")
+                                     )
+                               .from(cr,
+                                     mc.JoinLeft(cr.CrosourceId == mc.ResourceId),
+                                     vf.JoinLeft(vf.FileId ==mc.VideoId),
+                                     cf.JoinLeft(cf.FileId == mc.VideoId),
+                                     df.JoinLeft(df.FileId == mc.VideoId),
+                                     sf.JoinLeft(sf.FileId == mc.VideoId)
+                                     )
+                                .where(cr.CrosourceId == resid);
+
+            var result = query.query(db, r => {
+               var courses = new List<MicroCourse>();
+               return new CroResource();
+            });
+            //var existModel = APBplDef.CroResourceBpl.PrimaryGet(resid.Value);
+            //existModel.Courses = existModel.Courses ?? model.Courses;
+            //existModel.Courses = 
+            //      APQuery.select()
+            //APBplDef.MicroCourseBpl.ConditionQuery(mc.CourseId == existModel.CrosourceId,mc.CharpterSortId.Asc);
+
+            return View();
          }
       }
-
 
 
       [HttpPost]
       [ValidateInput(false)]
       public ActionResult Upload(long id, long? resid, CroResource model, FormCollection fc)
       {
+
+         CroResource current = null;
+         if (resid != null && resid.Value > 0)
+            current = APBplDef.CroResourceBpl.PrimaryGet(resid.Value);
+
+         db.BeginTrans();
+
+         try
+         {
+            if (current != null)
+            {
+               APBplDef.MicroCourseBpl.ConditionDelete(mc.ResourceId == resid);
+               APBplDef.CroResourceBpl.PrimaryDelete(resid.Value);
+
+               model.LastModifier = ResSettings.SettingsInSession.UserId;
+               model.LastModifiedTime = DateTime.Now;
+            }
+            else
+            {
+               model.CreatedTime = model.LastModifiedTime = DateTime.Now;
+               model.Creator = model.LastModifier = ResSettings.SettingsInSession.UserId;
+            }
+
+            model.StatePKID = model.StatePKID == CroResourceHelper.StateDeny ? CroResourceHelper.StateWait : model.StatePKID;
+            model.IdentityId = Guid.NewGuid();
+            APBplDef.CroResourceBpl.Insert(model);
+
+            var newModel = APBplDef.CroResourceBpl.ConditionQuery(cr.IdentityId == model.IdentityId, null).First();
+            foreach (var item in model.Courses)
+            {
+               item.ResourceId = newModel.CrosourceId;
+               APBplDef.MicroCourseBpl.Insert(item);
+            }
+         }
+         catch (Exception e)
+         {
+            db.Rollback();
+         }
+
+         db.Commit();
+
+
          //if (model.IsLink)
          //{
          //	model.FileSize = 0;
@@ -193,73 +245,67 @@ namespace Res.Controllers
          //	model.FileExtName = GetSafeExt(model.ResourcePath);
          //}
          //model.MediumTypePKID = CroResourceHelper.GetMediumType(model.FileExtName);
-         ResUser user = new ResUser();
-         user.UserId = id;
-         if (resid == null)
-         {
-            model.CreatedTime = model.LastModifiedTime = DateTime.Now;
-            model.Creator = model.LastModifier = ResSettings.SettingsInSession.UserId;
-            //	model.ImportSourcePKID = CroResourceHelper.SourceUpload;
+         //ResUser user = new ResUser();
+         //user.UserId = id;
+         //if (resid == null)
+         //{
+         //   //	model.ImportSourcePKID = CroResourceHelper.SourceUpload;
 
-            model.StatePKID = CroResourceHelper.StateWait;  // 是否提供管理员自动审核功能
+         //   model.StatePKID = CroResourceHelper.StateWait;  // 是否提供管理员自动审核功能
 
 
-            APBplDef.CroResourceBpl.Insert(model);
-         }
-         else
+         //   APBplDef.CroResourceBpl.Insert(model);
+         //}
+         //else
 
-         {
-            var CroResourceModel = APBplDef.CroResourceBpl.PrimaryGet(resid.Value);
+         //{
+         //   var CroResourceModel = APBplDef.CroResourceBpl.PrimaryGet(resid.Value);
 
-            if (CroResourceModel.StatePKID == CroResourceHelper.StateDeny)
-            {
-               model.StatePKID = CroResourceHelper.StateWait;
-            }
-            else
-            {
-               model.StatePKID = CroResourceModel.StatePKID;
-            }
+         //   if (CroResourceModel.StatePKID == CroResourceHelper.StateDeny)
+         //   {
+         //      model.StatePKID = CroResourceHelper.StateWait;
+         //   }
+         //   else
+         //   {
+         //      model.StatePKID = CroResourceModel.StatePKID;
+         //   }
 
-            APBplDef.CroResourceBpl.UpdatePartial(resid.Value, new
-            {
-               model.Title,
-               model.Author,
-               model.Keywords,
-               model.Description,
-               //model.CoverPath,
-               //model.ResourcePath,
-               //model.FileExtName,
-               //model.FileSize,
-               //model.IsLink,
-               model.AuthorCompany,
-               model.AuthorAddress,
-               model.AuthorEmail,
-               model.AuthorPhone,
+         //   APBplDef.CroResourceBpl.UpdatePartial(resid.Value, new
+         //   {
+         //      model.Title,
+         //      model.Author,
+         //      model.Keywords,
+         //      model.Description,
+         //      //model.CoverPath,
+         //      //model.ResourcePath,
+         //      //model.FileExtName,
+         //      //model.FileSize,
+         //      //model.IsLink,
+         //      model.AuthorCompany,
+         //      model.AuthorAddress,
+         //      model.AuthorEmail,
+         //      model.AuthorPhone,
 
-               //model.DeformityPKID,
-               //model.DomainPKID,
-               //model.LearnFromPKID,
-               //model.SchoolTypePKID,
-               model.StagePKID,
-               model.GradePKID,
-               //model.MediumTypePKID,
-               model.ResourceTypePKID,
-               model.SubjectPKID,
-               //model.RType,
-               //model.RSource,
-               LastModifier = ResSettings.SettingsInSession.UserId,
-               LastModifiedTime = DateTime.Now,
-               model.StatePKID
+         //      //model.DeformityPKID,
+         //      //model.DomainPKID,
+         //      //model.LearnFromPKID,
+         //      //model.SchoolTypePKID,
+         //      model.StagePKID,
+         //      model.GradePKID,
+         //      //model.MediumTypePKID,
+         //      model.ResourceTypePKID,
+         //      model.SubjectPKID,
+         //      //model.RType,
+         //      //model.RSource,
+         //      LastModifier = ResSettings.SettingsInSession.UserId,
+         //      LastModifiedTime = DateTime.Now,
+         //      model.StatePKID
 
-            });
-         }
+         //   });
+         //}
 
          return RedirectToAction("CroMyResource", new { id = id });
       }
-
-
-
-
 
 
       private string GetSafeExt(string path)
@@ -272,10 +318,6 @@ namespace Res.Controllers
             ext = "";
          return ext;
       }
-
-
-
-
 
 
       //我的资源

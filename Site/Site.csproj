@@ -188,6 +188,7 @@
     <Compile Include="Business\Project\ThisApp.Config.cs" />
     <Compile Include="Business\Project\ThisApp.PickList.cs" />
     <Compile Include="Business\Utils\CroResourceHelper.cs" />
+    <Compile Include="Business\Utils\FileHelper.cs" />
     <Compile Include="Business\Utils\GridOrder.cs" />
     <Compile Include="Business\Utils\IDCardCheck.cs" />
     <Compile Include="Business\Utils\ResApproveHelper.cs" />
@@ -741,9 +742,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="Report\Def\APRptReportDef.xml" />
     <Content Include="Report\Def\APRptViewDef.xml" />
-    <Content Include="Business\DataLogic\Business.apgen">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="assets\plugins\bootstrap-3.3.2\css\bootstrap-theme.css.map" />
     <Content Include="assets\plugins\bootstrap-3.3.2\css\bootstrap.css.map" />
     <Content Include="assets\plugins\bootstrap-3.3.2\fonts\glyphicons-halflings-regular.eot" />
@@ -859,6 +857,7 @@
     <Content Include="Views\CroResource\More.cshtml" />
     <Content Include="Views\CroResource\NewsView.cshtml" />
     <Content Include="Views\CroMy\NewsView.cshtml" />
+    <Content Include="Business\DataLogic\Business.apgen" />
     <None Include="Properties\PublishProfiles\MapSite.pubxml" />
     <Content Include="Views\My\Download.cshtml" />
     <Content Include="Views\ReUser\More.cshtml" />

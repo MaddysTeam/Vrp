@@ -24,11 +24,7 @@
 					@using (Html.BeginForm("Upload", "CroMy", Model == null ? null : new { id = id, resid = Model.CrosourceId }, FormMethod.Post, new { id = "form", role = "form", @class = "form-horizontal" }))
 					{
 						@Html.HiddenFor(m => m.CrosourceId)
-						@*@Html.HiddenFor(m => m.CoverPath)
-							@Html.HiddenFor(m => m.ResourcePath)
-							@Html.HiddenFor(m => m.FileExtName)
-							@Html.HiddenFor(m => m.FileSize)*@
-						@*@Html.HiddenFor(m => m.IsLink)*@
+
 						<fieldset class="col-sm-11  fieldContainer">
 
 							<div class="form-group">
@@ -136,7 +132,7 @@
 							</div>
 
 
-							@foreach (var item in Model.Courses ?? new List<MicroCourse>())
+							@foreach (var item in Model.Courses)
 							{
 								@Html.Partial("CroMyCourses", item)
 							}
@@ -195,6 +191,9 @@
 			});
 
 			$("#submit").on("click", function () {
+				var o = createSubmitObject();
+
+
 				//var istj = $("input[type='radio']:checked").val();
 				//var source=$(".source").val();
 				//if(istj==2){
@@ -214,50 +213,6 @@
 				//	alert("资源类别必须选择");
 				//	return false;
 				//}
-
-				var o={};
-				o.CrosourceId=0;
-				o.Title='见到你真的好';
-				o.Author='';
-				o.Keywords='';
-				o.AuthorCompany='';
-				o.AuthorAddress='';
-				o.AuthorEmail='';
-				o.AuthorPhone='';
-				o.StagePKID=0;
-				o.GradePKID=0;
-				o.SubjectPKID=0;
-				o.CourseTypePKID=0;
-				o.Courses=
-					[
-					{
-						CourseId:0,
-						ResourceId:0,
-						VideoId:0,
-						CoverId:0,
-						DesignId:0,
-						SummaryId:0,
-						CharpterSortId:0,
-						Exercises:[
-							{
-								ExerciseId:0,
-								CourseId:0,
-								Title:'这是一道题目',
-								Answer:'A',
-								Items:[
-									{
-										ItemId:0,
-										ExerciseId:0,
-										Item:'这是一个选项',
-										Code:'A'
-									}
-								]
-							}
-						]
-					}
-				];
-
-
 				$.post('@Url.Action("Upload", "CroMy")',{id:0,resid:0,model:o},function(){
 
 				});
@@ -266,6 +221,68 @@
 			});
 
 		})
+
+		function createSubmitObject(){
+			var o={};
+			o.CrosourceId=$('#CrosourceId').val();
+			o.Title=$('#Title').val();
+			o.Description=$('#Description').val();
+			o.Author=$('#Description').val();
+			o.Keywords=$('#Keywords').val();
+			o.AuthorCompany=$('#AuthorCompany').val();
+			o.AuthorAddress=$('#AuthorAddress').val();
+			o.AuthorEmail=$('#AuthorEmail').val();
+			o.AuthorPhone=$('#AuthorPhone').val();
+			o.StagePKID=$('#StagePKID').val();
+			o.GradePKID=$('#GradePKID').val();
+			o.SubjectPKID=$('#SubjectPKID').val();
+			o.CourseTypePKID=$('#CourseTypePKID').val();
+			o.Courses=[];
+
+			$('.courseArea').each(function(i){
+				var $this=$(this);
+				var course={
+					ResourceId:o.CrosourceId,
+					VideoId:$this.find('.courseUploader .fileId').val(),
+					CoverId:$this.find('.coverUploader .fileId').val(),
+					DesignId:$this.find('.designUploader .fileId').val(),
+					SummaryId:$this.find('.summaryUploader .fileId').val(),
+					CharpterSortId:i+1,
+				};
+				console.log(course);
+				o.Courses.push(course);
+			});
+
+			return o;
+			//o.Courses=
+			//	[
+			//	{
+			//		CourseId:0,
+			//		ResourceId:0,
+			//		VideoId:0,
+			//		CoverId:0,
+			//		DesignId:0,
+			//		SummaryId:0,
+			//		CharpterSortId:0,
+			//		Exercises:[
+			//			{
+			//				ExerciseId:0,
+			//				CourseId:0,
+			//				Title:'这是一道题目',
+			//				Answer:'A',
+			//				Items:[
+			//					{
+			//						ItemId:0,
+			//						ExerciseId:0,
+			//						Item:'这是一个选项',
+			//						Code:'A'
+			//					}
+			//				]
+			//			}
+			//		]
+			//	}
+			//	];
+		}
 	</script>
 
 	<script type="text/javascript">
@@ -330,46 +347,26 @@
 
 			$('#AddCourse').click(function(){
 				$('.courseArea:last').after(createCourse());
-				bindResourceUploader($('.videoUploader'),'video','.mp4,.flv,.txt');
-				bindResourceUploader($('.wordUploader'),'word','.doc,.docx');
+				bindResourceUploader($('.courseUploader'),'course','.mp4,.flv,.txt');
+				bindResourceUploader($('.coverUploader'),'cover','image/*');
+				bindResourceUploader($('.designUploader'),'design','.doc,.docx');
+				bindResourceUploader($('.summaryUploader'),'summary','.doc,.docx');
+				bindExersies();
 			});
 
-			bindResourceUploader($('.videoUploader'),'video','.mp4,.flv,.txt');
-			bindResourceUploader($('.wordUploader'),'word','.doc,.docx');
-
-			$('.btn-exes').click(function(){
-				var stem=createExercisesStem();
-				var answer=createExercisesAnswer();
-				var $this=$(this);
-				$this.parent().after(stem);
-				$(stem).append(answer);
-				$(stem).find('.btn-opt').click(function(){
-					var option=createExercisesOption();
-					$(answer).find('select').append('<option>bbbb</option>');
-					$(answer).before(option);
-					$(stem).find('.btn-rem').off('click').on('click',function(){
-						$(this).parent().parent().remove();
-						return false;
-					});
-
-					return false;
-				});
-				$(stem).find('.btn-del').on('click',function(){
-					$(this).parents('.exercises').remove();
-
-					return false;
-				});
-
-				return false;
-			});
-
+			bindResourceUploader($('.courseUploader'),'course','.mp4,.flv,.txt');
+			bindResourceUploader($('.coverUploader'),'cover','image/*');
+			bindResourceUploader($('.designUploader'),'design','.doc,.docx');
+			bindResourceUploader($('.summaryUploader'),'summary','.doc,.docx');
+			bindExersies();
+			
 		});
 
 
-		function createUploder(){
-			return $('<div class="form-group videoUploader"><label class="control-label col-sm-3"> <span class="request">*</span>教学反思</label>'+
+		function createUploder(name,title){
+			return $('<div class="form-group '+name+'"><label class="control-label col-sm-3"> <span class="request">*</span>'+title+'</label>'+
 				            '<div class="input-group">'+
-											'<input type="text" class="form-control resource-path"  placeholder = "添加教学设计"/>'+
+											'<input type="text" class="form-control resource-path"  placeholder = "添加'+title+'"/>'+
 											'<div class="input-group-btn">'+
 												'<button type="button" class="btn btn-default dropdown-toggle btn-upload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >选择 </button>'+
 												'</div>'+
@@ -379,13 +376,14 @@
 												'<span class="sr-only"></span>' +
 											'</div>'+
 										'</div>'+
-									'</div></div>');
+										'<div>' +
+									'</div><input type="hidden" class="fileId"></div>');
 		}
 
 		function creatCover(){
-			return $('<div class="form-group"><label class="control-label col-sm-3"><span class="request">*</span>视频封面</label>'+
-									  '<div class="col-sm-9">'+
-										  '<div id="showCover" title="点击选择封面" class="cover-bg">'+
+			return $('<div class="form-group coverUploader"><label class="control-label col-sm-3"><span class="request">*</span>视频封面</label>'+
+									  '<div class="col-sm-9 coverImageArea">'+
+										  '<div title="点击选择封面" class="cover-bg btn-upload">'+
 											  '<span>点击选择封面</span>' +
 										  '</div>'+
 									  '</div></div>')
@@ -395,21 +393,18 @@
 			return $('<div class="form-group"><label class="control-label col-sm-3"> <span class="request"></span>练习/测试题</label>'+
 									  '<div class="col-sm-9">'+
 										  '<div class="input-group">'+
-											  '<button class="btn btn-info">新增习题</button>'+
+											  '<button class="btn btn-info btn-exes">新增习题</button>'+
 										  '</div>'+
 									  '</div></div>')
 		}
 
 		function createCourse(){
 			var course=$('<div class="courseArea" style="border:1px dashed #808080; padding-right:8%; margin-left:3%; padding-top:3%;">')
-			course.append(createUploder());
+			course.append(createUploder('courseUploader','微课视频'));
 			course.append(creatCover());
-			course.append(createUploder());
-			course.append(createUploder());
+			course.append(createUploder('designUploader','教学设计'));
+			course.append(createUploder('summaryUploader','教学反思'));
 			course.append(createExcieses());
-			course.append(createUploder());
-			course.append(createUploder());
-			course.append(createUploder());
 
 			return course;
 		}
@@ -428,14 +423,6 @@
 			return '<div class="form-group">' +
 						'<div class="col-sm-3">A、：</div>' +
 						'<div class="col-sm-4"><input class="form-control" /></div>' +
-						'<div class="col-sm-5"><button class="btn btn-sm btn-info btn-rem">删除</button> </div>' +
-					'</div>';
-		}
-
-		function createExercisesAnswer(){
-			return '<div class="form-group">' +
-						'<div class="col-sm-3">答案：</div>' +
-						'<div class="col-sm-4"><select class="form-control"></div>' +
 						'<div class="col-sm-5"><button class="btn btn-sm btn-info btn-rem">删除</button> </div>' +
 					'</div>';
 		}
@@ -475,13 +462,11 @@
 								})
 								.on("success", function (file, data) {
 									$uploader.find('.resource-path').val(data.name);
-									//if(whenSuccess)
-									//	alert();
-									//	whenSuccess(file,data);
-									//$("#ResourcePath").val(data.path);
-									//$("#FileExtName").val(data.ext);
-									//$("#FileSize").val(data.size);
-									//$("#GhostFileName").val(data.name);
+									$uploader.find('.fileId').val(data.fileId);
+									//如果是封面则显示
+									if(type =='cover'){
+										$(uploader).find('.coverImageArea').html('').append('<img src="'+data.path+'" style="width:100%; height:100%" class="btn-upload">');
+									}
 								})
 								.on("error", function (file, message) {
 									alert(message)
@@ -497,23 +482,32 @@
 			});
 		}
 
-		@*function bindCoverUploader(){
-			bindUploader('showCover','dropzone_cover','@Url.Action("UploadCover", "Attachment")',{
-				addRemoveLinks: !0,
-				maxFiles: 100,
-				//acceptedFiles: "image/*",
-				dictResponseError: "File Upload Error.",
-				init: function () {
-					//this.on("success", function (file, data) {
-					//	$("#CoverPath").val(data.path);
-					//	$("#showCover").html("<img src='" + data.showPath + "' class='cover-img' />");
-					//});
-					//this.on("error", function (file, message) {
-					//	alert(message)
-					//});
-				}
+		function bindExersies(){
+			$('.btn-exes').off('click').on('click',function(){
+				var stem=createExercisesStem();
+				var answer=createExercisesAnswer();
+				var $this=$(this);
+				$this.parent().after(stem);
+				$(stem).append(answer)
+				   .find('.btn-opt').click(function(){
+						var option=createExercisesOption();
+						$(answer).find('select').append('<option>bbbb</option>');
+						$(answer).before(option);
+						$(stem).find('.btn-rem').off('click').on('click',function(){
+							$(this).parent().parent().remove();
+							return false;
+						});
+
+					return false;
+				}).find('.btn-del').on('click',function(){
+					$(this).parents('.exercises').remove();
+
+					return false;
+				});
+
+				return false;
 			});
-		}*@
+		}
 
 	</script>
 

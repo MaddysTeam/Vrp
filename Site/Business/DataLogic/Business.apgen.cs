@@ -4790,6 +4790,8 @@ namespace Res.Business {
             
             private DateTimeAPColumnDef _lastModifiedTime;
             
+            private GuidAPColumnDef _identityId;
+            
             public CroResourceTableDef(string tableName) : 
                     base(tableName) {
             }
@@ -4927,6 +4929,7 @@ namespace Res.Business {
                     if (Object.ReferenceEquals(_stagePKID, null)) {
                         _stagePKID = new Int64APColumnDef(this, "StagePKID", false);
                         _stagePKID.Display = "学段";
+                        _stagePKID.Required = true;
                     }
                     return _stagePKID;
                 }
@@ -4940,6 +4943,7 @@ namespace Res.Business {
                     if (Object.ReferenceEquals(_gradePKID, null)) {
                         _gradePKID = new Int64APColumnDef(this, "GradePKID", false);
                         _gradePKID.Display = "年级";
+                        _gradePKID.Required = true;
                     }
                     return _gradePKID;
                 }
@@ -4966,6 +4970,7 @@ namespace Res.Business {
                     if (Object.ReferenceEquals(_subjectPKID, null)) {
                         _subjectPKID = new Int64APColumnDef(this, "SubjectPKID", false);
                         _subjectPKID.Display = "学科";
+                        _subjectPKID.Required = true;
                     }
                     return _subjectPKID;
                 }
@@ -5155,6 +5160,20 @@ namespace Res.Business {
             }
             
             /// <summary>
+            /// IdentityId ColumnDef
+            /// </summary>
+            public virtual GuidAPColumnDef IdentityId {
+                get {
+                    if (Object.ReferenceEquals(_identityId, null)) {
+                        _identityId = new GuidAPColumnDef(this, "IdentityId", false);
+                        _identityId.Display = "IdentityId";
+                        _identityId.Required = true;
+                    }
+                    return _identityId;
+                }
+            }
+            
+            /// <summary>
             /// Default Index
             /// </summary>
             public virtual APSqlOrderPhrase DefaultOrder {
@@ -5201,6 +5220,7 @@ namespace Res.Business {
                 data.CreatedTime = CreatedTime.GetValue<System.DateTime>(reader, throwIfValidColumnName);
                 data.LastModifier = LastModifier.GetValue<long>(reader, throwIfValidColumnName);
                 data.LastModifiedTime = LastModifiedTime.GetValue<System.DateTime>(reader, throwIfValidColumnName);
+                data.IdentityId = IdentityId.GetValue<System.Guid>(reader, throwIfValidColumnName);
             }
             
             /// <summary>
@@ -5767,17 +5787,7 @@ namespace Res.Business {
             
             private Int64APColumnDef _fileSize;
             
-            private Int64APColumnDef _fileTypePKID;
-            
             private StringAPColumnDef _md5;
-            
-            private Int64APColumnDef _creator;
-            
-            private DateTimeAPColumnDef _createdTime;
-            
-            private Int64APColumnDef _lastModifier;
-            
-            private DateTimeAPColumnDef _lastModifiedTime;
             
             public FilesTableDef(string tableName) : 
                     base(tableName) {
@@ -5857,82 +5867,16 @@ namespace Res.Business {
             }
             
             /// <summary>
-            /// FileTypePKID ColumnDef
-            /// </summary>
-            public virtual Int64APColumnDef FileTypePKID {
-                get {
-                    if (Object.ReferenceEquals(_fileTypePKID, null)) {
-                        _fileTypePKID = new Int64APColumnDef(this, "FileTypePKID", false);
-                        _fileTypePKID.Display = "文件类型";
-                        _fileTypePKID.Required = true;
-                    }
-                    return _fileTypePKID;
-                }
-            }
-            
-            /// <summary>
             /// Md5 ColumnDef
             /// </summary>
             public virtual StringAPColumnDef Md5 {
                 get {
                     if (Object.ReferenceEquals(_md5, null)) {
-                        _md5 = new StringAPColumnDef(this, "Md5", false, 0);
+                        _md5 = new StringAPColumnDef(this, "Md5", false, 50);
                         _md5.Display = "Md5";
                         _md5.Required = true;
                     }
                     return _md5;
-                }
-            }
-            
-            /// <summary>
-            /// Creator ColumnDef
-            /// </summary>
-            public virtual Int64APColumnDef Creator {
-                get {
-                    if (Object.ReferenceEquals(_creator, null)) {
-                        _creator = new Int64APColumnDef(this, "Creator", false);
-                        _creator.Display = "Creator";
-                    }
-                    return _creator;
-                }
-            }
-            
-            /// <summary>
-            /// CreatedTime ColumnDef
-            /// </summary>
-            public virtual DateTimeAPColumnDef CreatedTime {
-                get {
-                    if (Object.ReferenceEquals(_createdTime, null)) {
-                        _createdTime = new DateTimeAPColumnDef(this, "CreatedTime", false);
-                        _createdTime.Display = "CreatedTime";
-                    }
-                    return _createdTime;
-                }
-            }
-            
-            /// <summary>
-            /// LastModifier ColumnDef
-            /// </summary>
-            public virtual Int64APColumnDef LastModifier {
-                get {
-                    if (Object.ReferenceEquals(_lastModifier, null)) {
-                        _lastModifier = new Int64APColumnDef(this, "LastModifier", false);
-                        _lastModifier.Display = "LastModifier";
-                    }
-                    return _lastModifier;
-                }
-            }
-            
-            /// <summary>
-            /// LastModifiedTime ColumnDef
-            /// </summary>
-            public virtual DateTimeAPColumnDef LastModifiedTime {
-                get {
-                    if (Object.ReferenceEquals(_lastModifiedTime, null)) {
-                        _lastModifiedTime = new DateTimeAPColumnDef(this, "LastModifiedTime", false);
-                        _lastModifiedTime.Display = "LastModifiedTime";
-                    }
-                    return _lastModifiedTime;
                 }
             }
             
@@ -5961,12 +5905,7 @@ namespace Res.Business {
                 data.ExtName = ExtName.GetValue<string>(reader, throwIfValidColumnName);
                 data.FilePath = FilePath.GetValue<string>(reader, throwIfValidColumnName);
                 data.FileSize = FileSize.GetValue<long>(reader, throwIfValidColumnName);
-                data.FileTypePKID = FileTypePKID.GetValue<long>(reader, throwIfValidColumnName);
                 data.Md5 = Md5.GetValue<string>(reader, throwIfValidColumnName);
-                data.Creator = Creator.GetValue<long>(reader, throwIfValidColumnName);
-                data.CreatedTime = CreatedTime.GetValue<System.DateTime>(reader, throwIfValidColumnName);
-                data.LastModifier = LastModifier.GetValue<long>(reader, throwIfValidColumnName);
-                data.LastModifiedTime = LastModifiedTime.GetValue<System.DateTime>(reader, throwIfValidColumnName);
             }
             
             /// <summary>
@@ -10109,7 +10048,7 @@ namespace Res.Business {
                 if ((data.CrosourceId == 0)) {
                     data.CrosourceId = ((long)(GetNewId(APDBDef.CroResource.CrosourceId)));
                 }
-                var query = APQuery.insert(APDBDef.CroResource).values(APDBDef.CroResource.CrosourceId.SetValue(data.CrosourceId), APDBDef.CroResource.Title.SetValue(data.Title), APDBDef.CroResource.Author.SetValue(data.Author), APDBDef.CroResource.Keywords.SetValue(data.Keywords), APDBDef.CroResource.Description.SetValue(data.Description), APDBDef.CroResource.AuthorCompany.SetValue(data.AuthorCompany), APDBDef.CroResource.AuthorAddress.SetValue(data.AuthorAddress), APDBDef.CroResource.AuthorEmail.SetValue(data.AuthorEmail), APDBDef.CroResource.AuthorPhone.SetValue(data.AuthorPhone), APDBDef.CroResource.StagePKID.SetValue(data.StagePKID), APDBDef.CroResource.GradePKID.SetValue(data.GradePKID), APDBDef.CroResource.ResourceTypePKID.SetValue(data.ResourceTypePKID), APDBDef.CroResource.SubjectPKID.SetValue(data.SubjectPKID), APDBDef.CroResource.CourseTypePKID.SetValue(data.CourseTypePKID), APDBDef.CroResource.DownCount.SetValue(data.DownCount), APDBDef.CroResource.FavoriteCount.SetValue(data.FavoriteCount), APDBDef.CroResource.ViewCount.SetValue(data.ViewCount), APDBDef.CroResource.CommentCount.SetValue(data.CommentCount), APDBDef.CroResource.EliteScore.SetValue(data.EliteScore), APDBDef.CroResource.StatePKID.SetValue(data.StatePKID), APDBDef.CroResource.Auditor.SetValue(data.Auditor), APDBDef.CroResource.AuditedTime.SetValue(data.AuditedTime), APDBDef.CroResource.AuditOpinion.SetValue(data.AuditOpinion), APDBDef.CroResource.Creator.SetValue(data.Creator), APDBDef.CroResource.CreatedTime.SetValue(data.CreatedTime), APDBDef.CroResource.LastModifier.SetValue(data.LastModifier), APDBDef.CroResource.LastModifiedTime.SetValue(data.LastModifiedTime));
+                var query = APQuery.insert(APDBDef.CroResource).values(APDBDef.CroResource.CrosourceId.SetValue(data.CrosourceId), APDBDef.CroResource.Title.SetValue(data.Title), APDBDef.CroResource.Author.SetValue(data.Author), APDBDef.CroResource.Keywords.SetValue(data.Keywords), APDBDef.CroResource.Description.SetValue(data.Description), APDBDef.CroResource.AuthorCompany.SetValue(data.AuthorCompany), APDBDef.CroResource.AuthorAddress.SetValue(data.AuthorAddress), APDBDef.CroResource.AuthorEmail.SetValue(data.AuthorEmail), APDBDef.CroResource.AuthorPhone.SetValue(data.AuthorPhone), APDBDef.CroResource.StagePKID.SetValue(data.StagePKID), APDBDef.CroResource.GradePKID.SetValue(data.GradePKID), APDBDef.CroResource.ResourceTypePKID.SetValue(data.ResourceTypePKID), APDBDef.CroResource.SubjectPKID.SetValue(data.SubjectPKID), APDBDef.CroResource.CourseTypePKID.SetValue(data.CourseTypePKID), APDBDef.CroResource.DownCount.SetValue(data.DownCount), APDBDef.CroResource.FavoriteCount.SetValue(data.FavoriteCount), APDBDef.CroResource.ViewCount.SetValue(data.ViewCount), APDBDef.CroResource.CommentCount.SetValue(data.CommentCount), APDBDef.CroResource.EliteScore.SetValue(data.EliteScore), APDBDef.CroResource.StatePKID.SetValue(data.StatePKID), APDBDef.CroResource.Auditor.SetValue(data.Auditor), APDBDef.CroResource.AuditedTime.SetValue(data.AuditedTime), APDBDef.CroResource.AuditOpinion.SetValue(data.AuditOpinion), APDBDef.CroResource.Creator.SetValue(data.Creator), APDBDef.CroResource.CreatedTime.SetValue(data.CreatedTime), APDBDef.CroResource.LastModifier.SetValue(data.LastModifier), APDBDef.CroResource.LastModifiedTime.SetValue(data.LastModifiedTime), APDBDef.CroResource.IdentityId.SetValue(data.IdentityId));
                 ExecuteNonQuery(query);
             }
             
@@ -10117,7 +10056,7 @@ namespace Res.Business {
             /// 更新数据。
             /// </summary>
             public virtual void Update(CroResource data) {
-                var query = APQuery.update(APDBDef.CroResource).values(APDBDef.CroResource.Title.SetValue(data.Title), APDBDef.CroResource.Author.SetValue(data.Author), APDBDef.CroResource.Keywords.SetValue(data.Keywords), APDBDef.CroResource.Description.SetValue(data.Description), APDBDef.CroResource.AuthorCompany.SetValue(data.AuthorCompany), APDBDef.CroResource.AuthorAddress.SetValue(data.AuthorAddress), APDBDef.CroResource.AuthorEmail.SetValue(data.AuthorEmail), APDBDef.CroResource.AuthorPhone.SetValue(data.AuthorPhone), APDBDef.CroResource.StagePKID.SetValue(data.StagePKID), APDBDef.CroResource.GradePKID.SetValue(data.GradePKID), APDBDef.CroResource.ResourceTypePKID.SetValue(data.ResourceTypePKID), APDBDef.CroResource.SubjectPKID.SetValue(data.SubjectPKID), APDBDef.CroResource.CourseTypePKID.SetValue(data.CourseTypePKID), APDBDef.CroResource.DownCount.SetValue(data.DownCount), APDBDef.CroResource.FavoriteCount.SetValue(data.FavoriteCount), APDBDef.CroResource.ViewCount.SetValue(data.ViewCount), APDBDef.CroResource.CommentCount.SetValue(data.CommentCount), APDBDef.CroResource.EliteScore.SetValue(data.EliteScore), APDBDef.CroResource.StatePKID.SetValue(data.StatePKID), APDBDef.CroResource.Auditor.SetValue(data.Auditor), APDBDef.CroResource.AuditedTime.SetValue(data.AuditedTime), APDBDef.CroResource.AuditOpinion.SetValue(data.AuditOpinion), APDBDef.CroResource.Creator.SetValue(data.Creator), APDBDef.CroResource.CreatedTime.SetValue(data.CreatedTime), APDBDef.CroResource.LastModifier.SetValue(data.LastModifier), APDBDef.CroResource.LastModifiedTime.SetValue(data.LastModifiedTime)).where((APDBDef.CroResource.CrosourceId == data.CrosourceId));
+                var query = APQuery.update(APDBDef.CroResource).values(APDBDef.CroResource.Title.SetValue(data.Title), APDBDef.CroResource.Author.SetValue(data.Author), APDBDef.CroResource.Keywords.SetValue(data.Keywords), APDBDef.CroResource.Description.SetValue(data.Description), APDBDef.CroResource.AuthorCompany.SetValue(data.AuthorCompany), APDBDef.CroResource.AuthorAddress.SetValue(data.AuthorAddress), APDBDef.CroResource.AuthorEmail.SetValue(data.AuthorEmail), APDBDef.CroResource.AuthorPhone.SetValue(data.AuthorPhone), APDBDef.CroResource.StagePKID.SetValue(data.StagePKID), APDBDef.CroResource.GradePKID.SetValue(data.GradePKID), APDBDef.CroResource.ResourceTypePKID.SetValue(data.ResourceTypePKID), APDBDef.CroResource.SubjectPKID.SetValue(data.SubjectPKID), APDBDef.CroResource.CourseTypePKID.SetValue(data.CourseTypePKID), APDBDef.CroResource.DownCount.SetValue(data.DownCount), APDBDef.CroResource.FavoriteCount.SetValue(data.FavoriteCount), APDBDef.CroResource.ViewCount.SetValue(data.ViewCount), APDBDef.CroResource.CommentCount.SetValue(data.CommentCount), APDBDef.CroResource.EliteScore.SetValue(data.EliteScore), APDBDef.CroResource.StatePKID.SetValue(data.StatePKID), APDBDef.CroResource.Auditor.SetValue(data.Auditor), APDBDef.CroResource.AuditedTime.SetValue(data.AuditedTime), APDBDef.CroResource.AuditOpinion.SetValue(data.AuditOpinion), APDBDef.CroResource.Creator.SetValue(data.Creator), APDBDef.CroResource.CreatedTime.SetValue(data.CreatedTime), APDBDef.CroResource.LastModifier.SetValue(data.LastModifier), APDBDef.CroResource.LastModifiedTime.SetValue(data.LastModifiedTime), APDBDef.CroResource.IdentityId.SetValue(data.IdentityId)).where((APDBDef.CroResource.CrosourceId == data.CrosourceId));
                 ExecuteNonQuery(query);
             }
             
@@ -10653,7 +10592,7 @@ namespace Res.Business {
                 if ((data.FileId == 0)) {
                     data.FileId = ((long)(GetNewId(APDBDef.Files.FileId)));
                 }
-                var query = APQuery.insert(APDBDef.Files).values(APDBDef.Files.FileId.SetValue(data.FileId), APDBDef.Files.FileName.SetValue(data.FileName), APDBDef.Files.ExtName.SetValue(data.ExtName), APDBDef.Files.FilePath.SetValue(data.FilePath), APDBDef.Files.FileSize.SetValue(data.FileSize), APDBDef.Files.FileTypePKID.SetValue(data.FileTypePKID), APDBDef.Files.Md5.SetValue(data.Md5), APDBDef.Files.Creator.SetValue(data.Creator), APDBDef.Files.CreatedTime.SetValue(data.CreatedTime), APDBDef.Files.LastModifier.SetValue(data.LastModifier), APDBDef.Files.LastModifiedTime.SetValue(data.LastModifiedTime));
+                var query = APQuery.insert(APDBDef.Files).values(APDBDef.Files.FileId.SetValue(data.FileId), APDBDef.Files.FileName.SetValue(data.FileName), APDBDef.Files.ExtName.SetValue(data.ExtName), APDBDef.Files.FilePath.SetValue(data.FilePath), APDBDef.Files.FileSize.SetValue(data.FileSize), APDBDef.Files.Md5.SetValue(data.Md5));
                 ExecuteNonQuery(query);
             }
             
@@ -10661,7 +10600,7 @@ namespace Res.Business {
             /// 更新数据。
             /// </summary>
             public virtual void Update(Files data) {
-                var query = APQuery.update(APDBDef.Files).values(APDBDef.Files.FileName.SetValue(data.FileName), APDBDef.Files.ExtName.SetValue(data.ExtName), APDBDef.Files.FilePath.SetValue(data.FilePath), APDBDef.Files.FileSize.SetValue(data.FileSize), APDBDef.Files.FileTypePKID.SetValue(data.FileTypePKID), APDBDef.Files.Md5.SetValue(data.Md5), APDBDef.Files.Creator.SetValue(data.Creator), APDBDef.Files.CreatedTime.SetValue(data.CreatedTime), APDBDef.Files.LastModifier.SetValue(data.LastModifier), APDBDef.Files.LastModifiedTime.SetValue(data.LastModifiedTime)).where((APDBDef.Files.FileId == data.FileId));
+                var query = APQuery.update(APDBDef.Files).values(APDBDef.Files.FileName.SetValue(data.FileName), APDBDef.Files.ExtName.SetValue(data.ExtName), APDBDef.Files.FilePath.SetValue(data.FilePath), APDBDef.Files.FileSize.SetValue(data.FileSize), APDBDef.Files.Md5.SetValue(data.Md5)).where((APDBDef.Files.FileId == data.FileId));
                 ExecuteNonQuery(query);
             }
             
@@ -23569,6 +23508,11 @@ namespace Res.Business {
         private System.DateTime _lastModifiedTime;
         
         /// <summary>
+        /// IdentityId
+        /// </summary>
+        private System.Guid _identityId;
+        
+        /// <summary>
         /// 默认构造函数。
         /// </summary>
         public CroResourceBase() {
@@ -23604,7 +23548,8 @@ namespace Res.Business {
                     long creator, 
                     System.DateTime createdTime, 
                     long lastModifier, 
-                    System.DateTime lastModifiedTime) {
+                    System.DateTime lastModifiedTime, 
+                    System.Guid identityId) {
             _crosourceId = crosourceId;
             _title = title;
             _author = author;
@@ -23632,6 +23577,7 @@ namespace Res.Business {
             _createdTime = createdTime;
             _lastModifier = lastModifier;
             _lastModifiedTime = lastModifiedTime;
+            _identityId = identityId;
         }
         
         /// <summary>
@@ -23848,6 +23794,7 @@ namespace Res.Business {
         /// PickList - APEdu.net key is PLKey_ResourceStage
         /// </summary>
         [Display(Name="学段")]
+        [Required()]
         public virtual long StagePKID {
             get {
                 return _stagePKID;
@@ -23870,6 +23817,7 @@ namespace Res.Business {
         /// PickList - APEdu.net key is PLKey_ResourceGrade
         /// </summary>
         [Display(Name="年级")]
+        [Required()]
         public virtual long GradePKID {
             get {
                 return _gradePKID;
@@ -23914,6 +23862,7 @@ namespace Res.Business {
         /// PickList - APEdu.net key is PLKey_ResourceSubject
         /// </summary>
         [Display(Name="学科")]
+        [Required()]
         public virtual long SubjectPKID {
             get {
                 return _subjectPKID;
@@ -24239,6 +24188,28 @@ namespace Res.Business {
         }
         
         /// <summary>
+        /// IdentityId
+        /// </summary>
+        [Required()]
+        public virtual System.Guid IdentityId {
+            get {
+                return _identityId;
+            }
+            set {
+                _identityId = value;
+            }
+        }
+        
+        /// <summary>
+        /// IdentityId APColumnDef
+        /// </summary>
+        public static GuidAPColumnDef IdentityIdDef {
+            get {
+                return APDBDef.CroResource.IdentityId;
+            }
+        }
+        
+        /// <summary>
         /// CroResourceTableDef APTableDef
         /// </summary>
         public static APDBDef.CroResourceTableDef TableDef {
@@ -24287,6 +24258,7 @@ namespace Res.Business {
             CreatedTime = data.CreatedTime;
             LastModifier = data.LastModifier;
             LastModifiedTime = data.LastModifiedTime;
+            IdentityId = data.IdentityId;
         }
         
         /// <summary>
@@ -24372,6 +24344,9 @@ namespace Res.Business {
                 return false;
             }
             if ((LastModifiedTime != data.LastModifiedTime)) {
+                return false;
+            }
+            if ((IdentityId != data.IdentityId)) {
                 return false;
             }
             return true;
@@ -24497,8 +24472,9 @@ namespace Res.Business {
                     long creator, 
                     System.DateTime createdTime, 
                     long lastModifier, 
-                    System.DateTime lastModifiedTime) : 
-                base(crosourceId, title, author, keywords, description, authorCompany, authorAddress, authorEmail, authorPhone, stagePKID, gradePKID, resourceTypePKID, subjectPKID, courseTypePKID, downCount, favoriteCount, viewCount, commentCount, eliteScore, statePKID, auditor, auditedTime, auditOpinion, creator, createdTime, lastModifier, lastModifiedTime) {
+                    System.DateTime lastModifiedTime, 
+                    System.Guid identityId) : 
+                base(crosourceId, title, author, keywords, description, authorCompany, authorAddress, authorEmail, authorPhone, stagePKID, gradePKID, resourceTypePKID, subjectPKID, courseTypePKID, downCount, favoriteCount, viewCount, commentCount, eliteScore, statePKID, auditor, auditedTime, auditOpinion, creator, createdTime, lastModifier, lastModifiedTime, identityId) {
         }
     }
     
@@ -25457,34 +25433,9 @@ namespace Res.Business {
         private long _fileSize;
         
         /// <summary>
-        /// FileTypePKID
-        /// </summary>
-        private long _fileTypePKID;
-        
-        /// <summary>
         /// Md5
         /// </summary>
         private string _md5 = string.Empty;
-        
-        /// <summary>
-        /// Creator
-        /// </summary>
-        private long _creator;
-        
-        /// <summary>
-        /// CreatedTime
-        /// </summary>
-        private System.DateTime _createdTime;
-        
-        /// <summary>
-        /// LastModifier
-        /// </summary>
-        private long _lastModifier;
-        
-        /// <summary>
-        /// LastModifiedTime
-        /// </summary>
-        private System.DateTime _lastModifiedTime;
         
         /// <summary>
         /// 默认构造函数。
@@ -25495,18 +25446,13 @@ namespace Res.Business {
         /// <summary>
         /// 初始化所有字段的构造函数。
         /// </summary>
-        public FilesBase(long fileId, string fileName, string extName, string filePath, long fileSize, long fileTypePKID, string md5, long creator, System.DateTime createdTime, long lastModifier, System.DateTime lastModifiedTime) {
+        public FilesBase(long fileId, string fileName, string extName, string filePath, long fileSize, string md5) {
             _fileId = fileId;
             _fileName = fileName;
             _extName = extName;
             _filePath = filePath;
             _fileSize = fileSize;
-            _fileTypePKID = fileTypePKID;
             _md5 = md5;
-            _creator = creator;
-            _createdTime = createdTime;
-            _lastModifier = lastModifier;
-            _lastModifiedTime = lastModifiedTime;
         }
         
         /// <summary>
@@ -25627,33 +25573,10 @@ namespace Res.Business {
         }
         
         /// <summary>
-        /// FileTypePKID
-        /// </summary>
-        [Display(Name="文件类型")]
-        [Required()]
-        public virtual long FileTypePKID {
-            get {
-                return _fileTypePKID;
-            }
-            set {
-                _fileTypePKID = value;
-            }
-        }
-        
-        /// <summary>
-        /// FileTypePKID APColumnDef
-        /// </summary>
-        public static Int64APColumnDef FileTypePKIDDef {
-            get {
-                return APDBDef.Files.FileTypePKID;
-            }
-        }
-        
-        /// <summary>
         /// Md5
         /// </summary>
         [Required()]
-        [StringLength(0)]
+        [StringLength(50)]
         public virtual string Md5 {
             get {
                 return _md5;
@@ -25669,90 +25592,6 @@ namespace Res.Business {
         public static StringAPColumnDef Md5Def {
             get {
                 return APDBDef.Files.Md5;
-            }
-        }
-        
-        /// <summary>
-        /// Creator
-        /// </summary>
-        public virtual long Creator {
-            get {
-                return _creator;
-            }
-            set {
-                _creator = value;
-            }
-        }
-        
-        /// <summary>
-        /// Creator APColumnDef
-        /// </summary>
-        public static Int64APColumnDef CreatorDef {
-            get {
-                return APDBDef.Files.Creator;
-            }
-        }
-        
-        /// <summary>
-        /// CreatedTime
-        /// </summary>
-        public virtual System.DateTime CreatedTime {
-            get {
-                return _createdTime;
-            }
-            set {
-                _createdTime = value;
-            }
-        }
-        
-        /// <summary>
-        /// CreatedTime APColumnDef
-        /// </summary>
-        public static DateTimeAPColumnDef CreatedTimeDef {
-            get {
-                return APDBDef.Files.CreatedTime;
-            }
-        }
-        
-        /// <summary>
-        /// LastModifier
-        /// </summary>
-        public virtual long LastModifier {
-            get {
-                return _lastModifier;
-            }
-            set {
-                _lastModifier = value;
-            }
-        }
-        
-        /// <summary>
-        /// LastModifier APColumnDef
-        /// </summary>
-        public static Int64APColumnDef LastModifierDef {
-            get {
-                return APDBDef.Files.LastModifier;
-            }
-        }
-        
-        /// <summary>
-        /// LastModifiedTime
-        /// </summary>
-        public virtual System.DateTime LastModifiedTime {
-            get {
-                return _lastModifiedTime;
-            }
-            set {
-                _lastModifiedTime = value;
-            }
-        }
-        
-        /// <summary>
-        /// LastModifiedTime APColumnDef
-        /// </summary>
-        public static DateTimeAPColumnDef LastModifiedTimeDef {
-            get {
-                return APDBDef.Files.LastModifiedTime;
             }
         }
         
@@ -25783,12 +25622,7 @@ namespace Res.Business {
             ExtName = data.ExtName;
             FilePath = data.FilePath;
             FileSize = data.FileSize;
-            FileTypePKID = data.FileTypePKID;
             Md5 = data.Md5;
-            Creator = data.Creator;
-            CreatedTime = data.CreatedTime;
-            LastModifier = data.LastModifier;
-            LastModifiedTime = data.LastModifiedTime;
         }
         
         /// <summary>
@@ -25810,22 +25644,7 @@ namespace Res.Business {
             if ((FileSize != data.FileSize)) {
                 return false;
             }
-            if ((FileTypePKID != data.FileTypePKID)) {
-                return false;
-            }
             if ((Md5 != data.Md5)) {
-                return false;
-            }
-            if ((Creator != data.Creator)) {
-                return false;
-            }
-            if ((CreatedTime != data.CreatedTime)) {
-                return false;
-            }
-            if ((LastModifier != data.LastModifier)) {
-                return false;
-            }
-            if ((LastModifiedTime != data.LastModifiedTime)) {
                 return false;
             }
             return true;
@@ -25924,8 +25743,8 @@ namespace Res.Business {
         /// <summary>
         /// 初始化所有字段的构造函数。
         /// </summary>
-        public Files(long fileId, string fileName, string extName, string filePath, long fileSize, long fileTypePKID, string md5, long creator, System.DateTime createdTime, long lastModifier, System.DateTime lastModifiedTime) : 
-                base(fileId, fileName, extName, filePath, fileSize, fileTypePKID, md5, creator, createdTime, lastModifier, lastModifiedTime) {
+        public Files(long fileId, string fileName, string extName, string filePath, long fileSize, string md5) : 
+                base(fileId, fileName, extName, filePath, fileSize, md5) {
         }
     }
     
