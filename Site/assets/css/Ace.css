@@ -1580,3 +1580,7 @@ span.request
 	width: 0%;
 	background-color: orange;
 }
+
+/** upload page */
+.exercises {border:1px dashed #808080;margin:4px; padding:4px;}
+.exercises input { font-size:10px;}

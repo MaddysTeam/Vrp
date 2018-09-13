@@ -141,7 +141,7 @@
 							</div>
 
 
-							@foreach (var item in Model.Courses)
+							@foreach (var item in Model.Courses ?? new List<MicroCourse>())
 							{
 								@Html.Partial("CroMyCourses", item)
 							}
@@ -251,13 +251,24 @@
 			$('.courseArea').each(function(i){
 				var $this=$(this);
 				var course={
+					CourseId:$this.find('.courseId').val(),
 					ResourceId:o.CrosourceId,
 					VideoId:$this.find('.courseUploader .fileId').val(),
 					CoverId:$this.find('.coverUploader .fileId').val(),
 					DesignId:$this.find('.designUploader .fileId').val(),
 					SummaryId:$this.find('.summaryUploader .fileId').val(),
 					CharpterSortId:i+1,
+					Exercises:[]
 				};
+
+				$this.find('.exercises').each(function(){
+					var $that= $(this);
+					var exe={};
+					exe.Title=$that.find('.title:first').val();
+					exe.Answer= $that.find('.key:first').val();
+					course.Exercises.push(exe);
+				});
+
 				o.Courses.push(course);
 			});
 
@@ -379,7 +390,8 @@
 			bindResourceUploader($('.coverUploader'),'cover','image/*');
 			bindResourceUploader($('.designUploader'),'design','.doc,.docx');
 			bindResourceUploader($('.summaryUploader'),'summary','.doc,.docx');
-			bindExersies();
+			bindExersies(); // 绑定习题
+			bindStem(); // 绑定题干
 
 		});
 
@@ -433,9 +445,9 @@
 		function createExercisesStem(){
 			return $(
 				  '<div class="exercises rows" style="border:1px dashed #808080;margin:4px; padding:4px;">' +
-				    '<div class="form-group">'+
+				    '<div class="form-group stem">'+
 						'<div class="col-sm-3">题干：</div>'+
-						'<div class="col-sm-4"><input class="form-control" /></div>'+
+						'<div class="col-sm-4"><input class="form-control title" /></div>'+
 						'<div class="col-sm-5"><button class="btn btn-sm btn-success btn-opt">增加选项</button> <button class="btn btn-sm btn-info btn-del">删除</button> </div>'+
 					'</div></div>');
 		}
@@ -449,11 +461,11 @@
 		}
 
 		function createExercisesAnswer(){
-			return $('<div class="form-group">' +
+			return $('<div class="form-group answer">' +
 						'<div class="col-sm-3">正确答案：</div>'+
-						'<div class="col-sm-4"><select class="form-control"><option value="1">A</option></select></div>'+
+						'<div class="col-sm-4"><select class="form-control key"><option value="1">A</option></select></div>'+
 						'<div class="col-sm-5"> </div>' +
-					'</div>')
+					'</div>');
 		}
 
 		function bindResourceUploader(uploader,type,mimeTypes){
@@ -505,12 +517,13 @@
 
 		function bindExersies(){
 			$('.btn-exes').off('click').on('click',function(){
+				var $this=$(this);
 				var stem=createExercisesStem();
 				var answer=createExercisesAnswer();
-				var $this=$(this);
+				
 				$this.parent().after(stem);
 				$(stem).append(answer)
-				   .find('.btn-opt').click(function(){
+				   .find('.btn-opt').off('click').click(function(){
 				   	var option=createExercisesOption();
 				   	$(answer).find('select').append('<option>bbbb</option>');
 				   	$(answer).before(option);
@@ -530,8 +543,31 @@
 			});
 		}
 
-	</script>
+		function bindStem(){
+			$('.exercises').each(function(){
+				var $this=$(this);
+				var $answer=$this.find('.answer');
+				$this.find('.btn-opt').off('click').on('click',function(){
+					var option=createExercisesOption();
+					$answer.before(option);
 
+					$this.find('.btn-rem').off('click').on('click',function(){
+						$(this).parent().parent().remove();
+						return false;
+					});
+
+					return false;
+				});
+
+				$this.find('.btn-del').on('click',function(){
+					$this.remove();
+					return false;
+				})
+
+			});
+		}
+
+	</script>
 }
 
 

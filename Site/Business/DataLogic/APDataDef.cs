@@ -289,7 +289,7 @@ namespace Res.Business
 
    #region [Exercises]
 
-   public partial class Exercises
+   public partial class Exercises:ExercisesBase
    {
       public List<ExercisesItem> Items { get; set; }
    }

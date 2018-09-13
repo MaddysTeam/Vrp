@@ -140,12 +140,7 @@ namespace Res.Controllers
       }
 
 
-      static APDBDef.CroResourceTableDef cr = APDBDef.CroResource;
-      static APDBDef.MicroCourseTableDef mc = APDBDef.MicroCourse;
-      static APDBDef.FilesTableDef vf = APDBDef.Files;
-      static APDBDef.FilesTableDef cf = APDBDef.Files.As("CoverFile");
-      static APDBDef.FilesTableDef df = APDBDef.Files.As("DesignFile");
-      static APDBDef.FilesTableDef sf = APDBDef.Files.As("SummaryFile");
+    
 
       public ActionResult Upload(long id, long? resid)
       {
@@ -155,53 +150,14 @@ namespace Res.Controllers
          if (resid == null)
          {
             return View(
-               new CroResource { Courses = new List<MicroCourse> { new MicroCourse() } }
+               new CroResource { Courses = new List<MicroCourse> { new MicroCourse() } } // 新增时默认一个微课
                );
          }
          else
          {
-            var query = APQuery.select(cr.Asterisk, mc.Asterisk,
-                                      vf.FileName.As("VideoName"),
-                                      cf.FileName.As("CoverName"), cf.FilePath.As("CoverPath"),
-                                      df.FileName.As("DesignName"),
-                                      sf.FileName.As("SummaryName")
-                                     )
-                               .from(cr,
-                                     mc.JoinLeft(cr.CrosourceId == mc.ResourceId),
-                                     vf.JoinLeft(vf.FileId == mc.VideoId),
-                                     cf.JoinLeft(cf.FileId == mc.CoverId),
-                                     df.JoinLeft(df.FileId == mc.DesignId),
-                                     sf.JoinLeft(sf.FileId == mc.SummaryId)
-                                     )
-                                .where(cr.CrosourceId == resid);
+            var model = APBplDef.CroResourceBpl.GetResource(db, resid.Value);
 
-            var result = query.query(db, r =>
-            {
-               var model = new CroResource();
-               cr.Fullup(r, model, false);
-
-               var course = new MicroCourse();
-               mc.Fullup(r, course, false);
-               course.VideoName = vf.FileName.GetValue(r, "VideoName");
-               course.CoverName = cf.FileName.GetValue(r, "CoverName");
-               course.DesignName = df.FileName.GetValue(r, "DesignName");
-               course.SummaryName = sf.FileName.GetValue(r, "SummaryName");
-               course.CoverPath = cf.FilePath.GetValue(r, "CoverPath");
-
-               return new { model, course };
-            }).ToList();
-
-            var resource=new CroResource();
-            foreach (var item in result)
-            {
-               if (resource.CrosourceId != item.model.CrosourceId)
-                  resource = item.model;
-
-               resource.Courses=resource.Courses ?? new List<MicroCourse>();
-               resource.Courses.Add(item.course);
-            }
-
-            return View(resource);
+            return View(model);
          }
       }
 
@@ -210,6 +166,9 @@ namespace Res.Controllers
       [ValidateInput(false)]
       public ActionResult Upload(long id, long? resid, CroResource model, FormCollection fc)
       {
+         var mc = APDBDef.MicroCourse;
+         var et = APDBDef.Exercises;
+
          CroResource current = null;
          if (resid != null && resid.Value > 0)
             current = APBplDef.CroResourceBpl.PrimaryGet(resid.Value);
@@ -220,6 +179,10 @@ namespace Res.Controllers
          {
             if (current != null)
             {
+               foreach(var c in model.Courses)
+               {
+                  APBplDef.ExercisesBpl.ConditionDelete(et.CourseId == c.CourseId);
+               }
                APBplDef.MicroCourseBpl.ConditionDelete(mc.ResourceId == resid);
                APBplDef.CroResourceBpl.PrimaryDelete(resid.Value);
                model.CreatedTime = current.CreatedTime;
@@ -234,14 +197,19 @@ namespace Res.Controllers
             }
 
             model.StatePKID = model.StatePKID == CroResourceHelper.StateDeny ? CroResourceHelper.StateWait : model.StatePKID;
-            model.IdentityId = Guid.NewGuid();
             APBplDef.CroResourceBpl.Insert(model);
 
-            var newModel = APBplDef.CroResourceBpl.ConditionQuery(cr.IdentityId == model.IdentityId, null).First();
             foreach (var item in model.Courses)
             {
-               item.ResourceId = newModel.CrosourceId;
+               item.ResourceId = model.CrosourceId;
                APBplDef.MicroCourseBpl.Insert(item);
+
+               foreach (var exer in item.Exercises)
+               {
+                  exer.CourseId = item.CourseId;
+                  APBplDef.ExercisesBpl.Insert(exer);
+               }
+
             }
 
             db.Commit();
@@ -251,74 +219,6 @@ namespace Res.Controllers
             db.Rollback();
          }
 
-
-
-
-         //if (model.IsLink)
-         //{
-         //	model.FileSize = 0;
-         //	model.ResourcePath = model.GhostFileName;
-         //	model.FileExtName = GetSafeExt(model.ResourcePath);
-         //}
-         //model.MediumTypePKID = CroResourceHelper.GetMediumType(model.FileExtName);
-         //ResUser user = new ResUser();
-         //user.UserId = id;
-         //if (resid == null)
-         //{
-         //   //	model.ImportSourcePKID = CroResourceHelper.SourceUpload;
-
-         //   model.StatePKID = CroResourceHelper.StateWait;  // 是否提供管理员自动审核功能
-
-
-         //   APBplDef.CroResourceBpl.Insert(model);
-         //}
-         //else
-
-         //{
-         //   var CroResourceModel = APBplDef.CroResourceBpl.PrimaryGet(resid.Value);
-
-         //   if (CroResourceModel.StatePKID == CroResourceHelper.StateDeny)
-         //   {
-         //      model.StatePKID = CroResourceHelper.StateWait;
-         //   }
-         //   else
-         //   {
-         //      model.StatePKID = CroResourceModel.StatePKID;
-         //   }
-
-         //   APBplDef.CroResourceBpl.UpdatePartial(resid.Value, new
-         //   {
-         //      model.Title,
-         //      model.Author,
-         //      model.Keywords,
-         //      model.Description,
-         //      //model.CoverPath,
-         //      //model.ResourcePath,
-         //      //model.FileExtName,
-         //      //model.FileSize,
-         //      //model.IsLink,
-         //      model.AuthorCompany,
-         //      model.AuthorAddress,
-         //      model.AuthorEmail,
-         //      model.AuthorPhone,
-
-         //      //model.DeformityPKID,
-         //      //model.DomainPKID,
-         //      //model.LearnFromPKID,
-         //      //model.SchoolTypePKID,
-         //      model.StagePKID,
-         //      model.GradePKID,
-         //      //model.MediumTypePKID,
-         //      model.ResourceTypePKID,
-         //      model.SubjectPKID,
-         //      //model.RType,
-         //      //model.RSource,
-         //      LastModifier = ResSettings.SettingsInSession.UserId,
-         //      LastModifiedTime = DateTime.Now,
-         //      model.StatePKID
-
-         //   });
-         //}
 
          return RedirectToAction("CroMyResource", new { id = id });
       }

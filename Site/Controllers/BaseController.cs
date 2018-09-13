@@ -33,7 +33,7 @@ namespace Res.Controllers
 
 			var query = APQuery.select(t.ResourceId, t.Title, t.Author, t.CoverPath, t.StarCount, t.StarTotal, t.ViewCount)
 				.from(t)
-				.where(t.StatePKID == ResResourceHelper.StateAllow)
+				//.where(t.StatePKID == ResResourceHelper.StateAllow)
 				.order_by(order, t.ResourceId.Asc)
 				.primary(t.ResourceId)
 				.take(take);

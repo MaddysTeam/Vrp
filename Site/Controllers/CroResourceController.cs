@@ -177,7 +177,7 @@ namespace Res.Controllers
 
             // 右侧热门资源
             //ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5, 0, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
-            //右侧最新资源
+            // 右侧最新资源
             //ViewBag.RankingROfNewCount = CroHomeRankingList(APDBDef.CroResource.CreatedTime.Desc, null, out total, 5, 0, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
 
          }
@@ -224,24 +224,23 @@ namespace Res.Controllers
       /// <returns></returns>
 
 
-      public ActionResult ZcView(long id)
+      public ActionResult ZcView(long id,long? courseId)
       {
-         int total = 0;
-         var model = APBplDef.CroResourceBpl.PrimaryGet(id);
+         //int total = 0;
+         var model = APBplDef.CroResourceBpl.GetResource(db,id);
          ViewBag.Title = model.Title;
 
-
-
-         var t = APDBDef.CroResource;
+         //var t = APDBDef.CroResource;
 
          // 访问历史
          APBplDef.CroResourceBpl.CountingView(db, id, Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0);
+
+         ViewBag.CurrentVideoPath = courseId == null ? model.Courses[0].VideoPath : model.Courses.Find(c => c.CourseId == courseId).VideoPath;
 
          ViewBag.CommentCount = APBplDef.CroCommentBpl.ConditionQueryCount(APDBDef.CroComment
             .ResourceId == id & APDBDef.CroComment.Audittype == 1);
 
          //model.GhostFileName = Path.GetFullPath( model.ResourcePath); //model.IsLink ? model.ResourcePath : Path.GetFileName(model.ResourcePath);
-
 
          //// 相关资源
          //ViewBag.RankingOfRelation = CroHomeRelationList(id, model.Keywords.Split(','), 8, model.FileExtName, APDBDef.CroResource.MediumTypePKID == model.MediumTypePKID);
@@ -255,74 +254,7 @@ namespace Res.Controllers
          //ViewBag.mediumtypepkid = model.MediumTypePKID;
          //ViewBag.FileExtName = model.FileExtName;
 
-         //int cou1 = 0;
-         //int cou2 = 0;
-         //int cou3 = 0;
-         //int cou4 = 0;
-         //int cou5 = 0;
-         //List<CroStar> crostartlist = CrostarList(id);
-         //foreach (CroStar cs in crostartlist)
-         //{
-         //   switch (cs.Score)
-         //   {
-         //      case 1:
-         //         {
-         //            cou1 = Convert.ToInt32(cs.UserId);
-         //            break;
-         //         }
-         //      case 2:
-         //         {
-         //            cou2 = Convert.ToInt32(cs.UserId);
-         //            break;
-         //         }
-         //      case 3:
-         //         {
-         //            cou3 = Convert.ToInt32(cs.UserId);
-         //            break;
-         //         }
-         //      case 4:
-         //         {
-         //            cou4 = Convert.ToInt32(cs.UserId);
-         //            break;
-         //         }
-         //      case 5:
-         //         {
-         //            cou5 = Convert.ToInt32(cs.UserId);
-         //            break;
-         //         }
-         //   }
-         //}
-
-         //ViewBag.count1 = cou1;
-         //ViewBag.count2 = cou2;
-         //ViewBag.count3 = cou3;
-         //ViewBag.count4 = cou4;
-         //ViewBag.count5 = cou5;
-         //int cou6 = cou1 + cou2 + cou3 + cou4 + cou5;
-         //ViewBag.count6 = cou6;
-
-         //if (cou6 == 0)
-         //{
-         //   ViewBag.ct1 = 0;
-         //   ViewBag.ct2 = 0;
-         //   ViewBag.ct3 = 0;
-         //   ViewBag.ct4 = 0;
-         //   ViewBag.ct5 = 0;
-         //}
-         //else
-         //{
-         //   ViewBag.ct1 = cou1 / cou6 * 100;
-         //   ViewBag.ct2 = cou2 / cou6 * 100;
-         //   ViewBag.ct3 = cou3 / cou6 * 100;
-         //   ViewBag.ct4 = cou4 / cou6 * 100;
-         //   ViewBag.ct5 = cou5 / cou6 * 100;
-         //}
-         //ViewBag.avg = 0;
-         //if (model.StarCount == 0) { ViewBag.avg = 0; }
-         //else
-         //{
-         //   ViewBag.avg = model.StarTotal / model.StarCount;
-         //}
+       
          return View(model);
 
       }

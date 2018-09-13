@@ -11,83 +11,52 @@
 		<div class="div_cont fl w100">
 
 			<div class="show">
-				<h1>
-					@*<div class="@Model.FileType"></div>*@
-					@Model.Title
-				</h1>
-
+				<div class="row">
+					<div class="col-md-3">
+						<h1>
+							@*<div class="@Model.FileType"></div>*@
+							@Model.Title
+						</h1>
+					</div>
+					<div class="btn-group pull-right" style="margin:13px;">
+						<button class="btn btn-info">
+							<i class="fa fa-download"></i> 下载此文件
+						</button>
+						<button class="btn btn-success" id="favorite"><i class="fa fa-star-o"></i> 收藏</button>
+					</div>
+				</div>
 				<div id="video" class="carousel slide">
-					@*@if (Model.MediumTypePKID == CroResourceHelper.MediumVideo)
-					{
-						<embed type="application/x-mplayer2"
-								 pluginspage="http://www.microsoft.com/Windows/MediaPlayer/"
-								 width="100%" height="520"
-								 src="@Model.ResourcePath"
-								 wmode="transparent" autostart="false">
-
-					}
-					else if (Model.MediumTypePKID == CroResourceHelper.MediumAudio)
-					{
-						<embed type=application/x-mplayer2
-								 src="@Model.ResourcePath"
-								 width="100%" height="100" wmode="transparent" autostart="false">
-					}
-					else if (Model.MediumTypePKID == CroResourceHelper.MediumImage)
-					{
-						<img src="@Model.ResourcePath" width="100%" />
-					}
-					else if (Model.MediumTypePKID == CroResourceHelper.MediumAnimation)
-					{
-						<embed type="application/x-shockwave-flash"
-								 src="@Model.ResourcePath" width="100%" height="520"
-								 pluginspage="http://www.adobe.com/go/getflashplayer" />
-							<noembed>Alternative content</noembed>
-					}
-					else if (Model.FileExtName == ".pdf" | Model.FileExtName == ".PDF")
-					{
-						<embed type="application/pdf" width="100%" height="600" src="@Model.ResourcePath"> </embed>
-					}
-					else
-					{
-						<div class="filetype"></div><h5>@Model.Title</h5>
-					}*@
 				</div>
-
-				<div class="click">
-					<div class="show_btn fl">
-
-						<a href="#" id="download">
-							<button class="d_btn">
-
-								下载此文件
-							</button>
-						</a>
-						<button class="s_btn" id="favorite"><i class="s_btn"></i> 收藏</button>
-
-					</div>
-					<div class="source cb">
-						<p></p>
-					</div>
-				</div>
-
-
-
 
 				<div class="attr cb">
 
+					<div class="div "  style="overflow-y:hidden; overflow-x:auto; white-space: nowrap;">
+						<ul >
+							@foreach (var item in Model.Courses)
+							{
+								<li style="display:inline-block;list-style-type: none;">
+									<a href="@Url.Action("ZcView","CroResource",new { id = Model.CrosourceId ,courseId = item.CourseId })"><img src="@item.CoverPath" style="width:184px; height:115px;" /></a>
+								</li>
+							}
+						</ul>
+					</div>
+
 					<div class="div ">
-						<p><span>关 键 字： @Model.Keywords </span></p>
-						<p><span>资源类型： @Model.ResourceType</span><span>媒体格式： </span></p>
+						<p><span>关 键 字： @Model.Keywords </span><span>&nbsp;&nbsp;练 习 题：<button class="btn btn-danger  btn-sm">答 题</button></span></p>
+						<p><span>资源类型： 微课程</span><span>媒体格式： </span></p>
 						<p><span>上传日期： @Model.CreatedTime.ToShortDateString()</span><span>浏览次数： @Model.ViewCount 次</span></p>
 						<p><span>收藏次数： @Model.FavoriteCount</span><span>下载次数： @Model.DownCount 次</span></p>
 
+						<p><span>教学设计：<button class="btn btn-info btn-sm">预 览</button></span><span>教学反思： <button class="btn btn-info  btn-sm">	预 览</button></span></p>
+						<p></p>
+	
 					</div>
 					<div class="div ">
 						<p>@Model.Description</p>
 						<h3>详细属性</h3>
 					</div>
 					<div class="div ">
-						<p><span>学　　段： @Html.ShowPKID(Model.Stage)</span><span>年　　级： @Html.ShowPKID(Model.Grade))</span></p>
+						<p><span>学　　段： @Html.ShowPKID(Model.Stage)</span><span>年　　级： @Html.ShowPKID(Model.Grade)</span></p>
 						<p><span>学　　科： @Html.ShowPKID(Model.Subject)</span><span>作　　者： @Model.Author</span> </p>
 						<p><span>单　　位： @Model.AuthorCompany</span><span>电子邮箱： @Model.AuthorEmail</span></p>
 						<p><span>电　　话： @Model.AuthorPhone</span><span>地　　址： @Model.AuthorAddress</span></p>
@@ -129,6 +98,7 @@
 				</div>
 
 			</div>
+
 		</div>
 
 	</div>
@@ -153,7 +123,8 @@
 			container: '#video',//“#”代表容器的ID，“.”或“”代表容器的class
 			variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
 			//poster:'pic/wdm.jpg',//封面图片
-			video:'http://cdn.sser.shdjg.net/20180905/0bfda535-1430-4843-8726-82fe414aacd0/学生配音讲《愚公移山》.mp4'//视频地址
+			//video:'http://cdn.sser.shdjg.net/20180905/0bfda535-1430-4843-8726-82fe414aacd0/学生配音讲《愚公移山》.mp4'//视频地址
+			video:'@ViewBag.CurrentVideoPath'
 		};
 		var player=new ckplayer(videoObject);
 		//jwplayer("video").setup({
