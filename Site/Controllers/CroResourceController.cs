@@ -222,15 +222,10 @@ namespace Res.Controllers
       /// </summary>
       /// <param name="id"></param>
       /// <returns></returns>
-
-
       public ActionResult ZcView(long id,long? courseId)
       {
-         //int total = 0;
          var model = APBplDef.CroResourceBpl.GetResource(db,id);
          ViewBag.Title = model.Title;
-
-         //var t = APDBDef.CroResource;
 
          // 访问历史
          APBplDef.CroResourceBpl.CountingView(db, id, Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0);
@@ -239,6 +234,8 @@ namespace Res.Controllers
 
          ViewBag.CommentCount = APBplDef.CroCommentBpl.ConditionQueryCount(APDBDef.CroComment
             .ResourceId == id & APDBDef.CroComment.Audittype == 1);
+
+         //var t = APDBDef.CroResource;
 
          //model.GhostFileName = Path.GetFullPath( model.ResourcePath); //model.IsLink ? model.ResourcePath : Path.GetFileName(model.ResourcePath);
 
@@ -254,7 +251,7 @@ namespace Res.Controllers
          //ViewBag.mediumtypepkid = model.MediumTypePKID;
          //ViewBag.FileExtName = model.FileExtName;
 
-       
+
          return View(model);
 
       }

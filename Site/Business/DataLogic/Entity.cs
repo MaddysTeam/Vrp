@@ -103,17 +103,15 @@ namespace Res.Business
 
 
 	/// <summary>
-	/// 评价资源
+	/// 微课程评价资源
 	/// </summary>
-	public class CroResourcecommend
+	public class MicroCoursecommend
 	{
-		public long CrosourceId { get; set; }
+      public long CourseId { get; set; } // 微课程id
+      public long CrosourceId { get; set; } // 资源(包)id
 		public string Title { get; set; }
 		public string Author { get; set; }
 		public string CoverPath { get; set; }
-		public int StarCount { get; set; }
-		public int StarTotal { get; set; }
-		public int Star { get { if (StarCount == 0)return 0; return StarTotal / StarCount; } }
 		public string FitCoverPath
 		{
 			get
@@ -128,13 +126,14 @@ namespace Res.Business
 
 
 
-	public class CroResourceRanking : CroResourcecommend
+	public class MicroCourseRanking : MicroCoursecommend
 	{
 		public string AuthorCompany { get; set; }
 		public DateTime CreatedTime { get; set; }
-		public int ViewCount { get; set; }
-		public int CommentCount { get; set; }
-		public int DownCount { get; set; }
+      public int PlayCount { get; set; }
+		//public int ViewCount { get; set; }
+		//public int CommentCount { get; set; }
+		//public int DownCount { get; set; }
 		public string FileExtName { get; set; }
 		public string Description { get; set; }
 		//public string RType { get; set; }

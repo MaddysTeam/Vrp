@@ -25,36 +25,107 @@
 
 		</div>
 
-	<!--热门资源-->
+	<!--最热排行榜-->
 
 	<div class="div_cont fl w100 mt_20 green_edge">
 		<div class="title">
-			<b>热门资源</b>
-			<span>
+			<b>最热排行榜</b>
+			@*<span>
 				<a href="javascript:;" class="blocktab tab1" data-cat="hot" data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "rmyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
 				<a href="javascript:;" class="blocktab" data-cat="hot" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "rmtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
-			</span>
+			</span>*@
 			<a class="glyphicon glyphicon-option-horizontal fr more" id="more_hot" href="@Url.Action("More", "CroResource", new { type = "rmyc", mediumtypepkid = "null", FileExtName = "null" })"></a>
 		</div>
 		<div class="d_res_list" id="contain_hot">
 		</div>
 	</div>
 
-	<!--最新资源-->
+	<!--得票排行榜-->
 
 	<div class="div_cont fl w100 mt_20 green_edge">
 		<div class="title">
-			<b>最新资源</b>
-			<span>
+			<b>得票排行榜</b>
+			@*<span>
+				<a href="javascript:;" class="blocktab tab1" data-cat="new" data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
+				<a href="javascript:;" class="blocktab" data-cat="new" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "zxtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
+			</span>*@
+			<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })"></a>
+		</div>
+		<div class="d_res_list" id="contain_top">
+		</div>
+	</div>
+
+	<!--最新微课-->
+
+	<div class="div_cont fl w100 mt_20 green_edge">
+		<div class="title">
+			<b>最新微课</b>
+			@*<span>
 				<a href="javascript:;" class="blocktab tab1" data-cat="new"  data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
 				<a href="javascript:;" class="blocktab" data-cat="new" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "zxtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
-			</span>
+			</span>*@
 			<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })"></a>
 		</div>
 		<div class="d_res_list" id="contain_new">
 		</div>
 	</div>
 
+	<!--江苏省-->
+
+	<div class="div_cont fl w100 mt_20 green_edge">
+		<div class="title">
+			<b>江苏</b>
+			@*<span>
+				<a href="javascript:;" class="blocktab tab1" data-cat="new" data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
+				<a href="javascript:;" class="blocktab" data-cat="new" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "zxtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
+			</span>*@
+			<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })"></a>
+		</div>
+		<div class="d_res_list" id="contain_jiangsu">
+		</div>
+	</div>
+
+	<!--浙江省-->
+	<div class="div_cont fl w100 mt_20 green_edge">
+		<div class="title">
+			<b>浙江</b>
+			@*<span>
+					<a href="javascript:;" class="blocktab tab1" data-cat="new" data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
+					<a href="javascript:;" class="blocktab" data-cat="new" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "zxtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
+				</span>*@
+			<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })"></a>
+		</div>
+		<div class="d_res_list" id="contain_zhejiang">
+		</div>
+	</div>
+
+	<!--上海市-->
+	<div class="div_cont fl w100 mt_20 green_edge">
+		<div class="title">
+			<b>上海</b>
+			@*<span>
+					<a href="javascript:;" class="blocktab tab1" data-cat="new" data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
+					<a href="javascript:;" class="blocktab" data-cat="new" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "zxtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
+				</span>*@
+			<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })"></a>
+		</div>
+		<div class="d_res_list" id="contain_shagnhai">
+		</div>
+	</div>
+
+	<!--安徽省-->
+	<div class="div_cont fl w100 mt_20 green_edge">
+		<div class="title">
+			<b>安徽</b>
+			@*<span>
+					<a href="javascript:;" class="blocktab tab1" data-cat="new" data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
+					<a href="javascript:;" class="blocktab" data-cat="new" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "zxtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
+				</span>*@
+			<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })"></a>
+		</div>
+		<div class="d_res_list" id="contain_anhui">
+		</div>
+	</div>
 
 </div>
 <div class="col-md-3">
@@ -137,7 +208,7 @@
 
 		<div class="div_cont fr w100 mt_20">
 			<div class="title">
-				<b>资源库热门资源</b><a href="@Url.Action("More", "Resource", new { type = "newresource" })" class="glyphicon glyphicon-option-horizontal fr more" target="_blank"></a>
+				<b>热门微课</b><a href="@Url.Action("More", "Resource", new { type = "newresource" })" class="glyphicon glyphicon-option-horizontal fr more" target="_blank"></a>
 			</div>
 			<div class="d_user_list">
 				<ul class="new_res_list hot_res">

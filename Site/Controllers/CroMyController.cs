@@ -199,12 +199,12 @@ namespace Res.Controllers
             model.StatePKID = model.StatePKID == CroResourceHelper.StateDeny ? CroResourceHelper.StateWait : model.StatePKID;
             APBplDef.CroResourceBpl.Insert(model);
 
-            foreach (var item in model.Courses)
+            foreach (var item in model.Courses ?? new List<MicroCourse>())
             {
                item.ResourceId = model.CrosourceId;
                APBplDef.MicroCourseBpl.Insert(item);
 
-               foreach (var exer in item.Exercises)
+               foreach (var exer in item.Exercises ?? new List<Exercises>())
                {
                   exer.CourseId = item.CourseId;
                   APBplDef.ExercisesBpl.Insert(exer);

@@ -1584,3 +1584,6 @@ span.request
 /** upload page */
 .exercises {border:1px dashed #808080;margin:4px; padding:4px;}
 .exercises input { font-size:10px;}
+.exercises .courseArea{border:1px dashed #808080; padding-right:8%; margin-left:3%; padding-top:3%;}
+.exercises .btn-upload{width:100%; height:100%}
+.exercises .addCourse{margin-top:30px;}

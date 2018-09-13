@@ -29,11 +29,11 @@ namespace Res.Controllers
       public ActionResult Index(string type)
       {
          int total;
-         //首页--活跃用户
+         // 首页--活跃用户
          ViewBag.RankingOfActiveUser = new List<ResActiveUser>(); // CroHomeActiveUserList(out total, 9);
          // 首页--资源库热门资源
          ViewBag.RankingOfRMViewCount = new List<ResResourceRanking>();// HomeRecommandList(APDBDef.ResResource.ViewCount.Desc, out total, 5);
-         //首页--公告
+         // 首页--公告
          ViewBag.RankingOfBulletin = HomeCroBulltinList(APDBDef.CroBulletin.CreatedTime.Desc, out total, 5);
          return View();
       }

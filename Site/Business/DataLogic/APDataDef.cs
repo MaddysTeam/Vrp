@@ -257,7 +257,7 @@ namespace Res.Business
 
       // TODO: delete later public int Star { get { if (StarCount == 0)return 0; return StarTotal / StarCount; } }
 
-      public List<MicroCourse> Courses { get; set; }
+      public List<MicroCourse> Courses { get; set; } 
 
       #endregion
 

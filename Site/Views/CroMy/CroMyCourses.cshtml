@@ -2,6 +2,14 @@
 @model MicroCourse
 
 <div class="courseArea" style="border:1px dashed #808080; padding-right:8%; margin-left:3%; padding-top:3%;">
+
+	<div class="form-group">
+		@Html.LabelFor(m => m.CourseTitle, new { @class = "control-label col-sm-3" })
+		<div class="col-sm-9">
+			@Html.TextBox("CourseTitle",Model.CourseTitle, new { @class = "form-control title", maxlength = "255", placeholder = "微课程标题" })
+		</div>
+	</div>
+
 	<div class="form-group courseUploader">
 		<label class="control-label col-sm-3"> <span class="request">*</span>微课视频</label>
 
@@ -77,7 +85,7 @@
 					<div class="form-group stem">
 						<div class="col-sm-3">题干：</div>
 						<div class="col-sm-4">
-							<input class="form-control title valid" aria-invalid="false" value="@item.Title">
+							<input class="form-control title valid" aria-invalid="false" value="@item.Name">
 						</div>
 						<div class="col-sm-5">
 							<button class="btn btn-sm btn-success btn-opt">增加选项</button> <button class="btn btn-sm btn-info btn-del">删除</button>

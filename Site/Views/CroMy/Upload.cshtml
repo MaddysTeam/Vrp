@@ -252,6 +252,7 @@
 				var $this=$(this);
 				var course={
 					CourseId:$this.find('.courseId').val(),
+					CourseTitle:$this.find('.title').val(),
 					ResourceId:o.CrosourceId,
 					VideoId:$this.find('.courseUploader .fileId').val(),
 					CoverId:$this.find('.coverUploader .fileId').val(),
@@ -264,7 +265,7 @@
 				$this.find('.exercises').each(function(){
 					var $that= $(this);
 					var exe={};
-					exe.Title=$that.find('.title:first').val();
+					exe.Name=$that.find('.name:first').val();
 					exe.Answer= $that.find('.key:first').val();
 					course.Exercises.push(exe);
 				});
@@ -304,7 +305,7 @@
 		}
 	</script>
 
-	<script type="text/javascript">
+    <script type="text/javascript">
 
 		var resTypes = @Html.Raw(Json.Encode(ViewBag.ResTypes));
 		var grades = @Html.Raw(Json.Encode(ViewBag.Grades));
@@ -419,7 +420,7 @@
 										  '<div title="点击选择封面" class="cover-bg btn-upload">'+
 											  '<span>点击选择封面</span>' +
 										  '</div>'+
-									  '</div></div>')
+									  '</div><input type="hidden" class="fileId" /></div>')
 		}
 
 		function createExcieses(){
@@ -447,7 +448,7 @@
 				  '<div class="exercises rows" style="border:1px dashed #808080;margin:4px; padding:4px;">' +
 				    '<div class="form-group stem">'+
 						'<div class="col-sm-3">题干：</div>'+
-						'<div class="col-sm-4"><input class="form-control title" /></div>'+
+						'<div class="col-sm-4"><input class="form-control name" /></div>'+
 						'<div class="col-sm-5"><button class="btn btn-sm btn-success btn-opt">增加选项</button> <button class="btn btn-sm btn-info btn-del">删除</button> </div>'+
 					'</div></div>');
 		}
@@ -520,7 +521,7 @@
 				var $this=$(this);
 				var stem=createExercisesStem();
 				var answer=createExercisesAnswer();
-				
+
 				$this.parent().after(stem);
 				$(stem).append(answer)
 				   .find('.btn-opt').off('click').click(function(){
@@ -567,7 +568,7 @@
 			});
 		}
 
-	</script>
+    </script>
 }
 
 

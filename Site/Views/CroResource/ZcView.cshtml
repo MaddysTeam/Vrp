@@ -44,14 +44,14 @@
 					<div class="div ">
 						<p><span>关 键 字： @Model.Keywords </span><span>&nbsp;&nbsp;练 习 题：<button class="btn btn-danger  btn-sm">答 题</button></span></p>
 						<p><span>资源类型： 微课程</span><span>媒体格式： </span></p>
-						<p><span>上传日期： @Model.CreatedTime.ToShortDateString()</span><span>浏览次数： @Model.ViewCount 次</span></p>
-						<p><span>收藏次数： @Model.FavoriteCount</span><span>下载次数： @Model.DownCount 次</span></p>
+						<p><span>上传日期： @Model.CreatedTime.ToShortDateString()</span><span>播放次数： @Model.ViewCount 次</span></p>
+						@*<p><span>收藏次数： @Model.FavoriteCount</span><span>下载次数： @Model.DownCount 次</span></p>*@
 
 						<p><span>教学设计：<button class="btn btn-info btn-sm">预 览</button></span><span>教学反思： <button class="btn btn-info  btn-sm">	预 览</button></span></p>
 						<p></p>
 	
 					</div>
-					<div class="div ">
+					<div class="div ">	
 						<p>@Model.Description</p>
 						<h3>详细属性</h3>
 					</div>

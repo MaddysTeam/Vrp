@@ -16,7 +16,7 @@ namespace Res.Controllers
 
 		#region [ 众筹资源查询 ]
 
-		public List<CroResourceRanking> SearchCroResourceList(APSqlWherePhrase where, APSqlOrderPhrase order, out int total, int take, int skip = -1)
+		public List<MicroCourseRanking> SearchCroResourceList(APSqlWherePhrase where, APSqlOrderPhrase order, out int total, int take, int skip = -1)
 		{
 			var t = APDBDef.CroResource;
 
@@ -52,7 +52,7 @@ namespace Res.Controllers
 				var des = t.Description.GetValue(reader);
 				if (des.Length > 100)
 					des = des.Substring(0, 100);
-				return new CroResourceRanking()
+				return new MicroCourseRanking()
 				{
 					CrosourceId = t.CrosourceId.GetValue(reader),
 					Title = t.Title.GetValue(reader),
@@ -63,9 +63,9 @@ namespace Res.Controllers
 
 					AuthorCompany = t.AuthorCompany.GetValue(reader),
 					CreatedTime = t.CreatedTime.GetValue(reader),
-					ViewCount = t.ViewCount.GetValue(reader),
-					CommentCount = t.CommentCount.GetValue(reader),
-					DownCount = t.DownCount.GetValue(reader),
+					//ViewCount = t.ViewCount.GetValue(reader),
+					//CommentCount = t.CommentCount.GetValue(reader),
+					//DownCount = t.DownCount.GetValue(reader),
 					//FileExtName = t.FileExtName.GetValue(reader),
 					Description = des,
 				};
@@ -285,17 +285,22 @@ namespace Res.Controllers
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
 		/// <returns></returns>
-		public List<CroResourceRanking> CroHomeRankingList(APSqlOrderPhrase order, APSqlWherePhrase where, out int total, int take, int skip = -1, APSqlWherePhrase moreWhere = null, string FileExtName = null)
+		public List<MicroCourseRanking> CroHomeRankingList(APSqlOrderPhrase order, APSqlWherePhrase where, out int total, int take, int skip = -1, APSqlWherePhrase moreWhere = null, string FileExtName = null)
 		{
+			var cr = APDBDef.CroResource;
+         var mc = APDBDef.MicroCourse;
+         var cf = APDBDef.Files;
 
-			var t = APDBDef.CroResource;
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, //t.CoverPath,
-				t.AuthorCompany, t.CreatedTime, t.ViewCount, t.CommentCount, t.DownCount, //t.FileExtName, 
-            t.Description)
-				.from(t)
-				.where(t.StatePKID == CroResourceHelper.StateAllow)
-				.order_by(order, t.CrosourceId.Asc)
-				.primary(t.CrosourceId)
+         var query = APQuery.select(cr.CrosourceId, cr.Title, cr.Author, //t.CoverPath,
+            cr.AuthorCompany, cr.CreatedTime, //cr.ViewCount, cr.CommentCount, cr.DownCount, //t.FileExtName, 
+            cr.Description,mc.CourseId,mc.CourseTitle,mc.PlayCount,cf.FilePath)
+				.from(mc,
+                  cr.JoinLeft(mc.ResourceId==cr.CrosourceId),
+                  cf.JoinLeft(cf.FileId==mc.CoverId)
+                  )
+				//.where(t.StatePKID == CroResourceHelper.StateAllow)
+				.order_by(order, cr.CrosourceId.Asc)
+				.primary(mc.CourseId)
 				.take(take);
 			if (where != null)
 				query.where_and(where);
@@ -319,8 +324,6 @@ namespace Res.Controllers
 
 			}
 
-
-
 			if (skip != -1)
 			{
 				query.skip(skip);
@@ -333,20 +336,21 @@ namespace Res.Controllers
 
 			return db.Query(query, reader =>
 			{
-				var des = t.Description.GetValue(reader);
+				var des = cr.Description.GetValue(reader);
 				if (des.Length > 100)
 					des = des.Substring(0, 100);
-				return new CroResourceRanking()
+				return new MicroCourseRanking()
 				{
-					CrosourceId = t.CrosourceId.GetValue(reader),
-					Title = t.Title.GetValue(reader),
-					Author = t.Author.GetValue(reader),
-					//CoverPath = t.CoverPath.GetValue(reader),
-					AuthorCompany = t.AuthorCompany.GetValue(reader),
-					CreatedTime = t.CreatedTime.GetValue(reader),
-					ViewCount = t.ViewCount.GetValue(reader),
-					CommentCount = t.CommentCount.GetValue(reader),
-					DownCount = t.DownCount.GetValue(reader),
+               CourseId= mc.CourseId.GetValue(reader),
+					CrosourceId = cr.CrosourceId.GetValue(reader),
+					Title = mc.CourseTitle.GetValue(reader),
+					Author = cr.Author.GetValue(reader),
+					CoverPath = cf.FilePath.GetValue(reader),
+					AuthorCompany = cr.AuthorCompany.GetValue(reader),
+					CreatedTime = cr.CreatedTime.GetValue(reader),
+					//ViewCount = t.ViewCount.GetValue(reader),
+					//CommentCount = t.CommentCount.GetValue(reader),
+					//DownCount = t.DownCount.GetValue(reader),
 					//FileExtName = t.FileExtName.GetValue(reader),
 					Description = des,
 				};
@@ -364,7 +368,7 @@ namespace Res.Controllers
 		/// <param name="moreWhere"></param>
 		/// <returns></returns>
 
-		public List<CroResourceRanking> CroHomeRelationList(long selfId, string[] keywords, int take, string FileExtName, APSqlWherePhrase moreWhere = null)
+		public List<MicroCourseRanking> CroHomeRelationList(long selfId, string[] keywords, int take, string FileExtName, APSqlWherePhrase moreWhere = null)
 		{
 			var t = APDBDef.CroResource;
 			var query = APQuery.select(t.CrosourceId, t.Title, t.Author //t.CoverPath
@@ -400,14 +404,14 @@ namespace Res.Controllers
 
 			return db.Query(query, reader =>
 			{
-				return new CroResourceRanking()
+				return new MicroCourseRanking()
 				{
 					CrosourceId = t.CrosourceId.GetValue(reader),
 					Title = t.Title.GetValue(reader),
 					Author = t.Author.GetValue(reader),
 					//CoverPath = t.CoverPath.GetValue(reader),
-					StarCount =0, //t.StarCount.GetValue(reader),
-					StarTotal =0, //t.StarTotal.GetValue(reader),
+					//StarCount =0, //t.StarCount.GetValue(reader),
+					//StarTotal =0, //t.StarTotal.GetValue(reader),
 				};
 			}).ToList();
 		}

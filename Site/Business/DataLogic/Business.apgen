@@ -403,12 +403,15 @@
 		 <table name="MicroCourse">
 			 <columns>
 				 <add name="CourseId" type="long" identityType="Provider" primaryKey="true"/>
+				 <add name="CourseTitle" type="string" dataLength="255" required="true" display="微课程标题"/>
 				 <add name="ResourceId" type="long" display="微课程资源Id"  required="true" />
 				 <add name="VideoId" type="long" display="视频文件ID" required="true"/>
 				 <add name="CoverId" type="long" display="封面文件ID"/>
 				 <add name="DesignId" type="long" display="设计ID"/>
 				 <add name="SummaryId" type="long" display="反思ID"/>
 				 <add name="CharpterSortId" type="long"/>
+				 <add name="PlayCount" type="int" display="播放次数"/>
+				 
 			 </columns>
 		 </table>
 
@@ -417,7 +420,7 @@
 			 <columns>
 				 <add name="ExerciseId" type="long" identityType="Provider" primaryKey="true"/>
 				 <add name="CourseId" type="long" required="true"/>
-				 <add name="Title" type="string" dataLength="1000" required="true"></add>
+				 <add name="Name" type="string" dataLength="1000" required="true"></add>
 				 <add name="Answer" type="string" dataLength="100" required="true" />
 			 </columns>
 		 </table>
