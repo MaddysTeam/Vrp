@@ -57,9 +57,11 @@ namespace Res.Business
 		public static long MediumAnimation = 10215;
 		public static long MediumMix = 10216;
 
+      // 搜索类型
+      public static string Hot = "rmyc";
+      public static string Latest = "zxyc";
 
-
-		private static Dictionary<string, long> dictMediumType;
+      private static Dictionary<string, long> dictMediumType;
 		public static long GetMediumType(string ext)
 		{
 			if (dictMediumType == null)

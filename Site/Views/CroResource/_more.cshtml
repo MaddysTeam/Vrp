@@ -5,7 +5,7 @@
 	<div class="d_news">
 		
 
-			@foreach (MicroCourseRanking item in ViewBag.ListOfMore)
+			@foreach (MicroCourseRanking item in ViewBag.ListOfMore ?? new List<MicroCourseRanking>())
 			{
 	<div class="res">
 	

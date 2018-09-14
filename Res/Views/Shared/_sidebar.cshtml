@@ -5,30 +5,30 @@
 	<nav class="main-nav">
 
 		<ul class="main-menu">
-			<li>
+			@*<li>
 				<a href="@Url.Action("Dashboard", "Home")">
 					<i class="fa fa-dashboard fa-fw"></i>
 					<span class="text">仪表板</span>
 				</a>
-			</li>
-			<li>
+			</li>*@
+			@*<li>
 				<a href="@Url.Action("Index", "Resource")">
 					<i class="fa fa-image fa-fw"></i>
 					<span class="text">资源</span>
 				</a>
-			</li>
+			</li>*@
 			@if (ResSettings.SettingsInSession.CanbeManageUser)
 			{ 
-			<li>
+			@*<li>
 				<a href="@Url.Action("Index", "Bulletin")">
 					<i class="fa fa-newspaper-o fa-fw"></i>
 					<span class="text">资源库公告</span>
 				</a>
-			</li>
+			</li>*@
 			<li>
 				<a href="@Url.Action("Index", "CroBulletin")">
 					<i class="fa fa-newspaper-o fa-fw"></i>
-					<span class="text">众筹平台公告</span>
+					<span class="text">平台公告</span>
 				</a>
 			</li>
 			<li>
@@ -44,39 +44,46 @@
 				</a>
 			</li>
 			}
-			<li>
+			@*<li>
 				<a href="@Url.Action("Main", "Report")">
 					<i class="fa fa-bar-chart-o fa-fw"></i>
 					<span class="text">报表 & 图表</span>
 				</a>
-			</li>
+			</li>*@
 			<li>
 				<a href="@Url.Action("Index", "Crosource")">
 					<i class="fa fa-image fa-fw"></i>
-					<span class="text">众筹资源</span>
+					<span class="text">微课管理</span>
 				</a>
 			</li>
-			<li>
+			@*<li>
 			
 				<a href="@Url.Action("Comment", "Comment")">
 					<i class="fa fa-image fa-fw"></i>
 					<span class="text">资源库资源评论管理</span>
 				</a>
-			</li>
+			</li>*@
 			<li>
 
 				<a href="@Url.Action("Comment", "CroComment")">
 					<i class="fa fa-image fa-fw"></i>
-					<span class="text">众筹资源评论管理</span>
+					<span class="text">微课评论管理</span>
 				</a>
 			</li>
 			<li>
+
+				<a href="#">
+					<i class="fa fa-image fa-fw"></i>
+					<span class="text">专家评分</span>
+				</a>
+			</li>
+			@*<li>
 
 				<a href="@Url.Action("Index", "ZSResource")">
 					<i class="fa fa-image fa-fw"></i>
 					<span class="text">展示资源</span>
 				</a>
-			</li>
+			</li>*@
 		</ul>
 	</nav>
 	<!-- /main-nav -->
@@ -86,7 +93,7 @@
 	</div>
 
 	<!-- sidebar content -->
-	<div class="sidebar-content">
+	@*<div class="sidebar-content">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h5><i class="fa fa-lightbulb-o"></i> 小提示</h5>
@@ -95,7 +102,7 @@
 				<p>利用页面顶端搜索框可以筛选你关心的页面组件，特别是在仪表板这样的多组件页面是非常有用的。</p>
 			</div>
 		</div>
-	</div>
+	</div>*@
 	<!-- end sidebar content -->
 </div>
 <!-- end left sidebar -->

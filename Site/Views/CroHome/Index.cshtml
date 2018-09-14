@@ -34,7 +34,7 @@
 				<a href="javascript:;" class="blocktab tab1" data-cat="hot" data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "rmyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
 				<a href="javascript:;" class="blocktab" data-cat="hot" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "rmtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
 			</span>*@
-			<a class="glyphicon glyphicon-option-horizontal fr more" id="more_hot" href="@Url.Action("More", "CroResource", new { type = "rmyc", mediumtypepkid = "null", FileExtName = "null" })"></a>
+			<a class="glyphicon glyphicon-option-horizontal fr more" id="more_hot" href="@Url.Action("More", "CroResource", new { type = CroResourceHelper.Hot, mediumtypepkid = "null", FileExtName = "null" })"></a>
 		</div>
 		<div class="d_res_list" id="contain_hot">
 		</div>
@@ -49,7 +49,7 @@
 				<a href="javascript:;" class="blocktab tab1" data-cat="new" data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
 				<a href="javascript:;" class="blocktab" data-cat="new" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "zxtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
 			</span>*@
-			<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })"></a>
+			<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type =CroResourceHelper.Latest, mediumtypepkid = "null", FileExtName = "null" })"></a>
 		</div>
 		<div class="d_res_list" id="contain_top">
 		</div>

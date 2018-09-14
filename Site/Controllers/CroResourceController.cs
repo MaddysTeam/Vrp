@@ -121,7 +121,7 @@ namespace Res.Controllers
 
 
       /// <summary>
-      /// 更多资源
+      /// 更多微课
       /// </summary>
       /// <param name="type"></param>
       /// <param name="page"></param>
@@ -133,15 +133,15 @@ namespace Res.Controllers
 
          if (mediumtypepkid == "null")
          {
-            if (type == "rmgd")
+            if (type == CroResourceHelper.Hot)
             {
                ViewBag.ListOfMore = CroHomeRankingList(t.EliteScore.Desc, null, out total, 10, (page - 1) * 10);
-               ViewBag.Title = "热门资源";
+               ViewBag.Title = "热门微课";
             }
-            else if (type == "zxgd")
+            else if (type == CroResourceHelper.Latest )
             {
                ViewBag.ListOfMore = CroHomeRankingList(t.CreatedTime.Desc, null, out total, 10, (page - 1) * 10);
-               ViewBag.Title = "最新资源";
+               ViewBag.Title = "最新微课";
             }
 
             // 分页器
@@ -149,9 +149,9 @@ namespace Res.Controllers
             ViewBag.PageSize = 10;
             ViewBag.PageNumber = page;
             ViewBag.TotalItemCount = total;
-            // 右侧热门资源
+            // 右侧热门微课
             ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5);
-            // 右侧最新资源
+            // 右侧最新微课
             ViewBag.RankingROfNewCount = CroHomeRankingList(APDBDef.CroResource.CreatedTime.Desc, null, out total, 5);
 
          }
@@ -160,12 +160,12 @@ namespace Res.Controllers
             if (type == "rmgd")
             {
              //  ViewBag.ListOfMore = CroHomeRankingList(t.EliteScore.Desc, null, out total, 10, (page - 1) * 10, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
-               ViewBag.Title = "热门资源";
+               ViewBag.Title = "热门微课";
             }
             else if (type == "zxgd")
             {
              //  ViewBag.ListOfMore = CroHomeRankingList(t.CreatedTime.Desc, null, out total, 10, (page - 1) * 10, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
-               ViewBag.Title = "最新资源";
+               ViewBag.Title = "最新微课";
             }
 
             // 分页器
@@ -175,9 +175,9 @@ namespace Res.Controllers
             ViewBag.TotalItemCount = total;
 
 
-            // 右侧热门资源
+            // 右侧热门微课
             //ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5, 0, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
-            // 右侧最新资源
+            // 右侧最新微课
             //ViewBag.RankingROfNewCount = CroHomeRankingList(APDBDef.CroResource.CreatedTime.Desc, null, out total, 5, 0, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
 
          }
@@ -210,7 +210,7 @@ namespace Res.Controllers
 
          //右侧活跃用户
          ViewBag.RankingOfActiveUser = CroHomeActiveUserList(out total, 9);
-         //右侧热门资源
+         //右侧热门微课
          ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5);
 
          return View();
@@ -218,7 +218,7 @@ namespace Res.Controllers
 
 
       /// <summary>
-      /// 资源详情
+      /// 微课详情
       /// </summary>
       /// <param name="id"></param>
       /// <returns></returns>
@@ -239,13 +239,13 @@ namespace Res.Controllers
 
          //model.GhostFileName = Path.GetFullPath( model.ResourcePath); //model.IsLink ? model.ResourcePath : Path.GetFileName(model.ResourcePath);
 
-         //// 相关资源
+         //// 相关微课
          //ViewBag.RankingOfRelation = CroHomeRelationList(id, model.Keywords.Split(','), 8, model.FileExtName, APDBDef.CroResource.MediumTypePKID == model.MediumTypePKID);
 
-         ////右侧热门资源
+         ////右侧热门微课
          //ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5, 0, t.MediumTypePKID == model.MediumTypePKID, model.FileExtName);
 
-         ////右侧最新资源
+         ////右侧最新微课
          //ViewBag.RankingROfNewCount = CroHomeRankingList(APDBDef.CroResource.CreatedTime.Desc, null, out total, 5, 0, t.MediumTypePKID == model.MediumTypePKID, model.FileExtName);
 
          //ViewBag.mediumtypepkid = model.MediumTypePKID;
@@ -258,7 +258,7 @@ namespace Res.Controllers
 
 
       //
-      // 资源查看
+      // 微课查看
       // GET:		/Resource/Favorite
       //
       public ActionResult Favorite(long id)
@@ -329,7 +329,7 @@ namespace Res.Controllers
          var model = APBplDef.CroBulletinBpl.PrimaryGet(id);
          //右侧活跃用户
          ViewBag.RankingOfActiveUser = CroHomeActiveUserList(out total, 9);
-         //右侧热门资源
+         //右侧热门微课
          ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5);
 
          return View(model);
