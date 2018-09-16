@@ -167,10 +167,10 @@ namespace Res.Business
       #endregion
 
 
-      #region [ ResResource ]
+      #region [ ResUserBpl ]
 
 
-      public partial class ResResourceBpl : ResResourceBplBase
+      public partial class ResUserBpl : ResUserBplBase
       {
 
          /// <summary>
@@ -182,16 +182,21 @@ namespace Res.Business
          /// <param name="where"></param>
          /// <param name="order"></param>
          /// <returns></returns>
-         public static List<ResResource> TolerantSearch(out int total, int current, int rowCount, APSqlWherePhrase where, APSqlOrderPhrase order)
+         public static List<ResUser> TolerantSearch(out int total, int current, int rowCount, APSqlWherePhrase where, APSqlOrderPhrase order)
          {
-            var t = APDBDef.ResResource;
-            var u = APDBDef.ResUser;
+            var t = APDBDef.ResUser;
+            var c = APDBDef.ResCompany;
+            var r = APDBDef.ResRole;
+            var ur = APDBDef.ResUserRole;
 
             var query = APQuery
-               .select(t.ResourceId, t.Title, u.RealName.As("Author"), t.MediumTypePKID, t.CreatedTime, t.StatePKID, t.EliteScore)
-               .from(t, u.JoinInner(t.Creator == u.UserId))
+               .select(t.UserId, t.UserName, t.RealName, t.GenderPKID, t.Email, t.RegisterTime, t.LoginCount, t.Actived, c.CompanyName, r.RoleName)
+               .from(t,
+                  c.JoinInner(t.CompanyId == c.CompanyId),
+                  ur.JoinInner(t.UserId == ur.UserId),
+                  r.JoinInner(r.RoleId == ur.RoleId))
                .where(where)
-               .primary(t.ResourceId)
+               .primary(t.UserId)
                .skip((current - 1) * rowCount)
                .take(rowCount);
 
@@ -201,112 +206,43 @@ namespace Res.Business
             using (APDBDef db = new APDBDef())
             {
                total = db.ExecuteSizeOfSelect(query);
-               return db.Query(query, t.TolerantMap).ToList();
+               return db.Query(query, reader =>
+               {
+                  return new ResUser()
+                  {
+                     UserId = t.UserId.GetValue(reader),
+                     UserName = t.UserName.GetValue(reader),
+                     RealName = t.RealName.GetValue(reader),
+                     GenderPKID = t.GenderPKID.GetValue(reader),
+                     Email = t.Email.GetValue(reader),
+                     RegisterTime = t.RegisterTime.GetValue(reader),
+                     LoginCount = t.LoginCount.GetValue(reader),
+                     Actived = t.Actived.GetValue(reader),
+                     CompanyName = c.CompanyName.GetValue(reader),
+                     //RoleName = r.RoleName.GetValue(reader),
+                  };
+               }).ToList();
             }
          }
 
-         public static void CountingView(APDBDef db, long resourceId, long userId)
+
+         public static void SetLastLoginTime(string username)
          {
-            var t = APDBDef.ResResource;
-
-            APQuery.update(t)
-               .set(t.ViewCount, APSqlThroughExpr.Expr("ViewCount+1"))
-               .where(t.ResourceId == resourceId)
-               .execute(db);
-
-            if (userId != 0)
+            var t = APDBDef.ResUser;
+            var query = APQuery.update(t)
+               .set(t.LastLoginTime, DateTime.Now)
+               .set(t.LoginCount, APSqlThroughExpr.Expr("LoginCount + 1"))
+               .where(t.UserName == username);
+            using (var db = new APDBDef())
             {
-               db.ResViewDal.Insert(new ResView()
-               {
-                  UserId = userId,
-                  ResourceId = resourceId,
-                  OccurTime = DateTime.Now
-               });
+               db.ExecuteNonQuery(query);
             }
-         }
-
-         public static void CountingFavorite(APDBDef db, long resourceId, long userId)
-         {
-            var t = APDBDef.ResResource;
-
-            APQuery.update(t)
-               .set(t.FavoriteCount, APSqlThroughExpr.Expr("FavoriteCount+1"))
-               .where(t.ResourceId == resourceId)
-               .execute(db);
-            if (userId != 0)
-               db.ResFavoriteDal.Insert(new ResFavorite()
-               {
-                  UserId = userId,
-                  ResourceId = resourceId,
-                  OccurTime = DateTime.Now
-               });
-         }
-
-         public static long CountingComment(APDBDef db, long resourceId, string content, long userId)
-         {
-            var t = APDBDef.ResResource;
-
-            APQuery.update(t)
-               .set(t.CommentCount, APSqlThroughExpr.Expr("CommentCount+1"))
-               .where(t.ResourceId == resourceId)
-               .execute(db);
-            if (userId != 0)
-            {
-               var comment = new ResComment()
-               {
-                  UserId = userId,
-                  ResourceId = resourceId,
-                  Content = content,
-                  OccurTime = DateTime.Now,
-                  Audittype = 1
-               };
-               db.ResCommentDal.Insert(comment);
-               return comment.OccurId;
-            }
-            return 0;
-         }
-
-         public static void CountingDownload(APDBDef db, long resourceId, long userId)
-         {
-            var t = APDBDef.ResResource;
-
-            APQuery.update(t)
-               .set(t.DownCount, APSqlThroughExpr.Expr("DownCount+1"))
-               .where(t.ResourceId == resourceId)
-               .execute(db);
-            if (userId != 0)
-               db.ResDownloadDal.Insert(new ResDownload()
-               {
-                  UserId = userId,
-                  ResourceId = resourceId,
-                  OccurTime = DateTime.Now
-               });
-         }
-
-         public static void CountingStar(APDBDef db, long resourceId, int score, long userId)
-         {
-            var t = APDBDef.ResResource;
-
-            APQuery.update(t)
-               .set(t.StarCount, APSqlThroughExpr.Expr("StarCount+1"))
-               .set(t.StarTotal, APSqlThroughExpr.Expr("StarTotal+" + score))
-               .where(t.ResourceId == resourceId)
-               .execute(db);
-            if (userId != 0)
-               db.ResStarDal.Insert(new ResStar()
-               {
-                  UserId = userId,
-                  ResourceId = resourceId,
-                  Score = score,
-                  OccurTime = DateTime.Now
-               });
          }
 
       }
 
 
       #endregion
-
 
       #region [ ResRoleApproveBpl ]
 
@@ -408,127 +344,6 @@ namespace Res.Business
 
 
       #endregion
-
-
-      #region [ ResUserBpl ]
-
-
-      public partial class ResUserBpl : ResUserBplBase
-      {
-
-         /// <summary>
-         /// Return a list for admin UI list. 
-         /// </summary>
-         /// <param name="total"></param>
-         /// <param name="current"></param>
-         /// <param name="rowCount"></param>
-         /// <param name="where"></param>
-         /// <param name="order"></param>
-         /// <returns></returns>
-         public static List<ResUser> TolerantSearch(out int total, int current, int rowCount, APSqlWherePhrase where, APSqlOrderPhrase order)
-         {
-            var t = APDBDef.ResUser;
-            var c = APDBDef.ResCompany;
-
-            var query = APQuery
-               .select(t.UserId, t.UserName, t.RealName, t.GenderPKID, t.Email, t.RegisterTime, t.LoginCount, t.Actived, c.CompanyName)
-               .from(t, c.JoinInner(t.CompanyId == c.CompanyId))
-               .where(where)
-               .primary(t.UserId)
-               .skip((current - 1) * rowCount)
-               .take(rowCount);
-
-            if (order != null)
-               query.order_by(order);
-
-            using (APDBDef db = new APDBDef())
-            {
-               total = db.ExecuteSizeOfSelect(query);
-               return db.Query(query, reader =>
-               {
-                  return new ResUser()
-                  {
-                     UserId = t.UserId.GetValue(reader),
-                     UserName = t.UserName.GetValue(reader),
-                     RealName = t.RealName.GetValue(reader),
-                     GenderPKID = t.GenderPKID.GetValue(reader),
-                     Email = t.Email.GetValue(reader),
-                     RegisterTime = t.RegisterTime.GetValue(reader),
-                     LoginCount = t.LoginCount.GetValue(reader),
-                     Actived = t.Actived.GetValue(reader),
-                     CompanyName = c.CompanyName.GetValue(reader)
-                  };
-               }).ToList();
-            }
-         }
-
-
-         public static void SetLastLoginTime(string username)
-         {
-            var t = APDBDef.ResUser;
-            var query = APQuery.update(t)
-               .set(t.LastLoginTime, DateTime.Now)
-               .set(t.LoginCount, APSqlThroughExpr.Expr("LoginCount + 1"))
-               .where(t.UserName == username);
-            using (var db = new APDBDef())
-            {
-               db.ExecuteNonQuery(query);
-            }
-         }
-      }
-
-
-      #endregion
-
-
-      #region [ ResRealBpl ]
-
-
-      public partial class ResRealBpl : ResRealBplBase
-      {
-
-         /// <summary>
-         /// Return a list for admin UI list. 
-         /// </summary>
-         /// <param name="total"></param>
-         /// <param name="current"></param>
-         /// <param name="rowCount"></param>
-         /// <param name="where"></param>
-         /// <param name="order"></param>
-         /// <returns></returns>
-         public static List<ResReal> TolerantSearch(out int total, int current, int rowCount, APSqlWherePhrase where, APSqlOrderPhrase order)
-         {
-            var t = APDBDef.ResReal;
-            var c = APDBDef.ResCompany;
-
-            var query = APQuery
-               .select(t.Asterisk, c.CompanyName)
-               .from(t, c.JoinInner(t.CompanyId == c.CompanyId))
-               .where(where)
-               .primary(t.RealId)
-               .skip((current - 1) * rowCount)
-               .take(rowCount);
-
-            if (order != null)
-               query.order_by(order);
-
-            using (APDBDef db = new APDBDef())
-            {
-               total = db.ExecuteSizeOfSelect(query);
-               return db.Query(query, reader =>
-               {
-                  var real = t.Map(reader);
-                  real.CompanyName = c.CompanyName.GetValue(reader);
-                  return real;
-               }).ToList();
-            }
-         }
-
-      }
-
-
-      #endregion
-
 
 
       #region [ CroResource ]

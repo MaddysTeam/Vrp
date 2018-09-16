@@ -31,7 +31,7 @@ namespace Res.Controllers
          int total;
          // 首页--活跃用户
          ViewBag.RankingOfActiveUser = new List<ResActiveUser>(); // CroHomeActiveUserList(out total, 9);
-         // 首页--资源库热门资源
+         // 首页--热门作品
          ViewBag.RankingOfRMViewCount = new List<ResResourceRanking>();// HomeRecommandList(APDBDef.ResResource.ViewCount.Desc, out total, 5);
          // 首页--公告
          ViewBag.RankingOfBulletin = HomeCroBulltinList(APDBDef.CroBulletin.CreatedTime.Desc, out total, 5);
@@ -39,7 +39,7 @@ namespace Res.Controllers
       }
 
       /// <summary>
-      /// 热门资源
+      /// 最热排行榜
       /// </summary>
       /// <param name="isLink"></param>
       /// <returns></returns>
@@ -54,7 +54,7 @@ namespace Res.Controllers
       }
 
       /// <summary>
-      /// 最新资源
+      /// 最新微课
       /// </summary>
       /// <param name="isLink"></param>
       /// <returns></returns>

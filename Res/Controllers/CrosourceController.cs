@@ -12,11 +12,14 @@ namespace Res.Controllers
 
 {
 
+    /// <summary>
+    /// 微课作品控制器
+    /// </summary>
 	public class CrosourceController : BaseController
 	{
 
 		//
-		//	资源 - 首页
+		//	作品 - 首页
 		// GET:		/Crosource/Index
 		//
 
@@ -27,7 +30,7 @@ namespace Res.Controllers
 
 
 		//
-		//	资源 - 查询
+		//	作品 - 查询
 		// GET:		/Crosource/Search
 		// POST:		/Crosource/Search
 		//
@@ -54,13 +57,13 @@ namespace Res.Controllers
 				{
 					case "Title": order = new APSqlOrderPhrase(t.Title, co.Order); break;
 					case "Author": order = new APSqlOrderPhrase(u.RealName, co.Order); break;
-					case "MediumType": order = new APSqlOrderPhrase(t.MediumTypePKID, co.Order); break;
+					//case "MediumType": order = new APSqlOrderPhrase(t.MediumTypePKID, co.Order); break;
 					case "CreatedTime": order = new APSqlOrderPhrase(t.CreatedTime, co.Order); break;
 					case "State": order = new APSqlOrderPhrase(t.StatePKID, co.Order); break;
 				}
 			}
 
-			// 按资源标题过滤
+			// 按作品标题过滤
 			if (searchPhrase != null)
 			{
 				searchPhrase = searchPhrase.Trim();
@@ -81,15 +84,16 @@ namespace Res.Controllers
 						rows = from cro in list
 								 select new
 								 {
-									 id = cro.CrosourceId,
-									 cro.Title,
-									 cro.Author,
-									 cro.MediumType,	
-									 CreatedTime = cro.CreatedTime.ToString("yyyy-MM-dd"),
-									 cro.State,
-									 cro.StatePKID,
-									 cro.EliteScore
-								 },
+                                     id = cro.CrosourceId,
+                                     cro.Title,
+                                     cro.Author,
+                                     Type="微课程", // 微课或微课程
+                                     //cro.MediumType,
+                                     CreatedTime = cro.CreatedTime.ToString("yyyy-MM-dd"),
+                                     cro.State,
+                                     cro.StatePKID,
+                                     cro.EliteScore
+                                 },
 						current = current,
 						rowCount = rowCount,
 						total = total
@@ -104,7 +108,7 @@ namespace Res.Controllers
 
 
 		//
-		//	资源 - 分类查询
+		//	作品 - 分类查询
 		// GET:		/Crosource/Category
 		// POST:		/Crosource/Category
 		//
@@ -137,7 +141,7 @@ namespace Res.Controllers
 				{
 					case "Title": order = new APSqlOrderPhrase(t.Title, co.Order); break;
 					case "Author": order = new APSqlOrderPhrase(u.RealName, co.Order); break;
-					case "MediumType": order = new APSqlOrderPhrase(t.MediumTypePKID, co.Order); break;
+					//case "MediumType": order = new APSqlOrderPhrase(t.MediumTypePKID, co.Order); break;
 					case "CreatedTime": order = new APSqlOrderPhrase(t.CreatedTime, co.Order); break;
 					case "State": order = new APSqlOrderPhrase(t.StatePKID, co.Order); break;
 
@@ -145,7 +149,7 @@ namespace Res.Controllers
 					case "DownCount": order = new APSqlOrderPhrase(t.DownCount, co.Order); break;
 					case "FavoriteCount": order = new APSqlOrderPhrase(t.FavoriteCount, co.Order); break;
 					case "CommentCount": order = new APSqlOrderPhrase(t.CommentCount, co.Order); break;
-					case "StarTotal": order = new APSqlOrderPhrase(t.StarTotal, co.Order); break;
+					//case "StarTotal": order = new APSqlOrderPhrase(t.StarTotal, co.Order); break;
 
 				
 					case "cmd_elite": order = new APSqlOrderPhrase(t.EliteScore, co.Order); break;
@@ -158,12 +162,12 @@ namespace Res.Controllers
 			{
 				switch (cond)
 				{
-					case "Domain": conds.Add(t.DomainPKID == Int64.Parse(fc[cond])); break;
+					//case "Domain": conds.Add(t.DomainPKID == Int64.Parse(fc[cond])); break;
 					case "ResourceType": conds.Add(t.ResourceTypePKID == Int64.Parse(fc[cond])); break;
-					case "MediumType": conds.Add(t.MediumTypePKID == Int64.Parse(fc[cond])); break;
-					case "SchoolType": conds.Add(t.SchoolTypePKID == Int64.Parse(fc[cond])); break;
-					case "Deformity": conds.Add(t.DeformityPKID == Int64.Parse(fc[cond])); break;
-					case "LearnFrom": conds.Add(t.LearnFromPKID == Int64.Parse(fc[cond])); break;
+					//case "MediumType": conds.Add(t.MediumTypePKID == Int64.Parse(fc[cond])); break;
+					//case "SchoolType": conds.Add(t.SchoolTypePKID == Int64.Parse(fc[cond])); break;
+					//case "Deformity": conds.Add(t.DeformityPKID == Int64.Parse(fc[cond])); break;
+					//case "LearnFrom": conds.Add(t.LearnFromPKID == Int64.Parse(fc[cond])); break;
 					case "Stage": conds.Add(t.StagePKID == Int64.Parse(fc[cond])); break;
 					case "Grade": conds.Add(t.GradePKID == Int64.Parse(fc[cond])); break;
 					case "State": conds.Add(t.StatePKID == Int64.Parse(fc[cond])); break;
@@ -192,19 +196,19 @@ namespace Res.Controllers
 						rows = from cro in list
 								 select new
 								 {
-									 id = cro.CrosourceId,
-									 cro.Title,
-									 cro.Author,
-									 cro.MediumType,
-									 CreatedTime = cro.CreatedTime.ToString("yyyy-MM-dd"),
-									 cro.State,
-									 cro.StatePKID,
-									 cro.EliteScore,
-									 cro.ViewCount,
-									 cro.DownCount,
-									 cro.FavoriteCount,
-									 cro.CommentCount,
-									 cro.StarTotal
+									 //id = cro.CrosourceId,
+									 //cro.Title,
+									 //cro.Author,
+									 //cro.MediumType,
+									 //CreatedTime = cro.CreatedTime.ToString("yyyy-MM-dd"),
+									 //cro.State,
+									 //cro.StatePKID,
+									 //cro.EliteScore,
+									 //cro.ViewCount,
+									 //cro.DownCount,
+									 //cro.FavoriteCount,
+									 //cro.CommentCount,
+									 //cro.StarTotal
 								 },
 						current = current,
 						rowCount = rowCount,
@@ -220,7 +224,7 @@ namespace Res.Controllers
 
 
 		//
-		//	资源 - 删除
+		//	作品 - 删除
 		// POST:		/Crosource/Delete
 		//
 
@@ -230,7 +234,7 @@ namespace Res.Controllers
 			if (Request.IsAjaxRequest())
 			{
 				APBplDef.CroResourceBpl.UpdatePartial(id, new { StatePKID = CroResourceHelper.StateDelete });
-				return Json(new { cmd = "Deleted", msg = "本资源已删除。" });
+				return Json(new { cmd = "Deleted", msg = "本作品已删除。" });
 			}
 
 			return IsNotAjax();
@@ -238,7 +242,7 @@ namespace Res.Controllers
 
 
 		//
-		//	资源 - 加精/取消
+		//	作品 - 加精/取消
 		// POST:		/Crosource/Elite
 		//
 
@@ -248,18 +252,15 @@ namespace Res.Controllers
 			if (Request.IsAjaxRequest())
 			{
 				APBplDef.CroResourceBpl.UpdatePartial(id, new { EliteScore = value ? 1 : 0 });
-				return Json(new { cmd = "Processed", value = value, msg = "本资源加精设置完成。" });
+				return Json(new { cmd = "Processed", value = value, msg = "本作品加精设置完成。" });
 			}
 
 			return IsNotAjax();
 		}
 
 
-		
-
-
 		//
-		//	资源 - 编辑/创建
+		//	作品 - 编辑/创建
 		// GET:		/Resource/Edit
 		// POST:		/Resource/Edit
 		//
@@ -268,75 +269,79 @@ namespace Res.Controllers
 		{
 			ViewBag.ResTypes = GetStrengthDict(CroResourceHelper.ResourceType.GetItems());
 			ViewBag.Grades = GetStrengthDict(CroResourceHelper.Grade.GetItems());
-			if (id == null)
-			{
-				return View();
-			}
-			else
-			{
-				var model = APBplDef.CroResourceBpl.PrimaryGet(id.Value);
-				model.GhostFileName = model.IsLink ? model.ResourcePath : Path.GetFileName(model.ResourcePath);
-				return View(model);
-			}
-		}
+
+            if (id == null)
+            {
+                return View(
+                   new CroResource { Courses = new List<MicroCourse> { new MicroCourse() } } // 新增时默认一个微课
+                   );
+            }
+            else
+            {
+                var model = APBplDef.CroResourceBpl.GetResource(db, id.Value);
+
+                return View(model);
+            }
+        }
 
 		[HttpPost]
 		[ValidateInput(false)]
-		public ActionResult Edit(long? id, CroResource model, FormCollection fc)
+		public ActionResult Edit(long? resid, CroResource model, FormCollection fc)
 		{
-			if (model.IsLink)
-			{
-				model.FileSize = 0;
-				model.ResourcePath = model.GhostFileName;
-				model.FileExtName = GetSafeExt(model.ResourcePath);
-			}
-			model.MediumTypePKID = CroResourceHelper.GetMediumType(model.FileExtName);
+         var mc = APDBDef.MicroCourse;
+         var et = APDBDef.Exercises;
 
-			if (id == null)
-			{
-				model.CreatedTime = model.LastModifiedTime = DateTime.Now;
-				model.Creator = model.LastModifier = ResSettings.SettingsInSession.UserId;
-				model.ImportSourcePKID = CroResourceHelper.SourceUpload;
-		
-				model.StatePKID = CroResourceHelper.StateWait;	// 是否提供管理员自动审核功能
+         CroResource current = null;
+         if (resid != null && resid.Value > 0)
+            current = APBplDef.CroResourceBpl.PrimaryGet(resid.Value);
 
+         db.BeginTrans();
 
-				APBplDef.CroResourceBpl.Insert(model);
-			}
-			else
-			{
-				APBplDef.CroResourceBpl.UpdatePartial(id.Value, new {
-					model.Title,
-					model.Author,
-					model.Keywords,
-					model.Description,
-					model.CoverPath,
-					model.ResourcePath,
-					model.FileExtName,
-					model.FileSize,
-					model.IsLink,
-					model.AuthorCompany,
-					model.AuthorAddress,
-					model.AuthorEmail,
-					model.AuthorPhone,
+         try
+         {
+            if (current != null)
+            {
+               foreach (var c in model.Courses)
+               {
+                  APBplDef.ExercisesBpl.ConditionDelete(et.CourseId == c.CourseId);
+               }
+               APBplDef.MicroCourseBpl.ConditionDelete(mc.ResourceId == resid);
+               APBplDef.CroResourceBpl.PrimaryDelete(resid.Value);
+               model.CreatedTime = current.CreatedTime;
+               model.Creator = current.Creator;
+               model.LastModifier = ResSettings.SettingsInSession.UserId;
+               model.LastModifiedTime = DateTime.Now;
+            }
+            else
+            {
+               model.CreatedTime = model.LastModifiedTime = DateTime.Now;
+               model.LastModifier = ResSettings.SettingsInSession.UserId;
+            }
 
-					model.DeformityPKID,
-					model.DomainPKID,
-					model.LearnFromPKID,
-					model.SchoolTypePKID,
-					model.StagePKID,
-					model.GradePKID,
-					model.MediumTypePKID,
-					model.ResourceTypePKID,
-					model.SubjectPKID,
-					model.RType,
-					model.RSource,
-					LastModifier = ResSettings.SettingsInSession.UserId,
-					LastModifiedTime = DateTime.Now
-				});
-			}
+            model.StatePKID = model.StatePKID == CroResourceHelper.StateDeny ? CroResourceHelper.StateWait : model.StatePKID;
+            APBplDef.CroResourceBpl.Insert(model);
 
-			return RedirectToAction("Details", new { id = model.CrosourceId });
+            foreach (var item in model.Courses ?? new List<MicroCourse>())
+            {
+               item.ResourceId = model.CrosourceId;
+               APBplDef.MicroCourseBpl.Insert(item);
+
+               foreach (var exer in item.Exercises ?? new List<Exercises>())
+               {
+                  exer.CourseId = item.CourseId;
+                  APBplDef.ExercisesBpl.Insert(exer);
+               }
+
+            }
+
+            db.Commit();
+         }
+         catch (Exception e)
+         {
+            db.Rollback();
+         }
+
+         return RedirectToAction("Details", new { id = model.CrosourceId });
 		}
 
 
@@ -350,14 +355,14 @@ namespace Res.Controllers
 
 
 		//
-		//	资源 - 详情
+		//	作品 - 详情
 		// GET:		/Crosource/Details
 		//
 
 		public ActionResult Details(long id)
 		{
 			var model = APBplDef.CroResourceBpl.PrimaryGet(id);
-			model.GhostFileName = model.IsLink ? model.ResourcePath : Path.GetFileName(model.ResourcePath);
+			//model.GhostFileName = model.IsLink ? model.ResourcePath : Path.GetFileName(model.ResourcePath);
 			return View(model);
 		}
 
@@ -379,7 +384,7 @@ namespace Res.Controllers
 
 
 		//
-		//	资源 - 审核合格/不合格
+		//	作品 - 审核合格/不合格
 		// POST:		/Resource/Approve
 		//
 
@@ -395,14 +400,14 @@ namespace Res.Controllers
 					AuditedTime = DateTime.Now,
 					AuditOpinion = opinion
 				});
-				return Json(new { cmd = "Processed", value = value, msg = "本资源审核完成。" });
+				return Json(new { cmd = "Processed", value = value, msg = "本作品审核完成。" });
 			}
 
 			return IsNotAjax();
 		}
 
 
-		//	众筹资源
+		//	众筹作品
 		//	GET:				/Crosource/Report
 
 		public ActionResult Report()

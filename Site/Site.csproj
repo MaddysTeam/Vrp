@@ -98,10 +98,6 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="OfficeFileProperties, Version=3.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OfficeFileProperties.3.4.0.0\lib\net40\OfficeFileProperties.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
@@ -201,18 +197,11 @@
     <Compile Include="Controllers\CroCommentController.cs" />
     <Compile Include="Controllers\CroBaseController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\BulletinController.cs" />
-    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\CroHomeController.cs" />
     <Compile Include="Controllers\CroMyController.cs" />
-    <Compile Include="Controllers\MyController.cs" />
     <Compile Include="Controllers\CroResourceController.cs" />
     <Compile Include="Controllers\CroUserController.cs" />
     <Compile Include="Controllers\PKIDExtensions.cs" />
-    <Compile Include="Controllers\ReUserController.cs" />
-    <Compile Include="Controllers\ResourceController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ZSResourceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -807,18 +796,8 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Resource\_search.cshtml" />
-    <Content Include="Views\Resource\More.cshtml" />
-    <Content Include="Views\Resource\_recommand.cshtml" />
-    <Content Include="Views\Resource\_ranking.cshtml" />
-    <Content Include="Views\Resource\_more.cshtml" />
-    <Content Include="Views\Resource\_viewcount.cshtml" />
-    <Content Include="Views\Resource\_newcomment.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\_Bootstrap3Pagination.cshtml" />
-    <Content Include="Views\Resource\Search.cshtml" />
     <Content Include="Views\Shared\_Row.cshtml" />
-    <Content Include="Views\Resource\View.cshtml" />
-    <Content Include="Views\Resource\_relation.cshtml" />
     <Content Include="Views\My\Index.cshtml" />
     <Content Include="Views\My\Resource.cshtml" />
     <Content Include="Views\My\Favorite.cshtml" />
@@ -842,8 +821,6 @@
     <Content Include="Views\CroMy\Details.cshtml" />
     <Content Include="Views\CroMy\CroMyDownload.cshtml" />
     <Content Include="Views\CroHome\Index.cshtml" />
-    <Content Include="Views\Bulletin\More.cshtml" />
-    <Content Include="Views\Bulletin\View.cshtml" />
     <Content Include="Views\CroHome\_Hot.cshtml" />
     <Content Include="Views\CroHome\_New.cshtml" />
     <Content Include="Views\CroResource\Search.cshtml" />
@@ -857,10 +834,11 @@
     <Content Include="Views\CroResource\More.cshtml" />
     <Content Include="Views\CroResource\NewsView.cshtml" />
     <Content Include="Views\CroMy\NewsView.cshtml" />
-    <Content Include="Business\DataLogic\Business.apgen" />
+    <Content Include="Business\DataLogic\Business.apgen">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Properties\PublishProfiles\MapSite.pubxml" />
     <Content Include="Views\My\Download.cshtml" />
-    <Content Include="Views\ReUser\More.cshtml" />
     <Content Include="Views\CroUser\MoreUser.cshtml" />
     <Content Include="Views\Shared\_CroViewLayout.cshtml" />
     <Content Include="Views\CroMy\Declare.cshtml" />

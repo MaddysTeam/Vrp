@@ -132,7 +132,15 @@ namespace Res.Business
 		[Required]
 		[Display(Name = "密码答案")]
 		public string Answer { get; set; }
-	}
+
+      [Required]
+      [Display(Name = "真实姓名")]
+      public string RealName { get; set; }
+
+      [Required]
+      [Display(Name = "身份证")]
+      public string IDCard { get; set; }
+   }
 
 	public class ChgPwd
 	{

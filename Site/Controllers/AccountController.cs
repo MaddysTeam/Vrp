@@ -144,8 +144,7 @@ namespace Res.Controllers
             return View(model);
          }
 
-         var real = APBplDef.ResRealBpl.PrimaryGet(model.RealId);
-         int g = real.IDCard[real.IDCard.Length - 2] - '0';
+         int g = model.IDCard[model.IDCard.Length - 2] - '0';
 
          var user = new ResUser
          {
@@ -154,11 +153,11 @@ namespace Res.Controllers
             Password = model.Password,
             Question = model.Question,
             Answer = model.Answer,
-            RealName = real.RealName,
+            RealName = model.RealName,
             PhotoPath = "",
             GenderPKID = g % 2 == 0 ? ResUserHelper.GenderFemale : ResUserHelper.GenderMale,
-            CompanyId = real.CompanyId,
-            IDCard = real.IDCard,
+            //CompanyId = real.CompanyId,
+            IDCard = model.IDCard,
             Actived = true,
             Removed = false,
             RegisterTime = DateTime.Now,
@@ -168,7 +167,7 @@ namespace Res.Controllers
          var result = await UserManager.CreateAsync(user, model.Password);
          if (result.Succeeded)
          {
-            APBplDef.ResRealBpl.UpdatePartial(model.RealId, new { state = true });
+          //  APBplDef.ResRealBpl.UpdatePartial(model.RealId, new { state = true });
             APBplDef.ResUserRoleBpl.Insert(new ResUserRole() { UserId = user.UserId, RoleId = 2 });
             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
@@ -207,242 +206,6 @@ namespace Res.Controllers
 			}
 		}
 
-
-		#region [ Dirty ]
-
-		////
-		//// GET: /Account/Register
-		//[AllowAnonymous]
-		//public ActionResult Register()
-		//{
-		//	return View();
-		//}
-
-		////
-		//// POST: /Account/Register
-		//[HttpPost]
-		//[AllowAnonymous]
-		//[ValidateAntiForgeryToken]
-		//public async Task<ActionResult> Register(RegisterViewModel model)
-		//{
-		//	if (ModelState.IsValid)
-		//	{
-		//		var user = new ResUser {
-		//			UserName = model.UserName,
-		//			RealName = model.UserName,
-		//			RegisterTime = DateTime.Now,
-		//			LastLoginTime = DateTime.Now
-		//		};
-		//		var result = await UserManager.CreateAsync(user, model.Password);
-		//		if (result.Succeeded)
-		//		{
-		//			await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-		//			return RedirectToAction("Index", "Home");
-		//		}
-		//		AddErrors(result);
-		//	}
-
-		//	// 如果我们进行到这一步时某个地方出错，则重新显示表单
-		//	return View(model);
-		//}
-
-
-		//		  //
-		//		  // GET: /Account/ResetPassword
-		//		  [AllowAnonymous]
-		//		  public ActionResult ResetPassword(string code)
-		//		  {
-		//				return code == null ? View("Error") : View();
-		//		  }
-
-		//		  //
-		//		  // POST: /Account/ResetPassword
-		//		  [HttpPost]
-		//		  [AllowAnonymous]
-		//		  [ValidateAntiForgeryToken]
-		//		  public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
-		//		  {
-		//				if (!ModelState.IsValid)
-		//				{
-		//					 return View(model);
-		//				}
-		//				var user = await UserManager.FindByNameAsync(model.Email);
-		//				if (user == null)
-		//				{
-		//					 // 请不要显示该用户不存在
-		//					 return RedirectToAction("ResetPasswordConfirmation", "Account");
-		//				}
-		//				var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-		//				if (result.Succeeded)
-		//				{
-		//					 return RedirectToAction("ResetPasswordConfirmation", "Account");
-		//				}
-		//				AddErrors(result);
-		//				return View();
-		//		  }
-
-		//		  //
-		//		  // GET: /Account/ResetPasswordConfirmation
-		//		  [AllowAnonymous]
-		//		  public ActionResult ResetPasswordConfirmation()
-		//		  {
-		//				return View();
-		//		  }
-
-		//		  //
-		//		  // POST: /Account/ExternalLogin
-		//		  [HttpPost]
-		//		  [AllowAnonymous]
-		//		  [ValidateAntiForgeryToken]
-		//		  public ActionResult ExternalLogin(string provider, string returnUrl)
-		//		  {
-		//				// 请求重定向到外部登录提供程序
-		//				return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
-		//		  }
-
-		//		  //
-		//		  // GET: /Account/SendCode
-		//		  [AllowAnonymous]
-		//		  public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
-		//		  {
-		//				var userId = await SignInManager.GetVerifiedUserIdAsync();
-		//				if (userId == null)
-		//				{
-		//					 return View("Error");
-		//				}
-		//				var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
-		//				var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
-		//				return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
-		//		  }
-
-		//		  //
-		//		  // POST: /Account/SendCode
-		//		  [HttpPost]
-		//		  [AllowAnonymous]
-		//		  [ValidateAntiForgeryToken]
-		//		  public async Task<ActionResult> SendCode(SendCodeViewModel model)
-		//		  {
-		//				if (!ModelState.IsValid)
-		//				{
-		//					 return View();
-		//				}
-
-		//				// 生成令牌并发送该令牌
-		//				if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
-		//				{
-		//					 return View("Error");
-		//				}
-		//				return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
-		//		  }
-
-		//		  //
-		//		  // GET: /Account/ExternalLoginCallback
-		//		  [AllowAnonymous]
-		//		  public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
-		//		  {
-		//				var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-		//				if (loginInfo == null)
-		//				{
-		//					 return RedirectToAction("Login");
-		//				}
-
-		//				// 如果用户已具有登录名，则使用此外部登录提供程序将该用户登录
-		//				var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
-		//				switch (result)
-		//				{
-		//					 case SignInStatus.Success:
-		//						  return RedirectToLocal(returnUrl);
-		//					 case SignInStatus.LockedOut:
-		//						  return View("Lockout");
-		//					 case SignInStatus.RequiresVerification:
-		//						  return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-		//					 case SignInStatus.Failure:
-		//					 default:
-		//						  // 如果用户没有帐户，则提示该用户创建帐户
-		//						  ViewBag.ReturnUrl = returnUrl;
-		//						  ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-		//						  return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
-		//				}
-		//		  }
-
-		//		  //
-		//		  // POST: /Account/ExternalLoginConfirmation
-		//		  [HttpPost]
-		//		  [AllowAnonymous]
-		//		  [ValidateAntiForgeryToken]
-		//		  public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
-		//		  {
-		//				if (User.Identity.IsAuthenticated)
-		//				{
-		//					 return RedirectToAction("Index", "Manage");
-		//				}
-
-		//				if (ModelState.IsValid)
-		//				{
-		//					 // 从外部登录提供程序获取有关用户的信息
-		//					 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
-		//					 if (info == null)
-		//					 {
-		//						  return View("ExternalLoginFailure");
-		//					 }
-		//					 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-		//					 var result = await UserManager.CreateAsync(user);
-		//					 if (result.Succeeded)
-		//					 {
-		//						  result = await UserManager.AddLoginAsync(user.Id, info.Login);
-		//						  if (result.Succeeded)
-		//						  {
-		//								await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-		//								return RedirectToLocal(returnUrl);
-		//						  }
-		//					 }
-		//					 AddErrors(result);
-		//				}
-
-		//				ViewBag.ReturnUrl = returnUrl;
-		//				return View(model);
-		//		  }
-
-		//		  //
-		//		  // POST: /Account/LogOff
-		//		  [HttpPost]
-		//		  [ValidateAntiForgeryToken]
-		//		  public ActionResult LogOff()
-		//		  {
-		//				AuthenticationManager.SignOut();
-		//				return RedirectToAction("Index", "Home");
-		//		  }
-
-		//		  //
-		//		  // GET: /Account/ExternalLoginFailure
-		//		  [AllowAnonymous]
-		//		  public ActionResult ExternalLoginFailure()
-		//		  {
-		//				return View();
-		//		  }
-
-		//		  protected override void Dispose(bool disposing)
-		//		  {
-		//				if (disposing)
-		//				{
-		//					 if (_userManager != null)
-		//					 {
-		//						  _userManager.Dispose();
-		//						  _userManager = null;
-		//					 }
-
-		//					 if (_signInManager != null)
-		//					 {
-		//						  _signInManager.Dispose();
-		//						  _signInManager = null;
-		//					 }
-		//				}
-
-		//				base.Dispose(disposing);
-		//		  }
-
-		#endregion
 
 		#region 帮助程序
 		// 用于在添加外部登录名时提供 XSRF 保护

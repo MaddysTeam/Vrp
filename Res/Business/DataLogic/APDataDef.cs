@@ -213,65 +213,97 @@ namespace Res.Business
 
 
 
-	#endregion
+   #endregion
 
 
 
 
-	#region [ CroResource ]
+   #region [ CroResource ]
 
 
-	public partial class CroResource : CroResourceBase
-	{
+   public partial class CroResource : CroResourceBase
+   {
 
-		#region [ Properties ]
-
-
-		public string Deformity { get { return ResResourceHelper.Deformity.GetName(DeformityPKID); } }
-
-		public string Domain { get { return ResResourceHelper.Domain.GetName(DomainPKID); } }
-
-		public string LearnFrom { get { return ResResourceHelper.LearnFrom.GetName(LearnFromPKID); } }
-
-		public string SchoolType { get { return ResResourceHelper.SchoolType.GetName(SchoolTypePKID); } }
-
-		public string Stage { get { return ResResourceHelper.Stage.GetName(StagePKID); } }
-
-		public string Grade { get { return ResResourceHelper.Grade.GetName(GradePKID); } }
-
-		public string ImportSource { get { return ResResourceHelper.ImportSource.GetName(ImportSourcePKID); } }
-
-		public string MediumType { get { return ResResourceHelper.MediumType.GetName(MediumTypePKID); } }
-
-		public string ResourceType { get { return ResResourceHelper.ResourceType.GetName(ResourceTypePKID); } }
-
-		public string Subject { get { return ResResourceHelper.Subject.GetName(SubjectPKID); } }
-
-		public string State { get { return ResResourceHelper.State.GetName(StatePKID); } }
-
-		[Display(Name = "资源路径")]
-		[Required]
-		public string GhostFileName { get; set; }
-
-		public string FileType { get { if (FileExtName != null) return FileExtName.Substring(1); return ""; } }
+      #region [ Properties ]
 
 
-		#endregion
+      Dictionary<string, String> mapping;
+      //TODO:will delete later
+
+      //public string Deformity { get { return ResResourceHelper.Deformity.GetName(DeformityPKID); } }
+
+      //public string Domain { get { return ResResourceHelper.Domain.GetName(DomainPKID); } }
+
+      //public string LearnFrom { get { return ResResourceHelper.LearnFrom.GetName(LearnFromPKID); } }
+
+      //public string SchoolType { get { return ResResourceHelper.SchoolType.GetName(SchoolTypePKID); } }
+
+      public string Stage { get { return ResResourceHelper.Stage.GetName(StagePKID); } }
+
+      public string Grade { get { return ResResourceHelper.Grade.GetName(GradePKID); } }
+
+      //public string ImportSource { get { return ResResourceHelper.ImportSource.GetName(ImportSourcePKID); } }
+
+      //public string MediumType { get { return ResResourceHelper.MediumType.GetName(MediumTypePKID); } }
+
+      public string ResourceType { get { return ResResourceHelper.ResourceType.GetName(ResourceTypePKID); } }
+
+      public string Subject { get { return ResResourceHelper.Subject.GetName(SubjectPKID); } }
+
+      public string State { get { return ResResourceHelper.State.GetName(StatePKID); } }
+
+      [Display(Name = "资源路径")]
+      [Required]
+      public string GhostFileName { get; set; }
+
+      // public string FileType { get { if (!String.IsNullOrEmpty(FileExtName)) return FileExtName.Substring(1); return ""; } }
+
+      // TODO: delete later public int Star { get { if (StarCount == 0)return 0; return StarTotal / StarCount; } }
+
+      public List<MicroCourse> Courses { get; set; }
+
+      #endregion
 
 
-	}
+   }
 
 
-	#endregion
+   #endregion
 
 
+   #region [MicroCourse]
+
+   public partial class MicroCourse : MicroCourseBase
+   {
+      public string VideoName { get; set; }
+      public string VideoPath { get; set; }
+      public string CoverName { get; set; }
+      public string DesignName { get; set; }
+      public string SummaryName { get; set; }
+      public string CoverPath { get; set; }
+      public string DesignPath { get; set; }
+      public string SummaryPath { get; set; }
+      public List<Exercises> Exercises { get; set; }
+
+   }
+
+   #endregion
 
 
+   #region [Exercises]
 
-	#region [ CroBulletin ]
+   public partial class Exercises : ExercisesBase
+   {
+      public List<ExercisesItem> Items { get; set; }
+   }
+
+   #endregion
 
 
-	public partial class CroBulletin : CroBulletinBase
+   #region [ CroBulletin ]
+
+
+   public partial class CroBulletin : CroBulletinBase
 	{
 
 		#region [ Properties ]
@@ -289,7 +321,6 @@ namespace Res.Business
 
 
 	#endregion
-
 
 
 	#region [ ResBulletin ]

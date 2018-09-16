@@ -1,6 +1,6 @@
 ﻿@using Res.Business
 @{
-	ViewBag.Title = "众筹资源";
+	ViewBag.Title = "作品";
 }
 <div class="col-md-10 content-wrapper">
 	<div class="row">
@@ -19,7 +19,7 @@
 	<div class="content">
 		<div class="main-header">
 			<h2>@ViewBag.Title</h2>
-			<em>按资源名称查询或者点击查看众筹资源分类列表</em>
+            <em>按资源名称查询或者点击查看作品分类列表</em>
 		</div>
 
 		<div class="main-content">
@@ -37,8 +37,8 @@
 						</div>
 					</div>
 					<div class="col-sm-8">
-						<a href="@Url.Action("Edit", "Crosource")" class="btn btn-custom-primary btn-md"><i class="fa fa-plus-square"></i> 添加新众筹资源</a>
-						<a href="@Url.Action("Report", "Crosource")" class="btn btn-default btn-md"><i class="fa fa-bar-chart-o"></i> 资源分布</a>
+                        <a href="@Url.Action("Edit", "Crosource")" class="btn btn-custom-primary btn-md"><i class="fa fa-plus-square"></i> 添加新作品</a>
+						@*<a href="@Url.Action("Report", "Crosource")" class="btn btn-default btn-md"><i class="fa fa-bar-chart-o"></i> 资源分布</a>*@
 					</div>
 				</div>
 			</div>

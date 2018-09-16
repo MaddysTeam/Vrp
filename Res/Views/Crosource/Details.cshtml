@@ -1,6 +1,6 @@
 ﻿@model CroResource
 @{
-	ViewBag.Title = "众筹资源详情";
+	ViewBag.Title = "作品详情";
 }
 <div class="col-md-10 content-wrapper">
 	<div class="row">
@@ -10,7 +10,7 @@
 					<i class="fa fa-home"></i>
 					<a href="@Url.Action("Index", "Home")">首页</a>
 				</li>
-				<li><a href="@Url.Action("Index", "Resource")">众筹资源</a></li>
+				<li><a href="@Url.Action("Index", "Resource")">作品管理</a></li>
 				<li class="active">@ViewBag.Title</li>
 			</ul>
 		</div>
@@ -20,7 +20,7 @@
 	<div class="content">
 		<div class="main-header">
 			<h2>@ViewBag.Title</h2>
-			<em>本页面查看选中众筹资源的详细信息</em>
+			<em>本页面查看选中作品的详细信息</em>
 		</div>
 
 		<div class="main-content">
@@ -46,10 +46,10 @@
 									收藏次数:
 									<strong class="badge">@Model.FavoriteCount</strong>
 								</li>
-								<li>
+								@*<li>
 									评分次数:
 									<strong class="badge">@Model.StarCount</strong>
-								</li>
+								</li>*@
 								<li>
 									评论次数:
 									<strong class="badge">@Model.CommentCount</strong>
@@ -66,7 +66,7 @@
 						<div class="col-lg-9">
 							<div class="row">
 								<div class="col-sm-6">
-									<img class="cover-img img-frame" src="@Model.CoverPath" />
+									@*<img class="cover-img img-frame" src="@Model.CoverPath" />*@
 								</div>
 								<div class="col-sm-6">
 									<h3>@Model.Title</h3>
@@ -103,11 +103,11 @@
 							<!-- widget -->
 							<div class="widget">
 								<div class="widget-header">
-									<h3><i class="fa fa-paperclip"></i> 资源</h3>
+									<h3><i class="fa fa-paperclip"></i> 作品</h3>
 								</div>
 
 								<div class="widget-content">
-									@if (Model.MediumTypePKID == CroResourceHelper.MediumVideo)
+									@*@if (Model.MediumTypePKID == CroResourceHelper.MediumVideo)
 									{
 										<embed type="application/x-mplayer2"
 												 pluginspage="http://www.microsoft.com/Windows/MediaPlayer/"
@@ -136,7 +136,7 @@
 										<a href="@Model.ResourcePath" target="_blank">
 										<div class="filetype"><div class="@Model.FileType" ></div></div><h3>@Model.GhostFileName</h3>
 										</a>
-									}
+									}*@
 
 								</div>
 							</div>
@@ -145,14 +145,14 @@
 							<!-- widget -->
 							<div class="widget">
 								<div class="widget-header">
-									<h3><i class="fa fa-paperclip"></i> 资源分类信息</h3>
+                                    <h3><i class="fa fa-paperclip"></i> 作品分类信息</h3>
 								</div>
 
 								<div class="widget-content">
 									<ul class="list-group">
-										<li class="list-group-item">领域：@Model.Domain</li>
-										<li class="list-group-item">资源类型：@Model.ResourceType</li>
-										<li class="list-group-item">媒体类型：@Model.MediumType</li>
+										@*<li class="list-group-item">领域：@Model.Domain</li>*@
+                                        <li class="list-group-item">作品类型：@Model.ResourceType</li>
+										@*<li class="list-group-item">媒体类型：@Model.MediumType</li>*@
 										@if (@Model.SubjectPKID != 0)
 										{
 											<li class="list-group-item">学科：@Model.Subject</li>
@@ -165,7 +165,7 @@
 										{
 											<li class="list-group-item">年级：@Model.Grade</li>
 										}
-										@if (@Model.SchoolTypePKID != 0)
+										@*@if (@Model.SchoolTypePKID != 0)
 										{
 											<li class="list-group-item">学校类型：@Model.SchoolType</li>
 										}
@@ -176,7 +176,7 @@
 										@if (@Model.LearnFromPKID != 0)
 										{
 											<li class="list-group-item">安置类型：@Model.LearnFrom</li>
-										}
+										}*@
 									</ul>
 								</div>
 							</div>

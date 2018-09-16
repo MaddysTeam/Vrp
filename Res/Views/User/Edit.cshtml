@@ -1,0 +1,146 @@
+﻿@model ResUser
+<div class="modal-dialog">
+
+	<!-- widget -->
+	<div class="widget">
+		<div class="widget-header">
+			<h3><i class="fa fa-edit"></i> 用户编辑</h3>
+			<div class="btn-group widget-header-toolbar">
+				<a href="#" title="关闭" class="btn-borderless" data-dismiss="modal"><i class="fa fa-close"></i></a>
+			</div>
+		</div>
+		<div class="widget-content">
+			@using (Html.BeginForm("Edit", "User", FormMethod.Post, new { id = "form", role = "form", @class = "form-horizontal" }))
+			{
+				<div class="row">
+					<fieldset class="col-sm-12">
+						<div class="form-group">
+							@Html.HiddenFor(m => m.UserId)
+							@Html.LabelFor(m => m.UserName, new { @class = "control-label col-sm-3" })
+							<div class="col-sm-9">
+								@if (Model != null && Model.UserId > 0)
+								{
+								 @Html.LabelFor(m => m.UserName,new { @class = "form-control" })
+								}
+								else
+								{
+								@Html.TextBoxFor(m => m.UserName, new { @class = "form-control", maxlength = "80", placeholder = "用户名" })
+								@Html.ValidationMessageFor(m => m.UserName)
+								}
+							</div>
+						</div>
+						<div class="form-group">
+							@Html.LabelFor(m => m.Email, new { @class = "control-label col-sm-3" })
+							<div class="col-sm-9">
+								@Html.TextBoxFor(m => m.Email, new { @class = "form-control", maxlength = "80", placeholder = "邮箱" })
+								@Html.ValidationMessageFor(m => m.Email)
+							</div>
+						</div>
+						<div class="form-group">
+							@Html.LabelFor(m => m.RealName, new { @class = "control-label col-sm-3" })
+							<div class="col-sm-9">
+								@Html.TextBoxFor(m => m.RealName, new { @class = "form-control", maxlength = "80", placeholder = "真实姓名" })
+								@Html.ValidationMessageFor(m => m.RealName)
+							</div>
+						</div>
+						<div class="form-group">
+							@Html.LabelFor(m => m.IDCard, new { @class = "control-label col-sm-3" })
+							<div class="col-sm-9">
+								@Html.TextBoxFor(m => m.IDCard, new { @class = "form-control", maxlength = "80", placeholder = "身份证" })
+								@Html.ValidationMessageFor(m => m.IDCard)
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label col-sm-3">单位</label>
+							<div class="col-sm-9">
+								<div class="input-group">
+									@Html.HiddenFor(m =>m.CompanyId)
+									<input type="text" class="form-control" disabled id="companyNameModal" aria-label="...">
+									<div class="input-group-btn">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">单位 <span class="caret"></span></button>
+										<div class="dropdown-menu dropdown-menu-right" style="max-height:340px; width: 300px; overflow-y:auto">
+											<div id="jstreeModal"></div>
+										</div>
+									</div><!-- /btn-group -->
+								</div><!-- /input-group -->
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-9 col-lg-offset-3">
+								<button type="submit" id="submit" class="btn btn-primary btn-block"><i class="fa fa-check-circle"></i> 保存</button>
+								<button type="button" class="btn btn-default btn-block" data-dismiss="modal">取消</button>
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			}
+		</div>
+
+	</div>
+	<!-- end widget -->
+
+</div>
+
+<script type="text/javascript">
+	$(function () {
+
+		$('#jstreeModal')
+			.on("loaded.jstree", function (e, data) {
+				$('#jstreeModal').jstree().activate_node(data.instance.get_node($("#CompanyId").val()), e)
+			})
+			.on("click.jstree", function (e) {
+				e.stopImmediatePropagation();
+			})
+			.on("changed.jstree", function (e, data) {
+				$("#CompanyId").val(data.selected);
+				$("#companyNameModal").val(data.instance.get_node(data.selected).text);
+				//data.instance.click();
+			})
+			.jstree({
+				"core": {
+					"animation": 0,
+					"multiple": false,
+					"check_callback": true,
+					"themes": {},
+					'data': {
+						'url': function (node) {
+							return '/Company/Tree';
+						},
+						'data': function (node) {
+							return { 'id': node.id };
+						}
+					}
+				},
+				"plugins": [
+					"wholerow"
+				]
+			});
+
+		// add validate new form.
+		$.validator.unobtrusive.parse("#form");
+		$("#form").submit(function () {
+			var $form = $(this);
+			if (!$form.valid())
+				return false;
+
+			$.post($form.attr("action"), $form.serialize(), function (data, status) {
+				if (status == "success") {
+
+					if (data.error != 'none') {
+						alertify.error(data.msg);
+						return;
+					}
+
+					alertify.success(data.msg);
+					$('#inner-edit-form').modal('hide');
+					$("#bootgrid").bootgrid("reload");
+				}
+			});
+
+			return false;
+		});
+
+	});
+</script>

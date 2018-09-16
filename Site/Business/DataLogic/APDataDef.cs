@@ -99,75 +99,6 @@ namespace Res.Business
    #endregion
 
 
-   #region [ ResReal ]
-
-
-   public partial class ResReal : ResRealBase
-   {
-
-      #region [ Properties ]
-
-
-      public string CompanyName { get; set; }
-
-
-      #endregion
-
-
-   }
-
-
-   #endregion
-
-
-   #region [ ResResource ]
-
-
-   public partial class ResResource : ResResourceBase
-   {
-
-      #region [ Properties ]
-
-
-      public string Deformity { get { return ResResourceHelper.Deformity.GetName(DeformityPKID); } }
-
-      public string Domain { get { return ResResourceHelper.Domain.GetName(DomainPKID); } }
-
-      public string LearnFrom { get { return ResResourceHelper.LearnFrom.GetName(LearnFromPKID); } }
-
-      public string SchoolType { get { return ResResourceHelper.SchoolType.GetName(SchoolTypePKID); } }
-
-      public string Stage { get { return ResResourceHelper.Stage.GetName(StagePKID); } }
-
-      public string Grade { get { return ResResourceHelper.Grade.GetName(GradePKID); } }
-
-      public string ImportSource { get { return ResResourceHelper.ImportSource.GetName(ImportSourcePKID); } }
-
-      public string MediumType { get { return ResResourceHelper.MediumType.GetName(MediumTypePKID); } }
-
-      public string ResourceType { get { return ResResourceHelper.ResourceType.GetName(ResourceTypePKID); } }
-
-      public string Subject { get { return ResResourceHelper.Subject.GetName(SubjectPKID); } }
-
-      public string State { get { return ResResourceHelper.State.GetName(StatePKID); } }
-
-      [Display(Name = "资源路径")]
-      [Required]
-      public string GhostFileName { get; set; }
-
-      public string FileType { get { if (FileExtName != null) return FileExtName.Substring(1); return ""; } }
-
-      public int Star { get { if (StarCount == 0) return 0; return StarTotal / StarCount; } }
-
-      #endregion
-
-
-   }
-
-
-   #endregion
-
-
    #region [ ResCompany ]
 
 
@@ -235,19 +166,19 @@ namespace Res.Business
 
       //public string SchoolType { get { return ResResourceHelper.SchoolType.GetName(SchoolTypePKID); } }
 
-      public string Stage { get { return ResResourceHelper.Stage.GetName(StagePKID); } }
+      public string Stage { get { return CroResourceHelper.Stage.GetName(StagePKID); } }
 
-      public string Grade { get { return ResResourceHelper.Grade.GetName(GradePKID); } }
+      public string Grade { get { return CroResourceHelper.Grade.GetName(GradePKID); } }
 
       //public string ImportSource { get { return ResResourceHelper.ImportSource.GetName(ImportSourcePKID); } }
 
       //public string MediumType { get { return ResResourceHelper.MediumType.GetName(MediumTypePKID); } }
 
-      public string ResourceType { get { return ResResourceHelper.ResourceType.GetName(ResourceTypePKID); } }
+      public string ResourceType { get { return CroResourceHelper.ResourceType.GetName(ResourceTypePKID); } }
 
-      public string Subject { get { return ResResourceHelper.Subject.GetName(SubjectPKID); } }
-
-      public string State { get { return ResResourceHelper.State.GetName(StatePKID); } }
+      public string Subject { get { return CroResourceHelper.Subject.GetName(SubjectPKID); } }
+      
+      public string State { get { return CroResourceHelper.State.GetName(StatePKID); } }
 
       [Display(Name = "资源路径")]
       [Required]

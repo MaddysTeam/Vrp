@@ -23,14 +23,14 @@ namespace Res.Business
 
 		static CroResourceHelper()
 		{
-			Domain = new PickListAPRptColumn(APDBDef.CroResource.DomainPKID, ThisApp.PLKey_ResourceDomain);
-			Deformity = new PickListAPRptColumn(APDBDef.CroResource.DeformityPKID, ThisApp.PLKey_ResourceDeformity);
-			LearnFrom = new PickListAPRptColumn(APDBDef.CroResource.LearnFromPKID, ThisApp.PLKey_ResourceLearnFrom);
-			SchoolType = new PickListAPRptColumn(APDBDef.CroResource.SchoolTypePKID, ThisApp.PLKey_ResourceSchoolType);
+			//Domain = new PickListAPRptColumn(APDBDef.CroResource.DomainPKID, ThisApp.PLKey_ResourceDomain);
+			//Deformity = new PickListAPRptColumn(APDBDef.CroResource.DeformityPKID, ThisApp.PLKey_ResourceDeformity);
+			//LearnFrom = new PickListAPRptColumn(APDBDef.CroResource.LearnFromPKID, ThisApp.PLKey_ResourceLearnFrom);
+			//SchoolType = new PickListAPRptColumn(APDBDef.CroResource.SchoolTypePKID, ThisApp.PLKey_ResourceSchoolType);
 			Stage = new PickListAPRptColumn(APDBDef.CroResource.StagePKID, ThisApp.PLKey_ResourceStage);
 			Grade = new PickListAPRptColumn(APDBDef.CroResource.GradePKID, ThisApp.PLKey_ResourceGrade);
-			ImportSource = new PickListAPRptColumn(APDBDef.CroResource.ImportSourcePKID, ThisApp.PLKey_ResourceImportSource);
-			MediumType = new PickListAPRptColumn(APDBDef.CroResource.MediumTypePKID, ThisApp.PLKey_ResourceMedium);
+			//ImportSource = new PickListAPRptColumn(APDBDef.CroResource.ImportSourcePKID, ThisApp.PLKey_ResourceImportSource);
+			//MediumType = new PickListAPRptColumn(APDBDef.CroResource.MediumTypePKID, ThisApp.PLKey_ResourceMedium);
 			ResourceType = new PickListAPRptColumn(APDBDef.CroResource.ResourceTypePKID, ThisApp.PLKey_ResourceType);
 			Subject = new PickListAPRptColumn(APDBDef.CroResource.SubjectPKID, ThisApp.PLKey_ResourceSubject);
 			State = new PickListAPRptColumn(APDBDef.CroResource.StatePKID, ThisApp.PLKey_ResourceState);
@@ -55,9 +55,11 @@ namespace Res.Business
 		public static long MediumAnimation = 10215;
 		public static long MediumMix = 10216;
 
+      // 搜索类型
+      public static string Hot = "rmyc";
+      public static string Latest = "zxyc";
 
-
-		private static Dictionary<string, long> dictMediumType;
+      private static Dictionary<string, long> dictMediumType;
 		public static long GetMediumType(string ext)
 		{
 			if (dictMediumType == null)

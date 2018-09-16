@@ -23,13 +23,14 @@
 		</div>
 
 		<div class="main-content">
-
+			<div style="margin-bottom:10px;"><a href="javascript:void(0)"  id="addUser" class="btn btn-danger btn-md">新增用户</a></div>
 			<!-- widget -->
 			<div class="widget">
 				<div class="widget-header">
 					<h3><i class="fa fa-paperclip"></i> @ViewBag.Title</h3>
 					<div class="btn-group widget-header-toolbar">
 						<a href="#" title="专注" class="btn-borderless btn-focus"><i class="fa fa-eye"></i></a>
+						
 					</div>
 				</div>
 
@@ -66,6 +67,7 @@
 									<th data-column-id="RegisterTime">注册时间</th>
 									<th data-column-id="LoginCount">登录次数</th>
 									<th data-column-id="Actived">状态</th>
+									<th data-column-id="cmd_edit" data-formatter="cmd_edit" data-sortable="false" data-headercs="cmdwidth"></th>
 									<th data-column-id="cmd_actived" data-formatter="cmd_actived" data-sortable="false" data-headercs="cmdwidth"></th>
 									<th data-column-id="cmd_Approve" data-formatter="cmd_Approve" data-sortable="false" data-headercs="cmdwidth"></th>
 								</tr>
@@ -114,6 +116,9 @@
 					var text = row[column.id], url = '/User/Info/' + row["id"];
 					return "<a href='" + url + "'>" + text + "</a>";
 				},
+				"cmd_edit": function (column, row) {
+					return "<button type='button' class='btn btn-xs cmd_edit' data-row-id='" + row.id + "' data-row-title='" + row.RealName + "' title='编辑'><span class='fa fa-pencil'></span></button>";
+				},
 				"cmd_actived": function (column, row) {
 					return "<button type='button' class='btn btn-xs " + (row["Actived"] == '有效' ? "isactived" : "") + " cmd_actived' data-row-id='" + row.id + "' data-row-title='" + row.RealName + "' title='有效/无效'><span class='fa fa-check-square-o'></span></button>";
 				},
@@ -136,6 +141,10 @@
 
 
 	$(function () {
+
+		$("#addUser").on("click", function () {
+			showModal();
+		});
 
 		$('#jstree')
 			.on("click.jstree", function (e) {
@@ -199,9 +208,26 @@
 
 						}).end()
 
+					   .find(".cmd_edit").on("click", function () {
+					   	var id = $(this).data("row-id");
+					   	$.get("@Url.Action("Edit", "User")", { id: id }, function (response) {
+					   		$("#inner-edit-form")
+									.html(response).modal("show")
+									.find(".form-control").first().focus();
+					   	});
+					   });
+
 				});
 
 	});
+
+		function showModal(id) {
+			$.get("@Url.Action("Edit", "User")", { id: id }, function (response) {
+			$("#inner-edit-form")
+					.html(response).modal("show")
+					.find(".form-control").first().focus();
+			});
+		}
 
 	</script>
 

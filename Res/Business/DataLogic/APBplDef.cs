@@ -359,11 +359,14 @@ namespace Res.Business
 				var ur = APDBDef.ResUserRole;
 
 				var query = APQuery
-					.select(t.UserId, t.UserName, t.RealName, t.GenderPKID, t.Email, t.RegisterTime, t.LoginCount, t.Actived, c.CompanyName, r.RoleName)
+					.select(t.UserId, t.UserName, t.RealName, t.GenderPKID, t.Email, t.RegisterTime, t.LoginCount, t.Actived, c.CompanyName
+               //TODO：r.RoleName
+               )
 					.from(t, 
-						c.JoinInner(t.CompanyId == c.CompanyId), 
-						ur.JoinInner(t.UserId == ur.UserId),
-						r.JoinInner(r.RoleId == ur.RoleId))
+						c.JoinInner(t.CompanyId == c.CompanyId)
+						//ur.JoinInner(t.UserId == ur.UserId),
+						//r.JoinInner(r.RoleId == ur.RoleId)
+                  )
 					.where(where)
 					.primary(t.UserId)
 					.skip((current - 1) * rowCount)
@@ -388,7 +391,7 @@ namespace Res.Business
 							LoginCount = t.LoginCount.GetValue(reader),
 							Actived = t.Actived.GetValue(reader),
 							CompanyName = c.CompanyName.GetValue(reader),
-							RoleName = r.RoleName.GetValue(reader),
+							//RoleName = r.RoleName.GetValue(reader),
 						};
 					}).ToList();
 				}
@@ -468,40 +471,116 @@ namespace Res.Business
 
 		public partial class CroResourceBpl : CroResourceBplBase
 		{
+            /// Return a list for admin UI list. 
+            /// </summary>
+            /// <param name="total"></param>
+            /// <param name="current"></param>
+            /// <param name="rowCount"></param>
+            /// <param name="where"></param>
+            /// <param name="order"></param>
+            /// <returns></returns>
+            public static List<CroResource> TolerantSearch(out int total, int current, int rowCount, APSqlWherePhrase where, APSqlOrderPhrase order)
+            {
+                var t = APDBDef.CroResource;
+                var u = APDBDef.ResUser;
 
-			/// <summary>
-			/// Return a list for admin UI list. 
-			/// </summary>
-			/// <param name="total"></param>
-			/// <param name="current"></param>
-			/// <param name="rowCount"></param>
-			/// <param name="where"></param>
-			/// <param name="order"></param>
-			/// <returns></returns>
-			public static List<CroResource> TolerantSearch(out int total, int current, int rowCount, APSqlWherePhrase where, APSqlOrderPhrase order)
-			{
-				var t = APDBDef.CroResource;
-				var u = APDBDef.ResUser;
+                var query = APQuery
+                    .select(t.CrosourceId, t.Title, u.RealName.As("Author"), t.CreatedTime, t.StatePKID, t.EliteScore,t.CourseTypePKID) //t.MediumTypePKID,
+                    .from(t, u.JoinInner(t.Creator == u.UserId))
+                    .where(where)
+                    .primary(t.CrosourceId)
+                    .skip((current - 1) * rowCount)
+                    .take(rowCount);
 
-				var query = APQuery
-					.select(t.CrosourceId, t.Title, u.RealName.As("Author"), t.MediumTypePKID, t.CreatedTime, t.StatePKID, t.EliteScore)
-					.from(t, u.JoinInner(t.Creator == u.UserId))
-					.where(where)
-					.primary(t.CrosourceId)
-					.skip((current - 1) * rowCount)
-					.take(rowCount);
+                if (order != null)
+                    query.order_by(order);
 
-				if (order != null)
-					query.order_by(order);
+                using (APDBDef db = new APDBDef())
+                {
+                    total = db.ExecuteSizeOfSelect(query);
+                    return db.Query(query, t.TolerantMap).ToList();
+                }
+            }
 
-				using (APDBDef db = new APDBDef())
-				{
-					total = db.ExecuteSizeOfSelect(query);
-					return db.Query(query, t.TolerantMap).ToList();
-				}
-			}
 
-		}
+            static APDBDef.CroResourceTableDef cr = APDBDef.CroResource;
+            static APDBDef.MicroCourseTableDef mc = APDBDef.MicroCourse;
+            static APDBDef.ExercisesTableDef et = APDBDef.Exercises;
+            static APDBDef.FilesTableDef vf = APDBDef.Files;
+            static APDBDef.FilesTableDef cf = APDBDef.Files.As("CoverFile");
+            static APDBDef.FilesTableDef df = APDBDef.Files.As("DesignFile");
+            static APDBDef.FilesTableDef sf = APDBDef.Files.As("SummaryFile");
+
+            /// <summary>
+            ///  get complex resource object
+            /// </summary>
+            /// <param name="db">db</param>
+            /// <param name="resourceId">resourceId</param>
+            /// <returns>CroResource</returns>
+            public static CroResource GetResource(APDBDef db, long resourceId)
+            {
+                var query = APQuery.select(cr.Asterisk, mc.Asterisk, et.Asterisk,
+                                          vf.FileName.As("VideoName"), vf.FilePath.As("VideoPath"),
+                                          cf.FileName.As("CoverName"), cf.FilePath.As("CoverPath"),
+                                          df.FileName.As("DesignName"),
+                                          sf.FileName.As("SummaryName")
+                                         )
+                                   .from(cr,
+                                         mc.JoinLeft(cr.CrosourceId == mc.ResourceId),
+                                         et.JoinLeft(et.CourseId == mc.CourseId),
+                                         vf.JoinLeft(vf.FileId == mc.VideoId),
+                                         cf.JoinLeft(cf.FileId == mc.CoverId),
+                                         df.JoinLeft(df.FileId == mc.DesignId),
+                                         sf.JoinLeft(sf.FileId == mc.SummaryId)
+                                         )
+                                    .where(cr.CrosourceId == resourceId);
+
+                CroResource model = null;
+                var result = query.query(db, r =>
+                {
+                    if (model == null)
+                    {
+                        model = new CroResource();
+                        model.Courses = new List<MicroCourse>();
+                        cr.Fullup(r, model, false);
+                    }
+
+                    var course = new MicroCourse();
+                    course.Exercises = new List<Exercises>();
+                    mc.Fullup(r, course, false);
+                    course.CoverPath = cf.FilePath.GetValue(r, "CoverPath");
+                    course.VideoPath = vf.FilePath.GetValue(r, "VideoPath");
+                    course.VideoName = vf.FileName.GetValue(r, "VideoName");
+                    course.CoverName = cf.FileName.GetValue(r, "CoverName");
+                    course.DesignName = df.FileName.GetValue(r, "DesignName");
+                    course.SummaryName = sf.FileName.GetValue(r, "SummaryName");
+
+                    var exe = new Exercises();
+                    et.Fullup(r, exe, false);
+
+                    if (exe.ExerciseId > 0)
+                        course.Exercises.Add(exe);
+
+                    if (!model.Courses.Exists(x => x.CourseId == course.CourseId))
+                    {
+                        model.Courses.Add(course);
+                    }
+                    else
+                    {
+                        var c = model.Courses.FirstOrDefault(x => x.CourseId == course.CourseId);
+                        if (!c.Exercises.Exists(x => x.ExerciseId == exe.ExerciseId))
+                        {
+                            c.Exercises.Add(exe);
+                        }
+                    }
+
+                    return model;
+                }).ToList();
+
+                return model;
+            }
+
+        }
 
 		#endregion
 

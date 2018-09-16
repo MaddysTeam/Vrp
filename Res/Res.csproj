@@ -22,6 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -186,16 +187,11 @@
     <Compile Include="Controllers\CroCommentController.cs" />
     <Compile Include="Controllers\CrosourceController.cs" />
     <Compile Include="Controllers\InitializeController.cs" />
-    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
-    <Compile Include="Controllers\ChartController.cs" />
-    <Compile Include="Controllers\RealController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ResourceController.cs" />
-    <Compile Include="Controllers\ZSResourceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1744,6 +1740,8 @@
     <Content Include="Views\ZSResource\Details.cshtml" />
     <Content Include="Views\ZSResource\Edit.cshtml" />
     <Content Include="Views\Crosource\Report.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\Crosource\Courses.cshtml" />
     <None Include="xml.schema.definition\apgen.xsd">
       <SubType>Designer</SubType>
     </None>

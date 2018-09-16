@@ -24,10 +24,10 @@
 				<a href="@Url.Action("ZcView", "CroResource", new { id = item.CrosourceId })"><span class="restitle">@item.Title</span></a>
 			</p>
 			<p>
-				作者：<b>@item.Author</b>   类型：<b>@item.FileExtName</b>  审核状态：<b>@ResResourceHelper.State.GetName(item.StatePKID)</b>   上传时间：<b>@item.OccurTime.ToShortDateString()</b>
+				作者：<b>@item.Author</b>   类型：<b>@item.FileExtName</b>  审核状态：<b>@CroResourceHelper.State.GetName(item.StatePKID)</b>   上传时间：<b>@item.OccurTime.ToShortDateString()</b>
 				<br />
 				审核意见:
-				@if (item.StatePKID == ResResourceHelper.StateDeny)
+				@if (item.StatePKID == CroResourceHelper.StateDeny)
 				{
 					<b style="color:red;">@item.AuditOpinion</b>
 				}

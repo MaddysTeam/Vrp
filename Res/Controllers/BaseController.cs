@@ -114,7 +114,7 @@ namespace Res.Controllers
 			var t = APDBDef.CroResource;
 			var t1 = APDBDef.CroComment;
 
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.CoverPath, t.FileExtName, t.Description, t1.OccurTime, t1.OccurId, t1.Content, t1.Audittype, t1.Auditor, t1.AuditedTime, t1.Audittype)
+			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.Description, t1.OccurTime, t1.OccurId, t1.Content, t1.Audittype, t1.Auditor, t1.AuditedTime, t1.Audittype)
 				.from(t, t1.JoinInner(t.CrosourceId == t1.ResourceId))
 				.order_by(t1.OccurTime.Desc)
 				.primary(t.CrosourceId)
@@ -148,8 +148,8 @@ namespace Res.Controllers
 					CrosourceId = t.CrosourceId.GetValue(reader),
 					Title = t.Title.GetValue(reader),
 					Author = t.Author.GetValue(reader),
-					CoverPath = t.CoverPath.GetValue(reader),
-					FileExtName = t.FileExtName.GetValue(reader),
+					//CoverPath = t.CoverPath.GetValue(reader),
+					//FileExtName = t.FileExtName.GetValue(reader),
 					Description = des,
 					OccurId = t1.OccurId.GetValue(reader),
 					Content = t1.Content.GetValue(reader),

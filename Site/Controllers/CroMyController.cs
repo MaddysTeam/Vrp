@@ -121,7 +121,7 @@ namespace Res.Controllers
       }
 
 
-      //上传资源
+      //上传微课作品
 
 
       public static object GetStrengthDict(List<ResPickListItem> items)
@@ -193,7 +193,7 @@ namespace Res.Controllers
             else
             {
                model.CreatedTime = model.LastModifiedTime = DateTime.Now;
-               model.Creator = model.LastModifier = ResSettings.SettingsInSession.UserId;
+               model.LastModifier = ResSettings.SettingsInSession.UserId;
             }
 
             model.StatePKID = model.StatePKID == CroResourceHelper.StateDeny ? CroResourceHelper.StateWait : model.StatePKID;
@@ -220,7 +220,11 @@ namespace Res.Controllers
          }
 
 
-         return RedirectToAction("CroMyResource", new { id = id });
+         return Request.IsAjaxRequest() ? Json(new {
+            state = "ok",
+            msg = "本作品审核完成。"
+         }) : (ActionResult)RedirectToAction("CroMyResource", new { id = id });
+
       }
 
 
@@ -236,7 +240,7 @@ namespace Res.Controllers
       }
 
 
-      //我的资源
+      //我的微课作品
 
 
       public ActionResult CroMyResource(long id, int page = 1)
@@ -253,7 +257,7 @@ namespace Res.Controllers
          return View(user);
       }
 
-      //我的收藏资源
+      //我的收藏
       public ActionResult CroMyFavorite(long id, int page = 1)
       {
          int total = 0;
@@ -267,7 +271,8 @@ namespace Res.Controllers
          user.UserId = id;
          return View(user); ;
       }
-      //我的评价资源
+
+      //我的评价
       public ActionResult CroMyComment(long id, int page = 1)
       {
          int total = 0;
@@ -284,7 +289,7 @@ namespace Res.Controllers
       }
 
 
-      //我的下载资源
+      //我的下载
       public ActionResult CroMyDownload(long id, int page = 1)
       {
          int total = 0;
@@ -301,8 +306,7 @@ namespace Res.Controllers
       }
 
 
-
-      //我的推荐资源
+      //我的推荐微课作品
       //public ActionResult CroMyRecommand(long id, int page = 1)
       //{
       //	int total = 0;
@@ -323,7 +327,7 @@ namespace Res.Controllers
 
 
       //
-      // 资源查看
+      // 微课作品查看
       // GET:		/CroResource/View
       //
 
@@ -337,7 +341,7 @@ namespace Res.Controllers
       }
 
 
-      //删除资源
+      //删除微课作品
 
       public ActionResult Delete(long id, long resid)
       {
@@ -384,7 +388,7 @@ namespace Res.Controllers
 
       public ActionResult NewsView(long id)
       {
-         var model = APBplDef.ResBulletinBpl.PrimaryGet(id);
+         var model = APBplDef.CroBulletinBpl.PrimaryGet(id);
 
          return View(model);
 

@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Symber.Web.Data;
 using Res.Business;
+using Res.Business.Utils;
 
 namespace Res.Controllers
 {
@@ -69,13 +70,95 @@ namespace Res.Controllers
 		}
 
 
-		//
-		//	用户 - 查询
-		// GET:		/User/Search
-		// POST:		/User/Search
-		//
+      //
+      //	用户 - 编辑
+      // GET:		/User/Edit
+      // POST:		/User/Edit
+      //
 
-		public ActionResult Search()
+      public ActionResult Edit(long? id)
+      {
+         if (id == null)
+         {
+            return Request.IsAjaxRequest() ? (ActionResult)PartialView() : View();
+         }
+         else
+         {
+            var model = APBplDef.ResUserBpl.PrimaryGet(id.Value);
+            return Request.IsAjaxRequest() ? (ActionResult)PartialView(model) : View(model);
+         }
+      }
+
+      [HttpPost]
+      public async Task<ActionResult> Edit(ResUser model)
+      {
+         DateTime birthday;
+
+         if (!IDCardCheck.CheckIdentityCode(model.IDCard, out birthday))
+            return Json(new
+            {
+               error = "IDCard",
+               msg = "身份证号码无效"
+            });
+
+         var t = APDBDef.ResUser;
+
+         int g = model.IDCard[model.IDCard.Length - 2] - '0';
+         model.GenderPKID = g % 2 == 0 ? ResUserHelper.GenderFemale : ResUserHelper.GenderMale;
+
+         if (model.UserId == 0)
+         {
+            if (APBplDef.ResUserBpl.ConditionQueryCount(t.UserName == model.UserName) > 0)
+            {
+               return Json(new
+               {
+                  error = "Username",
+                  msg = "登录名称已经被使用"
+               });
+            }
+
+            var password = "teacher";
+            model.RegisterTime = DateTime.Now;
+            model.LastLoginTime = DateTime.Now;
+            model.Password = password;
+            var result=await UserManager.CreateAsync(model, password);
+            if (!result.Succeeded)
+            {
+               return Json(new
+               {
+                  error = "Signin",
+                  msg = string.Join(",", result.Errors)
+               });
+            }
+           // APBplDef.ResUserBpl.Insert(model);
+         }
+         else
+         {
+            APBplDef.ResUserBpl.UpdatePartial(model.UserId, new
+            {
+                model.Email,
+                model.RealName,
+                model.PhotoPath,
+                model.CompanyId,
+                model.IDCard
+            });
+         }
+
+         return Json(new
+         {
+            error = "none",
+            msg = "编辑成功"
+         });
+      }
+
+
+      //
+      //	用户 - 查询
+      // GET:		/User/Search
+      // POST:		/User/Search
+      //
+
+      public ActionResult Search()
 		{
 			return View();
 		}

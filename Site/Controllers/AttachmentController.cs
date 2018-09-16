@@ -212,39 +212,39 @@ namespace Res.Controllers
       // POST:		/Attachment/UpdateCover
       //
 
-      [HttpPost]
-      public ActionResult UpdateCover(long id)
-      {
-         if (Request.Files.Count != 1)
-            return Content("Error");
+      //[HttpPost]
+      //public ActionResult UpdateCover(long id)
+      //{
+      //   if (Request.Files.Count != 1)
+      //      return Content("Error");
 
-         string dirForSaving = GetDirForSaving(Guid.NewGuid());
-         string mappedDir = Server.MapPath("~" + dirForSaving);
-         if (!Directory.Exists(mappedDir))
-         {
-            Directory.CreateDirectory(mappedDir);
-         }
+      //   string dirForSaving = GetDirForSaving(Guid.NewGuid());
+      //   string mappedDir = Server.MapPath("~" + dirForSaving);
+      //   if (!Directory.Exists(mappedDir))
+      //   {
+      //      Directory.CreateDirectory(mappedDir);
+      //   }
 
-         HttpPostedFileBase hpf = Request.Files[0];
-         string filename = CutCover(hpf, 480, mappedDir);
+      //   HttpPostedFileBase hpf = Request.Files[0];
+      //   string filename = CutCover(hpf, 480, mappedDir);
 
-         string url = dirForSaving + "/" + filename;
-         APBplDef.ResResourceBpl.UpdatePartial(id, new { CoverPath = url });
+      //   string url = dirForSaving + "/" + filename;
+      //   APBplDef.ResResourceBpl.UpdatePartial(id, new { CoverPath = url });
 
-         if (Request.IsAjaxRequest())
-         {
-            return Json(new
-            {
-               name = hpf.FileName,
-               path = url,
-               showPath = Url.Content(url)
-            });
-         }
-         else
-         {
-            return Content("upload ok");
-         }
-      }
+      //   if (Request.IsAjaxRequest())
+      //   {
+      //      return Json(new
+      //      {
+      //         name = hpf.FileName,
+      //         path = url,
+      //         showPath = Url.Content(url)
+      //      });
+      //   }
+      //   else
+      //   {
+      //      return Content("upload ok");
+      //   }
+      //}
 
 
    }

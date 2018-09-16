@@ -17,8 +17,8 @@
 					<span class="text">资源</span>
 				</a>
 			</li>*@
-			@if (ResSettings.SettingsInSession.CanbeManageUser)
-			{ 
+			@*@if (ResSettings.SettingsInSession.CanbeManageUser)
+			{*@ 
 			@*<li>
 				<a href="@Url.Action("Index", "Bulletin")">
 					<i class="fa fa-newspaper-o fa-fw"></i>
@@ -32,7 +32,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="@Url.Action("Index", "User")">
+				<a href="@Url.Action("Search", "User")">
 					<i class="fa fa-user fa-fw"></i>
 					<span class="text">用户</span>
 				</a>
@@ -43,7 +43,13 @@
 					<span class="text">角色</span>
 				</a>
 			</li>
-			}
+			<li>
+				<a href="@Url.Action("Index", "Company")">
+					<i class="fa fa-home fa-fw"></i>
+					<span class="text">单位管理</span>
+				</a>
+			</li>
+			@*}*@
 			@*<li>
 				<a href="@Url.Action("Main", "Report")">
 					<i class="fa fa-bar-chart-o fa-fw"></i>
@@ -53,7 +59,7 @@
 			<li>
 				<a href="@Url.Action("Index", "Crosource")">
 					<i class="fa fa-image fa-fw"></i>
-					<span class="text">微课管理</span>
+                    <span class="text">作品管理</span>
 				</a>
 			</li>
 			@*<li>
@@ -66,12 +72,21 @@
 			<li>
 
 				<a href="@Url.Action("Comment", "CroComment")">
-					<i class="fa fa-image fa-fw"></i>
-					<span class="text">微课评论管理</span>
+					<i class="fa fa-facebook fa-fw"></i>
+                    <span class="text">评论管理</span>
 				</a>
 			</li>
 			<li>
-
+				<a href="#" class="js-sub-menu-toggle">
+					<i class="fa fa-twitter fa-fw"></i>
+					<span class="text">评审设置</span>
+				</a>
+				<ul class="sub-menu">
+					<li><a href="#">设置评审组</a></li>
+					<li><a href="#">指标管理</a></li>
+				</ul>
+			</li>
+			<li>
 				<a href="#">
 					<i class="fa fa-image fa-fw"></i>
 					<span class="text">专家评分</span>

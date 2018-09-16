@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+    
 namespace Res.Controllers
 {
 
@@ -19,11 +19,14 @@ namespace Res.Controllers
 		public List<MicroCourseRanking> SearchCroResourceList(APSqlWherePhrase where, APSqlOrderPhrase order, out int total, int take, int skip = -1)
 		{
 			var t = APDBDef.CroResource;
+         var mc = APDBDef.MicroCourse;
+         var cf = APDBDef.Files;
 
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author,// t.CoverPath,
-				t.AuthorCompany, t.CreatedTime, t.ViewCount, t.CommentCount, t.DownCount //t.FileExtName
-            ,t.Description)
-				.from(t)
+         var query = APQuery.select(t.CrosourceId, t.Title, t.Author,// t.CoverPath,
+				t.AuthorCompany, t.Description, t.CreatedTime, //t.ViewCount, t.CommentCount, t.DownCount //t.FileExtName
+            mc.CourseId, mc.CourseTitle, mc.PlayCount, cf.FilePath
+            )
+				.from(t)    
 				.where(t.StatePKID == ResResourceHelper.StateAllow)
 				.order_by(t.CreatedTime.Desc, t.CrosourceId.Asc)
 				.primary(t.CrosourceId)
