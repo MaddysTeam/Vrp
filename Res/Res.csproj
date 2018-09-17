@@ -186,9 +186,9 @@
     <Compile Include="Controllers\BulletinController.cs" />
     <Compile Include="Controllers\CroCommentController.cs" />
     <Compile Include="Controllers\CrosourceController.cs" />
+    <Compile Include="Controllers\EvalGroupController.cs" />
     <Compile Include="Controllers\InitializeController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
-    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

@@ -300,6 +300,16 @@ namespace Res.Business
    #endregion
 
 
+   #region
+
+   public partial class EvalGroup : EvalGroupBase
+   {
+      public string Level { get; set; }
+   }
+
+   #endregion
+
+
    #region [ CroBulletin ]
 
 

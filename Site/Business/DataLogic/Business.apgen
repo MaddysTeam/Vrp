@@ -39,7 +39,6 @@
 			  connectionString="Data Source=.;Initial Catalog=shserc;User ID=sa;Password=sa"
 			  providerName="System.Data.SqlClient"/>-->
 
-
 		<!--	
 			  <provider
 				  name="DefaultConnection"
@@ -195,7 +194,7 @@
 			</table>
 
 
-			<table name="CroResource" comment="作品资源">
+			<table name="CroResource" comment="微课作品资源">
 				<columns>
 					<add name="CrosourceId" type="long" identityType="Provider" primaryKey="true" display="资源ID"/>
 
@@ -291,7 +290,7 @@
 			</table>
 
 
-			<table name="Indication" tableName="Indication" comment="指标">
+			<table name="Indication" tableName="Indication" comment="评审指标">
 				<columns>
 
 					<add name="IndicationId" columnName="ID" type="long" primaryKey="true" ></add>
@@ -305,33 +304,33 @@
 			</table>
 
 
-			<table name="EvalGroup" tableName="EvalGroup" comment="考核组">
+			<table name="EvalGroup" tableName="EvalGroup" comment="评审组">
 				<columns>
 
 					<add name="GroupId" columnName="ID" type="long" primaryKey="true" ></add>
 					<add name="GroupName" columnName="Name" type="string" dataLength="100"  display="组名称"></add>
-					<!--<add name="GroupType" columnName="Type"  display="组类型" type="string" dataLength="100" ></add>-->
+					<add name="LevelPKID" type="long" dataLength="100"  display="评审级别"></add>
 
 				</columns>
 			</table>
 
 
-			<table name="EvalGroupExpert" comment="考核组-专家关联">
+			<table name="EvalGroupExpert" comment="评审组-专家关联">
 				<columns>
 
-					<add name="GroupExpertId" columnName="ID" type="Guid"  primaryKey="true" display="评审人组成员ID" />
-					<add name="GroupId" type="long" display="考核组ID" comment="考核组ID"/>
+					<add name="GroupExpertId" columnName="ID" type="long"  primaryKey="true" display="评审人组成员ID" />
+					<add name="GroupId" type="long" display="评审组ID" comment="评审组ID"/>
 					<add name="ExpertId" type="long" display="评审人" comment="评审人ID"/>
 
 				</columns>
 			</table>
 
 
-			<table name="EvalGroupResource" comment="考核组-作品关联">
+			<table name="EvalGroupResource" comment="评审组-作品关联">
 				<columns>
 
 					<add name="GroupResourceId" columnName="ID" type="long"  primaryKey="true"  />
-					<add name="GroupId" type="long" display="考核组ID" comment="考核组ID"/>
+					<add name="GroupId" type="long" display="评审组ID" comment="评审组ID"/>
 					<add name="ResourceId" type="long" display="评审人" comment="作品ID"/>
 
 				</columns>
@@ -342,12 +341,10 @@
 				<columns>
 
 					<add name="ResultId" columnName="ID" type="long" primaryKey="true"  display="评价结果ID"/>
-					<add name="ExpertId" type="long" display="考评人" comment="考评人ID"/>
-					<!--<add name="PeriodId" type="Guid" display="周期ID"/>-->
-					<add name="GroupId" type="long" display="考核组ID"/>
-					<!--<add name="TableId" type="Guid" display="考核表ID"/>-->
+					<add name="ExpertId" type="long" display="评审人" comment="评审人ID"/>
+					<add name="GroupId" type="long" display="评审组ID"/>
 					<add name="ResourceId" type="long" display="被考核资源ID"/>
-					<add name="AccessDate" type="DateTime" display="考评时间"/>
+					<add name="AccessDate" type="DateTime" display="评审时间"/>
 					<add name="Score" type="double" display="得分"/>
 
 				</columns>
@@ -358,8 +355,8 @@
 				<columns>
 
 					<add name="ResultItemId" columnName="ID" type="long" primaryKey="true" display="结果项ID"/>
-					<add name="ResultId" columnName="ID" type="long"  display="所属考核结果ID"/>
-					<add name="IndicationId" columnName="IndicationId" type="Guid"  ></add>
+					<add name="ResultId" columnName="ResultId" type="long"  display="所属考核结果ID"/>
+					<add name="IndicationId" columnName="IndicationId" type="long"  ></add>
 					<add name="Score" type="double" display="得分"/>
 					
 				</columns>
