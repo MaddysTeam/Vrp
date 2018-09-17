@@ -23,17 +23,17 @@ namespace Res.Business
 
 		static ResResourceHelper()
 		{
-			Domain = new PickListAPRptColumn(APDBDef.ResResource.DomainPKID, ThisApp.PLKey_ResourceDomain);
-			Deformity = new PickListAPRptColumn(APDBDef.ResResource.DeformityPKID, ThisApp.PLKey_ResourceDeformity);
-			LearnFrom = new PickListAPRptColumn(APDBDef.ResResource.LearnFromPKID, ThisApp.PLKey_ResourceLearnFrom);
-			SchoolType = new PickListAPRptColumn(APDBDef.ResResource.SchoolTypePKID, ThisApp.PLKey_ResourceSchoolType);
-			Stage = new PickListAPRptColumn(APDBDef.ResResource.StagePKID, ThisApp.PLKey_ResourceStage);
-			Grade = new PickListAPRptColumn(APDBDef.ResResource.GradePKID, ThisApp.PLKey_ResourceGrade);
-			ImportSource = new PickListAPRptColumn(APDBDef.ResResource.ImportSourcePKID, ThisApp.PLKey_ResourceImportSource);
-			MediumType = new PickListAPRptColumn(APDBDef.ResResource.MediumTypePKID, ThisApp.PLKey_ResourceMedium);
-			ResourceType = new PickListAPRptColumn(APDBDef.ResResource.ResourceTypePKID, ThisApp.PLKey_ResourceType);
-			Subject = new PickListAPRptColumn(APDBDef.ResResource.SubjectPKID, ThisApp.PLKey_ResourceSubject);
-			State = new PickListAPRptColumn(APDBDef.ResResource.StatePKID, ThisApp.PLKey_ResourceState);
+			//Domain = new PickListAPRptColumn(APDBDef.ResResource.DomainPKID, ThisApp.PLKey_ResourceDomain);
+			//Deformity = new PickListAPRptColumn(APDBDef.ResResource.DeformityPKID, ThisApp.PLKey_ResourceDeformity);
+			//LearnFrom = new PickListAPRptColumn(APDBDef.ResResource.LearnFromPKID, ThisApp.PLKey_ResourceLearnFrom);
+			//SchoolType = new PickListAPRptColumn(APDBDef.ResResource.SchoolTypePKID, ThisApp.PLKey_ResourceSchoolType);
+			//Stage = new PickListAPRptColumn(APDBDef.ResResource.StagePKID, ThisApp.PLKey_ResourceStage);
+			//Grade = new PickListAPRptColumn(APDBDef.ResResource.GradePKID, ThisApp.PLKey_ResourceGrade);
+			//ImportSource = new PickListAPRptColumn(APDBDef.ResResource.ImportSourcePKID, ThisApp.PLKey_ResourceImportSource);
+			//MediumType = new PickListAPRptColumn(APDBDef.ResResource.MediumTypePKID, ThisApp.PLKey_ResourceMedium);
+			//ResourceType = new PickListAPRptColumn(APDBDef.ResResource.ResourceTypePKID, ThisApp.PLKey_ResourceType);
+			//Subject = new PickListAPRptColumn(APDBDef.ResResource.SubjectPKID, ThisApp.PLKey_ResourceSubject);
+			//State = new PickListAPRptColumn(APDBDef.ResResource.StatePKID, ThisApp.PLKey_ResourceState);
 		}
 
 

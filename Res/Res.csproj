@@ -171,6 +171,7 @@
     <Compile Include="Business\Project\ResSettings.cs" />
     <Compile Include="Business\Project\ThisApp.Config.cs" />
     <Compile Include="Business\Project\ThisApp.PickList.cs" />
+    <Compile Include="Business\Utils\ActiveHelper.cs" />
     <Compile Include="Business\Utils\GridOrder.cs" />
     <Compile Include="Business\Utils\IDCardCheck.cs" />
     <Compile Include="Business\Utils\ResCommentTypeHelper.cs" />
@@ -179,11 +180,11 @@
     <Compile Include="Business\Utils\ResResourceHelper.cs" />
     <Compile Include="Business\Utils\ResApproveHelper.cs" />
     <Compile Include="Business\Utils\ResUserHelper.cs" />
+    <Compile Include="Business\Utils\EvalGroupHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AttachmentController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CroBulletinController.cs" />
-    <Compile Include="Controllers\BulletinController.cs" />
     <Compile Include="Controllers\CroCommentController.cs" />
     <Compile Include="Controllers\CrosourceController.cs" />
     <Compile Include="Controllers\EvalGroupController.cs" />
@@ -1700,11 +1701,6 @@
     <Content Include="Views\Shared\_notice.cshtml" />
     <Content Include="Views\Shared\_sidebar.cshtml" />
     <Content Include="Views\Shared\_user.cshtml" />
-    <Content Include="Views\Resource\Index.cshtml" />
-    <Content Include="Views\Resource\Search.cshtml" />
-    <Content Include="Views\Resource\Category.cshtml" />
-    <Content Include="Views\Resource\Edit.cshtml" />
-    <Content Include="Views\Resource\Details.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Role\Edit.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
@@ -1742,6 +1738,8 @@
     <Content Include="Views\Crosource\Report.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Crosource\Courses.cshtml" />
+    <Content Include="Views\EvalGroup\Search.cshtml" />
+    <Content Include="Views\EvalGroup\Edit.cshtml" />
     <None Include="xml.schema.definition\apgen.xsd">
       <SubType>Designer</SubType>
     </None>

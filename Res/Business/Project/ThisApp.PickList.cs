@@ -68,6 +68,11 @@ namespace Res.Business
 		/// 性别
 		/// </summary>
 		public static readonly string PLKey_Gender = "PLKey_Gender";
+
+      /// <summary>
+      /// 评审等级
+      /// </summary>
+      public static readonly string PLKey_Level = "PLKey_Level";
 	}
 
 }

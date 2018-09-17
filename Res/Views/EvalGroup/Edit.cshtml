@@ -1,0 +1,97 @@
+﻿@model EvalGroup
+@{
+	var id = this.ViewContext.RouteData.Values["id"];
+	ViewBag.Title = Model == null ? "添加评审组" : "编辑评审组";
+}
+
+<div class="modal-dialog" style="width:800px;">
+	<div class="modal-content">
+		<div class="color-line"></div>
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			@if (Model.GroupId == 0)
+			{
+				<h4 class="modal-title" id="firstModalLabel">添加评审组</h4>
+			}
+			else
+			{
+				<h4 class="modal-title" id="firstModalLabel">编辑评审组</h4>
+			}
+		</div>
+		@using (Html.BeginForm("Edit", "EvalGroup", Model == null ? null : new { id = Model.GroupId }, FormMethod.Post, new { id = "form1", role = "form", @class = "form-horizontal" }))
+		{
+			@Html.HiddenFor(m => m.GroupId)
+
+			<div class="modal-body">
+				<div class="form-horizontal">
+
+					<div class="form-group">
+						<label class="control-label col-sm-3"> <span class="request">*</span> 所属活动</label>
+						<div class="col-sm-9">
+							@Html.Label(Model.ActiveName, new { @class = "form-control", maxlength = "255" })
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-sm-3"> <span class="request">*</span> 评审组名称</label>
+						<div class="col-sm-9">
+							@Html.TextBoxFor(g => g.GroupName, new { @class = "form-control", maxlength = "255", placeholder = "资源标题" })
+							@Html.ValidationMessageFor(m => m.GroupName)
+						</div>
+					</div>
+	
+					<div class="form-group">
+						@Html.LabelFor(g => g.StartDate, new { @class = "control-label col-md-3" })
+						<div class="col-md-9">
+							<div class="input-group date" data-provide="datepicker" data-date-language="zh-CN" data-date-format="yyyy-mm-dd" data-date-autoclose="true">
+								@Html.TextBoxFor(g => g.StartDate, "{0:yyyy-MM-dd}", new { @class = "form-control plan", @hasValue = Model.StartDate != DateTime.MinValue })
+								<div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						@Html.LabelFor(g => g.EndDate, new { @class = "control-label col-md-3" })
+						<div class="col-md-9">
+							<div class="input-group date" data-provide="datepicker" data-date-language="zh-CN" data-date-format="yyyy-mm-dd" data-date-autoclose="true">
+								@Html.TextBoxFor(g => g.EndDate, "{0:yyyy-MM-dd}", new { @class = "form-control plan", @hasValue = Model.StartDate != DateTime.MinValue })
+								<div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">取消</button>
+					<button type="submit" class="btn btn-primary btn-sm">保存</button>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+
+<script>
+	$.validator.unobtrusive.parse("#form1");
+
+	$('#form1').submit(function () {
+		var $form = $(this);
+		if (!$form.valid())
+			return false;
+
+		$.post($form.attr("action"), $form.serialize(), function (data, status) {
+			if (status == "success") {
+
+				if (data.error != 'none') {
+					alertify.error(data.msg);
+					return;
+				}
+
+				alertify.success(data.msg);
+				$('#inner-edit-form').modal('hide');
+				//$('#bootgrid').on();
+			}
+		});
+
+		return false;
+	});
+</script>

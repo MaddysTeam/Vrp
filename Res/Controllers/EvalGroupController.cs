@@ -29,7 +29,7 @@ namespace Res.Controllers
       {
          var eg = APDBDef.EvalGroup;
          var query = APQuery
-             .select(eg.GroupName, eg.LevelPKID) //t.MediumTypePKID,
+             .select(eg.GroupId,eg.GroupName, eg.LevelPKID) //t.MediumTypePKID,
              .from(eg);
 
          if (!string.IsNullOrEmpty(searchPhrase))
@@ -42,14 +42,24 @@ namespace Res.Controllers
               .take(rowCount);
 
          var total = db.ExecuteSizeOfSelect(query);
+         var egs =  db.Query(query, eg.TolerantMap).ToList();
+         var list = (from c in egs
+                     select new
+                     {
+                        id = c.GroupId,
+                        GroupName = c.GroupName,
+                        Level = c.Level,
+                        ActiveId = CurrentActive.ActiveId,
+                        ActiveName = CurrentActive.ActiveName
+                     }).ToList();
 
-         var result = query.query(db, r => {
 
-            return new { };
+         return Json(new {
+            rows= list,
+            current,
+            rowCount,
+            total
          });
-
-
-         return Json(new { });
       }
 
 
@@ -59,15 +69,45 @@ namespace Res.Controllers
       // POST     /EvalGroup/Edit
       //
 
-      public ActionResult Edit(long id)
+      public ActionResult Edit(long? id)
       {
-         return View();
+         EvalGroup model = null;
+         if (id == null)
+         {
+            model = new EvalGroup
+            {
+               ActiveId = CurrentActive.ActiveId,
+               ActiveName = CurrentActive.ActiveName
+            };
+         }
+         else
+         {
+            model = APBplDef.EvalGroupBpl.PrimaryGet(id.Value);
+            model.ActiveId = CurrentActive.ActiveId;
+            model.ActiveName = CurrentActive.ActiveName;
+         }
+
+         return PartialView(model);
       }
 
       [HttpPost]
       public ActionResult Edit(EvalGroup model)
       {
-         return View();
+         if (model.GroupId == 0)
+         {
+            model.ActiveId = CurrentActive.ActiveId;
+            APBplDef.EvalGroupBpl.Insert(model);
+         }
+         else
+         {
+
+         }
+
+         return Json(new
+         {
+            error = "none",
+            msg = "编辑成功"
+         });
       }
 
       //

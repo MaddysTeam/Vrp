@@ -39,7 +39,6 @@
 			  connectionString="Data Source=.;Initial Catalog=shserc;User ID=sa;Password=sa"
 			  providerName="System.Data.SqlClient"/>-->
 
-
 		<!--	
 			  <provider
 				  name="DefaultConnection"
@@ -47,6 +46,7 @@
 				  connectionString="Data Source=192.168.10.3;Initial Catalog=shserc;User ID=sa;Password=sa"
 				  providerName="System.Data.SqlClient" />
 	-->
+		
 		<tables>
 
 			<!-- Defined 'ResPickList' DB table and auto generite db access codes.
@@ -197,6 +197,17 @@
 				</columns>
 			</table>
 
+			
+			<table name="Active" comment="活动">
+				<columns>
+					<add name="ActiveId" columnName="id" type="long" identityType="Provider" primaryKey="true" display="活动ID"/>
+
+					<!-- Content -->
+					<add name="ActiveName" type="string" dataLength="255" required="true" display="活动名称"/>
+					<add name="Description" type="string" dataLength="255" required="true" display="描述"/>
+				</columns>
+			</table>
+
 
 			<table name="CroBulletin" comment="众筹公告">
 				<columns>
@@ -325,10 +336,13 @@
 			<table name="EvalGroup" tableName="EvalGroup" comment="评审组">
 				<columns>
 
-					<add name="GroupId" columnName="ID" type="long" primaryKey="true" ></add>
+					<add name="GroupId" columnName="ID" type="long" identityType="Provider" primaryKey="true" ></add>
 					<add name="GroupName" columnName="Name" type="string" dataLength="100"  display="组名称"></add>
 					<add name="LevelPKID" type="long" dataLength="100"  display="评审级别"></add>
-
+					<add name="StartDate" columnName="StartDate" type="DateTime"  display="起始时间" />
+					<add name="EndDate" columnName="EndDate" type="DateTime"  display="结束时间" />
+					<add name="ActiveId" columnName="ActiveId" type="long" display="活动"/>
+					
 				</columns>
 			</table>
 
@@ -504,7 +518,6 @@
 
 
 		</tables>
-
 
 		<relations>
 

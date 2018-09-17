@@ -1,0 +1,184 @@
+﻿@{
+	ViewBag.Title = "评审组管理";
+}
+<div class="col-md-10 content-wrapper">
+	<div class="row">
+		<div class="col-lg-4 ">
+			<ul class="breadcrumb">
+				<li>
+					<i class="fa fa-home"></i>
+					<a href="@Url.Action("Index", "Home")">首页</a>
+				</li>
+				<li><a href="@Url.Action("Index", "Crosource")">评审组</a></li>
+				<li class="active">@ViewBag.Title</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- main -->
+	<div class="content">
+		<div class="main-header">
+			<h2>@ViewBag.Title</h2>
+            <em>评审组列表</em>
+		</div>
+
+		<div class="main-content">
+			<div>
+				<a href="javascript:void(0)" id="addGroup" class="btn btn-danger btn-add">新增分组</a>
+			</div>
+			<!-- widget -->
+			<div class="widget">
+				<div class="widget-header">
+					<h3><i class="fa fa-paperclip"></i> @ViewBag.Title</h3>
+					<div class="btn-group widget-header-toolbar">
+						<a href="#" title="专注" class="btn-borderless btn-focus"><i class="fa fa-eye"></i></a>
+					</div>
+				</div>
+
+				<div class="widget-content">
+					<!-- Grid -->
+					<div id="table-responsive">
+						<table id="bootgrid" class="table table-striped table-hover">
+							<thead>
+								<tr>
+									<th data-column-id="ActiveName" data-headercs="titlewidth">活动名称</th>
+									<th data-column-id="GroupName">评审组名称</th>
+									<th data-column-id="Level">评审级别</th>
+									<th data-column-id="commands" data-formatter="commands">操作</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<!-- end Grid-->
+				</div>
+				<!-- end widget content -->
+
+			</div>
+			<!-- end widget -->
+
+		</div>
+		<!-- /main-content -->
+	</div>
+	<!-- /main -->
+</div>
+
+<!-- Modal start -->
+<div class="modal fade" id="inner-edit-form" tabindex="-1" role="dialog"></div>
+<!-- Modal end -->
+
+@section Css {
+	@Styles.Render("~/css/bootgrid")
+}
+@section Plugins {
+	@Scripts.Render("~/js/bootgrid")
+}
+@section Scripts {
+	<script type="text/javascript">
+
+
+	function getGridOptions() {
+
+		return $.extend(true, {}, gridOptions, {
+
+			url: "@Url.Action("Search","EvalGroup")",
+
+			formatters: {
+				'commands': function (column, row) {
+					var id = row.id;
+					return '<div class="btn-group btn-group-xs pull-right" data-row-id="' + row.id +'">' +
+											 '<button class="btn btn-success btn-edit">编辑</button>' +
+											 '<button class="btn btn-info btn-remove">分配专家</button>' +
+						                '<button class="btn btn-primary btn-remove">分配作品</button>'
+					'</div>';
+				},
+			},
+
+			//defaultSearch: decodeURI(window.location.search.substr(3)),
+
+			labels: {
+				search: "名称搜索"
+			},
+
+		});
+
+	}
+
+
+	$(function () {
+
+		var grid = $("#bootgrid")
+				.bootgrid(getGridOptions())
+				.on("loaded.rs.jquery.bootgrid", function () {
+
+					grid.find("tbody tr:has(button.iselite)").addClass("flagelite");
+					grid.find("tbody tr:has(button.isallow)").addClass("flagallow");
+
+					grid.find('.btn-edit').on('click', function () {
+						var id = $(this).parent().data("row-id");
+						alert(id);
+						$.get('@Url.Action("Edit", "EvalGroup")?id='+id, function (response) {
+							$("#inner-edit-form")
+									.html(response).modal("show");
+						});
+					});
+
+					//grid
+					//	.find(".cmd_approve").on("click", function (e) {
+					//		var id = $(this).data("row-id"),
+					//			 title = $(this).data("row-title"),
+					//			 tr = $(this).parent().parent(),
+					//			 value = tr.hasClass("flagallow"),
+					//			 brother = $(this).parent().prev();
+					//			 message = value ? "审核该资源为 - 不合格" : "审核该资源为 - 合格";
+					//		alertify.prompt("审核意见", function (e, str) {
+					//			if (e) {
+					//				$.post("/Crosource/Approve", { id: id, value: !value, opinion: str }, function (data, status) {
+					//					alertify.success("作品 【" + title + "】 审核完成。");
+					//					tr.toggleClass("flagallow");
+					//					brother.text(!value ? "审核合格" : "审核不合格");
+					//				});
+					//			} else {
+                    //                alertify.success("作品 【" + title + "】 审核取消。");
+					//			}
+					//		}, message);
+					//	}).end()
+
+					//	// 资源加精
+					//	.find(".cmd_elite").on("click", function (e) {
+					//		var id = $(this).data("row-id"),
+					//			 tr = $(this).parent().parent(),
+					//			 value = tr.hasClass("flagelite");
+					//		$.post("/Crosource/Elite", { id: id, value: !value }, function (data, status) {
+					//			tr.toggleClass("flagelite");
+					//		});
+					//	}).end()
+
+					//	// 删除资源
+					//	.find(".cmd_delete").on("click", function (e) {
+					//		var id = $(this).data("row-id"), title = $(this).data("row-title");
+                    //        var msg = "确认要删除作品 【" + title + "】 吗？";
+					//		alertify.confirm(msg, function (e) {
+					//			if (e) {
+					//				$.post("/Crosource/Delete", { id: id }, function (data, status) {
+					//					if (data.cmd == "Deleted") { alertify.success(data.msg); grid.bootgrid("reload"); }
+					//					else { alertify.error(data.msg); }
+					//				});
+					//			}
+					//		});
+					//	});
+
+				});
+
+
+		$('#addGroup').on('click', function () {
+			$.get('@Url.Action("Edit", "EvalGroup")', function (response) {
+				$("#inner-edit-form")
+						.html(response).modal("show");
+			});
+		});
+
+	});
+
+	</script>
+
+}

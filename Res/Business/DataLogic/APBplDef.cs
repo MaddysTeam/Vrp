@@ -170,42 +170,42 @@ namespace Res.Business
 		#region [ ResResource ]
 
 
-		public partial class ResResourceBpl : ResResourceBplBase
-		{
+		//public partial class ResResourceBpl : ResResourceBplBase
+		//{
 
-			/// <summary>
-			/// Return a list for admin UI list. 
-			/// </summary>
-			/// <param name="total"></param>
-			/// <param name="current"></param>
-			/// <param name="rowCount"></param>
-			/// <param name="where"></param>
-			/// <param name="order"></param>
-			/// <returns></returns>
-			public static List<ResResource> TolerantSearch(out int total, int current, int rowCount, APSqlWherePhrase where, APSqlOrderPhrase order)
-			{
-				var t = APDBDef.ResResource;
-				var u = APDBDef.ResUser;
+		//	/// <summary>
+		//	/// Return a list for admin UI list. 
+		//	/// </summary>
+		//	/// <param name="total"></param>
+		//	/// <param name="current"></param>
+		//	/// <param name="rowCount"></param>
+		//	/// <param name="where"></param>
+		//	/// <param name="order"></param>
+		//	/// <returns></returns>
+		//	public static List<ResResource> TolerantSearch(out int total, int current, int rowCount, APSqlWherePhrase where, APSqlOrderPhrase order)
+		//	{
+		//		var t = APDBDef.ResResource;
+		//		var u = APDBDef.ResUser;
 
-				var query = APQuery
-					.select(t.ResourceId, t.Title, u.RealName.As("Author"), t.MediumTypePKID, t.CreatedTime, t.StatePKID, t.EliteScore, t.ViewCount, t.DownCount, t.FavoriteCount, t.CommentCount, t.StarTotal, t.StarCount)
-					.from(t, u.JoinInner(t.Creator == u.UserId))
-					.where(where)
-					.primary(t.ResourceId)
-					.skip((current - 1) * rowCount)
-					.take(rowCount);
+		//		var query = APQuery
+		//			.select(t.ResourceId, t.Title, u.RealName.As("Author"), t.MediumTypePKID, t.CreatedTime, t.StatePKID, t.EliteScore, t.ViewCount, t.DownCount, t.FavoriteCount, t.CommentCount, t.StarTotal, t.StarCount)
+		//			.from(t, u.JoinInner(t.Creator == u.UserId))
+		//			.where(where)
+		//			.primary(t.ResourceId)
+		//			.skip((current - 1) * rowCount)
+		//			.take(rowCount);
 
-				if (order != null)
-					query.order_by(order);
+		//		if (order != null)
+		//			query.order_by(order);
 
-				using (APDBDef db = new APDBDef())
-				{
-					total = db.ExecuteSizeOfSelect(query);
-					return db.Query(query, t.TolerantMap).ToList();
-				}
-			}
+		//		using (APDBDef db = new APDBDef())
+		//		{
+		//			total = db.ExecuteSizeOfSelect(query);
+		//			return db.Query(query, t.TolerantMap).ToList();
+		//		}
+		//	}
 
-		}
+		//}
 
 
 		#endregion

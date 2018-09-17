@@ -122,53 +122,6 @@ namespace Res.Business
 	#endregion
 
 
-	#region [ ResResource ]
-
-
-	public partial class ResResource : ResResourceBase
-	{
-
-		#region [ Properties ]
-
-
-		public string Deformity { get { return ResResourceHelper.Deformity.GetName(DeformityPKID); } }
-
-		public string Domain { get { return ResResourceHelper.Domain.GetName(DomainPKID); } }
-
-		public string LearnFrom { get { return ResResourceHelper.LearnFrom.GetName(LearnFromPKID); } }
-
-		public string SchoolType { get { return ResResourceHelper.SchoolType.GetName(SchoolTypePKID); } }
-
-		public string Stage { get { return ResResourceHelper.Stage.GetName(StagePKID); } }
-
-		public string Grade { get { return ResResourceHelper.Grade.GetName(GradePKID); } }
-
-		public string ImportSource { get { return ResResourceHelper.ImportSource.GetName(ImportSourcePKID); } }
-
-		public string MediumType { get { return ResResourceHelper.MediumType.GetName(MediumTypePKID); } }
-
-		public string ResourceType { get { return ResResourceHelper.ResourceType.GetName(ResourceTypePKID); } }
-
-		public string Subject { get { return ResResourceHelper.Subject.GetName(SubjectPKID); } }
-
-		public string State { get { return ResResourceHelper.State.GetName(StatePKID); } }
-
-		[Display(Name = "资源路径")]
-		[Required]
-		public string GhostFileName { get; set; }
-
-		public string FileType { get { if (FileExtName != null) return FileExtName.Substring(1); return ""; } }
-
-
-		#endregion
-
-
-	}
-
-
-	#endregion
-
-
 	#region [ ResCompany ]
 
 
@@ -216,8 +169,6 @@ namespace Res.Business
    #endregion
 
 
-
-
    #region [ CroResource ]
 
 
@@ -238,19 +189,19 @@ namespace Res.Business
 
       //public string SchoolType { get { return ResResourceHelper.SchoolType.GetName(SchoolTypePKID); } }
 
-      public string Stage { get { return ResResourceHelper.Stage.GetName(StagePKID); } }
+      public string Stage { get { return CroResourceHelper.Stage.GetName(StagePKID); } }
 
-      public string Grade { get { return ResResourceHelper.Grade.GetName(GradePKID); } }
+      public string Grade { get { return CroResourceHelper.Grade.GetName(GradePKID); } }
 
       //public string ImportSource { get { return ResResourceHelper.ImportSource.GetName(ImportSourcePKID); } }
 
       //public string MediumType { get { return ResResourceHelper.MediumType.GetName(MediumTypePKID); } }
 
-      public string ResourceType { get { return ResResourceHelper.ResourceType.GetName(ResourceTypePKID); } }
+      public string ResourceType { get { return CroResourceHelper.ResourceType.GetName(ResourceTypePKID); } }
 
-      public string Subject { get { return ResResourceHelper.Subject.GetName(SubjectPKID); } }
+      public string Subject { get { return CroResourceHelper.Subject.GetName(SubjectPKID); } }
 
-      public string State { get { return ResResourceHelper.State.GetName(StatePKID); } }
+      public string State { get { return CroResourceHelper.State.GetName(StatePKID); } }
 
       [Display(Name = "资源路径")]
       [Required]
@@ -300,11 +251,14 @@ namespace Res.Business
    #endregion
 
 
-   #region
+   #region [EvalGroup]
+
 
    public partial class EvalGroup : EvalGroupBase
    {
-      public string Level { get; set; }
+      public string Level { get { return EvalGroupHelper.Level.GetName(LevelPKID); } }
+
+      public string ActiveName { get; set; }
    }
 
    #endregion
@@ -336,21 +290,21 @@ namespace Res.Business
 	#region [ ResBulletin ]
 
 
-	public partial class ResBulletin : ResBulletinBase
-	{
+	//public partial class ResBulletin : ResBulletinBase
+	//{
 
-		#region [ Properties ]
-
-
-		[Display(Name = "文件路径")]
-		[Required]
-		public string GhostFileName { get; set; }
+	//	#region [ Properties ]
 
 
-		#endregion
+	//	[Display(Name = "文件路径")]
+	//	[Required]
+	//	public string GhostFileName { get; set; }
 
 
-	}
+	//	#endregion
+
+
+	//}
 
 
 	#endregion

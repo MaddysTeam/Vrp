@@ -17,29 +17,29 @@ namespace Res.Controllers
 
 		public ActionResult InitCode()
 		{
-			var t = APDBDef.ResResource;
+			//var t = APDBDef.ResResource;
 
-			var model = APQuery.select(t.DomainPKID, t.MediumTypePKID, t.ResourceId)
-				.from(t)
-				.primary(t.ResourceId)
-				.query(db, r =>
-				{
-					return new ResResource
-					{
-						ResourceId = t.ResourceId.GetValue(r),
-						DomainPKID = t.DomainPKID.GetValue(r),
-						MediumTypePKID = t.MediumTypePKID.GetValue(r),
-					};
-				}).ToList();
+			//var model = APQuery.select(t.DomainPKID, t.MediumTypePKID, t.ResourceId)
+			//	.from(t)
+			//	.primary(t.ResourceId)
+			//	.query(db, r =>
+			//	{
+			//		return new ResResource
+			//		{
+			//			ResourceId = t.ResourceId.GetValue(r),
+			//			DomainPKID = t.DomainPKID.GetValue(r),
+			//			MediumTypePKID = t.MediumTypePKID.GetValue(r),
+			//		};
+			//	}).ToList();
 
-			foreach (var item in model)
-			{
-				var Code = ResResourceHelper.ResourceCode(item.DomainPKID, item.MediumTypePKID, item.ResourceId);
-				APQuery.update(t)
-					.set(t.Code, Code)
-					.where(t.ResourceId == item.ResourceId)
-					.execute(db);
-			}
+			//foreach (var item in model)
+			//{
+			//	var Code = ResResourceHelper.ResourceCode(item.DomainPKID, item.MediumTypePKID, item.ResourceId);
+			//	APQuery.update(t)
+			//		.set(t.Code, Code)
+			//		.where(t.ResourceId == item.ResourceId)
+			//		.execute(db);
+			//}
 
 			return Content("初始化成功！");
 		}
