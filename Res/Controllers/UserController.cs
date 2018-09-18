@@ -140,7 +140,8 @@ namespace Res.Controllers
                 model.RealName,
                 model.PhotoPath,
                 model.CompanyId,
-                model.IDCard
+                model.IDCard,
+                model.UserTypePKID
             });
          }
 

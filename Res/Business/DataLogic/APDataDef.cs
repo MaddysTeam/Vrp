@@ -82,7 +82,7 @@ namespace Res.Business
 
 
 		public string Gender { get { return ResUserHelper.Gender.GetName(GenderPKID); } }
-
+      public string UserType { get { return ResUserHelper.UserType.GetName(UserTypePKID);  } }
 
 		public string CompanyName { get; set; }
 		public string RoleName { get; set; }
@@ -260,6 +260,20 @@ namespace Res.Business
 
       public string ActiveName { get; set; }
    }
+
+   #endregion
+
+   #region [Indication]
+
+   public partial class Indication : IndicationBase
+   {
+      public string Level { get { return EvalGroupHelper.Level.GetName(LevelPKID); } }
+
+      public string ActiveName { get; set; }
+
+      public string Type { get; set; }
+   }
+
 
    #endregion
 

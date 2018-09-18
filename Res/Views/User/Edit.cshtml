@@ -30,6 +30,13 @@
 							</div>
 						</div>
 						<div class="form-group">
+							@Html.LabelFor(m => m.UserTypePKID, new { @class = "control-label col-sm-3" })
+							<div class="col-sm-9">
+								@Html.DropDownListFor(m => m.UserTypePKID,ResUserHelper.UserType.GetSelectList(), new { @class = "form-control", maxlength = "80",  })
+								@Html.ValidationMessageFor(m => m.UserType)
+							</div>
+						</div>
+						<div class="form-group">
 							@Html.LabelFor(m => m.Email, new { @class = "control-label col-sm-3" })
 							<div class="col-sm-9">
 								@Html.TextBoxFor(m => m.Email, new { @class = "form-control", maxlength = "80", placeholder = "邮箱" })

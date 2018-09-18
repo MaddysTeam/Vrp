@@ -29,7 +29,7 @@ namespace Res.Controllers
       {
          var eg = APDBDef.EvalGroup;
          var query = APQuery
-             .select(eg.GroupId, eg.GroupName, eg.LevelPKID) //t.MediumTypePKID,
+             .select(eg.GroupId, eg.GroupName, eg.LevelPKID, eg.StartDate, eg.EndDate) //t.MediumTypePKID,
              .from(eg);
 
          if (!string.IsNullOrEmpty(searchPhrase))
@@ -47,10 +47,12 @@ namespace Res.Controllers
                      select new
                      {
                         id = c.GroupId,
-                        GroupName = c.GroupName,
-                        Level = c.Level,
-                        ActiveId = CurrentActive.ActiveId,
-                        ActiveName = CurrentActive.ActiveName
+                        gropupName = c.GroupName,
+                        level = c.Level,
+                        activeId = CurrentActive.ActiveId,
+                        activeName = CurrentActive.ActiveName,
+                        start = c.StartDate.ToString("yyyy-MM-dd"),
+                        end = c.EndDate.ToString("yyyy-MM-dd")
                      }).ToList();
 
 
@@ -101,7 +103,13 @@ namespace Res.Controllers
          }
          else
          {
-
+            APBplDef.EvalGroupBpl.UpdatePartial(model.GroupId, new
+            {
+               Name = model.GroupName,
+               LevelPKID = model.LevelPKID,
+               StartDate = model.StartDate,
+               EndDate = model.EndDate
+            });
          }
 
          return Json(new
@@ -134,9 +142,9 @@ namespace Res.Controllers
              .from(
                  u,
                  ur.JoinLeft(u.UserId == ur.UserId),
-                 ege.JoinLeft(u.UserId == ege.ExpertId)
+                 ege.JoinLeft(u.UserId == ege.ExpertId & ege.GroupId == id)
                  )
-             //.where(up.UserType == BzRoleNames.Teacher)
+             .where(u.UserTypePKID == ResUserHelper.Export)
              .primary(u.UserId)
              .skip((current - 1) * rowCount)
              .take(rowCount);
@@ -178,6 +186,7 @@ namespace Res.Controllers
          {
             return new
             {
+               id = ege.GroupExpertId.GetValue(rd),
                expId = u.UserId.GetValue(rd),
                realName = u.RealName.GetValue(rd),
                userName = u.UserName.GetValue(rd),
@@ -213,8 +222,7 @@ namespace Res.Controllers
          var egr = APDBDef.EvalGroupResource;
 
          var query = APQuery.select(r.CrosourceId, r.Title, r.AuthorCompany, r.Author, r.SubjectPKID, r.GradePKID, egr.GroupResourceId)
-             .from(r, egr.JoinLeft(r.CrosourceId == egr.ResourceId))
-             //.where(up.UserType == BzRoleNames.Teacher)
+             .from(r, egr.JoinLeft(r.CrosourceId == egr.ResourceId & egr.GroupId == id))
              .primary(r.CrosourceId)
              .skip((current - 1) * rowCount)
              .take(rowCount);
@@ -256,6 +264,7 @@ namespace Res.Controllers
          {
             return new
             {
+               id = egr.GroupResourceId.GetValue(rd),
                resId = r.CrosourceId.GetValue(rd),
                title = r.Title.GetValue(rd),
                company = r.AuthorCompany.GetValue(rd),
@@ -280,11 +289,22 @@ namespace Res.Controllers
       //
       // 分配评审组可打分的微课资源
       // POST:		/EvalGroup/AssignResource
-      //
+      // POST:    /EvalGroup/RemoveResource
 
       [HttpPost]
       public ActionResult AssignRes(long id, long resId)
       {
+         var egr = APDBDef.EvalGroupResource;
+
+         var resxist = APBplDef.CroResourceBpl.PrimaryGet(resId) != null;
+         var groupExist = APBplDef.EvalGroupBpl.PrimaryGet(id) != null;
+
+         var isExist = APBplDef.EvalGroupResourceBpl.ConditionQueryCount(egr.ResourceId == resId & egr.GroupId == id) > 0;
+         if (resxist && groupExist && !isExist)
+         {
+            APBplDef.EvalGroupResourceBpl.Insert(new EvalGroupResource { ResourceId = resId, GroupId = id });
+         }
+
          return Json(new
          {
             error = "none",
@@ -292,17 +312,39 @@ namespace Res.Controllers
          });
       }
 
+
+      [HttpPost]
+      public ActionResult RemoveRes(long id)
+      {
+         var isExists = APBplDef.EvalGroupResourceBpl.PrimaryGet(id) != null;
+         if (isExists)
+         {
+            APBplDef.EvalGroupResourceBpl.PrimaryDelete(id);
+         }
+
+         return Json(new
+         {
+            error = "none",
+            msg = "编辑成功"
+         });
+      }
+
+
       //
       // 分配参与评审组的专家
       // POST:		/EvalGroup/AssignExp
-      //
+      // POST:    /EvalGroup/RemoveExp
 
       [HttpPost]
       public ActionResult AssignExp(long id, long expId)
       {
          var ege = APDBDef.EvalGroupExpert;
+
+         var userExist = APBplDef.ResUserBpl.PrimaryGet(expId) != null;
+         var groupExist = APBplDef.EvalGroupBpl.PrimaryGet(id) != null;
+
          var isExist = APBplDef.EvalGroupExpertBpl.ConditionQueryCount(ege.ExpertId == expId & ege.GroupId == id) > 0;
-         if (!isExist)
+         if (userExist && groupExist && !isExist)
          {
             APBplDef.EvalGroupExpertBpl.Insert(new EvalGroupExpert { ExpertId = expId, GroupId = id });
          }
@@ -315,40 +357,60 @@ namespace Res.Controllers
       }
 
 
+      [HttpPost]
+      public ActionResult RemoveExp(long id)
+      {
+         var isExists = APBplDef.EvalGroupExpertBpl.PrimaryGet(id) != null;
+         if (isExists)
+         {
+            APBplDef.EvalGroupExpertBpl.PrimaryDelete(id);
+         }
+
+         return Json(new
+         {
+            error = "none",
+            msg = "编辑成功"
+         });
+      }
+
+
       //
       // 评审指标列表
+      // GET:		/EvalGroup/IndicationList
       // POST:		/EvalGroup/IndicationList
-      //
 
       public ActionResult IndicationList()
       {
          return View();
       }
 
-
-      public ActionResult IndicationList(int current,int rowCount,string searchPhrase)
+      [HttpPost]
+      public ActionResult IndicationList(int current, int rowCount, string searchPhrase)
       {
 
          ThrowNotAjax();
 
-         //var i = APDBDef.Indication;
+         var i = APDBDef.Indication;
+         var a = APDBDef.Active;
 
-         //var query = APQuery.select(i.IndicationId, i.IndicationName, i.Type, r.Author, r.SubjectPKID, r.GradePKID, egr.GroupResourceId)
-         //    .from(r, egr.JoinLeft(r.CrosourceId == egr.ResourceId))
-         //    //.where(up.UserType == BzRoleNames.Teacher)
-         //    .primary(r.CrosourceId)
-         //    .skip((current - 1) * rowCount)
-         //    .take(rowCount);
+         var query = APQuery.select(i.IndicationId, i.IndicationName, i.Description,
+            i.LevelPKID,i.TypePKID,a.ActiveName
+            )
+            .from(i,a.JoinInner(a.ActiveId==i.ActiveId))
+            .primary(i.IndicationId)
+            .skip((current - 1) * rowCount)
+            .take(rowCount);
+         //.where(i.IndicationStatus==IndicationKeys.EnabelStatus);
 
 
-         ////过滤条件
-         ////模糊搜索用户名、实名进行
+         //过滤条件
+         //模糊搜索用户名、实名进行
 
-         //if (!string.IsNullOrEmpty(searchPhrase))
-         //{
-         //   searchPhrase = searchPhrase.Trim();
-         //   query.where_and(r.Author.Match(searchPhrase));
-         //}
+         searchPhrase = searchPhrase.Trim();
+         if (searchPhrase != "")
+         {
+            query.where_and(i.IndicationName.Match(searchPhrase));
+         }
 
 
          //排序条件表达式
@@ -357,45 +419,93 @@ namespace Res.Controllers
          //{
          //   switch (sort.ID)
          //   {
-         //      case "realName": query.order_by(sort.OrderBy(up.RealName)); break;
-         //      case "target": query.order_by(sort.OrderBy(d.DeclareTargetPKID)); break;
-         //      case "subject": query.order_by(sort.OrderBy(d.DeclareSubjectPKID)); break;
-         //      case "stage": query.order_by(sort.OrderBy(d.DeclareStagePKID)); break;
-         //      case "groupCount": query.order_by(sort.OrderBy(e.GroupCount)); break;
+         //      //case "userName": query.order_by(sort.OrderBy(u.UserName)); break;
+         //      //case "realName": query.order_by(sort.OrderBy(u.RealName)); break;
+         //      //case "userType": query.order_by(sort.OrderBy(u.UserType)); break;
          //   }
          //}
 
 
          //获得查询的总数量
 
-         //var total = db.ExecuteSizeOfSelect(query);
-
+         var total = Indication.ConditionQueryCount(null);
+         var list=db.Query(query, i.TolerantMap).ToList();
 
          //查询结果集
 
-         //var result = query.query(db, rd =>
-         //{
-         //   return new
-         //   {
-         //      //resId = r.CrosourceId.GetValue(rd),
-         //      //title = r.Title.GetValue(rd),
-         //      //company = r.AuthorCompany.GetValue(rd),
-         //      //author = r.Author.GetValue(rd),
-         //      //subject = "fuck",
-         //      //grade = "二年级",
-         //      //isSelect = egr.GroupResourceId.GetValue(rd) > 0
-         //   };
-         //}).ToList();
+         var result = (from c in list
+                      select new
+                      {
+                         id = c.IndicationId,
+                         name=c.IndicationName,
+                         description=c.Description,
+                         level=c.Level,
+                         type=c.Type,
+                         activeName=c.ActiveName,
+                         activeId=c.ActiveId,
+                         score=c.Score
+                      }).ToList();
 
          return Json(new
          {
-            //rows = null,
+            rows = result,
             current,
             rowCount,
-            //total
+            total
          });
       }
 
+      //
+      // 评审指标编辑
+      // GET:		/EvalGroup/IndicationEdit
+      // POST:		/EvalGroup/IndicationEdit
+
+      public ActionResult IndicationEdit(long? id)
+      {
+         Indication model = null;
+         if (id == null)
+         {
+            model = new Indication
+            {
+               ActiveId = CurrentActive.ActiveId,
+               ActiveName = CurrentActive.ActiveName
+            };
+         }
+         else
+         {
+            model = APBplDef.IndicationBpl.PrimaryGet(id.Value);
+         }
+
+         return PartialView(model);
+      }
+
+
+      [HttpPost]
+      public ActionResult IndicationEdit(Indication model)
+      {
+         if (model.IndicationId == 0)
+         {
+            APBplDef.IndicationBpl.Insert(model);
+         }
+         else
+         {
+            APBplDef.IndicationBpl.UpdatePartial(model.IndicationId, new
+            {
+               IndicationName = model.IndicationName,
+               LevelPKID = model.LevelPKID,
+               TypePKID = model.TypePKID,
+               Description = model.Description,
+               Score=model.Score,
+               ActiveId=model.ActiveId
+            });
+         }
+
+         return Json(new
+         {
+            error = "none",
+            msg = "编辑成功"
+         });
+      }
 
    }
 

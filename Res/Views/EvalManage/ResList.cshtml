@@ -53,9 +53,16 @@
 			formatters: {
 				'commands': function (column, row) {
 					var id = row.id;
-					return '<div class="btn-group btn-group-xs pull-right"  data-row-id="' + row.resId + '">' +
-							 '<button class="btn btn-warning btn-assign" data-url="@Url.Action("AssignRes", "EvalManage")">分配</button>' +
-							 '</div>';
+						if (row.isSelect) {
+								return '<div class="btn-group btn-group-xs pull-right"  data-row-id="' + row.id + '">' +
+									 '<button class="btn btn-warning btn-remove" data-url="@Url.Action("RemoveRes", "EvalManage")">取消分配</button>' +
+									 '</div>';
+						}
+					else {
+						return '<div class="btn-group btn-group-xs pull-right"  data-row-id="' + row.resId + '">' +
+								 '<button class="btn btn-warning btn-assign" data-url="@Url.Action("AssignRes", "EvalManage")">分配</button>' +
+								 '</div>';
+					}
 				},
 			},
 		});
@@ -68,7 +75,15 @@
 			var url = $(this).data('url');
 			var resId = $(this).parent().data('row-id');
 			$.post(url, { id: groupId, resId: resId }, function (data) {
-				alertify.success(data.msg);
+				resourceGrid.bootgrid('reload');
+			});
+		});
+
+		$(resourceGrid).find('.btn-remove').on('click', function () {
+			var url = $(this).data('url');
+			var id = $(this).parent().data('row-id');
+			$.post(url, { id: id }, function (data) {
+				resourceGrid.bootgrid('reload');
 			});
 		})
 	});

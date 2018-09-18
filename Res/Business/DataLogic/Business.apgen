@@ -53,7 +53,7 @@
 				-->
 			<table name="ResPickList" comment="选项列表">
 				<columns>
-					<add name="PickListId" type="long" primaryKey="true"/>
+					<add name="PickListId" type="long" primaryKey="true"  identityType="Provider"/>
 					<add name="InnerKey" type="string" dataLength="40"/>
 					<add name="Name" type="string" dataLength="255"/>
 					<add name="Adjustable" type="bool"/>
@@ -72,7 +72,7 @@
 				-->
 			<table name="ResPickListItem" comment="选项列表项" >
 				<columns>
-					<add name="PickListItemId" type="long" primaryKey="true"/>
+					<add name="PickListItemId" type="long" primaryKey="true"  identityType="Provider"/>
 					<add name="PickListId" type="long" primaryKey="true" comment="Associated with CrmPickList.PickListId"/>
 					<add name="Name" type="string" dataLength="255"/>
 					<add name="StrengthenValue" type="long"/>
@@ -99,7 +99,8 @@
 					<add name="SecurityStamp" type="string" dataLength="255" display="Salt"/>
 					<add name="Question" type="string" dataLength="255" display="密码问题"/>
 					<add name="Answer" type="string" dataLength="255" display="密码答案"/>
-
+					<add name="UserTypePKID" type="long" display="用户类型"/>
+					
 					<!-- Content -->
 					<add name="RealName" type="string" dataLength="255" display="实名"/>
 					<add name="PhotoPath" type="string" dataLength="255" display="头像"/>
@@ -322,13 +323,15 @@
 			<table name="Indication" tableName="Indication" comment="评审指标">
 				<columns>
 
-					<add name="IndicationId" columnName="ID" type="long" primaryKey="true" ></add>
+					<add name="IndicationId" columnName="ID" type="long" primaryKey="true" identityType="Provider" ></add>
 					<add name="IndicationName" columnName="Name" type="string"  dataLength="200" required="true" display="指标名称"/>
 					<add name="Description" columnName="Description" type="string" dataLength="40000"  isNullable="true" display="指标描述"/>
-					<add name="TypePKID" type="long"></add>
-					<add name="Level" columnName="Level" type="int"></add>
+					<add name="TypePKID" type="long" display="评价项目"></add>
+					<add name="LevelPKID" type="long"  display="评审级别"></add>
+					<add name="Score" type="int"  display="最大分值"></add>
 					<add name="Status" columnName="Status" type="int"></add>
-
+					<add name="ActiveId" columnName="ActiveId" type="long" display="所属活动"/>
+				
 				</columns>
 			</table>
 
@@ -341,7 +344,7 @@
 					<add name="LevelPKID" type="long" dataLength="100"  display="评审级别"></add>
 					<add name="StartDate" columnName="StartDate" type="DateTime"  display="起始时间" />
 					<add name="EndDate" columnName="EndDate" type="DateTime"  display="结束时间" />
-					<add name="ActiveId" columnName="ActiveId" type="long" display="活动"/>
+					<add name="ActiveId" columnName="ActiveId" type="long" display="所属活动"/>
 					
 				</columns>
 			</table>
@@ -350,7 +353,7 @@
 			<table name="EvalGroupExpert" comment="评审组-专家关联">
 				<columns>
 
-					<add name="GroupExpertId" columnName="ID" type="long"  primaryKey="true" display="评审人组成员ID" />
+					<add name="GroupExpertId" columnName="ID" type="long" identityType="Provider"  primaryKey="true" display="评审人组成员ID" />
 					<add name="GroupId" type="long" display="评审组ID" comment="评审组ID"/>
 					<add name="ExpertId" type="long" display="评审人" comment="评审人ID"/>
 
@@ -361,7 +364,7 @@
 			<table name="EvalGroupResource" comment="评审组-作品关联">
 				<columns>
 
-					<add name="GroupResourceId" columnName="ID" type="long"  primaryKey="true"  />
+					<add name="GroupResourceId" columnName="ID" type="long"  identityType="Provider" primaryKey="true"  />
 					<add name="GroupId" type="long" display="评审组ID" comment="评审组ID"/>
 					<add name="ResourceId" type="long" display="评审人" comment="作品ID"/>
 
@@ -372,7 +375,7 @@
 			<table name="EvalResult" comment="专家-考核结果">
 				<columns>
 
-					<add name="ResultId" columnName="ID" type="long" primaryKey="true"  display="评价结果ID"/>
+					<add name="ResultId" columnName="ID" type="long" identityType="Provider" primaryKey="true"  display="评价结果ID"/>
 					<add name="ExpertId" type="long" display="评审人" comment="评审人ID"/>
 					<add name="GroupId" type="long" display="评审组ID"/>
 					<add name="ResourceId" type="long" display="被考核资源ID"/>
@@ -386,7 +389,7 @@
 			<table name="EvalResultItem" comment="考核-结果-结果项">
 				<columns>
 
-					<add name="ResultItemId" columnName="ID" type="long" primaryKey="true" display="结果项ID"/>
+					<add name="ResultItemId" columnName="ID" type="long" identityType="Provider" primaryKey="true" display="结果项ID"/>
 					<add name="ResultId" columnName="ResultId" type="long"  display="所属考核结果ID"/>
 					<add name="IndicationId" columnName="IndicationId" type="long"  ></add>
 					<add name="Score" type="double" display="得分"/>

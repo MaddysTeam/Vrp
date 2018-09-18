@@ -73,6 +73,17 @@ namespace Res.Business
       /// 评审等级
       /// </summary>
       public static readonly string PLKey_Level = "PLKey_Level";
-	}
+
+      /// <summary>
+      /// 用户 - 类型
+      /// </summary>
+      public static readonly string PLKey_UserType = "PLKey_UserType";
+
+
+      /// <summary>
+      /// 指标 - 类型
+      /// </summary>
+      public static readonly string PLKey_IndicationType = "PLKey_IndicationType";
+   }
 
 }

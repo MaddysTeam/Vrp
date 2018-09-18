@@ -4114,11 +4114,15 @@ namespace Res.Business {
             
             private StringAPColumnDef _description;
             
-            private Int32APColumnDef _type;
+            private Int64APColumnDef _typePKID;
             
-            private Int32APColumnDef _level;
+            private Int64APColumnDef _levelPKID;
+            
+            private Int32APColumnDef _score;
             
             private Int32APColumnDef _status;
+            
+            private Int64APColumnDef _activeId;
             
             public IndicationTableDef(string tableName) : 
                     base(tableName) {
@@ -4169,28 +4173,41 @@ namespace Res.Business {
             }
             
             /// <summary>
-            /// Type ColumnDef
+            /// TypePKID ColumnDef
             /// </summary>
-            public virtual Int32APColumnDef Type {
+            public virtual Int64APColumnDef TypePKID {
                 get {
-                    if (Object.ReferenceEquals(_type, null)) {
-                        _type = new Int32APColumnDef(this, "Type", false);
-                        _type.Display = "Type";
+                    if (Object.ReferenceEquals(_typePKID, null)) {
+                        _typePKID = new Int64APColumnDef(this, "TypePKID", false);
+                        _typePKID.Display = "评价项目";
                     }
-                    return _type;
+                    return _typePKID;
                 }
             }
             
             /// <summary>
-            /// Level ColumnDef
+            /// LevelPKID ColumnDef
             /// </summary>
-            public virtual Int32APColumnDef Level {
+            public virtual Int64APColumnDef LevelPKID {
                 get {
-                    if (Object.ReferenceEquals(_level, null)) {
-                        _level = new Int32APColumnDef(this, "Level", false);
-                        _level.Display = "Level";
+                    if (Object.ReferenceEquals(_levelPKID, null)) {
+                        _levelPKID = new Int64APColumnDef(this, "LevelPKID", false);
+                        _levelPKID.Display = "评审级别";
                     }
-                    return _level;
+                    return _levelPKID;
+                }
+            }
+            
+            /// <summary>
+            /// Score ColumnDef
+            /// </summary>
+            public virtual Int32APColumnDef Score {
+                get {
+                    if (Object.ReferenceEquals(_score, null)) {
+                        _score = new Int32APColumnDef(this, "Score", false);
+                        _score.Display = "最大分值";
+                    }
+                    return _score;
                 }
             }
             
@@ -4204,6 +4221,19 @@ namespace Res.Business {
                         _status.Display = "Status";
                     }
                     return _status;
+                }
+            }
+            
+            /// <summary>
+            /// ActiveId ColumnDef
+            /// </summary>
+            public virtual Int64APColumnDef ActiveId {
+                get {
+                    if (Object.ReferenceEquals(_activeId, null)) {
+                        _activeId = new Int64APColumnDef(this, "ActiveId", false);
+                        _activeId.Display = "所属活动";
+                    }
+                    return _activeId;
                 }
             }
             
@@ -4230,9 +4260,11 @@ namespace Res.Business {
                 data.IndicationId = IndicationId.GetValue<long>(reader, throwIfValidColumnName);
                 data.IndicationName = IndicationName.GetValue<string>(reader, throwIfValidColumnName);
                 data.Description = Description.GetValue<string>(reader, throwIfValidColumnName);
-                data.Type = Type.GetValue<int>(reader, throwIfValidColumnName);
-                data.Level = Level.GetValue<int>(reader, throwIfValidColumnName);
+                data.TypePKID = TypePKID.GetValue<long>(reader, throwIfValidColumnName);
+                data.LevelPKID = LevelPKID.GetValue<long>(reader, throwIfValidColumnName);
+                data.Score = Score.GetValue<int>(reader, throwIfValidColumnName);
                 data.Status = Status.GetValue<int>(reader, throwIfValidColumnName);
+                data.ActiveId = ActiveId.GetValue<long>(reader, throwIfValidColumnName);
             }
             
             /// <summary>
@@ -4381,7 +4413,7 @@ namespace Res.Business {
                 get {
                     if (Object.ReferenceEquals(_activeId, null)) {
                         _activeId = new Int64APColumnDef(this, "ActiveId", false);
-                        _activeId.Display = "活动";
+                        _activeId.Display = "所属活动";
                     }
                     return _activeId;
                 }
@@ -6838,6 +6870,9 @@ namespace Res.Business {
             /// Insert Data.
             /// </summary>
             public virtual void Insert(ResPickList data) {
+                if ((data.PickListId == 0)) {
+                    data.PickListId = ((long)(GetNewId(APDBDef.ResPickList.PickListId)));
+                }
                 var query = APQuery.insert(APDBDef.ResPickList).values(APDBDef.ResPickList.PickListId.SetValue(data.PickListId), APDBDef.ResPickList.InnerKey.SetValue(data.InnerKey), APDBDef.ResPickList.Name.SetValue(data.Name), APDBDef.ResPickList.Adjustable.SetValue(data.Adjustable), APDBDef.ResPickList.Strengthen.SetValue(data.Strengthen), APDBDef.ResPickList.Description.SetValue(data.Description), APDBDef.ResPickList.Creator.SetValue(data.Creator), APDBDef.ResPickList.CreatedTime.SetValue(data.CreatedTime), APDBDef.ResPickList.LastModifier.SetValue(data.LastModifier), APDBDef.ResPickList.LastModifiedTime.SetValue(data.LastModifiedTime));
                 ExecuteNonQuery(query);
             }
@@ -6971,6 +7006,9 @@ namespace Res.Business {
             /// Insert Data.
             /// </summary>
             public virtual void Insert(ResPickListItem data) {
+                if ((data.PickListItemId == 0)) {
+                    data.PickListItemId = ((long)(GetNewId(APDBDef.ResPickListItem.PickListItemId)));
+                }
                 var query = APQuery.insert(APDBDef.ResPickListItem).values(APDBDef.ResPickListItem.PickListItemId.SetValue(data.PickListItemId), APDBDef.ResPickListItem.PickListId.SetValue(data.PickListId), APDBDef.ResPickListItem.Name.SetValue(data.Name), APDBDef.ResPickListItem.StrengthenValue.SetValue(data.StrengthenValue), APDBDef.ResPickListItem.Code.SetValue(data.Code), APDBDef.ResPickListItem.IsDefault.SetValue(data.IsDefault), APDBDef.ResPickListItem.Creator.SetValue(data.Creator), APDBDef.ResPickListItem.CreatedTime.SetValue(data.CreatedTime), APDBDef.ResPickListItem.LastModifier.SetValue(data.LastModifier), APDBDef.ResPickListItem.LastModifiedTime.SetValue(data.LastModifiedTime));
                 ExecuteNonQuery(query);
             }
@@ -8872,7 +8910,10 @@ namespace Res.Business {
             /// Insert Data.
             /// </summary>
             public virtual void Insert(Indication data) {
-                var query = APQuery.insert(APDBDef.Indication).values(APDBDef.Indication.IndicationId.SetValue(data.IndicationId), APDBDef.Indication.IndicationName.SetValue(data.IndicationName), APDBDef.Indication.Description.SetValue(data.Description), APDBDef.Indication.Type.SetValue(data.Type), APDBDef.Indication.Level.SetValue(data.Level), APDBDef.Indication.Status.SetValue(data.Status));
+                if ((data.IndicationId == 0)) {
+                    data.IndicationId = ((long)(GetNewId(APDBDef.Indication.IndicationId)));
+                }
+                var query = APQuery.insert(APDBDef.Indication).values(APDBDef.Indication.IndicationId.SetValue(data.IndicationId), APDBDef.Indication.IndicationName.SetValue(data.IndicationName), APDBDef.Indication.Description.SetValue(data.Description), APDBDef.Indication.TypePKID.SetValue(data.TypePKID), APDBDef.Indication.LevelPKID.SetValue(data.LevelPKID), APDBDef.Indication.Score.SetValue(data.Score), APDBDef.Indication.Status.SetValue(data.Status), APDBDef.Indication.ActiveId.SetValue(data.ActiveId));
                 ExecuteNonQuery(query);
             }
             
@@ -8880,7 +8921,7 @@ namespace Res.Business {
             /// Update Data.
             /// </summary>
             public virtual void Update(Indication data) {
-                var query = APQuery.update(APDBDef.Indication).values(APDBDef.Indication.IndicationName.SetValue(data.IndicationName), APDBDef.Indication.Description.SetValue(data.Description), APDBDef.Indication.Type.SetValue(data.Type), APDBDef.Indication.Level.SetValue(data.Level), APDBDef.Indication.Status.SetValue(data.Status)).where((APDBDef.Indication.IndicationId == data.IndicationId));
+                var query = APQuery.update(APDBDef.Indication).values(APDBDef.Indication.IndicationName.SetValue(data.IndicationName), APDBDef.Indication.Description.SetValue(data.Description), APDBDef.Indication.TypePKID.SetValue(data.TypePKID), APDBDef.Indication.LevelPKID.SetValue(data.LevelPKID), APDBDef.Indication.Score.SetValue(data.Score), APDBDef.Indication.Status.SetValue(data.Status), APDBDef.Indication.ActiveId.SetValue(data.ActiveId)).where((APDBDef.Indication.IndicationId == data.IndicationId));
                 ExecuteNonQuery(query);
             }
             
@@ -9141,6 +9182,9 @@ namespace Res.Business {
             /// Insert Data.
             /// </summary>
             public virtual void Insert(EvalGroupExpert data) {
+                if ((data.GroupExpertId == 0)) {
+                    data.GroupExpertId = ((long)(GetNewId(APDBDef.EvalGroupExpert.GroupExpertId)));
+                }
                 var query = APQuery.insert(APDBDef.EvalGroupExpert).values(APDBDef.EvalGroupExpert.GroupExpertId.SetValue(data.GroupExpertId), APDBDef.EvalGroupExpert.GroupId.SetValue(data.GroupId), APDBDef.EvalGroupExpert.ExpertId.SetValue(data.ExpertId));
                 ExecuteNonQuery(query);
             }
@@ -9274,6 +9318,9 @@ namespace Res.Business {
             /// Insert Data.
             /// </summary>
             public virtual void Insert(EvalGroupResource data) {
+                if ((data.GroupResourceId == 0)) {
+                    data.GroupResourceId = ((long)(GetNewId(APDBDef.EvalGroupResource.GroupResourceId)));
+                }
                 var query = APQuery.insert(APDBDef.EvalGroupResource).values(APDBDef.EvalGroupResource.GroupResourceId.SetValue(data.GroupResourceId), APDBDef.EvalGroupResource.GroupId.SetValue(data.GroupId), APDBDef.EvalGroupResource.ResourceId.SetValue(data.ResourceId));
                 ExecuteNonQuery(query);
             }
@@ -9407,6 +9454,9 @@ namespace Res.Business {
             /// Insert Data.
             /// </summary>
             public virtual void Insert(EvalResult data) {
+                if ((data.ResultId == 0)) {
+                    data.ResultId = ((long)(GetNewId(APDBDef.EvalResult.ResultId)));
+                }
                 var query = APQuery.insert(APDBDef.EvalResult).values(APDBDef.EvalResult.ResultId.SetValue(data.ResultId), APDBDef.EvalResult.ExpertId.SetValue(data.ExpertId), APDBDef.EvalResult.GroupId.SetValue(data.GroupId), APDBDef.EvalResult.ResourceId.SetValue(data.ResourceId), APDBDef.EvalResult.AccessDate.SetValue(data.AccessDate), APDBDef.EvalResult.Score.SetValue(data.Score));
                 ExecuteNonQuery(query);
             }
@@ -9540,6 +9590,9 @@ namespace Res.Business {
             /// Insert Data.
             /// </summary>
             public virtual void Insert(EvalResultItem data) {
+                if ((data.ResultItemId == 0)) {
+                    data.ResultItemId = ((long)(GetNewId(APDBDef.EvalResultItem.ResultItemId)));
+                }
                 var query = APQuery.insert(APDBDef.EvalResultItem).values(APDBDef.EvalResultItem.ResultItemId.SetValue(data.ResultItemId), APDBDef.EvalResultItem.ResultId.SetValue(data.ResultId), APDBDef.EvalResultItem.IndicationId.SetValue(data.IndicationId), APDBDef.EvalResultItem.Score.SetValue(data.Score));
                 ExecuteNonQuery(query);
             }
@@ -20995,19 +21048,29 @@ namespace Res.Business {
         private string _description;
         
         /// <summary>
-        /// Type
+        /// TypePKID
         /// </summary>
-        private int _type;
+        private long _typePKID;
         
         /// <summary>
-        /// Level
+        /// LevelPKID
         /// </summary>
-        private int _level;
+        private long _levelPKID;
+        
+        /// <summary>
+        /// Score
+        /// </summary>
+        private int _score;
         
         /// <summary>
         /// Status
         /// </summary>
         private int _status;
+        
+        /// <summary>
+        /// ActiveId
+        /// </summary>
+        private long _activeId;
         
         /// <summary>
         /// Default constructor.
@@ -21018,13 +21081,15 @@ namespace Res.Business {
         /// <summary>
         /// Constructor with all field values.
         /// </summary>
-        public IndicationBase(long indicationId, string indicationName, string description, int type, int level, int status) {
+        public IndicationBase(long indicationId, string indicationName, string description, long typePKID, long levelPKID, int score, int status, long activeId) {
             _indicationId = indicationId;
             _indicationName = indicationName;
             _description = description;
-            _type = type;
-            _level = level;
+            _typePKID = typePKID;
+            _levelPKID = levelPKID;
+            _score = score;
             _status = status;
+            _activeId = activeId;
         }
         
         /// <summary>
@@ -21096,44 +21161,68 @@ namespace Res.Business {
         }
         
         /// <summary>
-        /// Type
+        /// TypePKID
         /// </summary>
-        public virtual int Type {
+        [Display(Name="评价项目")]
+        public virtual long TypePKID {
             get {
-                return _type;
+                return _typePKID;
             }
             set {
-                _type = value;
+                _typePKID = value;
             }
         }
         
         /// <summary>
-        /// Type APColumnDef
+        /// TypePKID APColumnDef
         /// </summary>
-        public static Int32APColumnDef TypeDef {
+        public static Int64APColumnDef TypePKIDDef {
             get {
-                return APDBDef.Indication.Type;
+                return APDBDef.Indication.TypePKID;
             }
         }
         
         /// <summary>
-        /// Level
+        /// LevelPKID
         /// </summary>
-        public virtual int Level {
+        [Display(Name="评审级别")]
+        public virtual long LevelPKID {
             get {
-                return _level;
+                return _levelPKID;
             }
             set {
-                _level = value;
+                _levelPKID = value;
             }
         }
         
         /// <summary>
-        /// Level APColumnDef
+        /// LevelPKID APColumnDef
         /// </summary>
-        public static Int32APColumnDef LevelDef {
+        public static Int64APColumnDef LevelPKIDDef {
             get {
-                return APDBDef.Indication.Level;
+                return APDBDef.Indication.LevelPKID;
+            }
+        }
+        
+        /// <summary>
+        /// Score
+        /// </summary>
+        [Display(Name="最大分值")]
+        public virtual int Score {
+            get {
+                return _score;
+            }
+            set {
+                _score = value;
+            }
+        }
+        
+        /// <summary>
+        /// Score APColumnDef
+        /// </summary>
+        public static Int32APColumnDef ScoreDef {
+            get {
+                return APDBDef.Indication.Score;
             }
         }
         
@@ -21155,6 +21244,28 @@ namespace Res.Business {
         public static Int32APColumnDef StatusDef {
             get {
                 return APDBDef.Indication.Status;
+            }
+        }
+        
+        /// <summary>
+        /// ActiveId
+        /// </summary>
+        [Display(Name="所属活动")]
+        public virtual long ActiveId {
+            get {
+                return _activeId;
+            }
+            set {
+                _activeId = value;
+            }
+        }
+        
+        /// <summary>
+        /// ActiveId APColumnDef
+        /// </summary>
+        public static Int64APColumnDef ActiveIdDef {
+            get {
+                return APDBDef.Indication.ActiveId;
             }
         }
         
@@ -21183,9 +21294,11 @@ namespace Res.Business {
             IndicationId = data.IndicationId;
             IndicationName = data.IndicationName;
             Description = data.Description;
-            Type = data.Type;
-            Level = data.Level;
+            TypePKID = data.TypePKID;
+            LevelPKID = data.LevelPKID;
+            Score = data.Score;
             Status = data.Status;
+            ActiveId = data.ActiveId;
         }
         
         /// <summary>
@@ -21201,13 +21314,19 @@ namespace Res.Business {
             if ((Description != data.Description)) {
                 return false;
             }
-            if ((Type != data.Type)) {
+            if ((TypePKID != data.TypePKID)) {
                 return false;
             }
-            if ((Level != data.Level)) {
+            if ((LevelPKID != data.LevelPKID)) {
+                return false;
+            }
+            if ((Score != data.Score)) {
                 return false;
             }
             if ((Status != data.Status)) {
+                return false;
+            }
+            if ((ActiveId != data.ActiveId)) {
                 return false;
             }
             return true;
@@ -21306,8 +21425,8 @@ namespace Res.Business {
         /// <summary>
         /// Constructor with all field values.
         /// </summary>
-        public Indication(long indicationId, string indicationName, string description, int type, int level, int status) : 
-                base(indicationId, indicationName, description, type, level, status) {
+        public Indication(long indicationId, string indicationName, string description, long typePKID, long levelPKID, int score, int status, long activeId) : 
+                base(indicationId, indicationName, description, typePKID, levelPKID, score, status, activeId) {
         }
     }
     
@@ -21478,7 +21597,7 @@ namespace Res.Business {
         /// <summary>
         /// ActiveId
         /// </summary>
-        [Display(Name="活动")]
+        [Display(Name="所属活动")]
         public virtual long ActiveId {
             get {
                 return _activeId;

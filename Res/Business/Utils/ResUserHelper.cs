@@ -10,10 +10,12 @@ namespace Res.Business
    public static class ResUserHelper
    {
       public static PickListAPRptColumn Gender;
+      public static PickListAPRptColumn UserType;
 
       static ResUserHelper()
       {
          Gender = new PickListAPRptColumn(APDBDef.ResUser.GenderPKID, ThisApp.PLKey_Gender);
+         UserType = new PickListAPRptColumn(APDBDef.ResUser.UserTypePKID,ThisApp.PLKey_UserType);
       }
 
       public static IEnumerable<System.Web.Mvc.SelectListItem> GetRoleSelectList(long userId)
@@ -35,6 +37,12 @@ namespace Res.Business
       // 性别
       public static long GenderMale = 1001;
       public static long GenderFemale = 1002;
+
+
+      //TODO: 用户类型
+      public static long Teacher = 5002;
+      public static long Admin = 5003;
+      public static long Export = 5004;
 
    }
 
