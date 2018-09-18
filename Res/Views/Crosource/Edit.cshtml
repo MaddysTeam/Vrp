@@ -83,19 +83,19 @@
 							<div class="form-group ">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 学段</label>
 								<div class="col-sm-9">
-									@Html.DropDownListFor(m => m.StagePKID, ResResourceHelper.Stage.GetSelectList(), "适用全体学段", new { @class = "form-control" })
+									@Html.DropDownListFor(m => m.StagePKID, CroResourceHelper.Stage.GetSelectList(), "适用全体学段", new { @class = "form-control" })
 								</div>
 							</div>
 							<div class="form-group ">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 年级</label>
 								<div class="col-sm-9">
-									@Html.DropDownListFor(m => m.GradePKID, ResResourceHelper.Grade.GetSelectList(), "适用全体年级", new { @class = "form-control" })
+									@Html.DropDownListFor(m => m.GradePKID, CroResourceHelper.Grade.GetSelectList(), "适用全体年级", new { @class = "form-control" })
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 学科</label>
 								<div class="col-sm-9">
-									@Html.DropDownListFor(m => m.SubjectPKID, ResResourceHelper.Subject.GetSelectList(), "不分学科", new { @class = "form-control" })
+									@Html.DropDownListFor(m => m.SubjectPKID, CroResourceHelper.Subject.GetSelectList(), "不分学科", new { @class = "form-control" })
 								</div>
 							</div>
 

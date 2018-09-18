@@ -18,7 +18,7 @@
 				<h4 class="modal-title" id="firstModalLabel">编辑评审组</h4>
 			}
 		</div>
-		@using (Html.BeginForm("Edit", "EvalGroup", Model == null ? null : new { id = Model.GroupId }, FormMethod.Post, new { id = "form1", role = "form", @class = "form-horizontal" }))
+		@using (Html.BeginForm("Edit", "EvalManage", Model == null ? null : new { id = Model.GroupId }, FormMethod.Post, new { id = "form1", role = "form", @class = "form-horizontal" }))
 		{
 			@Html.HiddenFor(m => m.GroupId)
 

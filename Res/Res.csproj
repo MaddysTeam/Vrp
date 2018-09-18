@@ -187,7 +187,7 @@
     <Compile Include="Controllers\CroBulletinController.cs" />
     <Compile Include="Controllers\CroCommentController.cs" />
     <Compile Include="Controllers\CrosourceController.cs" />
-    <Compile Include="Controllers\EvalGroupController.cs" />
+    <Compile Include="Controllers\EvalManageController.cs" />
     <Compile Include="Controllers\InitializeController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -1738,8 +1738,10 @@
     <Content Include="Views\Crosource\Report.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Crosource\Courses.cshtml" />
-    <Content Include="Views\EvalGroup\Search.cshtml" />
-    <Content Include="Views\EvalGroup\Edit.cshtml" />
+    <Content Include="Views\EvalManage\Search.cshtml" />
+    <Content Include="Views\EvalManage\Edit.cshtml" />
+    <Content Include="Views\EvalManage\ExpList.cshtml" />
+    <Content Include="Views\EvalManage\ResList.cshtml" />
     <None Include="xml.schema.definition\apgen.xsd">
       <SubType>Designer</SubType>
     </None>

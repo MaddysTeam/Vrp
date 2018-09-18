@@ -155,6 +155,7 @@ namespace Res.Controllers
 
 		private List<object> getChildren(List<ResCompany> list)
 		{
+         list = list ?? new List<ResCompany>();
 			List<object> ret = new List<object>();
 			foreach (var item in list)
 			{

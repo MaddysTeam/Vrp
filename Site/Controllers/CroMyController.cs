@@ -192,6 +192,7 @@ namespace Res.Controllers
             }
             else
             {
+               model.Creator = id;
                model.CreatedTime = model.LastModifiedTime = DateTime.Now;
                model.LastModifier = ResSettings.SettingsInSession.UserId;
             }

@@ -359,13 +359,13 @@ namespace Res.Business
 				var ur = APDBDef.ResUserRole;
 
 				var query = APQuery
-					.select(t.UserId, t.UserName, t.RealName, t.GenderPKID, t.Email, t.RegisterTime, t.LoginCount, t.Actived, c.CompanyName
-               //TODO：r.RoleName
+					.select(t.UserId, t.UserName, t.RealName, t.GenderPKID, t.Email, t.RegisterTime, t.LoginCount, t.Actived,
+               c.CompanyName,r.RoleName
                )
 					.from(t, 
-						c.JoinInner(t.CompanyId == c.CompanyId)
-						//ur.JoinInner(t.UserId == ur.UserId),
-						//r.JoinInner(r.RoleId == ur.RoleId)
+						c.JoinLeft(t.CompanyId == c.CompanyId),
+						ur.JoinLeft(t.UserId == ur.UserId),
+						r.JoinLeft(r.RoleId == ur.RoleId)
                   )
 					.where(where)
 					.primary(t.UserId)
@@ -391,7 +391,7 @@ namespace Res.Business
 							LoginCount = t.LoginCount.GetValue(reader),
 							Actived = t.Actived.GetValue(reader),
 							CompanyName = c.CompanyName.GetValue(reader),
-							//RoleName = r.RoleName.GetValue(reader),
+							RoleName = r.RoleName.GetValue(reader),
 						};
 					}).ToList();
 				}

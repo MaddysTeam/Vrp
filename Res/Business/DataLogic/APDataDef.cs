@@ -178,7 +178,7 @@ namespace Res.Business
       #region [ Properties ]
 
 
-      Dictionary<string, String> mapping;
+      //Dictionary<string, String> mapping;
       //TODO:will delete later
 
       //public string Deformity { get { return ResResourceHelper.Deformity.GetName(DeformityPKID); } }

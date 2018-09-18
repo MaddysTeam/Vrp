@@ -325,7 +325,7 @@
 					<add name="IndicationId" columnName="ID" type="long" primaryKey="true" ></add>
 					<add name="IndicationName" columnName="Name" type="string"  dataLength="200" required="true" display="指标名称"/>
 					<add name="Description" columnName="Description" type="string" dataLength="40000"  isNullable="true" display="指标描述"/>
-					<add name="Type" columnName="Type" type="int"></add>
+					<add name="TypePKID" type="long"></add>
 					<add name="Level" columnName="Level" type="int"></add>
 					<add name="Status" columnName="Status" type="int"></add>
 

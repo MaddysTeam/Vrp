@@ -314,6 +314,7 @@ namespace Res.Controllers
             }
             else
             {
+               model.Creator = ResSettings.SettingsInSession.UserId;
                model.CreatedTime = model.LastModifiedTime = DateTime.Now;
                model.LastModifier = ResSettings.SettingsInSession.UserId;
             }
@@ -336,7 +337,7 @@ namespace Res.Controllers
 
             db.Commit();
          }
-         catch (Exception e)
+         catch 
          {
             db.Rollback();
          }
