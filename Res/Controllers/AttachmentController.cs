@@ -11,15 +11,17 @@ using System.Web.Mvc;
 namespace Res.Controllers
 {
 
-	public class AttachmentController : Controller
+	public class AttachmentController :BaseController
 	{
 
-		//
-		//	文件 - 上传封面图片
-		// POST:		/Attachment/UploadCover
-		//
+      static APDBDef.FilesTableDef f = APDBDef.Files;
 
-		[HttpPost]
+      //
+      //	文件 - 上传封面图片
+      // POST:		/Attachment/UploadCover
+      //
+
+      [HttpPost]
 		public ActionResult UploadCover()
 		{
 			if (Request.Files.Count != 1)
@@ -54,49 +56,60 @@ namespace Res.Controllers
 		}
 
 
-		//
-		//	文件 - 上传文件
-		// POST:		/Attachment/UploadResource
-		//
+      //
+      //	文件 - 上传文件
+      // POST:		/Attachment/UploadResource
+      //
 
-		[HttpPost]
-		public ActionResult UploadResource()
-		{
-			if (Request.Files.Count != 1)
-				return Content("Error");
+      [HttpPost]
+      public ActionResult UploadResource()
+      {
+         if (Request.Files.Count != 1)
+            return Content("Error");
 
-			string dirForSaving = GetDirForSaving(Guid.NewGuid());
-			string mappedDir = Server.MapPath("~" + dirForSaving);
-			if (!Directory.Exists(mappedDir))
-			{
-				Directory.CreateDirectory(mappedDir);
-			}
+         HttpPostedFileBase hpf = Request.Files[0];
+         var md5 = FileHelper.ConvertToMD5(hpf.InputStream);
+         var file = Files.ConditionQuery(f.Md5 == md5, null).FirstOrDefault();
+         if (file == null)
+         {
+            var dirForSaving = GetDirForSaving(Guid.NewGuid());
+            var mappedDir = Server.MapPath("~" + dirForSaving);
+            var url = dirForSaving + "/" + hpf.FileName;
+            var ext = Path.GetExtension(hpf.FileName);
 
-			HttpPostedFileBase hpf = Request.Files[0];
-			hpf.SaveAs(Path.Combine(mappedDir, hpf.FileName));
+            if (!Directory.Exists(mappedDir))
+            {
+               Directory.CreateDirectory(mappedDir);
+            }
 
-			string url = dirForSaving + "/" + hpf.FileName;
-			string ext = Path.GetExtension(hpf.FileName);
-			if (ext != null && ext.StartsWith("."))
-				ext = ext.Substring(1);
+            hpf.SaveAs(Path.Combine(mappedDir, hpf.FileName));
 
-			if (Request.IsAjaxRequest())
-			{
-				return Json(new
-				{
-					name = hpf.FileName,
-					path = url,
-					size = hpf.ContentLength,
-					ext = Path.GetExtension(hpf.FileName)
-				});
-			}
-			else
-			{
-				return Content("upload ok");
-			}
-		}
+            if (ext != null && ext.StartsWith("."))
+               ext = ext.Substring(1);
 
-		public string CutCover(HttpPostedFileBase hpf, int targetWidth, string path)
+            file = new Files { Md5 = md5, FileName = hpf.FileName, FilePath = url, ExtName = ext, FileSize = hpf.ContentLength }; //TODO
+            db.FilesDal.Insert(file);
+            file.FileId = Files.ConditionQuery(f.Md5 == md5, null).FirstOrDefault().FileId;
+         }
+         if (Request.IsAjaxRequest())
+         {
+            return Json(new
+            {
+               fileId = file.FileId,
+               name = file.FileName,
+               path = file.FilePath,
+               size = file.FileSize,
+               ext = Path.GetExtension(file.ExtName),
+            });
+         }
+         else
+         {
+            return Content("upload ok");
+         }
+      }
+
+
+      public string CutCover(HttpPostedFileBase hpf, int targetWidth, string path)
 		{
 			int width, height;
 			Image original = Image.FromStream(hpf.InputStream);

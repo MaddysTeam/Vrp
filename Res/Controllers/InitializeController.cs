@@ -57,9 +57,14 @@ namespace Res.Controllers
 
          //db.ResPickListDal.Insert(new ResPickList { InnerKey = "PLKey_IndicationType", Name = "指标类别", Creator = 1, CreatedTime = DateTime.Now, LastModifier = 1, LastModifiedTime = DateTime.Now });
 
-         //db.ResPickListItemDal.Insert(new ResPickListItem { PickListId= 5003, Name="教学效果", Creator = 1, CreatedTime = DateTime.Now, LastModifier = 1, LastModifiedTime = DateTime.Now });
+         //db.ResPickListItemDal.Insert(new ResPickListItem { PickListId = 5003, Name = "教学效果", Creator = 1, CreatedTime = DateTime.Now, LastModifier = 1, LastModifiedTime = DateTime.Now });
          //db.ResPickListItemDal.Insert(new ResPickListItem { PickListId = 5003, Name = "作品规范", Creator = 1, CreatedTime = DateTime.Now, LastModifier = 1, LastModifiedTime = DateTime.Now });
          //db.ResPickListItemDal.Insert(new ResPickListItem { PickListId = 5003, Name = "教学安排", Creator = 1, CreatedTime = DateTime.Now, LastModifier = 1, LastModifiedTime = DateTime.Now });
+
+         //db.ResPickListDal.Insert(new ResPickList { InnerKey = "PLKey_CourseType", Name = "指标类别", Creator = 1, CreatedTime = DateTime.Now, LastModifier = 1, LastModifiedTime = DateTime.Now });
+
+         //db.ResPickListItemDal.Insert(new ResPickListItem { PickListId = 5004, Name = "微课", Creator = 1, CreatedTime = DateTime.Now, LastModifier = 1, LastModifiedTime = DateTime.Now });
+         //db.ResPickListItemDal.Insert(new ResPickListItem { PickListId = 5004, Name = "微课程", Creator = 1, CreatedTime = DateTime.Now, LastModifier = 1, LastModifiedTime = DateTime.Now });
 
          return Content("初始化成功！");
 		}

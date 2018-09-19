@@ -38,85 +38,6 @@ namespace Res.Business
 
 				#endregion
 
-				#region [ 10000 < 10030 : PLKey_ResourceDomain ]
-
-				{
-					key = 10000; lessthen = 10030;
-
-					var pk = new ResPickList(key, ThisApp.PLKey_ResourceDomain, "资源领域", "对资源领域进行选择的字典项。");
-					var items = FromArray(
-						0,
-						new string[] { "政策与文献", "诊断与评估", "课程与教学", "康复与干预", "支持与服务" },
-						null,
-						null);
-
-					SyncInitData(db, ThisApp.AppId, pk, items);
-				}
-
-
-				#endregion
-
-				#region [ 10030 < 10070 : PLKey_ResourceDeformity ]
-
-				{
-					key = 10030; lessthen = 10070;
-
-					var pk = new ResPickList(key, ThisApp.PLKey_ResourceDeformity, "残疾类型", "对残疾类型进行选择的字典项。");
-					var items = FromArray(
-						0,
-						new string[] {
-							"视力残疾", "听力残疾", "智力残疾", "肢体残疾（脑瘫）", "肢体残疾（非脑瘫）",
-							"言语残疾", "精神残疾", "精神残疾（自闭症）", "多重残疾", "其他残疾"
-						},
-						null,
-						null);
-					items[items.Count - 1].PickListItemId = lessthen - 1;
-
-					SyncInitData(db, ThisApp.AppId, pk, items);
-				}
-
-				#endregion
-
-				#region [ 10070 < 10090 : PLKey_ResourceLearnFrom ]
-
-				{
-					key = 10070; lessthen = 10090;
-
-					var pk = new ResPickList(key, ThisApp.PLKey_ResourceLearnFrom, "安置类型", "对安置类型进行选择的字典项。");
-					var items = FromArray(
-						0,
-						new string[] {
-							"特殊学校", "特教班", "送教上门", "随班就读", "其他"
-						},
-						null,
-						null);
-					items[items.Count - 1].PickListItemId = lessthen - 1;
-
-					SyncInitData(db, ThisApp.AppId, pk, items);
-				}
-
-				#endregion
-
-				#region [ 10090 < 10110 : PLKey_ResourceSchoolType ]
-
-				{
-					key = 10090; lessthen = 10110;
-
-					var pk = new ResPickList(key, ThisApp.PLKey_ResourceSchoolType, "学校类型", "对学校类型进行选择的字典项。");
-					var items = FromArray(
-						0,
-						new string[] {
-							"聋校", "幼儿园", "辅读学校", "普通学校", "盲校",
-							"职业技术学校", "大学"
-						},
-						null,
-						null);
-
-					SyncInitData(db, ThisApp.AppId, pk, items);
-				}
-
-				#endregion
-
 				#region [ 10110 < 10120 : PLKey_ResourceStage ]
 
 				{
@@ -284,12 +205,6 @@ namespace Res.Business
 				}
 
 				#endregion
-
-
-
-
-
-
 
 			}
 

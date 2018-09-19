@@ -45,11 +45,11 @@
 
 			<hr />
 
-			<div class="row">
+			@*<div class="row">
 				<div class="col-md-12">
 					@{
 						var types = APBplDef.ResPickListBpl.Cached(ThisApp.PLKey_ResourceType).Items;
-						foreach (var domain in APBplDef.ResPickListBpl.Cached(ThisApp.PLKey_ResourceDomain).Items)
+						foreach (var domain in APBplDef.ResPickListBpl.Cached(ThisApp).Items)
 						{
 							<div class="col-md-6">
 								<div class="widget">
@@ -71,7 +71,7 @@
 					}
 				</div>
 
-			</div>
+			</div>*@
 
 		</div>
 		<!-- /main-content -->

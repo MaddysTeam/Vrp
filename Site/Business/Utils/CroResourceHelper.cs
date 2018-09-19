@@ -61,6 +61,10 @@ namespace Res.Business
       public static string Hot = "rmyc";
       public static string Latest = "zxyc";
 
+      // 作品类型
+      public static long MicroClass = 5010;
+      public static long MicroCourse = 5011;
+
       private static Dictionary<string, long> dictMediumType;
 		public static long GetMediumType(string ext)
 		{

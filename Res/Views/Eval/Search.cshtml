@@ -10,7 +10,6 @@
 					<a href="@Url.Action("Index", "Home")">首页</a>
 				</li>
 				<li><a href="@Url.Action("Index", "Crosource")">作品列表</a></li>
-				<li class="active">@ViewBag.Title</li>
 			</ul>
 		</div>
 	</div>
@@ -45,6 +44,7 @@
 									<th data-column-id="author">作者</th>
 									<th data-column-id="subject">学科</th>
 									<th data-column-id="grade">年级</th>
+									<th data-column-id="score">得分</th>
 									<th data-column-id="commands" data-formatter="commands" data-sortable="false" data-header-Css-Class="width180">操作</th>
 								</tr>
 							</thead>
@@ -85,9 +85,17 @@
 			formatters: {
 				'commands': function (column, row) {
 					var id = row.id;
-					return '<div class="btn-group btn-group-xs pull-right" data-row-id="' + row.id +'">' +
-											 '<a class="btn btn-success btn-eval" href="@Url.Action("Details","Crosource")?id=' + row.resId + '">评审</a>' +
+					if (row.score > 0) {
+						return '<div class="btn-group btn-group-xs pull-right" data-row-id="' + row.id + '">' +
+											 '<a class="btn btn-warning btn-eval" target="blank" href="@Url.Action("Details","Eval")?id=' + row.id + '&resId=' + row.resId + '&groupId=' + row.groupId + '">继续评审</a>' +
 					'</div>';
+					}
+					else {
+						return '<div class="btn-group btn-group-xs pull-right" data-row-id="' + row.id + '">' +
+											 '<a class="btn btn-success btn-eval" target="blank" href="@Url.Action("Details","Eval")?id=' + row.id + '&resId=' + row.resId + '&groupId=' + row.groupId + '">评审</a>' +
+					'</div>';
+					}
+					
 				},
 			},
 
@@ -101,17 +109,11 @@
 
 	}
 
-
 	$(function () {
 
 		var grid = $("#bootgrid")
 				.bootgrid(getGridOptions())
 				.on("loaded.rs.jquery.bootgrid", function () {
-					grid
-						.find('.btn-eval').on('click', function () {
-							location.href = "";
-						});
-				
 				});
 
 	});

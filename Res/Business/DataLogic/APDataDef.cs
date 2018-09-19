@@ -272,11 +272,24 @@ namespace Res.Business
 
       public string ActiveName { get; set; }
 
-      public string Type { get { return IndicationHelper.Type.GetName(LevelPKID); } }
+      public string Type { get { return IndicationHelper.Type.GetName(TypePKID); } }
+
+      public double EvalScore { get; set; }
    }
 
 
    #endregion
+
+   #region [EvalResultItem]
+
+   public partial class EvalResultItem : EvalResultItemBase
+   {
+      //public Indication Indication { get; set; }
+   }
+
+
+   #endregion
+
 
 
    #region [ CroBulletin ]

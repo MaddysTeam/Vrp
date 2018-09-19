@@ -126,18 +126,24 @@
 
 							<div class="form-group">
 								@Html.LabelFor(m => m.CourseTypePKID, new { @class = "control-label col-sm-3" })
-									@if (Model.CrosourceId > 0)
-									{
-										<div class="col-sm-9">
-											<input type="radio" readonly checked="checked" /> 微课程
-										</div>
-									}
-									else
-									{
-									  <div class="col-sm-9">
-										  		微课 @Html.RadioButton("courseType", 0, true) &nbsp;&nbsp;&nbsp;微课程 @Html.RadioButton("courseType", 1, false)
-									  </div>
-									}
+								@if (Model.CourseTypePKID == CroResourceHelper.MicroClass)
+								{
+									<div class="col-sm-9">
+										<input type="radio" readonly checked="checked" /> 微课
+									</div>
+								}
+								else if (Model.CourseTypePKID == CroResourceHelper.MicroCourse)
+								{
+									<div class="col-sm-9">
+										<input type="radio" readonly checked="checked" /> 微课程
+									</div>
+								}
+								else
+								{
+									<div class="col-sm-9">
+										微课 @Html.RadioButton("courseType", CroResourceHelper.MicroClass, true) &nbsp;&nbsp;&nbsp;微课程 @Html.RadioButton("courseType", CroResourceHelper.MicroCourse, false)
+									</div>
+								}
 							</div>
 
 
@@ -366,16 +372,18 @@
 			});
 
 			$('.addCourse').hide();
-			$("input[name='courseType']").on("click",function(){
-				var val=$(this).val();
-				if(val==1){
+			$("input[name='courseType']").on("click", function () {
+				var val = $(this).val();
+				if (val == '@CroResourceHelper.MicroCourse') {
 					$('.addCourse').show();
 				}
-				else{
+				else {
 					$('.addCourse').hide();
 					$('.courseArea').not(':first').remove();
 					$('.uploadForms').children().not('.uploaderForm0').remove();
 				}
+
+				$('#CourseTypePKID').val(val);
 			});
 
 

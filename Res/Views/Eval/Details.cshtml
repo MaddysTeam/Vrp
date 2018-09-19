@@ -1,0 +1,320 @@
+﻿@model CroResource
+@{
+	ViewBag.Title = "作品评审";
+
+	var indications = ViewBag.Indications as List<Indication>;
+}
+<div class="col-md-10 content-wrapper">
+	<div class="row">
+		<div class="col-lg-4 ">
+			<ul class="breadcrumb">
+				<li>
+					<i class="fa fa-home"></i>
+					<a href="@Url.Action("Index", "Home")">首页</a>
+				</li>
+				<li><a href="@Url.Action("Search", "Eval")">@ViewBag.Title</a></li>	
+			</ul>
+		</div>
+	</div>
+
+	<!-- main -->
+	<div class="content">
+		<div class="main-header">
+			<h2>@ViewBag.Title</h2>
+			<em></em>
+		</div>
+
+		<div class="main-content">
+			<!-- Details -->
+			<div class="details">
+				<!-- details header -->
+				<div class="details-header">
+					<div class="row">
+						<div class="col-lg-4 col-print-4">
+							<h3></h3>
+						</div>
+						<div class="col-lg-8 col-print-8 text-right">
+							<ul class="list-inline">
+								<li>
+									点击次数:
+									<strong class="badge">@Model.ViewCount</strong>
+								</li>
+								<li>
+									下载次数:
+									<strong class="badge">@Model.DownCount</strong>
+								</li>
+								<li>
+									收藏次数:
+									<strong class="badge">@Model.FavoriteCount</strong>
+								</li>
+								@*<li>
+									评分次数:
+									<strong class="badge">@Model.StarCount</strong>
+								</li>*@
+								<li>
+									评论次数:
+									<strong class="badge">@Model.CommentCount</strong>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- end details header -->
+				<!-- details summary -->
+				<div class="details-summary">
+					<div class="row">
+						<!-- left side, main content -->
+						<div class="col-lg-9">
+							<div class="row">
+								<div class="col-sm-7">
+									@*<img class="cover-img img-frame" src="@Model.CoverPath" />*@
+								</div>
+								<div class="col-sm-5">
+									<h3>@Model.Title</h3>
+									<div class="summary">
+										<p><label>创建时间</label> @Model.CreatedTime.ToString("yyyy-MM-dd")</p>
+										<p><label>关键字</label> @foreach (var item in Model.Keywords.Split(','))
+										{ <span class="badge">@item</span> }</p>
+										<p><label>作者</label> @Model.Author</p>
+										@*<p><label>审核意见</label><span id="opinion" class="@(Model.StatePKID==10353?"text-danger":"text-info")">@Model.AuditOpinion</span></p>*@
+									</div>
+									@*<div class="switchs">
+										@Html.CheckBox("Elite", Model.EliteScore > 0, new { @class = "switch", data_label_text = "加精", data_size = "small" })
+										<span></span>
+										@Html.CheckBox("State", Model.StatePKID == ResResourceHelper.StateAllow, new { @class = "switch", data_label_text = "审核合格", data_size = "small" })
+									</div>
+									<div class="buttons">
+										<a href="@Url.Action("Edit", "Crosource", new { id = Model.CrosourceId })" class="btn btn-primary btn-block"><i class="fa fa-edit"></i> 修改资源</a>
+									</div>*@
+								</div>
+							</div> <!-- row -->
+							<hr />
+							<div>
+								<div class="panel">
+									<div class="panel-body">
+										@Model.Description
+									</div>
+								</div>
+								<div class="panel">
+									<div class="panel-body">
+										<table id="bootgrid" class="table table-striped table-hover">
+											<thead>
+												<tr>
+													<th>项目</th>
+													<th >级别</th>
+													<th >评价项目</th>
+													<th data-headercs="titlewidth">指标描述</th>
+													<th>满分</th>
+													<th>得分</th>
+												</tr>
+											</thead>
+											<tbody>
+												@foreach(var item in indications)
+												{
+													<tr>
+														<td>@item.ActiveName</td>						
+														<td>@item.Level</td>
+														<td>@item.Type</td>
+														<td class="titlewidth">@item.Description</td>
+														<td><label class="form-control disabled">@item.Score</label></td>
+														<td>
+															<input value="@item.EvalScore"  class="form-control"/>
+														</td>
+													</tr>
+													}
+											</tbody>
+										</table>
+										<a class="btn btn-block btn-danger" href="#">确定评审</a>
+									</div>
+								</div>
+							</div> <!-- row -->
+						</div>
+						<!-- end left side, main content -->
+						<!-- right side, main content -->
+						<div class="col-lg-3">
+
+							<!-- widget -->
+							<div class="widget">
+								<div class="widget-header">
+									<h3><i class="fa fa-paperclip"></i> 作品</h3>
+								</div>
+
+								<div class="widget-content">
+									@*@if (Model.MediumTypePKID == CroResourceHelper.MediumVideo)
+									{
+										<embed type="application/x-mplayer2"
+												 pluginspage="http://www.microsoft.com/Windows/MediaPlayer/"
+												 width="100%" height="300"
+												 src="@Model.ResourcePath"
+												 wmode="transparent" autostart="false">
+									}
+									else if (Model.MediumTypePKID == CroResourceHelper.MediumAudio)
+									{
+										<embed type=application/x-mplayer2
+												 src="@Model.ResourcePath"
+												 width="100%" height="100" wmode="transparent" autostart="false">
+									}
+									else if (Model.MediumTypePKID == CroResourceHelper.MediumImage)
+									{
+										<img src="@Model.ResourcePath" width="100%" />
+									}
+									else if (Model.MediumTypePKID == CroResourceHelper.MediumAnimation)
+									{
+										<embed type="application/x-shockwave-flash"
+												 src="@Model.ResourcePath" width="100%"
+												 pluginspage="http://www.adobe.com/go/getflashplayer" />
+										<noembed>Alternative content</noembed>
+									}
+									else {
+										<a href="@Model.ResourcePath" target="_blank">
+										<div class="filetype"><div class="@Model.FileType" ></div></div><h3>@Model.GhostFileName</h3>
+										</a>
+									}*@
+
+								</div>
+							</div>
+							<!-- end widget -->
+
+							<!-- widget -->
+							<div class="widget">
+								<div class="widget-header">
+                                    <h3><i class="fa fa-paperclip"></i> 作品分类信息</h3>
+								</div>
+
+								<div class="widget-content">
+									<ul class="list-group">
+										@*<li class="list-group-item">领域：@Model.Domain</li>*@
+                                        <li class="list-group-item">作品类型：@Model.ResourceType</li>
+										@*<li class="list-group-item">媒体类型：@Model.MediumType</li>*@
+										@if (@Model.SubjectPKID != 0)
+										{
+											<li class="list-group-item">学科：@Model.Subject</li>
+										}
+										@if (@Model.StagePKID != 0)
+										{
+											<li class="list-group-item">学段：@Model.Stage</li>
+										}
+										@if (@Model.GradePKID != 0)
+										{
+											<li class="list-group-item">年级：@Model.Grade</li>
+										}
+										@*@if (@Model.SchoolTypePKID != 0)
+										{
+											<li class="list-group-item">学校类型：@Model.SchoolType</li>
+										}
+										@if (@Model.DeformityPKID != 0)
+										{
+											<li class="list-group-item">残疾类型：@Model.Deformity</li>
+										}
+										@if (@Model.LearnFromPKID != 0)
+										{
+											<li class="list-group-item">安置类型：@Model.LearnFrom</li>
+										}*@
+									</ul>
+								</div>
+							</div>
+							<!-- end widget -->
+							<!-- widget -->
+							<div class="widget">
+								<div class="widget-header">
+									<h3><i class="fa fa-paperclip"></i> 作者信息</h3>
+								</div>
+
+								<div class="widget-content">
+									<ul class="list-group">
+										<li class="list-group-item">作者：@Model.Author</li>
+										@if (@Model.AuthorCompany != "")
+										{
+											<li class="list-group-item">单位：@Model.AuthorCompany</li>
+										}
+										@if (@Model.AuthorEmail != "")
+										{
+											<li class="list-group-item">电子邮箱：@Model.AuthorEmail</li>
+										}
+										@if (@Model.AuthorPhone != "")
+										{
+											<li class="list-group-item">电话：@Model.AuthorPhone</li>
+										}
+										@if (@Model.AuthorAddress != "")
+										{
+											<li class="list-group-item">地址：@Model.AuthorAddress</li>
+										}
+									</ul>
+								</div>
+							</div>
+							<!-- end widget -->
+						</div>
+						<!-- end right side, main content -->
+
+					</div>
+				</div>
+				<!-- end details summary -->
+
+			</div>
+			<!-- Details -->
+
+		</div>
+		<!-- /main-content -->
+	</div>
+	<!-- /main -->
+</div>
+
+
+@section Css{
+}
+@section Plugins{
+}
+@section Scripts {
+	<script type="text/javascript">
+		var id = @Model.CrosourceId;
+
+		//
+		// bootstrap-switch
+		$("input.switch").not("[data-switch-no-init]").bootstrapSwitch().show();
+
+
+		$(function () {
+
+			$("#Elite").on("switchChange.bootstrapSwitch", function (event, state) {
+				$this = $(this);
+
+				$.post("/Crosource/Elite", { id: id, value: state }, function (data, status) {
+					if (status == "success") {
+						$this.bootstrapSwitch("state", data.value, true);
+						alertify.success(data.msg);
+					}
+					else {
+						$this.bootstrapSwitch("state", !state, true);
+						alertify.error(ajaxErrorMessage);
+					}
+				});
+				
+			});
+
+			$("#State").on("switchChange.bootstrapSwitch", function (event, state) {
+				var message = state ? "审核该资源为 - 合格" : "审核该资源为 - 不合格";
+				var success = state ? "资源已审核为合格。" : "课程已审核为不合格。";
+				$this = $(this);
+
+				alertify.prompt("审核意见", function (e, str) {
+					if (e) {
+						$.post("/Crosource/Approve", { id: id, value: state, opinion: str }, function (data, status) {
+							if (status == "success") {
+								$this.bootstrapSwitch("state", data.value, true);
+								$("#opinion").html(str)
+								alertify.success(success);
+							}
+							else {
+								$this.bootstrapSwitch("state", !state, true);
+								alertify.error(ajaxErrorMessage);
+							}
+						});
+					} else {
+						$this.bootstrapSwitch("state", !state, true);
+					}
+				}, message);
+			});
+
+		});
+	</script>
+}

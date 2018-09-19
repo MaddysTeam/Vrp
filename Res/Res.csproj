@@ -172,6 +172,7 @@
     <Compile Include="Business\Project\ThisApp.Config.cs" />
     <Compile Include="Business\Project\ThisApp.PickList.cs" />
     <Compile Include="Business\Utils\ActiveHelper.cs" />
+    <Compile Include="Business\Utils\FileHelper.cs" />
     <Compile Include="Business\Utils\IndicationHelper.cs" />
     <Compile Include="Business\Utils\GridOrder.cs" />
     <Compile Include="Business\Utils\IDCardCheck.cs" />
@@ -1747,6 +1748,7 @@
     <Content Include="Views\EvalManage\IndicationList.cshtml" />
     <Content Include="Views\EvalManage\IndicationEdit.cshtml" />
     <Content Include="Views\Eval\Search.cshtml" />
+    <Content Include="Views\Eval\Details.cshtml" />
     <None Include="xml.schema.definition\apgen.xsd">
       <SubType>Designer</SubType>
     </None>

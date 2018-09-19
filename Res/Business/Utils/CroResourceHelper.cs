@@ -20,13 +20,10 @@ namespace Res.Business
 		public static PickListAPRptColumn ResourceType;
 		public static PickListAPRptColumn Subject;
 		public static PickListAPRptColumn State;
+      public static PickListAPRptColumn CourseType;
 
 		static CroResourceHelper()
 		{
-			//Domain = new PickListAPRptColumn(APDBDef.CroResource.DomainPKID, ThisApp.PLKey_ResourceDomain);
-			//Deformity = new PickListAPRptColumn(APDBDef.CroResource.DeformityPKID, ThisApp.PLKey_ResourceDeformity);
-			//LearnFrom = new PickListAPRptColumn(APDBDef.CroResource.LearnFromPKID, ThisApp.PLKey_ResourceLearnFrom);
-			//SchoolType = new PickListAPRptColumn(APDBDef.CroResource.SchoolTypePKID, ThisApp.PLKey_ResourceSchoolType);
 			Stage = new PickListAPRptColumn(APDBDef.CroResource.StagePKID, ThisApp.PLKey_ResourceStage);
 			Grade = new PickListAPRptColumn(APDBDef.CroResource.GradePKID, ThisApp.PLKey_ResourceGrade);
 			//ImportSource = new PickListAPRptColumn(APDBDef.CroResource.ImportSourcePKID, ThisApp.PLKey_ResourceImportSource);
@@ -34,7 +31,8 @@ namespace Res.Business
 			ResourceType = new PickListAPRptColumn(APDBDef.CroResource.ResourceTypePKID, ThisApp.PLKey_ResourceType);
 			Subject = new PickListAPRptColumn(APDBDef.CroResource.SubjectPKID, ThisApp.PLKey_ResourceSubject);
 			State = new PickListAPRptColumn(APDBDef.CroResource.StatePKID, ThisApp.PLKey_ResourceState);
-		}
+         CourseType = new PickListAPRptColumn(APDBDef.CroResource.CourseTypePKID,ThisApp.PLKey_CourseType);
+      }
 
 
 		// 资源状态
@@ -58,6 +56,10 @@ namespace Res.Business
       // 搜索类型
       public static string Hot = "rmyc";
       public static string Latest = "zxyc";
+
+      // 作品类型
+      public static long MicroClass = 5010;
+      public static long MicroCourse = 5011;
 
       private static Dictionary<string, long> dictMediumType;
 		public static long GetMediumType(string ext)

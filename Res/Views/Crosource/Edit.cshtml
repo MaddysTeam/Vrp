@@ -1,7 +1,7 @@
 ﻿@model CroResource
 @{
-    var id = this.ViewContext.RouteData.Values["id"];
-    ViewBag.Title = Model == null ? "添加新作品" : "编辑作品";
+	var id = this.ViewContext.RouteData.Values["id"];
+	ViewBag.Title = Model == null ? "添加新作品" : "编辑作品";
 }
 <div class="col-md-10 content-wrapper">
 	<div class="row">
@@ -21,13 +21,13 @@
 	<div class="content">
 		<div class="main-header">
 			<h2>@ViewBag.Title</h2>
-            <em>本页面编辑作品内容信息</em>
+			<em>本页面编辑作品内容信息</em>
 		</div>
 
 		<div class="main-content">
 
 			<!-- widget -->
-				<div class="widget-content">
+			<div class="widget-content">
 
 				<div class="uploadForms">
 				</div>
@@ -36,25 +36,26 @@
 					@using (Html.BeginForm("Edit", "Crosource", Model == null ? null : new { resid = Model.CrosourceId }, FormMethod.Post, new { id = "form", role = "form", @class = "form-horizontal" }))
 					{
 						@Html.HiddenFor(m => m.CrosourceId)
+						@Html.HiddenFor(m => m.CourseTypePKID)
 
 						<fieldset class="col-sm-11  fieldContainer">
 
 							<div class="form-group">
-								<label class="control-label col-sm-3"> <span class="request">*</span> 资源标题</label>
+								<label class="control-label col-sm-3"> <span class="request">*</span> 作品标题</label>
 								<div class="col-sm-9">
-									@Html.TextBoxFor(m => m.Title, new { @class = "form-control", maxlength = "255", placeholder = "资源标题" })
+									@Html.TextBoxFor(m => m.Title, new { @class = "form-control", maxlength = "255", placeholder = "作品标题" })
 									@Html.ValidationMessageFor(m => m.Title)
 								</div>
 							</div>
 
 							@*<div class="form-group">
-									<label class="control-label col-sm-3"> <span class="request">*</span> 资源类型</label>
+									<label class="control-label col-sm-3"> <span class="request">*</span> 作品类型</label>
 
 									<div class="col-sm-9">
-									@Html.RadioButtonFor(m => m.RType,"1", new { @name = "rdolstState",@class="yuanchuang", @Checked = "checked" })原创资源
+									@Html.RadioButtonFor(m => m.RType,"1", new { @name = "rdolstState",@class="yuanchuang", @Checked = "checked" })原创作品
 
-									@Html.RadioButtonFor(m => m.RType,"2",new { @name = "rdolstState", @class="tuijian"})推荐资源
-									@Html.TextBoxFor(m => m.RSource, new { @class = "form-control source", maxlength = "255", placeholder = "资源出处" })
+									@Html.RadioButtonFor(m => m.RType,"2",new { @name = "rdolstState", @class="tuijian"})推荐作品
+									@Html.TextBoxFor(m => m.RSource, new { @class = "form-control source", maxlength = "255", placeholder = "作品出处" })
 									 @Html.ValidationMessageFor(m => m.RSource)
 									</div>
 								</div>*@
@@ -62,7 +63,7 @@
 							<div class="form-group">
 								@Html.LabelFor(m => m.Description, new { @class = "control-label col-sm-3" })
 								<div class="col-sm-9">
-									@Html.TextAreaFor(m => m.Description, 4, 30, new { @class = "form-control  textarea", maxlength = "150", placeholder = "资源简介" })
+									@Html.TextAreaFor(m => m.Description, 4, 30, new { @class = "form-control  textarea", maxlength = "150", placeholder = "作品简介" })
 									<div class="img_ta_num">简介最多只允许填写150个字以内</div>
 
 								</div>
@@ -138,18 +139,24 @@
 
 							<div class="form-group">
 								@Html.LabelFor(m => m.CourseTypePKID, new { @class = "control-label col-sm-3" })
-									@if (Model.CrosourceId > 0)
-									{
-										<div class="col-sm-9">
-											<input type="radio" readonly checked="checked" /> 微课程
-										</div>
-									}
-									else
-									{
-									  <div class="col-sm-9">
-										  		微课 @Html.RadioButton("courseType", 0, true) &nbsp;&nbsp;&nbsp;微课程 @Html.RadioButton("courseType", 1, false)
-									  </div>
-									}
+								@if (Model.CourseTypePKID == CroResourceHelper.MicroClass)
+								{
+									<div class="col-sm-9">
+										<input type="radio" readonly checked="checked" /> 微课
+									</div>
+								}
+								else if (Model.CourseTypePKID == CroResourceHelper.MicroCourse)
+								{
+									<div class="col-sm-9">
+										<input type="radio" readonly checked="checked" /> 微课程
+									</div>
+								}
+								else
+								{
+									<div class="col-sm-9">
+										微课 @Html.RadioButton("courseType", CroResourceHelper.MicroClass, true) &nbsp;&nbsp;&nbsp;微课程 @Html.RadioButton("courseType", CroResourceHelper.MicroCourse, false)
+									</div>
+								}
 							</div>
 
 
@@ -193,133 +200,133 @@
 @section Scripts {
 
 
-<script type="text/javascript">
-	$(function () {
-		$("#GhostFileName").val("").prop("disabled", true);
-		$(".textarea").keyup(function () {
-			$(".img_ta_num").html("简介还可以填写"+(150 - $(this).val().length)+"个字")		
-		})
+	<script type="text/javascript">
+		$(function () {
+			$("#GhostFileName").val("").prop("disabled", true);
+			$(".textarea").keyup(function () {
+				$(".img_ta_num").html("简介还可以填写"+(150 - $(this).val().length)+"个字")
+			})
 
 
-		$(".source").hide();
-
-		$(".tuijian").on("click", function () {
-			$(".source").show();
-		});
-		$(".yuanchuang").on("click", function () {
 			$(".source").hide();
-			$(".source").val("");
-		});
 
-		$("#submit").on("click", function () {
-			//var istj = $("input[type='radio']:checked").val();
-			//var source=$(".source").val();
-			//if(istj==2){
-			//	if($.trim(source)==""){
-			//		alert("资源出处必须填写");
-			//		return false;
-			//	}}
-
-			//var gjz=$(".gjz").val();
-			//if($.trim(gjz)==""){
-			//	alert("关键字必须填写");
-			//	return false;
-			//}
-
-			//var zylb=$(".zylb").val();
-			//if($.trim(zylb)==""){
-			//	alert("资源类别必须选择");
-			//	return false;
-			//}
-			var o = createSubmitObject();
-			$.post('@Url.Action("Edit", "Crosource")',{resid:'@Model.CrosourceId',model:o},function(){
-
+			$(".tuijian").on("click", function () {
+				$(".source").show();
+			});
+			$(".yuanchuang").on("click", function () {
+				$(".source").hide();
+				$(".source").val("");
 			});
 
-			return false;
+			$("#submit").on("click", function () {
+				//var istj = $("input[type='radio']:checked").val();
+				//var source=$(".source").val();
+				//if(istj==2){
+				//	if($.trim(source)==""){
+				//		alert("作品出处必须填写");
+				//		return false;
+				//	}}
 
+				//var gjz=$(".gjz").val();
+				//if($.trim(gjz)==""){
+				//	alert("关键字必须填写");
+				//	return false;
+				//}
+
+				//var zylb=$(".zylb").val();
+				//if($.trim(zylb)==""){
+				//	alert("作品类别必须选择");
+				//	return false;
+				//}
+				var o = createSubmitObject();
+				$.post('@Url.Action("Edit", "Crosource")',{resid:'@Model.CrosourceId',model:o},function(){
+					location.href='@Url.Action("Search","Crosource")';
+				});
+
+				return false;
+
+			});
 		});
-	});
 
-	function createSubmitObject(){
-		var o={};
-		o.CrosourceId=$('#CrosourceId').val();
-		o.Title=$('#Title').val();
-		o.Description=$('#Description').val();
-		o.Author=$('#Description').val();
-		o.Keywords=$('#Keywords').val();
-		o.AuthorCompany=$('#AuthorCompany').val();
-		o.AuthorAddress=$('#AuthorAddress').val();
-		o.AuthorEmail=$('#AuthorEmail').val();
-		o.AuthorPhone=$('#AuthorPhone').val();
-		o.StagePKID=$('#StagePKID').val();
-		o.GradePKID=$('#GradePKID').val();
-		o.SubjectPKID=$('#SubjectPKID').val();
-		o.CourseTypePKID=$('#CourseTypePKID').val();
-		o.Courses=[];
+		function createSubmitObject(){
+			var o={};
+			o.CrosourceId=$('#CrosourceId').val();
+			o.Title=$('#Title').val();
+			o.Description=$('#Description').val();
+			o.Author=$('#Author').val();
+			o.Keywords=$('#Keywords').val();
+			o.AuthorCompany=$('#AuthorCompany').val();
+			o.AuthorAddress=$('#AuthorAddress').val();
+			o.AuthorEmail=$('#AuthorEmail').val();
+			o.AuthorPhone=$('#AuthorPhone').val();
+			o.StagePKID=$('#StagePKID').val();
+			o.GradePKID=$('#GradePKID').val();
+			o.SubjectPKID=$('#SubjectPKID').val();
+			o.CourseTypePKID=$('#CourseTypePKID').val();
+			o.Courses=[];
 
-		$('.courseArea').each(function(i){
-			var $this=$(this);
-			var course={
-				CourseId:$this.find('.courseId').val(),
-				CourseTitle:$this.find('.title').val(),
-				ResourceId:o.CrosourceId,
-				VideoId:$this.find('.courseUploader .fileId').val(),
-				CoverId:$this.find('.coverUploader .fileId').val(),
-				DesignId:$this.find('.designUploader .fileId').val(),
-				SummaryId:$this.find('.summaryUploader .fileId').val(),
-				CharpterSortId:i+1,
-				Exercises:[]
-			};
+			$('.courseArea').each(function(i){
+				var $this=$(this);
+				var course={
+					CourseId:$this.find('.courseId').val(),
+					CourseTitle:$this.find('.title').val(),
+					ResourceId:o.CrosourceId,
+					VideoId:$this.find('.courseUploader .fileId').val(),
+					CoverId:$this.find('.coverUploader .fileId').val(),
+					DesignId:$this.find('.designUploader .fileId').val(),
+					SummaryId:$this.find('.summaryUploader .fileId').val(),
+					CharpterSortId:i+1,
+					Exercises:[]
+				};
 
-			$this.find('.exercises').each(function(){
-				var $that= $(this);
-				var exe={};
-				exe.Name=$that.find('.name:first').val();
-				exe.Answer= $that.find('.key:first').val();
-				course.Exercises.push(exe);
+				$this.find('.exercises').each(function(){
+					var $that= $(this);
+					var exe={};
+					exe.Name=$that.find('.name:first').val();
+					exe.Answer= $that.find('.key:first').val();
+					course.Exercises.push(exe);
+				});
+
+				o.Courses.push(course);
 			});
 
-			o.Courses.push(course);
-		});
-
-		return o;
-		//o.Courses=
-		//	[
-		//	{
-		//		CourseId:0,
-		//		ResourceId:0,
-		//		VideoId:0,
-		//		CoverId:0,
-		//		DesignId:0,
-		//		SummaryId:0,
-		//		CharpterSortId:0,
-		//		Exercises:[
-		//			{
-		//				ExerciseId:0,
-		//				CourseId:0,
-		//				Title:'这是一道题目',
-		//				Answer:'A',
-		//				Items:[
-		//					{
-		//						ItemId:0,
-		//						ExerciseId:0,
-		//						Item:'这是一个选项',
-		//						Code:'A'
-		//					}
-		//				]
-		//			}
-		//		]
-		//	}
-		//	];
-	}
-</script>
+			return o;
+			//o.Courses=
+			//	[
+			//	{
+			//		CourseId:0,
+			//		ResourceId:0,
+			//		VideoId:0,
+			//		CoverId:0,
+			//		DesignId:0,
+			//		SummaryId:0,
+			//		CharpterSortId:0,
+			//		Exercises:[
+			//			{
+			//				ExerciseId:0,
+			//				CourseId:0,
+			//				Title:'这是一道题目',
+			//				Answer:'A',
+			//				Items:[
+			//					{
+			//						ItemId:0,
+			//						ExerciseId:0,
+			//						Item:'这是一个选项',
+			//						Code:'A'
+			//					}
+			//				]
+			//			}
+			//		]
+			//	}
+			//	];
+		}
+	</script>
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
-	var resTypes = @Html.Raw(Json.Encode(ViewBag.ResTypes));
-	var grades = @Html.Raw(Json.Encode(ViewBag.Grades));
+		var resTypes = @Html.Raw(Json.Encode(ViewBag.ResTypes));
+		var grades = @Html.Raw(Json.Encode(ViewBag.Grades));
 
 		function RelationSelect(src, tat, rule, none) {
 			var $src = $(src), $tat = $(tat);
@@ -345,139 +352,70 @@
 			doit($tat.val());
 		}
 
-        $(function () {
+		$(function () {
 
-            $("select option[value='']").val("0");
+			$("select option[value='']").val("0");
 
-            var judge = $("#IsLink");
-            switch (judge.val()) {
-                case "":
-                    $("#IsLink").val(true);
-                    break;
-                case "False":
-                    $("#GhostFileName").prop("disabled", true);
-                    break;
-            }
+			var judge = $("#IsLink");
+			switch (judge.val()) {
+				case "":
+					$("#IsLink").val(true);
+					break;
+				case "False":
+					$("#GhostFileName").prop("disabled", true);
+					break;
+			}
 
-            // relation select
-            RelationSelect($("#DomainPKID"), $("#ResourceTypePKID"), resTypes);
-            RelationSelect($("#StagePKID"), $("#GradePKID"), grades, "适用全体年级");
+			// relation select
+			RelationSelect($("#DomainPKID"), $("#ResourceTypePKID"), resTypes);
+			RelationSelect($("#StagePKID"), $("#GradePKID"), grades, "适用全体年级");
 
-            //Dropzone.autoDiscover = false;
-            //// init dropzone upload plugin.
-            //$(".dropzone.cover").dropzone({
-            //	addRemoveLinks: !0,
-            //	maxFiles: 100,
-            //	acceptedFiles: "image/*",
-            //	dictResponseError: "File Upload Error.",
-            //	init: function () {
-            //		this.on("success", function (file, data) {
-            //			$("#CoverPath").val(data.path);
-            //			$("#showCover").html("<img src='" + data.showPath + "' class='cover-img' />");
-            //		});
-            //		this.on("error", function (file, message) {
-            //			alert(message)
-            //		});
-            //	}
-            //});
-            //$(".dropzone.file").dropzone({
-            //	addRemoveLinks: !0,
-            //	maxFilesize: 400,
-            //	maxFiles: 100,
-            //	thumbnailHeight: 50,
-            //	dictResponseError: "File Upload Error.",
-            //	dictDefaultMessage: "上传资源文件",
-            //	init: function () {
-            //		this
-            //			.on("processing", function(i){
-            //				$(".progress").show();
-            //			})
-            //			.on("totaluploadprogress", function(i){
-            //				$(".progress-bar").css("width", parseInt(i)+"%");
-            //			})
-            //			.on("removedfile", function() {
-            //			})
-            //			.on("success", function (file, data) {
-            //				$("#ResourcePath").val(data.path);
-            //				$("#FileExtName").val(data.ext);
-            //				$("#FileSize").val(data.size);
-            //				$("#GhostFileName").val(data.name);
-            //			})
-            //			.on("error", function (file, message) {
-            //				alert(message)
-            //			});
-            //	}
-            //})
-
-            //// proxy click event to dropzone.
-            //$("#showCover").on("click", function () {
-            //	$(".dropzone.cover").trigger('click');
-            //});
-
-            //$("#LocalRes").on("click", function(){
-            //	$("#GhostFileName").val("").prop("disabled", true);
-            //	$("#IsLink").val(false);
-            //	$(".progress").hide();
-            //	$(".dropzone.file").trigger('click');
-            //});
-            //$("#WebRes").on("click", function(){
-            //	$("#GhostFileName").val("").prop("disabled", false);
-            //	$("#IsLink").val(true);
-            //	$(".progress").hide();
-            //});
+			$("#WebRes").on("click", function () {
+				$("#GhostFileName").val("").prop("disabled", false);
+				$("#IsLink").val(true);
+				$(".progress").hide();
+			});
 
 
-            //$("#Keywords").tagsinput({
-            //	trimValue: true
-            //});
+			$("#Keywords").tagsinput({
+				trimValue: true
+			});
+
+			$('.addCourse').hide();
+			$("input[name='courseType']").on("click", function () {
+				var val = $(this).val();
+				if (val == '@CroResourceHelper.MicroCourse') {
+					$('.addCourse').show();
+				}
+				else {
+					$('.addCourse').hide();
+					$('.courseArea').not(':first').remove();
+					$('.uploadForms').children().not('.uploaderForm0').remove();
+				}
+
+				$('#CourseTypePKID').val(val);
+			});
 
 
-            $("#WebRes").on("click", function () {
-                $("#GhostFileName").val("").prop("disabled", false);
-                $("#IsLink").val(true);
-                $(".progress").hide();
-            });
+			$('#AddCourse').click(function () {
+				$('.courseArea:last').after(createCourse());
+				bindResourceUploader($('.courseUploader'), 'course', '.mp4,.flv,.txt');
+				bindResourceUploader($('.coverUploader'), 'cover', 'image/*');
+				bindResourceUploader($('.designUploader'), 'design', '.doc,.docx');
+				bindResourceUploader($('.summaryUploader'), 'summary', '.doc,.docx');
+				bindExersies();
+			});
 
+			bindResourceUploader($('.courseUploader'), 'course', '.mp4,.flv,.txt');
+			bindResourceUploader($('.coverUploader'), 'cover', 'image/*');
+			bindResourceUploader($('.designUploader'), 'design', '.doc,.docx');
+			bindResourceUploader($('.summaryUploader'), 'summary', '.doc,.docx');
+			bindExersies(); // 绑定习题
+			bindStem(); // 绑定题干
 
-            $("#Keywords").tagsinput({
-                trimValue: true
-            });
+		});
 
-            $('.addCourse').hide();
-            $("input[name='courseType']").on("click", function () {
-                var val = $(this).val();
-                if (val == 1) {
-                    $('.addCourse').show();
-                }
-                else {
-                    $('.addCourse').hide();
-                    $('.courseArea').not(':first').remove();
-                    $('.uploadForms').children().not('.uploaderForm0').remove();
-                }
-            });
-
-
-            $('#AddCourse').click(function () {
-                $('.courseArea:last').after(createCourse());
-                bindResourceUploader($('.courseUploader'), 'course', '.mp4,.flv,.txt');
-                bindResourceUploader($('.coverUploader'), 'cover', 'image/*');
-                bindResourceUploader($('.designUploader'), 'design', '.doc,.docx');
-                bindResourceUploader($('.summaryUploader'), 'summary', '.doc,.docx');
-                bindExersies();
-            });
-
-            bindResourceUploader($('.courseUploader'), 'course', '.mp4,.flv,.txt');
-            bindResourceUploader($('.coverUploader'), 'cover', 'image/*');
-            bindResourceUploader($('.designUploader'), 'design', '.doc,.docx');
-            bindResourceUploader($('.summaryUploader'), 'summary', '.doc,.docx');
-            bindExersies(); // 绑定习题
-            bindStem(); // 绑定题干
-
-        });
-
-
-
-        function createUploder(name,title){
+		function createUploder(name,title){
 			return $('<div class="form-group '+name+'"><label class="control-label col-sm-3"> <span class="request">*</span>'+title+'</label>'+
 				            '<div class="input-group">'+
 											'<input type="text" class="form-control resource-path"  placeholder = "添加'+title+'"/>'+
@@ -649,5 +587,5 @@
 		}
 
 
-</script>
+	</script>
 }

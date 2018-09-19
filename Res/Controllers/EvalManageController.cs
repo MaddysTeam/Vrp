@@ -497,7 +497,7 @@ namespace Res.Controllers
                LevelPKID = model.LevelPKID,
                TypePKID = model.TypePKID,
                Description = model.Description,
-               Score=model.Score,
+               Score=model.EvalScore,
                ActiveId=model.ActiveId
             });
          }
