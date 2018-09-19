@@ -393,8 +393,8 @@ namespace Res.Controllers
          var i = APDBDef.Indication;
          var a = APDBDef.Active;
 
-         var query = APQuery.select(i.IndicationId, i.IndicationName, i.Description,
-            i.LevelPKID,i.TypePKID,a.ActiveName
+         var query = APQuery.select(i.IndicationId, i.IndicationName, i.Description,i.Score,
+            i.LevelPKID,i.TypePKID,i.ActiveId,a.ActiveName
             )
             .from(i,a.JoinInner(a.ActiveId==i.ActiveId))
             .primary(i.IndicationId)
@@ -405,10 +405,10 @@ namespace Res.Controllers
 
          //过滤条件
          //模糊搜索用户名、实名进行
-
-         searchPhrase = searchPhrase.Trim();
-         if (searchPhrase != "")
+      
+         if (!string.IsNullOrEmpty(searchPhrase))
          {
+            searchPhrase = searchPhrase.Trim();
             query.where_and(i.IndicationName.Match(searchPhrase));
          }
 
@@ -429,22 +429,23 @@ namespace Res.Controllers
          //获得查询的总数量
 
          var total = Indication.ConditionQueryCount(null);
-         var list=db.Query(query, i.TolerantMap).ToList();
-
+         
+         
          //查询结果集
 
-         var result = (from c in list
-                      select new
-                      {
-                         id = c.IndicationId,
-                         name=c.IndicationName,
-                         description=c.Description,
-                         level=c.Level,
-                         type=c.Type,
-                         activeName=c.ActiveName,
-                         activeId=c.ActiveId,
-                         score=c.Score
-                      }).ToList();
+         var result = query.query(db, r => {
+            return new
+            {
+               id = i.IndicationId.GetValue(r),
+               name = i.IndicationName.GetValue(r),
+               description = i.Description.GetValue(r),
+               level = IndicationHelper.Level.GetName(i.LevelPKID.GetValue(r)),
+               type = IndicationHelper.Type.GetName(i.TypePKID.GetValue(r)),
+               activeName =a.ActiveName.GetValue(r),
+               activeId = i.ActiveId.GetValue(r),
+               score = i.Score.GetValue(r)
+            };
+         });
 
          return Json(new
          {
@@ -474,6 +475,7 @@ namespace Res.Controllers
          else
          {
             model = APBplDef.IndicationBpl.PrimaryGet(id.Value);
+            model.ActiveName = CurrentActive.ActiveName;
          }
 
          return PartialView(model);

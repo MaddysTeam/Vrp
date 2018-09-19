@@ -263,15 +263,16 @@ namespace Res.Business
 
    #endregion
 
+
    #region [Indication]
 
    public partial class Indication : IndicationBase
    {
-      public string Level { get { return EvalGroupHelper.Level.GetName(LevelPKID); } }
+      public string Level { get { return IndicationHelper.Level.GetName(LevelPKID); } }
 
       public string ActiveName { get; set; }
 
-      public string Type { get; set; }
+      public string Type { get { return IndicationHelper.Type.GetName(LevelPKID); } }
    }
 
 

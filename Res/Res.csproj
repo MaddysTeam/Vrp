@@ -188,6 +188,7 @@
     <Compile Include="Controllers\CroBulletinController.cs" />
     <Compile Include="Controllers\CroCommentController.cs" />
     <Compile Include="Controllers\CrosourceController.cs" />
+    <Compile Include="Controllers\EvalController.cs" />
     <Compile Include="Controllers\EvalManageController.cs" />
     <Compile Include="Controllers\InitializeController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
@@ -1745,6 +1746,7 @@
     <Content Include="Views\EvalManage\ResList.cshtml" />
     <Content Include="Views\EvalManage\IndicationList.cshtml" />
     <Content Include="Views\EvalManage\IndicationEdit.cshtml" />
+    <Content Include="Views\Eval\Search.cshtml" />
     <None Include="xml.schema.definition\apgen.xsd">
       <SubType>Designer</SubType>
     </None>

@@ -40,9 +40,9 @@ namespace Res.Business
 
 
       //TODO: 用户类型
-      public static long Teacher = 5002;
-      public static long Admin = 5003;
-      public static long Export = 5004;
+      public static long Teacher = 5001;
+      public static long Admin = 5002;
+      public static long Export = 5003;
 
    }
 
