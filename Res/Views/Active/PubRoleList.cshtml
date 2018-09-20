@@ -1,0 +1,91 @@
+﻿@{
+	var pageTitle = ViewBag.Title = "选择专家";
+}
+
+<div class="modal-dialog" style="width:800px;">
+	<div class="modal-content">
+		<div class="color-line"></div>
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title" id="firstModalLabel">@pageTitle</h4>
+
+		</div>
+
+
+		<div class="modal-body" style="height:500px">
+			<!-- Grid -->
+			<div class="table-responsive">
+				<table id="bootgridExpert" class="table table-striped table-hover table-dark-header">
+					<thead>
+						<tr>
+							<th data-column-id="roleName">角色名称</th>
+							<th data-column-id="commands" data-formatter="commands" data-sortable="false" data-header-Css-Class="width180">操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<!-- end Grid-->
+		</div>
+
+	</div>
+</div>
+
+
+<script>
+	var groupId = '@Model';
+
+	function getRequest() {
+		return {
+			id:groupId
+		};
+	}
+
+	function getGridOptions2() {
+		return $.extend(true, {}, gridOptions, {
+
+			url: '@Url.Action("ExpList","EvalManage")',
+
+			requestHandler: function (request) { return $.extend(true, request, getRequest()); },
+
+			formatters: {
+				'commands': function (column, row) {
+					var id = row.id;
+					if (row.isSelect) {
+						return '<div class="btn-group btn-group-xs pull-right"  data-row-id="' + row.id + '">' +
+							 '<button class="btn btn-danger btn-remove" data-url="@Url.Action("RemoveExp", "EvalManage")">取消分配</button>' +
+							 '</div>';
+					}
+					else {
+						return '<div class="btn-group btn-group-xs pull-right"  data-row-id="' + row.expId + '">' +
+								 '<button class="btn btn-warning btn-assign" data-url="@Url.Action("AssignExp", "EvalManage")">分配</button>' +
+								 '</div>';
+					}
+				},
+			},
+		});
+	}
+
+	var expertGrid = $('#bootgridExpert');
+	console.log(expertGrid);
+	expertGrid.bootgrid(getGridOptions2())
+	.on('loaded.rs.jquery.bootgrid', function () {
+		$(expertGrid).find('.btn-assign').on('click', function () {
+			var url = $(this).data('url');
+			var expId = $(this).parent().data('row-id');
+			$.post(url, { id: groupId, expId: expId }, function (data) {
+				expertGrid.bootgrid("reload");
+			});
+		})
+
+		$(expertGrid).find('.btn-remove').on('click', function () {
+			var url = $(this).data('url');
+			var id = $(this).parent().data('row-id');
+			$.post(url, { id: id }, function (data) {
+				expertGrid.bootgrid("reload");
+			});
+		})
+	});
+
+
+
+</script>

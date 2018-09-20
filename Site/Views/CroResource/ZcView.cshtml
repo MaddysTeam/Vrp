@@ -116,27 +116,28 @@
 	@Scripts.Render("~/js/dot")
 }
 @section Scripts{
-	<script src="~/assets/plugins/ckplayer/ckplayer/ckplayer.js"></script>
-
+	@*<script src="~/assets/plugins/ckplayer/ckplayer/ckplayer.js"></script>*@
+<script src="~/assets/plugins/jwplayer/jwplayer.js"></script>
 	<script>
-		var videoObject = {
-			container: '#video',//“#”代表容器的ID，“.”或“”代表容器的class
-			variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
-			//poster:'pic/wdm.jpg',//封面图片
-			//video:'http://cdn.sser.shdjg.net/20180905/0bfda535-1430-4843-8726-82fe414aacd0/学生配音讲《愚公移山》.mp4'//视频地址
-			video:'@ViewBag.CurrentVideoPath'
-		};
-		var player=new ckplayer(videoObject);
-		//jwplayer("video").setup({
-		//	flashplayer:"../../assets/plugins/jwplayer/jwplayer.flash.swf",
-		//	file:'http://movie.ks.js.cn/flv/other/1_0.flv',
-		//	width: 640,  
-		//	height: 480,  
-		//	controls: true ,
-		//	primary: "flash",
-		//	autostart:false,
-		//	//image: "/f/videos/20141119/2014111922100257_80.jpg",
-		//});
+		var path='http://cdn.sser.shdjg.net/20180905/0bfda535-1430-4843-8726-82fe414aacd0/学生配音讲《愚公移山》.mp4';
+		//var videoObject = {
+		//	container: '#video',//“#”代表容器的ID，“.”或“”代表容器的class
+		//	variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
+		//	//poster:'pic/wdm.jpg',//封面图片
+		//	//video:'http://cdn.sser.shdjg.net/20180905/0bfda535-1430-4843-8726-82fe414aacd0/学生配音讲《愚公移山》.mp4'//视频地址
+		//	video:path
+		//};
+		//var player=new ckplayer(videoObject);
+		jwplayer("video").setup({
+			flashplayer:"../../assets/plugins/jwplayer/jwplayer.flash.swf",
+			file:path,//'http://movie.ks.js.cn/flv/other/1_0.flv',
+			width: 'auto',
+			height: 500,
+			controls: true ,
+			primary: "flash",
+			autostart:false,
+			//image: "/f/videos/20141119/2014111922100257_80.jpg",
+		});
 	</script>
 
 	<script id="tmpl-list" type="text/template">

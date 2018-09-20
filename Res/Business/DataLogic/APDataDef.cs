@@ -290,6 +290,14 @@ namespace Res.Business
 
    #endregion
 
+   #region [Active]
+
+   public partial class Active : ActiveBase
+   {
+      public string Level { get { return ActiveHelper.Level.GetName(LevelPKID); } }
+   }
+
+   #endregion
 
    #region [ CroBulletin ]
 
