@@ -6,25 +6,11 @@
 
 		<ul class="main-menu">
 			@*<li>
-				<a href="@Url.Action("Dashboard", "Home")">
-					<i class="fa fa-dashboard fa-fw"></i>
-					<span class="text">仪表板</span>
-				</a>
-			</li>*@
-			@*<li>
-				<a href="@Url.Action("Index", "Resource")">
-					<i class="fa fa-image fa-fw"></i>
-					<span class="text">资源</span>
-				</a>
-			</li>*@
-			@*@if (ResSettings.SettingsInSession.CanbeManageUser)
-			{*@ 
-			@*<li>
-				<a href="@Url.Action("Index", "Bulletin")">
-					<i class="fa fa-newspaper-o fa-fw"></i>
-					<span class="text">资源库公告</span>
-				</a>
-			</li>*@
+					<a href="@Url.Action("Dashboard", "Home")">
+						<i class="fa fa-dashboard fa-fw"></i>
+						<span class="text">仪表板</span>
+					</a>
+				</li>*@
 			<li>
 				<a href="@Url.Action("Index", "CroBulletin")">
 					<i class="fa fa-newspaper-o fa-fw"></i>
@@ -44,6 +30,12 @@
 				</a>
 			</li>
 			<li>
+				<a href="@Url.Action("Index", "Active")">
+					<i class="fa fa-fax fa-fw"></i>
+					<span class="text">项目管理</span>
+				</a>
+			</li>
+			<li>
 				<a href="@Url.Action("Index", "Company")">
 					<i class="fa fa-home fa-fw"></i>
 					<span class="text">单位管理</span>
@@ -51,38 +43,31 @@
 			</li>
 			@*}*@
 			@*<li>
-				<a href="@Url.Action("Main", "Report")">
-					<i class="fa fa-bar-chart-o fa-fw"></i>
-					<span class="text">报表 & 图表</span>
-				</a>
-			</li>*@
+					<a href="@Url.Action("Main", "Report")">
+						<i class="fa fa-bar-chart-o fa-fw"></i>
+						<span class="text">报表 & 图表</span>
+					</a>
+				</li>*@
 			<li>
 				<a href="@Url.Action("Index", "Crosource")">
 					<i class="fa fa-image fa-fw"></i>
-                    <span class="text">作品管理</span>
+					<span class="text">作品管理</span>
 				</a>
 			</li>
-			@*<li>
-			
-				<a href="@Url.Action("Comment", "Comment")">
-					<i class="fa fa-image fa-fw"></i>
-					<span class="text">资源库资源评论管理</span>
-				</a>
-			</li>*@
 			<li>
 
 				<a href="@Url.Action("Comment", "CroComment")">
 					<i class="fa fa-facebook fa-fw"></i>
-                    <span class="text">评论管理</span>
+					<span class="text">评论管理</span>
 				</a>
 			</li>
 			<li>
-				<a href="#" class="js-sub-menu-toggle">
+				<a href="javascript:void(0)" class="js-sub-menu-toggle">
 					<i class="fa fa-twitter fa-fw"></i>
-					<span class="text">评审设置</span>
+					<span class="text">评审管理</span>
 				</a>
 				<ul class="sub-menu">
-					<li><a href="@Url.Action("Search","EvalManage")">设置评审组</a></li>
+					<li><a href="@Url.Action("Search","EvalManage")">评审组管理</a></li>
 					<li><a href="@Url.Action("IndicationList","EvalManage")">指标管理</a></li>
 				</ul>
 			</li>
@@ -92,12 +77,6 @@
 					<span class="text">专家评分</span>
 				</a>
 			</li>
-			@*<li>
-				<a href="@Url.Action("Index", "ZSResource")">
-					<i class="fa fa-image fa-fw"></i>
-					<span class="text">展示资源</span>
-				</a>
-			</li>*@
 		</ul>
 	</nav>
 	<!-- /main-nav -->
@@ -106,17 +85,5 @@
 		<i class="fa fa-angle-left"></i>
 	</div>
 
-	<!-- sidebar content -->
-	@*<div class="sidebar-content">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h5><i class="fa fa-lightbulb-o"></i> 小提示</h5>
-			</div>
-			<div class="panel-body">
-				<p>利用页面顶端搜索框可以筛选你关心的页面组件，特别是在仪表板这样的多组件页面是非常有用的。</p>
-			</div>
-		</div>
-	</div>*@
-	<!-- end sidebar content -->
 </div>
 <!-- end left sidebar -->

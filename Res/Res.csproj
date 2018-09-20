@@ -193,6 +193,7 @@
     <Compile Include="Controllers\EvalManageController.cs" />
     <Compile Include="Controllers\InitializeController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\ActiveController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1424,9 +1425,6 @@
     <Content Include="memo.txt" />
     <Content Include="Report\Def\APRptReportDef.xml" />
     <Content Include="Report\Def\APRptViewDef.xml" />
-    <Content Include="Business\DataLogic\Business.apgen">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="assets\plugins\alertify.js-0.3.11\.gitignore" />
     <Content Include="assets\plugins\alertify.js-0.3.11\.travis.yml" />
     <Content Include="assets\plugins\alertify.js-0.3.11\bower.json" />
@@ -1725,6 +1723,7 @@
     <Content Include="Views\Crosource\Edit.cshtml" />
     <Content Include="Views\Crosource\Index.cshtml" />
     <Content Include="Views\Crosource\Search.cshtml" />
+    <Content Include="Business\DataLogic\Business.apgen" />
     <None Include="Properties\PublishProfiles\Admin.pubxml" />
     <None Include="Properties\PublishProfiles\MapRes.pubxml" />
     <Content Include="Views\Comment\Comment.cshtml" />

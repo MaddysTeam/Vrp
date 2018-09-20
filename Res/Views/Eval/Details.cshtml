@@ -3,6 +3,8 @@
 	ViewBag.Title = "作品评审";
 
 	var indications = ViewBag.Indications as List<Indication>;
+	var resultId = Request["id"] ==null? 0:Convert.ToInt32(Request["id"]);
+	var groupId = Request["groupId"] == null ? 0 : Convert.ToInt32(Request["groupId"]);
 }
 <div class="col-md-10 content-wrapper">
 	<div class="row">
@@ -102,7 +104,7 @@
 												<tr>
 													<th>项目</th>
 													<th >级别</th>
-													<th >评价项目</th>
+													<th class="width100" >评价项目</th>
 													<th data-headercs="titlewidth">指标描述</th>
 													<th>满分</th>
 													<th>得分</th>
@@ -111,20 +113,21 @@
 											<tbody>
 												@foreach(var item in indications)
 												{
-													<tr>
+													<tr class="indication">
 														<td>@item.ActiveName</td>						
 														<td>@item.Level</td>
 														<td>@item.Type</td>
 														<td class="titlewidth">@item.Description</td>
 														<td><label class="form-control disabled">@item.Score</label></td>
 														<td>
-															<input value="@item.EvalScore"  class="form-control"/>
+															<input value="@item.EvalScore"  class="form-control evalScore"/>
+															<input type="hidden" value="@item.IndicationId" class="indicationId"/>
 														</td>
 													</tr>
-													}
+												}
 											</tbody>
 										</table>
-										<a class="btn btn-block btn-danger" href="#">确定评审</a>
+										<a class="btn btn-block btn-danger btn-eval" href="#">确定评审</a>
 									</div>
 								</div>
 							</div> <!-- row -->
@@ -266,55 +269,43 @@
 }
 @section Scripts {
 	<script type="text/javascript">
-		var id = @Model.CrosourceId;
+		//var id = @Model.CrosourceId;
 
 		//
 		// bootstrap-switch
-		$("input.switch").not("[data-switch-no-init]").bootstrapSwitch().show();
+		//$("input.switch").not("[data-switch-no-init]").bootstrapSwitch().show();
 
 
 		$(function () {
 
-			$("#Elite").on("switchChange.bootstrapSwitch", function (event, state) {
-				$this = $(this);
+			$('.btn-eval').on('click',function(){
+				var o={
+					ResultId:'@resultId',
+					GroupId:'@groupId',
+					ResourceId: '@Model.CrosourceId',
+					Items:[]
+				};
 
-				$.post("/Crosource/Elite", { id: id, value: state }, function (data, status) {
+				$('.indication').each(function () {
+					var score = $(this).find('.evalScore').val();
+					var indicationId = $(this).find('.indicationId').val();
+					o.Items.push({
+						ResultId:o.ResultId,
+						IndicationId:indicationId,
+						Score:score
+					});
+				});
+
+				$.post('@Url.Action("Execute","Eval")',{model:o},function(data,status){
 					if (status == "success") {
-						$this.bootstrapSwitch("state", data.value, true);
 						alertify.success(data.msg);
 					}
 					else {
-						$this.bootstrapSwitch("state", !state, true);
 						alertify.error(ajaxErrorMessage);
 					}
 				});
-				
 			});
-
-			$("#State").on("switchChange.bootstrapSwitch", function (event, state) {
-				var message = state ? "审核该资源为 - 合格" : "审核该资源为 - 不合格";
-				var success = state ? "资源已审核为合格。" : "课程已审核为不合格。";
-				$this = $(this);
-
-				alertify.prompt("审核意见", function (e, str) {
-					if (e) {
-						$.post("/Crosource/Approve", { id: id, value: state, opinion: str }, function (data, status) {
-							if (status == "success") {
-								$this.bootstrapSwitch("state", data.value, true);
-								$("#opinion").html(str)
-								alertify.success(success);
-							}
-							else {
-								$this.bootstrapSwitch("state", !state, true);
-								alertify.error(ajaxErrorMessage);
-							}
-						});
-					} else {
-						$this.bootstrapSwitch("state", !state, true);
-					}
-				}, message);
-			});
-
+			
 		});
 	</script>
 }

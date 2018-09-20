@@ -46,7 +46,7 @@
 									<th data-column-id="level">评审级别</th>
 									<th data-column-id="start" data-formatter="DateOnly">起始时间</th>
 									<th data-column-id="end" data-formatter="DateOnly">结束时间</th>
-									<th data-column-id="commands" data-formatter="commands">操作</th>
+									<th data-column-id="commands" data-formatter="commands" data-headercs="titlewidth">操作</th>
 								</tr>
 							</thead>
 						</table>
@@ -89,6 +89,7 @@
 					var id = row.id;
 					return '<div class="btn-group btn-group-xs pull-right" data-row-id="' + row.id +'">' +
 											 '<button class="btn btn-success btn-edit">编辑</button>' +
+											 '<button class="btn btn-warning btn-process">评审进度</button>' +
 											 '<button class="btn btn-info btn-exp">分配专家</button>' +
 						                '<button class="btn btn-primary btn-res">分配作品</button>'
 					'</div>';
@@ -152,5 +153,4 @@
 	});
 
 	</script>
-
 }

@@ -578,6 +578,14 @@ video {
   width: 50px;
 }
 
+#bootgrid .cmdwidth2 {
+  width: 50px;
+}
+
+#bootgrid .width100{
+	width:100px;
+}
+
 #bootgrid .fa {
   font-size: 13px;
 }

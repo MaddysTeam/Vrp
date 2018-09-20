@@ -280,16 +280,15 @@ namespace Res.Business
 
    #endregion
 
-   #region [EvalResultItem]
 
-   public partial class EvalResultItem : EvalResultItemBase
+   #region [Eval]
+
+   public partial class EvalResult : EvalResultBase
    {
-      //public Indication Indication { get; set; }
+      public List<EvalResultItem> Items { get; set; }
    }
 
-
    #endregion
-
 
 
    #region [ CroBulletin ]

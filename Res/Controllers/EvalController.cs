@@ -92,17 +92,16 @@ namespace Res.Controllers
       public ActionResult Details(long id, long resId, long groupId)
       {
          var i = APDBDef.Indication;
-         var evi = APDBDef.EvalResultItem;
          var a = APDBDef.Active;
 
          var model = APBplDef.CroResourceBpl.PrimaryGet(resId);
 
          var list = APQuery.select(i.IndicationId, i.Description, i.LevelPKID, i.Score,
                                     i.TypePKID, i.ActiveId, a.ActiveName, a.ActiveId,
-                                    evi.ResultId, evi.Score.As("evalScore"))
+                                    eri.ResultId, eri.Score.As("evalScore"))
             .from(i,
                  a.JoinInner(a.ActiveId == i.ActiveId),
-                 evi.JoinLeft(evi.IndicationId == i.IndicationId & evi.ResultId == id)
+                 eri.JoinLeft(eri.IndicationId == i.IndicationId & eri.ResultId == id)
             ).query(db, r =>
             {
                var indication = new Indication();
@@ -110,7 +109,7 @@ namespace Res.Controllers
                indication.ActiveName = a.ActiveName.GetValue(r);
                indication.IndicationId = i.IndicationId.GetValue(r);
                indication.Description = i.Description.GetValue(r);
-               indication.EvalScore = evi.Score.GetValue(r, "evalScore");
+               indication.EvalScore = eri.Score.GetValue(r, "evalScore");
                indication.Score = i.Score.GetValue(r);
                indication.LevelPKID = i.LevelPKID.GetValue(r);
                indication.TypePKID = i.TypePKID.GetValue(r);
@@ -125,13 +124,56 @@ namespace Res.Controllers
 
       //
       //	评审 - 执行评审
-      // GET:		/Eval/Execute
+      // POST:		/Eval/Execute
       //
 
-      public ActionResult Execute()
+      [HttpPost]
+      public ActionResult Execute(EvalResult model)
       {
-        
-         return Json(new { });
+         if (model == null || model.Items == null || model.Items.Count <= 0)
+         {
+            return Request.IsAjaxRequest() ? (ActionResult)Json(new { msg = "系统参数异常，请联系管理员" }) : IsNotAjax();
+         }
+
+         var list = APBplDef.IndicationBpl.GetAll();
+         foreach (var item in model.Items)
+         {
+            var maxScore = list.Find(x => x.IndicationId == item.IndicationId).Score;
+            if (item.Score < maxScore || item.Score > maxScore)
+               return Request.IsAjaxRequest() ? (ActionResult)Json(new {  msg = "分数设置不合理，请检查" }) : IsNotAjax();
+         }
+
+         db.BeginTrans();
+
+         try
+         {
+            if (APBplDef.EvalResultBpl.PrimaryGet(model.ResultId) != null)
+            {
+               APBplDef.EvalResultItemBpl.ConditionDelete(eri.ResultId == model.ResultId);
+               APBplDef.EvalResultBpl.PrimaryDelete(model.ResultId);
+            }
+
+            double score = 0;
+            foreach (var item in model.Items)
+            {
+               item.ResultId = model.ResultId;
+               score += item.Score;
+               APBplDef.EvalResultItemBpl.Insert(item);
+            }
+
+
+
+            model.AccessDate = DateTime.Now;
+            model.ExpertId = ResSettings.SettingsInSession.UserId;
+            model.Score = score;
+            APBplDef.EvalResultBpl.Insert(model);  
+         }
+         catch
+         {
+            return Request.IsAjaxRequest() ? (ActionResult)Json(new { msg = "操作失败，请联系管理员" }) : IsNotAjax();
+         }
+
+         return Request.IsAjaxRequest() ? (ActionResult)Json(new { msg="操作成功"}) : IsNotAjax();
       }
 
    }

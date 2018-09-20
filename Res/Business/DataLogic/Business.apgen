@@ -199,17 +199,46 @@
 			</table>
 
 			
-			<table name="Active" comment="活动">
+			<table name="Active" comment="项目">
 				<columns>
-					<add name="ActiveId" columnName="id" type="long" identityType="Provider" primaryKey="true" display="活动ID"/>
+					<add name="ActiveId" columnName="id" type="long" identityType="Provider" primaryKey="true" display="项目ID"/>
 
 					<!-- Content -->
-					<add name="ActiveName" type="string" dataLength="255" required="true" display="活动名称"/>
+					<add name="ActiveName" type="string" dataLength="255" required="true" display="项目名称"/>
 					<add name="Description" type="string" dataLength="255" required="true" display="描述"/>
+					<add name="Company" type="string" dataLength="255" display="主办单位"/>
+					<add name="LevelPKID" type="long"  display="项目级别"/>
+					<add name="StartDate" columnName="StartDate" type="DateTime"  display="起始时间" />
+					<add name="EndDate" columnName="EndDate" type="DateTime"  display="结束时间" />
+					<add name="UploadStartDate" columnName="UploadStartDate" type="DateTime"  display="上传起始时间" />
+					<add name="UploadEndDate" columnName="UploadEndDate" type="DateTime"  display="上传结束时间" />
+				
 				</columns>
 			</table>
-
-
+			
+			
+			<table name="ActivePublic" comment="项目-公开-设定">
+				<columns>
+					
+					<add name="ActivePublicId" columnName="id" type="long" identityType="Provider" primaryKey="true" />
+					<add name="ActiveId" columnName="ActiveId" type="long" required="true"   display="项目ID"/>
+					<add name="RoleId" columnName="RoleId" type="long"  required="true"  display="角色ID"/>
+				
+				</columns>
+			</table>
+			
+			
+			<table name="ActiveDownload" comment="项目-下载-设定">
+				<columns>
+					
+					<add name="ActiveDownloadId" columnName="id" type="long" identityType="Provider" primaryKey="true" />
+					<add name="ActiveId" columnName="ActiveId" type="long" required="true"  display="项目ID"/>
+					<add name="RoleId" columnName="RoleId" type="long" required="true"   display="角色ID"/>
+				
+				</columns>
+			</table>
+			
+			
 			<table name="CroBulletin" comment="众筹公告">
 				<columns>
 					<add name="BulletinId" type="long" identityType="Provider" primaryKey="true" display="公告ID"/>
@@ -517,7 +546,6 @@
 					<add name="LastModifiedTime" type="DateTime"/>
 				</columns>
 			</table>
-
 
 
 		</tables>
