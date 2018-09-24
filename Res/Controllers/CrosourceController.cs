@@ -270,7 +270,11 @@ namespace Res.Controllers
 			ViewBag.ResTypes = GetStrengthDict(CroResourceHelper.ResourceType.GetItems());
 			ViewBag.Grades = GetStrengthDict(CroResourceHelper.Grade.GetItems());
 
-            if (id == null)
+         ViewBag.Provinces = GetStrengthDict(ResCompanyHelper.AllProvince());
+         ViewBag.Areas = GetStrengthDict(ResCompanyHelper.GetAreas());
+         ViewBag.Schools = GetStrengthDict(ResCompanyHelper.GetSchools());
+
+         if (id == null)
             {
                 return View(
                    new CroResource { Courses = new List<MicroCourse> { new MicroCourse() } } // 新增时默认一个微课
@@ -360,11 +364,13 @@ namespace Res.Controllers
 		// GET:		/Crosource/Details
 		//
 
-		public ActionResult Details(long id)
+		public ActionResult Details(long id,long? courseId)
 		{
-			var model = APBplDef.CroResourceBpl.PrimaryGet(id);
-			//model.GhostFileName = model.IsLink ? model.ResourcePath : Path.GetFileName(model.ResourcePath);
-			return View(model);
+			var model = APBplDef.CroResourceBpl.GetResource(db, id);
+
+         ViewBag.CurrentCourse = courseId == null || courseId.Value == 0 ? model.Courses[0] : model.Courses.Find(c => c.CourseId == courseId);
+
+         return View(model);
 		}
 
 
@@ -382,14 +388,27 @@ namespace Res.Controllers
 			return array;
 		}
 
+      public static object GetStrengthDict(List<ResCompany> items)
+      {
+         List<object> array = new List<object>();
+         foreach (var item in items)
+         {
+            array.Add(new
+            {
+               key = item.ParentId,
+               id = item.CompanyId,
+               name = item.CompanyName
+            });
+         }
+         return array;
+      }
 
+      //
+      //	作品 - 审核合格/不合格
+      // POST:		/Resource/Approve
+      //
 
-		//
-		//	作品 - 审核合格/不合格
-		// POST:		/Resource/Approve
-		//
-
-		[HttpPost]
+      [HttpPost]
 		public ActionResult Approve(long id, bool value, string opinion)
 		{
 			if (Request.IsAjaxRequest())

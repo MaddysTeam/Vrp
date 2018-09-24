@@ -22,23 +22,14 @@ namespace Res.Controllers
       public ActionResult Search(int page = 1, string sort = "")
       {
          var t = APDBDef.CroResource;
+         var rc = APDBDef.ResCompany;
          List<APSqlWherePhrase> where = new List<APSqlWherePhrase>();
          APSqlOrderPhrase order = null;
 
          #region [ Request Param ]
 
          string tmp = "";
-         //if (!String.IsNullOrEmpty(tmp = Request.Params.Get("Domain")))
-         //{
-         //   where.Add(t.DomainPKID == Int64.Parse(tmp));
-         //}
-         //ViewData["Domain"] = tmp;
-
-         //if (!String.IsNullOrEmpty(tmp = Request.Params.Get("Deformity")))
-         //{
-         //   where.Add(t.DeformityPKID == Int64.Parse(tmp));
-         //}
-         ViewData["Deformity"] = tmp;
+         List<ResCompany> schools = null, areas = null, provinces = null;
 
          if (!String.IsNullOrEmpty(tmp = Request.Params.Get("ResourceType")))
          {
@@ -64,23 +55,34 @@ namespace Res.Controllers
          }
          ViewData["Grade"] = tmp;
 
-         //if (!String.IsNullOrEmpty(tmp = Request.Params.Get("SchoolType")))
-         //{
-         //   where.Add(t.SchoolTypePKID == Int64.Parse(tmp));
-         //}
-         //ViewData["SchoolType"] = tmp;
+         if (!String.IsNullOrEmpty(tmp = Request.Params.Get("Province")))
+         {
+            where.Add(rc.Path.Match(tmp));
 
-         //if (!String.IsNullOrEmpty(tmp = Request.Params.Get("LearnFrom")))
-         //{
-         //   where.Add(t.LearnFromPKID == Int64.Parse(tmp));
-         //}
-         ViewData["LearnFrom"] = tmp;
+            areas = ResCompanyHelper.GetChildren(Int64.Parse(tmp));
+            schools = ResCompanyHelper.GetChildren(areas);
+         }
+         ViewData["Province"] = tmp;
 
+         if (!String.IsNullOrEmpty(tmp = Request.Params.Get("Area")))
+         {
+            where.Add(rc.Path.Match(tmp));
+
+            schools = ResCompanyHelper.GetChildren(Int64.Parse(tmp));
+         }
+         ViewData["Area"] = tmp;
+         if (!String.IsNullOrEmpty(tmp = Request.Params.Get("School")))
+         {
+            where.Add(t.CompanyId == Int64.Parse(tmp));
+         }
+         ViewData["School"] = tmp;
+
+         //ViewData["Province"] = tmp;
          //if (!String.IsNullOrEmpty(tmp = Request.Params.Get("MediumType")))
          //{
          //   where.Add(t.MediumTypePKID == Int64.Parse(tmp));
          //}
-         ViewData["MediumType"] = tmp;
+         //ViewData["MediumType"] = tmp;
 
          if (!String.IsNullOrEmpty(tmp = Request.Params.Get("Keywords")) && tmp.Trim() != "")
          {
@@ -99,8 +101,8 @@ namespace Res.Controllers
                case "dd": order = t.DownCount.Desc; break;
                case "ca": order = t.CommentCount.Asc; break;
                case "cd": order = t.CommentCount.Desc; break;
-               //case "sa": order = t.StarTotal.Asc; break;
-               //case "sd": order = t.StarTotal.Desc; break;
+                  //case "sa": order = t.StarTotal.Asc; break;
+                  //case "sd": order = t.StarTotal.Desc; break;
             }
          }
          ViewData["Sort"] = tmp;
@@ -109,12 +111,17 @@ namespace Res.Controllers
 
          int total = 0;
 
-         ViewBag.ListOfMore = SearchCroResourceList(where.Count > 0 ? new APSqlConditionAndPhrase(where) : null, order, out total, 10, (page - 1) * 10);
+         ViewBag.ListOfMore = SearchCroResourceList(where.Count > 0 ? new APSqlConditionAndPhrase(where) : null, order, out total, 5, (page - 1) * 5);
 
          // 分页器
-         ViewBag.PageSize = 10;
+         ViewBag.PageSize = 5;
          ViewBag.PageNumber = page;
          ViewBag.TotalItemCount = total;
+
+         // 省市区学校
+         ViewBag.Areas = areas ?? ResCompanyHelper.GetAreas();
+         ViewBag.Schools = schools ?? ResCompanyHelper.GetSchools();
+         ViewBag.Provinces = provinces ?? ResCompanyHelper.AllProvince();
 
          return View();
       }
@@ -138,7 +145,7 @@ namespace Res.Controllers
                ViewBag.ListOfMore = CroHomeRankingList(t.EliteScore.Desc, null, out total, 10, (page - 1) * 10);
                ViewBag.Title = "热门作品";
             }
-            else if (type == CroResourceHelper.Latest )
+            else if (type == CroResourceHelper.Latest)
             {
                ViewBag.ListOfMore = CroHomeRankingList(t.CreatedTime.Desc, null, out total, 10, (page - 1) * 10);
                ViewBag.Title = "最新作品";
@@ -159,12 +166,12 @@ namespace Res.Controllers
          {
             if (type == "rmgd")
             {
-             //  ViewBag.ListOfMore = CroHomeRankingList(t.EliteScore.Desc, null, out total, 10, (page - 1) * 10, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
+               //  ViewBag.ListOfMore = CroHomeRankingList(t.EliteScore.Desc, null, out total, 10, (page - 1) * 10, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
                ViewBag.Title = "热门作品";
             }
             else if (type == "zxgd")
             {
-             //  ViewBag.ListOfMore = CroHomeRankingList(t.CreatedTime.Desc, null, out total, 10, (page - 1) * 10, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
+               //  ViewBag.ListOfMore = CroHomeRankingList(t.CreatedTime.Desc, null, out total, 10, (page - 1) * 10, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
                ViewBag.Title = "最新作品";
             }
 
@@ -222,15 +229,15 @@ namespace Res.Controllers
       /// </summary>
       /// <param name="id"></param>
       /// <returns></returns>
-      public ActionResult ZcView(long id,long? courseId)
+      public ActionResult ZcView(long id, long? courseId)
       {
-         var model = APBplDef.CroResourceBpl.GetResource(db,id);
+         var model = APBplDef.CroResourceBpl.GetResource(db, id);
          ViewBag.Title = model.Title;
 
          // 访问历史
          APBplDef.CroResourceBpl.CountingView(db, id, Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0);
 
-         ViewBag.CurrentVideoPath = courseId == null ? model.Courses[0].VideoPath : model.Courses.Find(c => c.CourseId == courseId).VideoPath;
+         ViewBag.CurrentCourse = courseId == null || courseId.Value == 0 ? model.Courses[0] : model.Courses.Find(c => c.CourseId == courseId);
 
          ViewBag.CommentCount = APBplDef.CroCommentBpl.ConditionQueryCount(APDBDef.CroComment
             .ResourceId == id & APDBDef.CroComment.Audittype == 1);
@@ -316,7 +323,7 @@ namespace Res.Controllers
             return Json(new
             {
                state = "ok",
-               //	msg = "恭喜您，已经下载成功！"
+               msg = "恭喜您，已经下载成功！"
             });
 
          }

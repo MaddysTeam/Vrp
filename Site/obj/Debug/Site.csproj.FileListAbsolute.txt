@@ -254,7 +254,6 @@ E:\项目文件(GitLab)\资源库模板\vrp\Site\bin\zh-Hans\System.Web.WebPages
 E:\项目文件(GitLab)\资源库模板\vrp\Site\obj\Debug\Site.csprojResolveAssemblyReference.cache
 E:\项目文件(GitLab)\资源库模板\vrp\Site\obj\Debug\Res.dll
 E:\项目文件(GitLab)\资源库模板\vrp\Site\obj\Debug\Res.pdb
-C:\project\教软公司项目\新版长三角微视频\Site\obj\Debug\Site.csprojResolveAssemblyReference.cache
 C:\project\教软公司项目\新版长三角微视频\Site\bin\Res.dll.config
 C:\project\教软公司项目\新版长三角微视频\Site\bin\Res.dll
 C:\project\教软公司项目\新版长三角微视频\Site\bin\Res.pdb
@@ -282,10 +281,13 @@ C:\project\教软公司项目\新版长三角微视频\Site\bin\System.Web.WebPa
 C:\project\教软公司项目\新版长三角微视频\Site\bin\System.Web.WebPages.dll
 C:\project\教软公司项目\新版长三角微视频\Site\bin\System.Web.WebPages.Razor.dll
 C:\project\教软公司项目\新版长三角微视频\Site\bin\ToolGood.Words.dll
+C:\project\教软公司项目\新版长三角微视频\Site\bin\Util.dll
 C:\project\教软公司项目\新版长三角微视频\Site\bin\WebGrease.dll
+C:\project\教软公司项目\新版长三角微视频\Site\bin\WcsLib.dll
 C:\project\教软公司项目\新版长三角微视频\Site\bin\office.dll
 C:\project\教软公司项目\新版长三角微视频\Site\bin\Microsoft.Vbe.Interop.dll
 C:\project\教软公司项目\新版长三角微视频\Site\bin\stdole.dll
+C:\project\教软公司项目\新版长三角微视频\Site\bin\Util.pdb
 C:\project\教软公司项目\新版长三角微视频\Site\bin\Antlr3.Runtime.pdb
 C:\project\教软公司项目\新版长三角微视频\Site\bin\DocumentFormat.OpenXml.xml
 C:\project\教软公司项目\新版长三角微视频\Site\bin\Microsoft.AspNet.Identity.Core.xml
@@ -306,6 +308,7 @@ C:\project\教软公司项目\新版长三角微视频\Site\bin\System.Web.WebPa
 C:\project\教软公司项目\新版长三角微视频\Site\bin\System.Web.WebPages.Deployment.xml
 C:\project\教软公司项目\新版长三角微视频\Site\bin\System.Web.WebPages.Razor.xml
 C:\project\教软公司项目\新版长三角微视频\Site\bin\ToolGood.Words.xml
+C:\project\教软公司项目\新版长三角微视频\Site\bin\WcsLib.pdb
 C:\project\教软公司项目\新版长三角微视频\Site\bin\office.xml
 C:\project\教软公司项目\新版长三角微视频\Site\bin\zh-Hans\Microsoft.AspNet.Identity.Core.resources.dll
 C:\project\教软公司项目\新版长三角微视频\Site\bin\zh-Hans\Microsoft.Owin.resources.dll
@@ -318,5 +321,6 @@ C:\project\教软公司项目\新版长三角微视频\Site\bin\zh-Hans\System.W
 C:\project\教软公司项目\新版长三角微视频\Site\bin\zh-Hans\System.Web.WebPages.resources.dll
 C:\project\教软公司项目\新版长三角微视频\Site\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll
 C:\project\教软公司项目\新版长三角微视频\Site\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
+C:\project\教软公司项目\新版长三角微视频\Site\obj\Debug\Site.csprojResolveAssemblyReference.cache
 C:\project\教软公司项目\新版长三角微视频\Site\obj\Debug\Res.dll
 C:\project\教软公司项目\新版长三角微视频\Site\obj\Debug\Res.pdb

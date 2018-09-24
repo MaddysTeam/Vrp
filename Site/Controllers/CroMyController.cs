@@ -140,12 +140,32 @@ namespace Res.Controllers
       }
 
 
-    
+      public static object GetStrengthDict(List<ResCompany> items)
+      {
+         List<object> array = new List<object>();
+         foreach (var item in items)
+         {
+            array.Add(new
+            {
+               key = item.ParentId,
+               id = item.CompanyId,
+               name = item.CompanyName
+            });
+         }
+         return array;
+      }
+
+
+
 
       public ActionResult Upload(long id, long? resid)
       {
          ViewBag.ResTypes = GetStrengthDict(CroResourceHelper.ResourceType.GetItems());
          ViewBag.Grades = GetStrengthDict(CroResourceHelper.Grade.GetItems());
+
+         ViewBag.Provinces = GetStrengthDict(ResCompanyHelper.AllProvince());
+         ViewBag.Areas = GetStrengthDict(ResCompanyHelper.GetAreas());
+         ViewBag.Schools = GetStrengthDict(ResCompanyHelper.GetSchools());
 
          if (resid == null)
          {

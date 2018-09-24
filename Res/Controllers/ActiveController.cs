@@ -10,8 +10,8 @@ using Res.Business;
 namespace Res.Controllers
 {
 
-	public class ActiveController : BaseController
-	{
+   public class ActiveController : BaseController
+   {
 
       static APDBDef.ActiveTableDef a = APDBDef.Active;
 
@@ -21,16 +21,16 @@ namespace Res.Controllers
       //
 
       public ActionResult Search()
-		{
-			return View();
-		}
+      {
+         return View();
+      }
 
       [HttpPost]
       public ActionResult Search(int current, int rowCount, string searchPhrase)
       {
          var a = APDBDef.Active;
          var query = APQuery
-             .select(a.ActiveId, a.ActiveName, a.LevelPKID, a.Company,a.Description,a.StartDate,a.EndDate) 
+             .select(a.ActiveId, a.ActiveName, a.LevelPKID, a.Company, a.Description, a.StartDate, a.EndDate)
              .from(a);
 
          if (!string.IsNullOrEmpty(searchPhrase))
@@ -74,32 +74,32 @@ namespace Res.Controllers
       //
 
       public ActionResult Edit(long? id)
-		{
-			if (id == null)
-			{
+      {
+         if (id == null)
+         {
             return PartialView();
-			}
-			else
-			{
-				var model = APBplDef.ActiveBpl.PrimaryGet(id.Value);
-				return Request.IsAjaxRequest() ? (ActionResult)PartialView(model) : View(model);
-			}
-		}
+         }
+         else
+         {
+            var model = APBplDef.ActiveBpl.PrimaryGet(id.Value);
+            return Request.IsAjaxRequest() ? (ActionResult)PartialView(model) : View(model);
+         }
+      }
 
-		[HttpPost]
-		public ActionResult Edit(long? id, Active model, FormCollection fc)
-		{
-			if (id == null)
-			{
-				model.Insert();
-			}
-			else
-			{
-				model.Update();
-			}
+      [HttpPost]
+      public ActionResult Edit(long? id, Active model, FormCollection fc)
+      {
+         if (id == null)
+         {
+            model.Insert();
+         }
+         else
+         {
+            model.Update();
+         }
 
-			return RedirectToAction("Index");
-		}
+         return RedirectToAction("Index");
+      }
 
 
       //
@@ -108,20 +108,20 @@ namespace Res.Controllers
       //
 
       [HttpPost]
-		public ActionResult Delete(long id)
-		{
-			//if (Request.IsAjaxRequest())
-			//{
+      public ActionResult Delete(long id)
+      {
+         //if (Request.IsAjaxRequest())
+         //{
 
-			//	if (APBplDef.ResUserRoleBpl.ConditionQueryCount(APDBDef.ResUserRole.RoleId == id) > 0)
-			//		return Json(new { cmd = "Error", msg = "不可删除含有用户的角色。" });
+         //	if (APBplDef.ResUserRoleBpl.ConditionQueryCount(APDBDef.ResUserRole.RoleId == id) > 0)
+         //		return Json(new { cmd = "Error", msg = "不可删除含有用户的角色。" });
 
-			//	APBplDef.ResRoleBpl.PrimaryDelete(id);
-			//	return Json(new { cmd = "Deleted", msg = "角色已删除。" });
-			//}
+         //	APBplDef.ResRoleBpl.PrimaryDelete(id);
+         //	return Json(new { cmd = "Deleted", msg = "角色已删除。" });
+         //}
 
-			return IsNotAjax();
-		}
+         return IsNotAjax();
+      }
 
       //
       //	项目管理 - 公开管理/角色/列表
@@ -144,7 +144,7 @@ namespace Res.Controllers
          var query = APQuery.select(r.RoleId, r.RoleName, ap.ActivePublicId)
              .from(
                  r,
-                 ap.JoinLeft(r.RoleId== ap.RoleId),
+                 ap.JoinLeft(r.RoleId == ap.RoleId),
                  a.JoinLeft(a.ActiveId == ap.ActiveId & ap.RoleId == id)
                  )
              .primary(r.RoleId)
@@ -226,13 +226,13 @@ namespace Res.Controllers
          ThrowNotAjax();
 
          var r = APDBDef.ResRole;
-         var ap = APDBDef.ActivePublic;
+         var ad = APDBDef.ActiveDownload;
 
-         var query = APQuery.select(r.RoleId, r.RoleName, ap.ActivePublicId)
+         var query = APQuery.select(r.RoleId, r.RoleName, ad.ActiveDownloadId)
              .from(
                  r,
-                 ap.JoinLeft(r.RoleId == ap.RoleId),
-                 a.JoinLeft(a.ActiveId == ap.ActiveId & ap.RoleId == id)
+                 ad.JoinLeft(r.RoleId == ad.RoleId),
+                 a.JoinLeft(a.ActiveId == ad.ActiveId & ad.RoleId == id)
                  )
              .primary(r.RoleId)
              .skip((current - 1) * rowCount)
@@ -276,10 +276,10 @@ namespace Res.Controllers
          {
             return new
             {
-               id = ap.ActivePublicId.GetValue(rd),
+               id = ad.ActiveDownloadId.GetValue(rd),
                roleId = r.RoleId.GetValue(rd),
                roleName = r.RoleName.GetValue(rd),
-               isSelect = ap.ActivePublicId.GetValue(rd) > 0
+               isSelect = ad.ActiveDownloadId.GetValue(rd) > 0
             };
          }).ToList();
 
@@ -296,22 +296,18 @@ namespace Res.Controllers
 
 
       //
-      // 分配评审组可打分的微课资源
-      // POST:		/EvalGroup/AssignResource
-      // POST:    /EvalGroup/RemoveResource
+      // 分配/删除 允许访问的角色
+      // POST:		/Active/AssignPubRole
+      // POST:    /Active/RemovePubRole
 
       [HttpPost]
-      public ActionResult AssignRes(long id, long resId)
+      public ActionResult AssignPubRole(long id, long roleId)
       {
-         var egr = APDBDef.EvalGroupResource;
-
-         var resxist = APBplDef.CroResourceBpl.PrimaryGet(resId) != null;
-         var groupExist = APBplDef.EvalGroupBpl.PrimaryGet(id) != null;
-
-         var isExist = APBplDef.EvalGroupResourceBpl.ConditionQueryCount(egr.ResourceId == resId & egr.GroupId == id) > 0;
-         if (resxist && groupExist && !isExist)
+         var ap = APDBDef.ActivePublic;
+         var isExist = APBplDef.ActivePublicBpl.ConditionQueryCount(ap.RoleId == roleId & ap.ActiveId == id) > 0;
+         if (!isExist)
          {
-            APBplDef.EvalGroupResourceBpl.Insert(new EvalGroupResource { ResourceId = resId, GroupId = id });
+            APBplDef.ActivePublicBpl.Insert(new ActivePublic { ActiveId=id,RoleId=roleId});
          }
 
          return Json(new
@@ -323,12 +319,12 @@ namespace Res.Controllers
 
 
       [HttpPost]
-      public ActionResult RemoveRes(long id)
+      public ActionResult RemovePubRole(long id)
       {
-         var isExists = APBplDef.EvalGroupResourceBpl.PrimaryGet(id) != null;
+         var isExists = APBplDef.ActivePublicBpl.PrimaryGet(id) != null;
          if (isExists)
          {
-            APBplDef.EvalGroupResourceBpl.PrimaryDelete(id);
+            APBplDef.ActivePublicBpl.PrimaryDelete(id);
          }
 
          return Json(new
@@ -340,22 +336,18 @@ namespace Res.Controllers
 
 
       //
-      // 分配参与评审组的专家
-      // POST:		/EvalGroup/AssignExp
-      // POST:    /EvalGroup/RemoveExp
+      // 分配/删除 允许下载的角色
+      // POST:		/EvalGroup/AssignDwnRole
+      // POST:    /EvalGroup/AssignDwnRole
 
       [HttpPost]
-      public ActionResult AssignExp(long id, long expId)
+      public ActionResult AssignDwnRole(long id, long roleId)
       {
-         var ege = APDBDef.EvalGroupExpert;
-
-         var userExist = APBplDef.ResUserBpl.PrimaryGet(expId) != null;
-         var groupExist = APBplDef.EvalGroupBpl.PrimaryGet(id) != null;
-
-         var isExist = APBplDef.EvalGroupExpertBpl.ConditionQueryCount(ege.ExpertId == expId & ege.GroupId == id) > 0;
-         if (userExist && groupExist && !isExist)
+         var ad = APDBDef.ActiveDownload;
+         var isExist = APBplDef.ActiveDownloadBpl.ConditionQueryCount(ad.RoleId == roleId & ad.ActiveId == id) > 0;
+         if (!isExist)
          {
-            APBplDef.EvalGroupExpertBpl.Insert(new EvalGroupExpert { ExpertId = expId, GroupId = id });
+            APBplDef.ActiveDownloadBpl.Insert(new ActiveDownload { ActiveId = id, RoleId = roleId });
          }
 
          return Json(new
@@ -367,7 +359,7 @@ namespace Res.Controllers
 
 
       [HttpPost]
-      public ActionResult RemoveExp(long id)
+      public ActionResult RemoveDwnRole(long id)
       {
          var isExists = APBplDef.EvalGroupExpertBpl.PrimaryGet(id) != null;
          if (isExists)

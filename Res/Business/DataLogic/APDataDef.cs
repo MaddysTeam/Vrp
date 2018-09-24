@@ -197,11 +197,13 @@ namespace Res.Business
 
       //public string MediumType { get { return ResResourceHelper.MediumType.GetName(MediumTypePKID); } }
 
-      public string ResourceType { get { return CroResourceHelper.ResourceType.GetName(ResourceTypePKID); } }
+      // public string ResourceType { get { return CroResourceHelper.ResourceType.GetName(ResourceTypePKID); } }
 
       public string Subject { get { return CroResourceHelper.Subject.GetName(SubjectPKID); } }
 
       public string State { get { return CroResourceHelper.State.GetName(StatePKID); } }
+
+      public string CourseType { get { return CroResourceHelper.CourseType.GetName(CourseTypePKID); } }
 
       [Display(Name = "资源路径")]
       [Required]

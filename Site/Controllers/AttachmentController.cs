@@ -77,13 +77,21 @@ namespace Res.Controllers
             var mappedDir = Server.MapPath("~" + dirForSaving);
             var url = dirForSaving + "/" + hpf.FileName;
             var ext = Path.GetExtension(hpf.FileName);
+            var absPath = Path.Combine(mappedDir, hpf.FileName);
 
             if (!Directory.Exists(mappedDir))
             {
                Directory.CreateDirectory(mappedDir);
             }
 
-            hpf.SaveAs(Path.Combine(mappedDir, hpf.FileName));
+            hpf.SaveAs(absPath);
+
+            //if file format is word then convert to html
+            if (ext==".doc" || ext==".docx")
+            {
+               var saveHtmlPath = absPath.Replace(".doc", ".html").Replace(".docx", ".html");
+               Util.Office.WordConverter.ConvertToHtml(absPath, saveHtmlPath);
+            }
 
             if (ext != null && ext.StartsWith("."))
                ext = ext.Substring(1);
@@ -92,6 +100,7 @@ namespace Res.Controllers
             db.FilesDal.Insert(file);
             file.FileId = Files.ConditionQuery(f.Md5 == md5, null).FirstOrDefault().FileId;
          }
+
          if (Request.IsAjaxRequest())
          {
             return Json(new

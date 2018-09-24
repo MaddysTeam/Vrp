@@ -302,44 +302,6 @@ namespace Res.Business
       public partial class ResCompanyBpl : ResCompanyBplBase
       {
 
-         public static List<ResCompany> GetTree()
-         {
-            var t = APDBDef.ResCompany;
-            var list = APQuery.select(t.CompanyId, t.ParentId, t.CompanyName, t.Path)
-               .from(t)
-               .order_by(t.ParentId.Asc)
-               .query(new APDBDef(), reader =>
-               {
-                  return new ResCompany()
-                  {
-                     CompanyId = reader.GetInt64(0),
-                     ParentId = reader.GetInt64(1),
-                     CompanyName = reader.GetString(2),
-                     Path = reader.GetString(3),
-                  };
-               }).ToList();
-
-            ResCompany root = new ResCompany() { CompanyId = 0, ParentId = 0, CompanyName = "上海市", Path = "" };
-            Dictionary<long, ResCompany> dict = new Dictionary<long, ResCompany>(){
-               {0, root}
-            };
-
-            foreach (var item in list)
-            {
-               if (dict.ContainsKey(item.ParentId))
-               {
-                  var node = dict[item.ParentId];
-                  if (node.Children == null)
-                     node.Children = new List<ResCompany>();
-                  node.Children.Add(item);
-               }
-
-               dict[item.CompanyId] = item;
-            }
-
-            return root.Children;
-         }
-
       }
 
 
@@ -478,8 +440,8 @@ namespace Res.Business
             var query = APQuery.select(cr.Asterisk, mc.Asterisk, et.Asterisk,
                                       vf.FileName.As("VideoName"), vf.FilePath.As("VideoPath"),
                                       cf.FileName.As("CoverName"), cf.FilePath.As("CoverPath"),
-                                      df.FileName.As("DesignName"),
-                                      sf.FileName.As("SummaryName")
+                                      df.FileName.As("DesignName"), df.FilePath.As("DesignPath"),
+                                      sf.FileName.As("SummaryName"),sf.FilePath.As("SummaryPath")
                                      )
                                .from(cr,
                                      mc.JoinLeft(cr.CrosourceId == mc.ResourceId),
@@ -506,6 +468,8 @@ namespace Res.Business
                mc.Fullup(r, course, false);
                course.CoverPath = cf.FilePath.GetValue(r, "CoverPath");
                course.VideoPath = vf.FilePath.GetValue(r, "VideoPath");
+               course.DesignPath = df.FilePath.GetValue(r, "DesignPath");
+               course.SummaryPath = sf.FilePath.GetValue(r, "SummaryPath");
                course.VideoName = vf.FileName.GetValue(r, "VideoName");
                course.CoverName = cf.FileName.GetValue(r, "CoverName");
                course.DesignName = df.FileName.GetValue(r, "DesignName");

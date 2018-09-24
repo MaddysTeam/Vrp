@@ -41,10 +41,8 @@ namespace Res.Controllers
       /// <summary>
       /// 最热排行榜
       /// </summary>
-      /// <param name="isLink"></param>
-      /// <returns></returns>
       [AllowAnonymous]
-      public ActionResult Hot(string RType)
+      public ActionResult Hot()
       {
          int total;
          var t = APDBDef.CroResource;
@@ -54,12 +52,10 @@ namespace Res.Controllers
       }
 
       /// <summary>
-      /// 最新微课
+      /// 最新微课排行榜
       /// </summary>
-      /// <param name="isLink"></param>
-      /// <returns></returns>
       [AllowAnonymous]
-      public ActionResult New(string RType)
+      public ActionResult New()
       {
          int total;
          var t = APDBDef.CroResource;
@@ -68,6 +64,35 @@ namespace Res.Controllers
          return PartialView("_New", list);
       }
 
+
+      /// <summary>
+      /// 微课得票排行榜
+      /// </summary>
+      [AllowAnonymous]
+      public ActionResult Favorite()
+      {
+         int total;
+         var t = APDBDef.CroResource;
+
+         var list = CroHomeRankingList(APDBDef.CroResource.FavoriteCount.Desc, null, out total, 8);
+         return PartialView("_Favorite", list);
+      }
+
+
+      /// <summary>
+      /// 各省微课排行榜
+      /// </summary>
+      /// <param name="RType"></param>
+      /// <returns></returns>
+      [AllowAnonymous]
+      public ActionResult Province(string proviceId)
+      {
+         int total;
+         var rc = APDBDef.ResCompany;
+
+         var list = CroHomeRankingList(APDBDef.CroResource.FavoriteCount.Desc, rc.Path.Match(proviceId), out total, 8);
+         return PartialView("_New", list);
+      }
 
 
    }

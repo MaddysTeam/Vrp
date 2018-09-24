@@ -152,10 +152,10 @@ namespace Res.Business
 
 		private void CheckCurrent()
 		{
-			if (!HttpContext.Current.Request.IsAuthenticated)
-				throw new NotSupportedException(
-					"本系统的 SessionSettings 不支持非登录用户采样，请确保你书写的代码段不存在非登录用户访问的漏洞！");
-			if (_user == null)
+         if (!HttpContext.Current.Request.IsAuthenticated)
+            throw new NotSupportedException(
+               "本系统的 SessionSettings 不支持非登录用户采样，请确保你书写的代码段不存在非登录用户访问的漏洞！");
+         if (_user == null)
 			{
 				var u = APDBDef.ResUser;
 				var r = APDBDef.ResRole;

@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Res</RootNamespace>
     <AssemblyName>Res</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -22,6 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <Use64BitIISExpress />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,6 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>true</UseVSHostingProcess>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -108,13 +110,13 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
       <Private>True</Private>
@@ -143,9 +145,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
@@ -156,6 +156,7 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="ToolGood.Words, Version=1.7.8.0, Culture=neutral, PublicKeyToken=d330f4fd115e6143, processorArchitecture=MSIL">
       <HintPath>..\packages\ToolGood.Words.1.7.8.0\lib\net40\ToolGood.Words.dll</HintPath>
       <Private>True</Private>
@@ -184,12 +185,12 @@
     <Compile Include="Business\Project\ThisApp.Config.cs" />
     <Compile Include="Business\Project\ThisApp.PickList.cs" />
     <Compile Include="Business\Utils\CroResourceHelper.cs" />
+    <Compile Include="Business\Utils\ResCompanyHelper.cs" />
     <Compile Include="Business\Utils\FileHelper.cs" />
     <Compile Include="Business\Utils\GridOrder.cs" />
     <Compile Include="Business\Utils\IDCardCheck.cs" />
     <Compile Include="Business\Utils\ResApproveHelper.cs" />
     <Compile Include="Business\Utils\ResModelBinder.cs" />
-    <Compile Include="Business\Utils\ResResourceHelper.cs" />
     <Compile Include="Business\Utils\ResUserHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AttachmentController.cs" />
@@ -799,13 +800,9 @@
     <Content Include="Views\Shared\DisplayTemplates\_Bootstrap3Pagination.cshtml" />
     <Content Include="Views\Shared\_Row.cshtml" />
     <Content Include="Views\My\Index.cshtml" />
-    <Content Include="Views\My\Resource.cshtml" />
-    <Content Include="Views\My\Favorite.cshtml" />
-    <Content Include="Views\My\Comment.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\My\Edit.cshtml" />
     <Content Include="Views\My\ChgPwd.cshtml" />
-    <Content Include="Views\My\Upload.cshtml" />
     <Content Include="Views\Shared\_CroLayout.cshtml" />
     <Content Include="Views\Shared\_sidebar.cshtml" />
     <Content Include="Views\CroMy\Comment.cshtml" />
@@ -838,7 +835,6 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="Properties\PublishProfiles\MapSite.pubxml" />
-    <Content Include="Views\My\Download.cshtml" />
     <Content Include="Views\CroUser\MoreUser.cshtml" />
     <Content Include="Views\Shared\_CroViewLayout.cshtml" />
     <Content Include="Views\CroMy\Declare.cshtml" />
@@ -854,6 +850,8 @@
     <Content Include="Views\ZSResource\Detail.cshtml" />
     <Content Include="Views\ZSResource\_Hot.cshtml" />
     <Content Include="Views\CroMy\CroMyCourses.cshtml" />
+    <Content Include="Views\CroHome\_Favorite.cshtml" />
+    <Content Include="Views\CroHome\_Province.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -865,6 +863,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\工具\temp\Util\Util.csproj">
+      <Project>{cfa3485f-3fac-444a-a93f-1ec45eb58b18}</Project>
+      <Name>Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

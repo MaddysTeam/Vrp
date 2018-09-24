@@ -94,7 +94,7 @@ namespace Res.Controllers
          var i = APDBDef.Indication;
          var a = APDBDef.Active;
 
-         var model = APBplDef.CroResourceBpl.PrimaryGet(resId);
+         var model = APBplDef.CroResourceBpl.GetResource(db,resId);
 
          var list = APQuery.select(i.IndicationId, i.Description, i.LevelPKID, i.Score,
                                     i.TypePKID, i.ActiveId, a.ActiveName, a.ActiveId,
@@ -117,6 +117,9 @@ namespace Res.Controllers
             }).ToList();
 
          ViewBag.Indications = list;
+
+         ViewBag.CurrentCourse = model.Courses[0];// courseId == null || courseId.Value == 0 ? model.Courses[0] : model.Courses.Find(c => c.CourseId == courseId);
+
 
          return View(model);
       }

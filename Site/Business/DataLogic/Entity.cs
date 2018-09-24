@@ -21,7 +21,7 @@ namespace Res.Business
 		{
 			get
 			{
-				if (CoverPath == "")
+				if (string.IsNullOrEmpty(CoverPath))
 					return "/assets/img/cover.png";
 				return CoverPath;
 			}
@@ -60,7 +60,7 @@ namespace Res.Business
 		{
 			get
 			{
-				if (CoverPath == "")
+				if (string.IsNullOrEmpty(CoverPath))
 					return "/assets/img/cover.png";
 				return CoverPath;
 			}
@@ -92,7 +92,7 @@ namespace Res.Business
 		{
 			get
 			{
-				if (CoverPath == "")
+				if (string.IsNullOrEmpty(CoverPath))
 					return "/assets/img/cover.png";
 				return CoverPath;
 			}
@@ -116,7 +116,7 @@ namespace Res.Business
 		{
 			get
 			{
-				if (CoverPath == "")
+				if (string.IsNullOrEmpty(CoverPath))
 					return "/assets/img/cover.png";
 				return CoverPath;
 			}
@@ -131,10 +131,12 @@ namespace Res.Business
 		public string AuthorCompany { get; set; }
 		public DateTime CreatedTime { get; set; }
       public int PlayCount { get; set; }
-		//public int ViewCount { get; set; }
-		//public int CommentCount { get; set; }
-		//public int DownCount { get; set; }
-		public string FileExtName { get; set; }
+      public int FavoriteCount { get; set; }
+      public string CompanyPath { get; set; }
+      //public int ViewCount { get; set; }
+      //public int CommentCount { get; set; }
+      //public int DownCount { get; set; }
+      public string FileExtName { get; set; }
 		public string Description { get; set; }
 		//public string RType { get; set; }
 

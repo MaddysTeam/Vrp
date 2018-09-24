@@ -263,6 +263,9 @@ form.dropzone.file {
   background-color: #f8f8f8;
 }
 
+.details-courses{}
+.details-courses ul{padding:0px;}
+
 /* switch */
 .switch {
   display: none;

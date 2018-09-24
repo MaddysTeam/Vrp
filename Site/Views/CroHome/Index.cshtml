@@ -51,7 +51,7 @@
 			</span>*@
 			<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type =CroResourceHelper.Latest, mediumtypepkid = "null", FileExtName = "null" })"></a>
 		</div>
-		<div class="d_res_list" id="contain_top">
+		<div class="d_res_list" id="contain_favorite">
 		</div>
 	</div>
 
@@ -238,14 +238,26 @@
 		$(function () {
 
 			function load_hot(RType) {
-				$.get("/CroHome/Hot", { RType: RType }, function (response) {
+				$.get("/CroHome/Hot", function (response) {
 					$("#contain_hot").html(response);
 				})
 			}
 
 			function load_new(RType) {
-				$.get("/CroHome/New", { RType: RType }, function (response) {
+				$.get("/CroHome/New", function (response) {
 					$("#contain_new").html(response);
+				})
+			}
+
+			function load_favorite(RType) {
+				$.get("/CroHome/Favorite", function (response) {
+					$("#contain_favorite").html(response);
+				})
+			}
+
+			function load_province(proviceId,containerId) {
+				$.get("/CroHome/Province", { proviceId: proviceId }, function (response) {
+					$("#" + containerId).html(response);
 				})
 			}
 
@@ -266,8 +278,15 @@
 
 			load_hot("1");
 			load_new("1");
+			load_favorite("1");
+			
+			load_province('@CroResourceHelper.Zhejiang', 'contain_zhejiang');
+			load_province('@CroResourceHelper.Jiangsu', 'contain_jiangsu');
+			load_province('@CroResourceHelper.Shanghai', 'contain_shanghai');
+			load_province('@CroResourceHelper.Anhui', 'contain_anhui');
+
 			$(".tab1").addClass("actived");
-	
+
 		})
 	</script>
 

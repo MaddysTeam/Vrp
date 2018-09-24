@@ -109,7 +109,7 @@ namespace Res.Controllers
 		{
 			AuthenticationManager.SignOut();
 			ResSettings.SettingsInSession.ResetCurrent();
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("Index", "CroHome");
 		}
 
 		public ActionResult LogOff2()
@@ -233,7 +233,7 @@ namespace Res.Controllers
 			{
 				return Redirect(returnUrl);
 			}
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("Index", "CroHome");
 		}
 
 		internal class ChallengeResult : HttpUnauthorizedResult

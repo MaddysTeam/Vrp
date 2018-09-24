@@ -2,10 +2,14 @@
 @{
 	var id = this.ViewContext.RouteData.Values["id"];
 	Layout = "~/Views/Shared/_CroLayout.cshtml";
-	ViewBag.Title = "上传新资源";
+	ViewBag.Title = "上传新作品";
+
+	var provinces = ResCompanyHelper.AllProvince().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() });
+	var areas = ResCompanyHelper.GetAreas().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() });
+	var schools = ResCompanyHelper.GetSchools().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString(), Selected = Model.CompanyId == x.CompanyId });
 }
 <div class="menu">
-	<div class="fl">首页 > <span>资源上传</span></div>
+	<div class="fl">首页 > <span>作品上传</span></div>
 
 </div>
 
@@ -28,21 +32,21 @@
 						<fieldset class="col-sm-11  fieldContainer">
 
 							<div class="form-group">
-								<label class="control-label col-sm-3"> <span class="request">*</span> 资源标题</label>
+								<label class="control-label col-sm-3"> <span class="request">*</span> 作品标题</label>
 								<div class="col-sm-9">
-									@Html.TextBoxFor(m => m.Title, new { @class = "form-control", maxlength = "255", placeholder = "资源标题" })
+									@Html.TextBoxFor(m => m.Title, new { @class = "form-control", maxlength = "255", placeholder = "作品标题" })
 									@Html.ValidationMessageFor(m => m.Title)
 								</div>
 							</div>
 
 							@*<div class="form-group">
-									<label class="control-label col-sm-3"> <span class="request">*</span> 资源类型</label>
+									<label class="control-label col-sm-3"> <span class="request">*</span> 作品类型</label>
 
 									<div class="col-sm-9">
-									@Html.RadioButtonFor(m => m.RType,"1", new { @name = "rdolstState",@class="yuanchuang", @Checked = "checked" })原创资源
+									@Html.RadioButtonFor(m => m.RType,"1", new { @name = "rdolstState",@class="yuanchuang", @Checked = "checked" })原创作品
 
-									@Html.RadioButtonFor(m => m.RType,"2",new { @name = "rdolstState", @class="tuijian"})推荐资源
-									@Html.TextBoxFor(m => m.RSource, new { @class = "form-control source", maxlength = "255", placeholder = "资源出处" })
+									@Html.RadioButtonFor(m => m.RType,"2",new { @name = "rdolstState", @class="tuijian"})推荐作品
+									@Html.TextBoxFor(m => m.RSource, new { @class = "form-control source", maxlength = "255", placeholder = "作品出处" })
 									 @Html.ValidationMessageFor(m => m.RSource)
 									</div>
 								</div>*@
@@ -50,7 +54,7 @@
 							<div class="form-group">
 								@Html.LabelFor(m => m.Description, new { @class = "control-label col-sm-3" })
 								<div class="col-sm-9">
-									@Html.TextAreaFor(m => m.Description, 4, 30, new { @class = "form-control  textarea", maxlength = "150", placeholder = "资源简介" })
+									@Html.TextAreaFor(m => m.Description, 4, 30, new { @class = "form-control  textarea", maxlength = "150", placeholder = "作品简介" })
 									<div class="img_ta_num">简介最多只允许填写150个字以内</div>
 
 								</div>
@@ -67,21 +71,38 @@
 
 								</div>
 							</div>
-
 							<div class="form-group ">
-								<label class="control-label col-sm-3"> <span class="request">*</span> 学段</label>
+								<label class="control-label col-sm-3"> <span class="request">*</span> 省份</label>
+								<div class="col-sm-9">
+									@Html.DropDownListFor(m => m.ProvinceId, provinces, "选择省份", new { @class = "form-control" })
+								</div>
+							</div>
+							<div class="form-group ">
+								<label class="control-label col-sm-3"> <span class="request">*</span> 地区</label>
+								<div class="col-sm-9">
+									@Html.DropDownListFor(m => m.AreaId, areas, "选择地区", new { @class = "form-control" })
+								</div>
+							</div>
+							<div class="form-group ">
+								<label class="control-label col-sm-3"> <span class="request">*</span> 学校</label>
+								<div class="col-sm-9">
+									@Html.DropDownListFor(m => m.CompanyId, schools, "选择学校", new { @class = "form-control" })
+								</div>
+							</div>
+							<div class="form-group ">
+								<label class="control-label col-sm-3">  学段</label>
 								<div class="col-sm-9">
 									@Html.DropDownListFor(m => m.StagePKID, CroResourceHelper.Stage.GetSelectList(), "适用全体学段", new { @class = "form-control" })
 								</div>
 							</div>
 							<div class="form-group ">
-								<label class="control-label col-sm-3"> <span class="request">*</span> 年级</label>
+								<label class="control-label col-sm-3">  年级</label>
 								<div class="col-sm-9">
 									@Html.DropDownListFor(m => m.GradePKID, CroResourceHelper.Grade.GetSelectList(), "适用全体年级", new { @class = "form-control" })
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-3"> <span class="request">*</span> 学科</label>
+								<label class="control-label col-sm-3"> 学科</label>
 								<div class="col-sm-9">
 									@Html.DropDownListFor(m => m.SubjectPKID, CroResourceHelper.Subject.GetSelectList(), "不分学科", new { @class = "form-control" })
 								</div>
@@ -94,14 +115,14 @@
 									@Html.ValidationMessageFor(m => m.Author)
 								</div>
 							</div>
-							<div class="form-group">
+							@*<div class="form-group">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 所在单位</label>
 
 								<div class="col-sm-9">
 									@Html.TextBoxFor(m => m.AuthorCompany, new { @class = "form-control", maxlength = "255", placeholder = "作者所在单位" })
 									@Html.ValidationMessageFor(m => m.AuthorCompany)
 								</div>
-							</div>
+							</div>*@
 							<div class="form-group">
 								@Html.LabelFor(m => m.AuthorAddress, new { @class = "control-label col-sm-3" })
 								<div class="col-sm-9">
@@ -126,6 +147,7 @@
 
 							<div class="form-group">
 								@Html.LabelFor(m => m.CourseTypePKID, new { @class = "control-label col-sm-3" })
+								@Html.HiddenFor(m => m.CourseTypePKID)
 								@if (Model.CourseTypePKID == CroResourceHelper.MicroClass)
 								{
 									<div class="col-sm-9">
@@ -189,48 +211,45 @@
 	<script type="text/javascript">
 		$(function () {
 
-			$("#GhostFileName").val("").prop("disabled", true);
+			//$("#GhostFileName").val("").prop("disabled", true);
 
 			$(".textarea").keyup(function () {
 				$(".img_ta_num").html("简介还可以填写"+(150 - $(this).val().length)+"个字")
 			})
 
-			$(".source").hide();
-
-			$(".tuijian").on("click", function () {
-				$(".source").show();
-			});
-			$(".yuanchuang").on("click", function () {
-				$(".source").hide();
-				$(".source").val("");
-			});
-
+		
 			$("#submit").on("click", function () {
-				var o = createSubmitObject();
-
-
-				//var istj = $("input[type='radio']:checked").val();
-				//var source=$(".source").val();
-				//if(istj==2){
-				//	if($.trim(source)==""){
-				//		alert("资源出处必须填写");
-				//		return false;
-				//	}}
-
-
-				//var gjz=$(".gjz").val();
-				//if($.trim(gjz)==""){
-				//	alert("关键词必须填写");
-				//	return false;
-				//}
-				//var zylb=$(".zylb").val();
-				//if($.trim(zylb)==""){
-				//	alert("资源类别必须选择");
-				//	return false;
-				//}
-				$.post('@Url.Action("Upload", "CroMy")',{id:'@id',resid:'@Model.CrosourceId',model:o},function(){
-
+				//额外的验证
+				var validator=$('#form').validate({
+					rules:{
+						CourseTitle:{required:true}, 
+					}
 				});
+
+				var gjz=$(".gjz").val();
+				if($.trim(gjz)==""){
+					alert("关键词必须填写");
+					return false;
+				}
+				if($('#ProvinceId').val()==0){
+					alert("必须选择省份");
+					return false;
+				}
+				if($('#AreaId').val()==0){
+					alert("必须选择地区");
+					return false;
+				}
+				if($('#CompanyId').val()==0){
+					alert("必须选择学校");
+					return false;
+				}
+
+				if(validator.form()){
+					var o = createSubmitObject();
+					$.post('@Url.Action("Upload", "CroMy")',{resid:'@Model.CrosourceId',model:o},function(){
+						location.href='@Url.Action("Index","CroHome")';
+					});
+				}
 
 				return false;
 			});
@@ -242,7 +261,7 @@
 			o.CrosourceId=$('#CrosourceId').val();
 			o.Title=$('#Title').val();
 			o.Description=$('#Description').val();
-			o.Author=$('#Description').val();
+			o.Author=$('#Author').val();
 			o.Keywords=$('#Keywords').val();
 			o.AuthorCompany=$('#AuthorCompany').val();
 			o.AuthorAddress=$('#AuthorAddress').val();
@@ -252,13 +271,16 @@
 			o.GradePKID=$('#GradePKID').val();
 			o.SubjectPKID=$('#SubjectPKID').val();
 			o.CourseTypePKID=$('#CourseTypePKID').val();
+			o.CompanyId=$('#CompanyId').val();
+			o.ProvinceId=$('#ProvinceId').val();
+			o.AreaId=$('#AreaId').val();
 			o.Courses=[];
 
 			$('.courseArea').each(function(i){
 				var $this=$(this);
 				var course={
 					CourseId:$this.find('.courseId').val(),
-					CourseTitle:$this.find('.title').val(),
+					CourseTitle:$this.find('.courseTitle').val(),
 					ResourceId:o.CrosourceId,
 					VideoId:$this.find('.courseUploader .fileId').val(),
 					CoverId:$this.find('.coverUploader .fileId').val(),
@@ -312,10 +334,13 @@
 
 	</script>
 
-    <script type="text/javascript">
+	<script type="text/javascript">
 
 		var resTypes = @Html.Raw(Json.Encode(ViewBag.ResTypes));
 		var grades = @Html.Raw(Json.Encode(ViewBag.Grades));
+		var provinces=@Html.Raw(Json.Encode(ViewBag.Provinces));
+		var areas=@Html.Raw(Json.Encode(ViewBag.Areas));
+		var schools=@Html.Raw(Json.Encode(ViewBag.Schools));
 
 		function RelationSelect(src, tat, rule, none, fixInit) {
 			var $src = $(src), $tat = $(tat);
@@ -344,34 +369,22 @@
 
 			$("select option[value='']").val("0");
 
-			var judge = $("#IsLink");
-			switch(judge.val()) {
-				case "" :
-					$("#IsLink").val(true);
-					break;
-				case "False" :
-					$("#GhostFileName").prop("disabled", true);
-					break;
-			}
-
 			// relation select
 			RelationSelect($("#DomainPKID"), $("#ResourceTypePKID"), resTypes, null, '10234');
 			RelationSelect($("#StagePKID"), $("#GradePKID"), grades, "适用全体年级");
-
-			//Dropzone.autoDiscover = false;
-
-			$("#WebRes").on("click", function(){
-				$("#GhostFileName").val("").prop("disabled", false);
-				$("#IsLink").val(true);
-				$(".progress").hide();
-			});
-
+			RelationSelect($("#ProvinceId"), $("#AreaId"), areas, "选择地区");
+			RelationSelect($("#AreaId"), $("#CompanyId"), schools, "选择学校");
 
 			$("#Keywords").tagsinput({
 				trimValue: true
 			});
 
-			$('.addCourse').hide();
+			if($('#CourseTypePKID').val()=='@CroResourceHelper.MicroCourse'){
+				$('.addCourse').show();
+			}
+			else{
+				$('.addCourse').hide();
+			}
 			$("input[name='courseType']").on("click", function () {
 				var val = $(this).val();
 				if (val == '@CroResourceHelper.MicroCourse') {
@@ -408,8 +421,9 @@
 
 		function createUploder(name,title){
 			return $('<div class="form-group '+name+'"><label class="control-label col-sm-3"> <span class="request">*</span>'+title+'</label>'+
-				            '<div class="input-group">'+
-											'<input type="text" class="form-control resource-path"  placeholder = "添加'+title+'"/>'+
+				            '<div class="col-sm-9">'+
+									'<div class="input-group">'+
+											'<input type="text" class="form-control resource-path courseTitle" name="courseTitle"   placeholder = "添加'+title+'"/>'+
 											'<div class="input-group-btn">'+
 												'<button type="button" class="btn btn-default dropdown-toggle btn-upload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >选择 </button>'+
 												'</div>'+
@@ -420,7 +434,7 @@
 											'</div>'+
 										'</div>'+
 										'<div>' +
-									'</div><input type="hidden" class="fileId"></div>');
+									'</div></div><input type="hidden" class="fileId"></div>');
 		}
 
 		function creatCover(){
@@ -577,7 +591,7 @@
 			});
 		}
 
-    </script>
+	</script>
 }
 
 

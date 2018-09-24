@@ -829,7 +829,7 @@ body {
 
     .res .res_text {
         float: right;
-        width: 73%;
+        width: 83%;
         padding: 25px 0;
     }
 
@@ -1276,7 +1276,7 @@ textarea {
 
 .category_hit dl {
   overflow: hidden;
-  margin: 0 0 15px 0;
+  margin: 0 0 20px 0;
 }
 
 .category_hit dt {

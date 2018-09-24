@@ -18,27 +18,32 @@ namespace Res.Controllers
 
 		public List<MicroCourseRanking> SearchCroResourceList(APSqlWherePhrase where, APSqlOrderPhrase order, out int total, int take, int skip = -1)
 		{
-			var t = APDBDef.CroResource;
+			var cr = APDBDef.CroResource;
          var mc = APDBDef.MicroCourse;
          var cf = APDBDef.Files;
+         var rc = APDBDef.ResCompany;
 
-         var query = APQuery.select(t.CrosourceId, t.Title, t.Author,// t.CoverPath,
-				t.AuthorCompany, t.Description, t.CreatedTime, //t.ViewCount, t.CommentCount, t.DownCount //t.FileExtName
+         var query = APQuery.select(cr.CrosourceId, cr.Title, cr.Author, cr.FavoriteCount,
+				cr.AuthorCompany, cr.Description, cr.CreatedTime,rc.Path, //cr.ViewCount, cr.CommentCount, cr.DownCount //cr.FileExtName
             mc.CourseId, mc.CourseTitle, mc.PlayCount, cf.FilePath
             )
-				.from(t)    
-				.where(t.StatePKID == ResResourceHelper.StateAllow)
-				.order_by(t.CreatedTime.Desc, t.CrosourceId.Asc)
-				.primary(t.CrosourceId)
+				.from(cr,
+                  mc.JoinInner(mc.ResourceId==cr.CrosourceId),
+                  rc.JoinInner(rc.CompanyId == cr.CompanyId),
+                  cf.JoinLeft(cf.FileId==mc.CoverId)
+                  )    
+				//.where(cr.StatePKID == ResResourceHelper.StateAllow)
+				.order_by(cr.CreatedTime.Desc, cr.CrosourceId.Asc)
+				.primary(cr.CrosourceId)
 				.take(take);
 
 			if (where != null)
 				query.where_and(where);
 
 			if (order != null)
-				query.order_by(order).order_by_add(t.CrosourceId.Asc);
+				query.order_by(order).order_by_add(cr.CrosourceId.Asc);
 			else
-				query.order_by(t.CrosourceId.Asc);
+				query.order_by(cr.CrosourceId.Asc);
 
 			if (skip != -1)
 			{
@@ -52,26 +57,26 @@ namespace Res.Controllers
 
 			return db.Query(query, reader =>
 			{
-				var des = t.Description.GetValue(reader);
+				var des = cr.Description.GetValue(reader);
 				if (des.Length > 100)
 					des = des.Substring(0, 100);
 				return new MicroCourseRanking()
 				{
-					CrosourceId = t.CrosourceId.GetValue(reader),
-					Title = t.Title.GetValue(reader),
-					Author = t.Author.GetValue(reader),
-					//CoverPath = t.CoverPath.GetValue(reader),
-					//StarCount = t.StarCount.GetValue(reader),
-					//StarTotal = t.StarTotal.GetValue(reader),
-
-					AuthorCompany = t.AuthorCompany.GetValue(reader),
-					CreatedTime = t.CreatedTime.GetValue(reader),
-					//ViewCount = t.ViewCount.GetValue(reader),
-					//CommentCount = t.CommentCount.GetValue(reader),
-					//DownCount = t.DownCount.GetValue(reader),
-					//FileExtName = t.FileExtName.GetValue(reader),
-					Description = des,
-				};
+               CourseId = mc.CourseId.GetValue(reader),
+               CrosourceId = cr.CrosourceId.GetValue(reader),
+               Title = mc.CourseTitle.GetValue(reader),
+               Author = cr.Author.GetValue(reader),
+               CoverPath = cf.FilePath.GetValue(reader),
+               AuthorCompany = cr.AuthorCompany.GetValue(reader),
+               CreatedTime = cr.CreatedTime.GetValue(reader),
+               FavoriteCount = cr.FavoriteCount.GetValue(reader),
+               CompanyPath = rc.Path.GetValue(reader),
+               //ViewCount = cr.ViewCouncr.GetValue(reader),
+               //CommentCount = cr.CommentCouncr.GetValue(reader),
+               //DownCount = cr.DownCouncr.GetValue(reader),
+               //FileExtName = cr.FileExtName.GetValue(reader),
+               Description = des,
+            };
 			}).ToList();
 		}
 
@@ -293,27 +298,29 @@ namespace Res.Controllers
 			var cr = APDBDef.CroResource;
          var mc = APDBDef.MicroCourse;
          var cf = APDBDef.Files;
+         var rc = APDBDef.ResCompany;
 
-         var query = APQuery.select(cr.CrosourceId, cr.Title, cr.Author, //t.CoverPath,
-            cr.AuthorCompany, cr.CreatedTime, //cr.ViewCount, cr.CommentCount, cr.DownCount, //t.FileExtName, 
+         var query = APQuery.select(cr.CrosourceId, cr.Title, cr.Author, cr.FavoriteCount, //t.CoverPath,
+            cr.AuthorCompany, cr.CreatedTime,rc.Path, //cr.ViewCount, cr.CommentCount, cr.DownCount, //t.FileExtName, 
             cr.Description,mc.CourseId,mc.CourseTitle,mc.PlayCount,cf.FilePath)
 				.from(mc,
                   cr.JoinLeft(mc.ResourceId==cr.CrosourceId),
-                  cf.JoinLeft(cf.FileId==mc.CoverId)
+                  cf.JoinLeft(cf.FileId==mc.CoverId),
+                  rc.JoinInner(rc.CompanyId == cr.CompanyId)
                   )
 				//.where(t.StatePKID == CroResourceHelper.StateAllow)
 				.order_by(order, cr.CrosourceId.Asc)
 				.primary(mc.CourseId)
 				.take(take);
+
 			if (where != null)
 				query.where_and(where);
-
-
 
 			if (moreWhere != null)
 			{
 				query.where_and(moreWhere);
 			}
+
 			if (FileExtName != null)
 			{
 				if (FileExtName == ".pdf")
@@ -342,15 +349,17 @@ namespace Res.Controllers
 				var des = cr.Description.GetValue(reader);
 				if (des.Length > 100)
 					des = des.Substring(0, 100);
-				return new MicroCourseRanking()
-				{
-               CourseId= mc.CourseId.GetValue(reader),
-					CrosourceId = cr.CrosourceId.GetValue(reader),
-					Title = mc.CourseTitle.GetValue(reader),
-					Author = cr.Author.GetValue(reader),
-					CoverPath = cf.FilePath.GetValue(reader),
-					AuthorCompany = cr.AuthorCompany.GetValue(reader),
-					CreatedTime = cr.CreatedTime.GetValue(reader),
+            return new MicroCourseRanking()
+            {
+               CourseId = mc.CourseId.GetValue(reader),
+               CrosourceId = cr.CrosourceId.GetValue(reader),
+               Title = mc.CourseTitle.GetValue(reader),
+               Author = cr.Author.GetValue(reader),
+               CoverPath = cf.FilePath.GetValue(reader),
+               AuthorCompany = cr.AuthorCompany.GetValue(reader),
+               CreatedTime = cr.CreatedTime.GetValue(reader),
+               FavoriteCount = cr.FavoriteCount.GetValue(reader),
+               CompanyPath = rc.Path.GetValue(reader),
 					//ViewCount = t.ViewCount.GetValue(reader),
 					//CommentCount = t.CommentCount.GetValue(reader),
 					//DownCount = t.DownCount.GetValue(reader),

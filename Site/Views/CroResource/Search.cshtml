@@ -47,7 +47,7 @@
 	<div class="d_news">
 
 
-		@foreach (CroResourceRanking item in ViewBag.ListOfMore)
+		@foreach (MicroCourseRanking item in ViewBag.ListOfMore)
 		{
 			<div class="res">
 
@@ -71,15 +71,16 @@
 							.DisplayTemplate("_Bootstrap3Pagination")
 							.MaxNrOfPages(10)
 							.AlwaysAddFirstPageNumber()
-							.AddRouteValue("Domain", ViewData["Domain"])
-							.AddRouteValue("Deformity", ViewData["Deformity"])
+							.AddRouteValue("Province", ViewData["Province"])
+							.AddRouteValue("Area", ViewData["Area"])
+							.AddRouteValue("School", ViewData["School"])
 							.AddRouteValue("ResourceType", ViewData["ResourceType"])
 							.AddRouteValue("Subject", ViewData["Subject"])
 							.AddRouteValue("Stage", ViewData["Stage"])
 							.AddRouteValue("Grade", ViewData["Grade"])
-							.AddRouteValue("SchoolType", ViewData["SchoolType"])
-							.AddRouteValue("LearnFrom", ViewData["LearnFrom"])
-							.AddRouteValue("MediumType", ViewData["MediumType"])
+							//.AddRouteValue("SchoolType", ViewData["SchoolType"])
+							//.AddRouteValue("LearnFrom", ViewData["LearnFrom"])
+							//.AddRouteValue("MediumType", ViewData["MediumType"])
 							.AddRouteValue("Keywords", ViewData["Keywords"])
 							.AddRouteValue("Sort", ViewData["Sort"])
 			)
@@ -91,13 +92,14 @@
 
 		$(function () {
 
-			$("#domainChoose a").on("click", function () {
-				$("#Domain").val($(this).data("id"));
-				$("#searchbutton").trigger("click");
+			$("#provinceChoose a").on("click", function () {
+				$("#Province").val($(this).data("id"));
+				$("#Area").val(null); // 清除原先地区选择，默认全部
+				$("#searchbutton").click();
 			})
 
-			$("#deformityChoose a").on("click", function () {
-				$("#Deformity").val($(this).data("id"));
+			$("#areaChoose a").on("click", function () {
+				$("#Area").val($(this).data("id"));
 				$("#searchbutton").trigger("click");
 			})
 

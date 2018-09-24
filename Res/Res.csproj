@@ -177,6 +177,7 @@
     <Compile Include="Business\Utils\GridOrder.cs" />
     <Compile Include="Business\Utils\IDCardCheck.cs" />
     <Compile Include="Business\Utils\ResCommentTypeHelper.cs" />
+    <Compile Include="Business\Utils\ResCompanyHelper.cs" />
     <Compile Include="Business\Utils\ResModelBinder.cs" />
     <Compile Include="Business\Utils\CroResourceHelper.cs" />
     <Compile Include="Business\Utils\ResResourceHelper.cs" />
@@ -393,6 +394,21 @@
     <Content Include="assets\plugins\bootstrap-tagsinput-0.4.2\bootstrap-tagsinput.css" />
     <Content Include="assets\plugins\bootstrap-tagsinput-0.4.2\bootstrap-tagsinput.js" />
     <Content Include="assets\plugins\bootstrap-tagsinput-0.4.2\bootstrap-tagsinput.min.js" />
+    <Content Include="assets\plugins\ckplayer\ckplayer\ckplayer.js" />
+    <Content Include="assets\plugins\ckplayer\ckplayer\ckplayer.min.js" />
+    <Content Include="assets\plugins\ckplayer\ckplayer\ckplayer.swf" />
+    <Content Include="assets\plugins\ckplayer\ckplayer\ckplayer.xml" />
+    <Content Include="assets\plugins\ckplayer\ckplayer\language.xml" />
+    <Content Include="assets\plugins\ckplayer\ckplayer\style.xml" />
+    <Content Include="assets\plugins\ckplayer\crossdomain.xml" />
+    <Content Include="assets\plugins\ckplayer\definition.html" />
+    <Content Include="assets\plugins\ckplayer\flashplayer.html" />
+    <Content Include="assets\plugins\ckplayer\iframe.html" />
+    <Content Include="assets\plugins\ckplayer\index.html" />
+    <Content Include="assets\plugins\ckplayer\material\logo.png" />
+    <Content Include="assets\plugins\ckplayer\material\mydream_en1800_1010_01.png" />
+    <Content Include="assets\plugins\ckplayer\material\mydream_en1800_1010_02.png" />
+    <Content Include="assets\plugins\ckplayer\material\poster.jpg" />
     <Content Include="assets\plugins\doT-1.0.3\doT.js" />
     <Content Include="assets\plugins\doT-1.0.3\doT.min.js" />
     <Content Include="assets\plugins\doT-1.0.3\doU.js" />
@@ -502,6 +518,7 @@
     <Content Include="assets\plugins\font-awesome-4.2.0\css\font-awesome.css" />
     <Content Include="assets\plugins\font-awesome-4.2.0\css\font-awesome.min.css" />
     <Content Include="assets\plugins\font-awesome-4.2.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\plugins\ckplayer\material\srt.srt" />
     <None Include="assets\plugins\jquery-1.11.1\jquery-1.11.1.intellisense.js" />
     <Content Include="assets\plugins\jquery-1.11.1\jquery-1.11.1.js" />
     <Content Include="assets\plugins\jquery-1.11.1\jquery-1.11.1.min.js" />
@@ -999,6 +1016,8 @@
     <Content Include="assets\plugins\jstree-3.1.1\test\visual\m.html" />
     <Content Include="assets\plugins\jstree-3.1.1\test\visual\screenshots\d.png" />
     <Content Include="assets\plugins\jstree-3.1.1\test\visual\screenshots\m.png" />
+    <Content Include="assets\plugins\jwplayer\jwplayer.flash.swf" />
+    <Content Include="assets\plugins\jwplayer\jwplayer.js" />
     <Content Include="assets\plugins\knockout-3.2.0\knockout-3.2.0.debug.js" />
     <Content Include="assets\plugins\knockout-3.2.0\knockout-3.2.0.js" />
     <Content Include="assets\plugins\modernizr-2.6.2\modernizr-2.6.2.js" />
@@ -1751,6 +1770,7 @@
     <Content Include="Views\Active\Search.cshtml" />
     <Content Include="Views\Active\PubRoleList.cshtml" />
     <Content Include="Views\Active\Edit.cshtml" />
+    <Content Include="Views\Active\DwnRoleList.cshtml" />
     <None Include="xml.schema.definition\apgen.xsd">
       <SubType>Designer</SubType>
     </None>

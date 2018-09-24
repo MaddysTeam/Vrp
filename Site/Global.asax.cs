@@ -13,9 +13,9 @@ namespace Res
 	{
 		protected void Application_Start()
 		{
-		   //Symber.Web.Compilation.APGenManager.SyncAndInitData();
+         //Symber.Web.Compilation.APGenManager.SyncAndInitData();
 
-			AreaRegistration.RegisterAllAreas();
+         AreaRegistration.RegisterAllAreas();
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
