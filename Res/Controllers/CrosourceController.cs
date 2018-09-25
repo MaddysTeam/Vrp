@@ -298,7 +298,7 @@ namespace Res.Controllers
 
          CroResource current = null;
          if (resid != null && resid.Value > 0)
-            current = APBplDef.CroResourceBpl.PrimaryGet(resid.Value);
+            current = APBplDef.CroResourceBpl.GetResource(db,resid.Value);
 
          db.BeginTrans();
 
@@ -306,17 +306,21 @@ namespace Res.Controllers
          {
             if (current != null)
             {
-               foreach (var c in model.Courses)
+               var exeIds = new List<long>();
+               foreach (var item in current.Courses)
                {
-                  if (c.Exercises != null)
-                  {
-                     var exeIds = c.Exercises.Select(x => x.ExerciseId).ToArray();
-                     APBplDef.ExercisesItemBpl.ConditionDelete(eti.ExerciseId.In(exeIds));
-                  }
-                  APBplDef.ExercisesBpl.ConditionDelete(et.CourseId == c.CourseId);
+                  if (item.Exercises != null && item.Exercises.Count > 0)
+                     exeIds.AddRange(item.Exercises.Select(x => x.ExerciseId).ToArray());
                }
+
+               if (exeIds.Count() > 0)
+                  APBplDef.ExercisesItemBpl.ConditionDelete(eti.ExerciseId.In(exeIds.ToArray()));
+
+               var courseIds = current.Courses.Select(x => x.CourseId).ToArray();
+               APBplDef.ExercisesBpl.ConditionDelete(et.CourseId.In(courseIds));
                APBplDef.MicroCourseBpl.ConditionDelete(mc.ResourceId == resid);
                APBplDef.CroResourceBpl.PrimaryDelete(resid.Value);
+
                model.CreatedTime = current.CreatedTime;
                model.Creator = current.Creator;
                model.LastModifier = ResSettings.SettingsInSession.UserId;
@@ -342,18 +346,17 @@ namespace Res.Controllers
                   exer.CourseId = item.CourseId;
                   APBplDef.ExercisesBpl.Insert(exer);
 
-                  foreach (var exerItem in exer.Items)
+                  foreach (var exerItem in exer.Items ?? new List<ExercisesItem>())
                   {
                      exerItem.ExerciseId = exer.ExerciseId;
                      APBplDef.ExercisesItemBpl.Insert(exerItem);
                   }
                }
-
             }
 
             db.Commit();
          }
-         catch
+         catch (Exception e)
          {
             db.Rollback();
          }

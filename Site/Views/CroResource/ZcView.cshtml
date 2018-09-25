@@ -30,18 +30,24 @@
 						<button class="btn btn-success" id="favorite"><i class="fa fa-star-o"></i> 收藏</button>
 					</div>
 				</div>
+				@if (course.VideoPath != null) { 
 				<div id="video" class="carousel slide">
 				</div>
-
+				}
+				else
+				{
+					<img style="width:100%" height="100%" src="@course.FitCoverPath" />
+				}
 				<div class="attr cb">
-
 					<div class="div "  style="overflow-y:hidden; overflow-x:auto; white-space: nowrap;">
+						<h3>微课列表</h3>
 						<ul >
 							@foreach (var item in Model.Courses)
 							{
 								<li style="display:inline-block;list-style-type: none;">
-									<a href="@Url.Action("ZcView","CroResource",new { id = Model.CrosourceId ,courseId = item.CourseId })"><img src="@item.CoverPath" style="width:184px; height:115px;" /></a>
+									<a href="@Url.Action("ZcView","CroResource",new { id = Model.CrosourceId ,courseId = item.CourseId })"><img src="@item.FitCoverPath" style="width:184px; height:115px;" /></a>
 								   <div class="text-center">@item.CourseTitle</div>
+									<div class="text-center" style="font-size:11px;">播放次数：@item.PlayCount</div>
 								</li>
 							}
 						</ul>
@@ -49,8 +55,8 @@
 
 					<div class="div ">
 						<p><span>关 键 字： @Model.Keywords </span><span>&nbsp;&nbsp;练 习 题：<button class="btn btn-danger  btn-sm">答 题</button></span></p>
-						<p><span>资源类型： 微课程</span><span>媒体格式： </span></p>
-						<p><span>上传日期： @Model.CreatedTime.ToShortDateString()</span><span>播放次数： @Model.ViewCount 次</span></p>
+						<p><span>资源类型： 微课程</span><span>收藏次数： @Model.FavoriteCount 次</span></p>
+						<p><span>上传日期： @Model.CreatedTime.ToShortDateString()</span><span>浏览次数： @Model.ViewCount 次</span></p>
 
 						<p>@if(course.DesignPath!=null) {<span>教学设计：<a href="@course.DesignPath.Replace(".doc",".html").Replace(".docx",".html")" target="_blank"  class="btn btn-info btn-sm">预 览</a></span>}@if (course.SummaryPath != null) {<span>教学反思： <a href="@course.SummaryPath.Replace(".doc",".html").Replace(".docx",".html")" target="_blank" class="btn btn-info btn-sm">  预 览</a></span>}</p>
 						<p></p>
@@ -133,7 +139,7 @@
 			var videoObject = {
 				container: '#video',//“#”代表容器的ID，“.”或“”代表容器的class
 				variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
-				poster:'@course.CoverPath',//封面图片
+				poster:'@course.FitCoverPath',//封面图片
 				video:path
 			};
 			var player=new ckplayer(videoObject);
@@ -147,7 +153,7 @@
 				controls: true ,
 				primary: "flash",
 				autostart:false,
-				//image: "/f/videos/20141119/2014111922100257_80.jpg",
+				image: '@course.FitCoverPath',
 			});
 		}
 	</script>

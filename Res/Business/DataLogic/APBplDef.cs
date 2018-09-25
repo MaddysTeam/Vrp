@@ -506,6 +506,7 @@ namespace Res.Business
             static APDBDef.CroResourceTableDef cr = APDBDef.CroResource;
             static APDBDef.MicroCourseTableDef mc = APDBDef.MicroCourse;
             static APDBDef.ExercisesTableDef et = APDBDef.Exercises;
+            static APDBDef.ExercisesItemTableDef eti = APDBDef.ExercisesItem;
             static APDBDef.FilesTableDef vf = APDBDef.Files;
             static APDBDef.FilesTableDef cf = APDBDef.Files.As("CoverFile");
             static APDBDef.FilesTableDef df = APDBDef.Files.As("DesignFile");
@@ -519,68 +520,72 @@ namespace Res.Business
             /// <returns>CroResource</returns>
             public static CroResource GetResource(APDBDef db, long resourceId)
             {
-                var query = APQuery.select(cr.Asterisk, mc.Asterisk, et.Asterisk,cr.Keywords,
-                                          vf.FileName.As("VideoName"), vf.FilePath.As("VideoPath"),
-                                          cf.FileName.As("CoverName"), cf.FilePath.As("CoverPath"),
-                                          df.FileName.As("DesignName"),df.FilePath.As("DesignPath"),
-                                          sf.FileName.As("SummaryName"), sf.FilePath.As("SummaryPath")
-                                         )
-                                   .from(cr,
-                                         mc.JoinLeft(cr.CrosourceId == mc.ResourceId),
-                                         et.JoinLeft(et.CourseId == mc.CourseId),
-                                         vf.JoinLeft(vf.FileId == mc.VideoId),
-                                         cf.JoinLeft(cf.FileId == mc.CoverId),
-                                         df.JoinLeft(df.FileId == mc.DesignId),
-                                         sf.JoinLeft(sf.FileId == mc.SummaryId)
-                                         )
-                                    .where(cr.CrosourceId == resourceId);
+            var query = APQuery.select(cr.Asterisk, mc.Asterisk, et.Asterisk, eti.Asterisk,
+                                  vf.FileName.As("VideoName"), vf.FilePath.As("VideoPath"),
+                                  cf.FileName.As("CoverName"), cf.FilePath.As("CoverPath"),
+                                  df.FileName.As("DesignName"), df.FilePath.As("DesignPath"),
+                                  sf.FileName.As("SummaryName"), sf.FilePath.As("SummaryPath")
+                                 )
+                           .from(cr,
+                                 mc.JoinLeft(cr.CrosourceId == mc.ResourceId),
+                                 et.JoinLeft(et.CourseId == mc.CourseId),
+                                 eti.JoinLeft(eti.ExerciseId == et.ExerciseId),
+                                 vf.JoinLeft(vf.FileId == mc.VideoId),
+                                 cf.JoinLeft(cf.FileId == mc.CoverId),
+                                 df.JoinLeft(df.FileId == mc.DesignId),
+                                 sf.JoinLeft(sf.FileId == mc.SummaryId)
+                                 )
+                            .where(cr.CrosourceId == resourceId);
 
-                CroResource model = null;
-                var result = query.query(db, r =>
-                {
-                    if (model == null)
-                    {
-                        model = new CroResource();
-                        model.Courses = new List<MicroCourse>();
-                        cr.Fullup(r, model, false);
-                    }
+            CroResource model = null;
+            var result = query.query(db, r =>
+            {
+               if (model == null)
+               {
+                  model = new CroResource();
+                  model.Courses = new List<MicroCourse>();
+                  cr.Fullup(r, model, false);
+               }
 
-                    var course = new MicroCourse();
-                    course.Exercises = new List<Exercises>();
-                    mc.Fullup(r, course, false);
-                    course.CoverPath = cf.FilePath.GetValue(r, "CoverPath");
-                    course.VideoPath = vf.FilePath.GetValue(r, "VideoPath");
-                    course.DesignPath = df.FilePath.GetValue(r, "DesignPath");
-                    course.SummaryPath = sf.FilePath.GetValue(r, "SummaryPath");
-                    course.VideoName = vf.FileName.GetValue(r, "VideoName");
-                    course.CoverName = cf.FileName.GetValue(r, "CoverName");
-                    course.DesignName = df.FileName.GetValue(r, "DesignName");
-                    course.SummaryName = sf.FileName.GetValue(r, "SummaryName");
+               var course = new MicroCourse();
+               course.Exercises = new List<Exercises>();
+               mc.Fullup(r, course, false);
+               course.CoverPath = cf.FilePath.GetValue(r, "CoverPath");
+               course.VideoPath = vf.FilePath.GetValue(r, "VideoPath");
+               course.DesignPath = df.FilePath.GetValue(r, "DesignPath");
+               course.SummaryPath = sf.FilePath.GetValue(r, "SummaryPath");
+               course.VideoName = vf.FileName.GetValue(r, "VideoName");
+               course.CoverName = cf.FileName.GetValue(r, "CoverName");
+               course.DesignName = df.FileName.GetValue(r, "DesignName");
+               course.SummaryName = sf.FileName.GetValue(r, "SummaryName");
 
-                    var exe = new Exercises();
-                    et.Fullup(r, exe, false);
+               var exe = new Exercises();
+               et.Fullup(r, exe, false);
+               exe.Items = new List<ExercisesItem>();
 
-                    if (exe.ExerciseId > 0)
-                        course.Exercises.Add(exe);
+               var item = new ExercisesItem();
+               eti.Fullup(r, item, false);
 
-                    if (!model.Courses.Exists(x => x.CourseId == course.CourseId))
-                    {
-                        model.Courses.Add(course);
-                    }
-                    else
-                    {
-                        var c = model.Courses.FirstOrDefault(x => x.CourseId == course.CourseId);
-                        if (!c.Exercises.Exists(x => x.ExerciseId == exe.ExerciseId))
-                        {
-                            c.Exercises.Add(exe);
-                        }
-                    }
+               if (course.CourseId > 0)
+                  if (!model.Courses.Exists(x => x.CourseId == course.CourseId))
+                     model.Courses.Add(course);
+                  else
+                     course = model.Courses.Find(x => x.CourseId == course.CourseId);
 
-                    return model;
-                }).ToList();
+               if (exe.ExerciseId > 0)
+                  if (!course.Exercises.Exists(e => e.ExerciseId == exe.ExerciseId))
+                     course.Exercises.Add(exe);
+                  else
+                     exe = course.Exercises.Find(e => e.ExerciseId == exe.ExerciseId);
 
-                return model;
-            }
+               if (item.ItemId > 0)
+                  exe.Items.Add(item);
+
+               return model;
+            }).ToList();
+
+            return model;
+         }
 
         }
 

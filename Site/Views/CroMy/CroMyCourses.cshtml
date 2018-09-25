@@ -116,7 +116,14 @@
 							<select class="form-control key valid" aria-invalid="false">
 								@foreach (var item in exe.Items ?? new List<ExercisesItem>())
 								{
-									<option value="@item.Code">@item.Code</option>
+									if (item.Code == exe.Answer)
+									{
+									   <option value="@item.Code" selected>@item.Code</option>
+									}
+									else
+									{
+										<option value="@item.Code">@item.Code</option>
+									}
 								}
 							</select>
 						</div><div class="col-sm-5"> </div>

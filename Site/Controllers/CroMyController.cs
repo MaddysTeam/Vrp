@@ -192,7 +192,7 @@ namespace Res.Controllers
 
          CroResource current = null;
          if (resid != null && resid.Value > 0)
-            current = APBplDef.CroResourceBpl.PrimaryGet(resid.Value);
+            current = APBplDef.CroResourceBpl.GetResource(db,resid.Value);
 
          db.BeginTrans();
 
@@ -201,7 +201,7 @@ namespace Res.Controllers
             if (current != null)
             {
                var exeIds = new List<long>();
-               foreach (var item in model.Courses)
+               foreach (var item in current.Courses)
                {
                   if (item.Exercises != null && item.Exercises.Count > 0)
                      exeIds.AddRange(item.Exercises.Select(x => x.ExerciseId).ToArray());
@@ -210,7 +210,7 @@ namespace Res.Controllers
                if (exeIds.Count() > 0)
                   APBplDef.ExercisesItemBpl.ConditionDelete(eti.ExerciseId.In(exeIds.ToArray()));
 
-               var courseIds = model.Courses.Select(x => x.CourseId).ToArray();
+               var courseIds = current.Courses.Select(x => x.CourseId).ToArray();
                APBplDef.ExercisesBpl.ConditionDelete(et.CourseId.In(courseIds));
                APBplDef.MicroCourseBpl.ConditionDelete(mc.ResourceId == resid);
                APBplDef.CroResourceBpl.PrimaryDelete(resid.Value);

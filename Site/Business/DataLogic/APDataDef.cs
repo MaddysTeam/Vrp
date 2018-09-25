@@ -209,6 +209,15 @@ namespace Res.Business
       public string DesignName { get; set; }
       public string SummaryName { get; set; }
       public string CoverPath { get; set; }
+      public string FitCoverPath
+      {
+         get
+         {
+            if (string.IsNullOrEmpty(CoverPath))
+               return "/assets/img/cover.png";
+            return CoverPath;
+         }
+      }
       public string DesignPath { get; set; }
       public string SummaryPath { get; set; }
       public List<Exercises> Exercises { get; set; }
