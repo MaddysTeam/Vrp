@@ -49,7 +49,7 @@ namespace Res.Business
 
       public static List<ResCompany> GetSchools()
       {
-         return All.FindAll(x => x.Path.LastIndexOf(@"\") > 9);
+         return All.FindAll(x => x.Path.LastIndexOf(@"\") >= 9);
       }
 
       public static List<ResCompany> GetAreas()

@@ -6,7 +6,7 @@
 	<div class="form-group">
 		@Html.LabelFor(m => m.CourseTitle, new { @class = "control-label col-sm-3" })
 		<div class="col-sm-9">
-			@Html.TextBox("CourseTitle",Model.CourseTitle, new { @class = "form-control courseTitle", maxlength = "255", placeholder = "微课标题" })
+			@Html.TextBox("CourseTitle", Model.CourseTitle, new { @class = "form-control courseTitle", maxlength = "255", placeholder = "微课标题" })
 		</div>
 	</div>
 
@@ -89,22 +89,35 @@
 			<div class="input-group">
 				<button class="btn btn-info btn-exes">新增习题</button>
 			</div>
-			@foreach (var item in Model.Exercises ?? new List<Exercises>())
+			@foreach (var exe in Model.Exercises ?? new List<Exercises>())
 			{
 				<div class="exercises rows">
 					<div class="form-group stem">
 						<div class="col-sm-3">题干：</div>
 						<div class="col-sm-4">
-							<input class="form-control title valid" aria-invalid="false" value="@item.Name">
+							<input class="form-control title valid" aria-invalid="false" value="@exe.Name">
 						</div>
 						<div class="col-sm-5">
 							<button class="btn btn-sm btn-success btn-opt">增加选项</button> <button class="btn btn-sm btn-info btn-del">删除</button>
 						</div>
 					</div>
+
+					@foreach (var item in exe.Items ?? new List<ExercisesItem>())
+					{
+						<div class="form-group item">
+							<div class="col-sm-3"><b class="optionKey">@item.Code</b>、：</div>
+							<div class="col-sm-4"><input class="form-control optionName" placeholder="选项内容" value="@item.Item" /></div>
+							<div class="col-sm-5"><button class="btn btn-sm btn-danger btn-rem">删除</button> </div>
+						</div>
+					}
+
 					<div class="form-group answer">
 						<div class="col-sm-3">正确答案：</div><div class="col-sm-4">
 							<select class="form-control key valid" aria-invalid="false">
-								<option value="1">@item.Answer</option>
+								@foreach (var item in exe.Items ?? new List<ExercisesItem>())
+								{
+									<option value="@item.Code">@item.Code</option>
+								}
 							</select>
 						</div><div class="col-sm-5"> </div>
 					</div>

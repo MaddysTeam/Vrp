@@ -188,6 +188,7 @@ namespace Res.Controllers
       {
          var mc = APDBDef.MicroCourse;
          var et = APDBDef.Exercises;
+         var eti = APDBDef.ExercisesItem;
 
          CroResource current = null;
          if (resid != null && resid.Value > 0)
@@ -199,12 +200,21 @@ namespace Res.Controllers
          {
             if (current != null)
             {
-               foreach(var c in model.Courses)
+               var exeIds = new List<long>();
+               foreach (var item in model.Courses)
                {
-                  APBplDef.ExercisesBpl.ConditionDelete(et.CourseId == c.CourseId);
+                  if (item.Exercises != null && item.Exercises.Count > 0)
+                     exeIds.AddRange(item.Exercises.Select(x => x.ExerciseId).ToArray());
                }
+
+               if (exeIds.Count() > 0)
+                  APBplDef.ExercisesItemBpl.ConditionDelete(eti.ExerciseId.In(exeIds.ToArray()));
+
+               var courseIds = model.Courses.Select(x => x.CourseId).ToArray();
+               APBplDef.ExercisesBpl.ConditionDelete(et.CourseId.In(courseIds));
                APBplDef.MicroCourseBpl.ConditionDelete(mc.ResourceId == resid);
                APBplDef.CroResourceBpl.PrimaryDelete(resid.Value);
+
                model.CreatedTime = current.CreatedTime;
                model.Creator = current.Creator;
                model.LastModifier = id;
@@ -229,8 +239,13 @@ namespace Res.Controllers
                {
                   exer.CourseId = item.CourseId;
                   APBplDef.ExercisesBpl.Insert(exer);
-               }
 
+                  foreach (var exerItem in exer.Items ?? new List<ExercisesItem>())
+                  {
+                     exerItem.ExerciseId = exer.ExerciseId;
+                     APBplDef.ExercisesItemBpl.Insert(exerItem);
+                  }
+               }
             }
 
             db.Commit();
@@ -241,7 +256,8 @@ namespace Res.Controllers
          }
 
 
-         return Request.IsAjaxRequest() ? Json(new {
+         return Request.IsAjaxRequest() ? Json(new
+         {
             state = "ok",
             msg = "本作品审核完成。"
          }) : (ActionResult)RedirectToAction("CroMyResource", new { id = id });

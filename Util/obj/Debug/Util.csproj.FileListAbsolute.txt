@@ -18,3 +18,13 @@ C:\project\工具\Temp\Util\bin\Debug\WcsLib.pdb
 C:\project\工具\Temp\Util\obj\Debug\Util.csprojResolveAssemblyReference.cache
 C:\project\工具\Temp\Util\obj\Debug\Util.dll
 C:\project\工具\Temp\Util\obj\Debug\Util.pdb
+E:\项目文件(GitLab)\长三角新版\Util\bin\Debug\Util.dll
+E:\项目文件(GitLab)\长三角新版\Util\bin\Debug\Util.pdb
+E:\项目文件(GitLab)\长三角新版\Util\bin\Debug\Dapper.dll
+E:\项目文件(GitLab)\长三角新版\Util\bin\Debug\Newtonsoft.Json.dll
+E:\项目文件(GitLab)\长三角新版\Util\bin\Debug\WcsLib.dll
+E:\项目文件(GitLab)\长三角新版\Util\bin\Debug\Newtonsoft.Json.xml
+E:\项目文件(GitLab)\长三角新版\Util\bin\Debug\WcsLib.pdb
+E:\项目文件(GitLab)\长三角新版\Util\obj\Debug\Util.csprojResolveAssemblyReference.cache
+E:\项目文件(GitLab)\长三角新版\Util\obj\Debug\Util.dll
+E:\项目文件(GitLab)\长三角新版\Util\obj\Debug\Util.pdb

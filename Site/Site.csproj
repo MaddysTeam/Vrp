@@ -865,7 +865,7 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\工具\temp\Util\Util.csproj">
+    <ProjectReference Include="..\Util\Util.csproj">
       <Project>{cfa3485f-3fac-444a-a93f-1ec45eb58b18}</Project>
       <Name>Util</Name>
     </ProjectReference>

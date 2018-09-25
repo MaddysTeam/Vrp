@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Res", "Res\Res.csproj", "{3E0DB802-D093-46EA-8A26-995F0D93A570}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site", "Site\Site.csproj", "{BD4F7FC4-E1F5-428A-8C98-7384A9E76C63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util", "..\..\工具\temp\Util\Util.csproj", "{CFA3485F-3FAC-444A-A93F-1EC45EB58B18}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util", "Util\Util.csproj", "{CFA3485F-3FAC-444A-A93F-1EC45EB58B18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,7 +32,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {3A52A010-7966-4883-9672-80ED3FD6F58C}
 		VisualSVNWorkingCopyRoot = .
+		SolutionGuid = {3A52A010-7966-4883-9672-80ED3FD6F58C}
 	EndGlobalSection
 EndGlobal

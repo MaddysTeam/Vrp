@@ -324,3 +324,7 @@ C:\project\教软公司项目\新版长三角微视频\Site\bin\zh-Hans\System.W
 C:\project\教软公司项目\新版长三角微视频\Site\obj\Debug\Site.csprojResolveAssemblyReference.cache
 C:\project\教软公司项目\新版长三角微视频\Site\obj\Debug\Res.dll
 C:\project\教软公司项目\新版长三角微视频\Site\obj\Debug\Res.pdb
+E:\项目文件(GitLab)\长三角新版\Site\bin\Util.dll
+E:\项目文件(GitLab)\长三角新版\Site\bin\WcsLib.dll
+E:\项目文件(GitLab)\长三角新版\Site\bin\Util.pdb
+E:\项目文件(GitLab)\长三角新版\Site\bin\WcsLib.pdb

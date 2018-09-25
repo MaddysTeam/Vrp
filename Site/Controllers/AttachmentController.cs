@@ -87,11 +87,11 @@ namespace Res.Controllers
             hpf.SaveAs(absPath);
 
             //if file format is word then convert to html
-            if (ext==".doc" || ext==".docx")
-            {
-               var saveHtmlPath = absPath.Replace(".doc", ".html").Replace(".docx", ".html");
-               Util.Office.WordConverter.ConvertToHtml(absPath, saveHtmlPath);
-            }
+            //if (ext==".doc" || ext==".docx")
+            //{
+            //   var saveHtmlPath = absPath.Replace(".doc", ".html").Replace(".docx", ".html");
+            //   Util.Office.WordConverter.ConvertToHtml(absPath, saveHtmlPath);
+            //}
 
             if (ext != null && ext.StartsWith("."))
                ext = ext.Substring(1);

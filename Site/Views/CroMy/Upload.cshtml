@@ -291,10 +291,19 @@
 				};
 
 				$this.find('.exercises').each(function(){
-					var $that= $(this);
+					var $execise= $(this);
 					var exe={};
-					exe.Name=$that.find('.name:first').val();
-					exe.Answer= $that.find('.key:first').val();
+					exe.Name=$execise.find('.title').val();
+					exe.Answer= $execise.find('.key').val();
+					exe.Items=[];
+					$execise.find('.item').each(function(){
+						var $item=$(this);
+						exe.Items.push({
+							Code:$item.find('.optionKey').html(),
+							Item:$item.find('.optionName').val()
+						});
+					});
+
 					course.Exercises.push(exe);
 				});
 
@@ -302,34 +311,6 @@
 			});
 
 			return o;
-			//o.Courses=
-			//	[
-			//	{
-			//		CourseId:0,
-			//		ResourceId:0,
-			//		VideoId:0,
-			//		CoverId:0,
-			//		DesignId:0,
-			//		SummaryId:0,
-			//		CharpterSortId:0,
-			//		Exercises:[
-			//			{
-			//				ExerciseId:0,
-			//				CourseId:0,
-			//				Title:'这是一道题目',
-			//				Answer:'A',
-			//				Items:[
-			//					{
-			//						ItemId:0,
-			//						ExerciseId:0,
-			//						Item:'这是一个选项',
-			//						Code:'A'
-			//					}
-			//				]
-			//			}
-			//		]
-			//	}
-			//	];
 		}
 
 	</script>
@@ -415,7 +396,7 @@
 			bindResourceUploader($('.summaryUploader'),'summary','.doc,.docx');
 			bindExersies(); // 绑定习题
 			bindStem(); // 绑定题干
-
+			bindExeItem();//绑定题项
 		});
 
 
@@ -471,16 +452,16 @@
 				  '<div class="exercises rows" style="border:1px dashed #808080;margin:4px; padding:4px;">' +
 				    '<div class="form-group stem">'+
 						'<div class="col-sm-3">题干：</div>'+
-						'<div class="col-sm-4"><input class="form-control name" /></div>'+
+						'<div class="col-sm-4"><input class="form-control title valid" aria-invalid="false"></div>'+
 						'<div class="col-sm-5"><button class="btn btn-sm btn-success btn-opt">增加选项</button> <button class="btn btn-sm btn-info btn-del">删除</button> </div>'+
-					'</div></div>');
+					'</div>');
 		}
 
-		function createExercisesOption(){
-			return '<div class="form-group">' +
-						'<div class="col-sm-3">A、：</div>' +
-						'<div class="col-sm-4"><input class="form-control" /></div>' +
-						'<div class="col-sm-5"><button class="btn btn-sm btn-info btn-rem">删除</button> </div>' +
+		function createExercisesItem(key){
+			return '<div class="form-group item">' +
+						'<div class="col-sm-3"><b class="optionKey">'+key+'</b>、：</div>' +
+						'<div class="col-sm-4"><input class="form-control optionName" placeholder="选项内容"/></div>' +
+						'<div class="col-sm-5"><button class="btn btn-sm btn-danger btn-rem">删除</button> </div>' +
 					'</div>';
 		}
 
@@ -544,18 +525,10 @@
 				var $this=$(this);
 				var stem=createExercisesStem();
 				var answer=createExercisesAnswer();
-
 				$this.parent().after(stem);
 				$(stem).append(answer)
 				   .find('.btn-opt').off('click').click(function(){
-				   	var option=createExercisesOption();
-				   	$(answer).find('select').append('<option>bbbb</option>');
-				   	$(answer).before(option);
-				   	$(stem).find('.btn-rem').off('click').on('click',function(){
-				   		$(this).parent().parent().remove();
-				   		return false;
-				   	});
-
+				   	createItem($(answer),'A'); // 创建题项
 				   	return false;
 				   }).find('.btn-del').on('click',function(){
 				   	$(this).parents('.exercises').remove();
@@ -571,23 +544,38 @@
 			$('.exercises').each(function(){
 				var $this=$(this);
 				var $answer=$this.find('.answer');
+
 				$this.find('.btn-opt').off('click').on('click',function(){
-					var option=createExercisesOption();
-					$answer.before(option);
-
-					$this.find('.btn-rem').off('click').on('click',function(){
-						$(this).parent().parent().remove();
-						return false;
-					});
-
+					createItem($answer,'A'); // 创建题项
 					return false;
 				});
 
 				$this.find('.btn-del').on('click',function(){
 					$this.remove();
 					return false;
-				})
+				});
+			});
+		}
 
+		function bindExeItem(){
+			//$('.item').find('.btn-rem').off('click').on('click',function(){
+			//	var $item=$(this).parent().parent();
+			//	$item.remove();
+			//	$item.parent().find(".key option[value='A']").remove();	
+			//	//alert($item.parent().find(".key").size());
+			//	//$item.parent().find(".key").remove();
+			//	return false;
+			//});
+		}
+
+		function createItem(answer,key){
+			var $item=$(createExercisesItem(key));
+			$(answer).find('select').append('<option value="'+key+'">'+key+'</option>');
+			$(answer).before($option);
+			$item.find('.btn-rem').off('click').on('click',function(){
+				$item.remove();
+				//$item.parent().find('.answer').remove();
+				return false;
 			});
 		}
 
