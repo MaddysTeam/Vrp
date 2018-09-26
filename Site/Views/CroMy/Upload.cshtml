@@ -116,13 +116,13 @@
 								</div>
 							</div>
 							@*<div class="form-group">
-								<label class="control-label col-sm-3"> <span class="request">*</span> 所在单位</label>
+									<label class="control-label col-sm-3"> <span class="request">*</span> 所在单位</label>
 
-								<div class="col-sm-9">
-									@Html.TextBoxFor(m => m.AuthorCompany, new { @class = "form-control", maxlength = "255", placeholder = "作者所在单位" })
-									@Html.ValidationMessageFor(m => m.AuthorCompany)
-								</div>
-							</div>*@
+									<div class="col-sm-9">
+										@Html.TextBoxFor(m => m.AuthorCompany, new { @class = "form-control", maxlength = "255", placeholder = "作者所在单位" })
+										@Html.ValidationMessageFor(m => m.AuthorCompany)
+									</div>
+								</div>*@
 							<div class="form-group">
 								@Html.LabelFor(m => m.AuthorAddress, new { @class = "control-label col-sm-3" })
 								<div class="col-sm-9">
@@ -217,12 +217,12 @@
 				$(".img_ta_num").html("简介还可以填写"+(150 - $(this).val().length)+"个字")
 			})
 
-		
+
 			$("#submit").on("click", function () {
 				//额外的验证
 				var validator=$('#form').validate({
 					rules:{
-						CourseTitle:{required:true}, 
+						CourseTitle:{required:true},
 					}
 				});
 
@@ -242,6 +242,9 @@
 				if($('#CompanyId').val()==0){
 					alert("必须选择学校");
 					return false;
+				}
+				if($('.courseTitle').val()==""){
+					alert("必须填写微课标题");
 				}
 
 				if(validator.form()){
@@ -383,7 +386,7 @@
 
 			$('#AddCourse').click(function(){
 				$('.courseArea:last').after(createCourse());
-				bindResourceUploader($('.courseUploader'),'course','.mp4,.flv,.txt');
+				bindResourceUploader($('.courseUploader'),'video','.mp4');
 				bindResourceUploader($('.coverUploader'),'cover','image/*');
 				bindResourceUploader($('.designUploader'),'design','.doc,.docx');
 				bindResourceUploader($('.summaryUploader'),'summary','.doc,.docx');
@@ -391,7 +394,7 @@
 				bindAllStemEvnt();
 			});
 
-			bindResourceUploader($('.courseUploader'),'course','.mp4,.flv,.txt');
+			bindResourceUploader($('.courseUploader'),'video','.mp4');
 			bindResourceUploader($('.coverUploader'),'cover','image/*');
 			bindResourceUploader($('.designUploader'),'design','.doc,.docx');
 			bindResourceUploader($('.summaryUploader'),'summary','.doc,.docx');
@@ -438,7 +441,8 @@
 		}
 
 		function createCourse(){
-			var course=$('<div class="courseArea" style="border:1px dashed #808080; padding-right:8%; margin-left:3%; padding-top:3%;">')
+			var course=$('<div class="courseArea" style="border:1px dashed #808080; padding-right:8%; margin-left:3%; padding-top:3%;"></div>')
+			//course.append('<label class="control-label col-sm-3"> <span class="request">*</span>微课视频</label><div class="col-sm-9"><input class="form-control courseTitle" data-val="true" data-val-length="字段 微课标题 必须是最大长度为 255 的字符串。" data-val-length-max="255" data-val-required="微课标题 字段是必需的。" id="CourseTitle" maxlength="255" name="CourseTitle" placeholder="微课标题" type="text" value=""></div>')
 			course.append(createUploder('courseUploader','微课视频'));
 			course.append(creatCover());
 			course.append(createUploder('designUploader','教学设计'));
@@ -475,11 +479,17 @@
 		}
 
 		function bindResourceUploader(uploader,type,mimeTypes){
+			var action ='@Url.Action("UploadResource", "Attachment")';
+			if(type =='cover')
+				action='@Url.Action("UploadCover", "Attachment")';
+			else if(type =='video')
+				action='@Url.Action("UploadVideo", "Attachment")';
+
 			$(uploader).each(function(i){
 				var dropzoneName='dropzone_'+type+i;
 				if($('.'+dropzoneName).size()<=0){
 					var $uploader=$(this);
-					$('.uploadForms').append($('<form action="@Url.Action("UploadResource", "Attachment")" class="'+dropzoneName+' uploaderForm'+i+'"></form>'));
+					$('.uploadForms').append($('<form action="'+action+'" class="'+dropzoneName+' uploaderForm'+i+'"></form>'));
 					$('.'+dropzoneName).dropzone({
 						addRemoveLinks: !0,
 						maxFilesize: 300,
@@ -522,7 +532,7 @@
 		}
 
 
-		var chars=['A','B','C','D','E','F','G']
+		var chars=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q']
 
 		function bindAllExersiesEvnt(){
 			$('.btn-exes').off('click').on('click',function(){
@@ -533,24 +543,27 @@
 				$(stem).append(answer)
 				   .find('.btn-opt').off('click').click(function(){
 				   	var count=$(this).parents('.rows').find('.item').size();
-				   	createItem($(answer),chars[count]); // 创建题项
+				   	if(count<chars.length)
+				   	{
+				   		createItem($(answer),chars[count]); // 创建题项
+				   	}
 				   	return false;
 				   });
 				$(stem).find('.btn-del').on('click',function(){
-				   	$(this).parents('.exercises').remove();
-				   	return false;
-				   });
+					$(this).parents('.exercises').remove();
+					return false;
+				});
 
 				return false;
 			});
 		}
 
-		
+
 		function bindAllStemEvnt(){
 			$('.exercises').each(function(){
 				var $this=$(this);
 				var $answer=$this.find('.answer');
-			
+
 				$this.find('.btn-opt').off('click').on('click',function(){
 					var count=$this.find('.item').size();
 					createItem($answer,chars[count]); // 创建题项
@@ -565,7 +578,7 @@
 		}
 
 		function bindItemRemoveEvnt(){
-			$('.item').find('.btn-rem').off('click').on('click',function(){	
+			$('.item').find('.btn-rem').off('click').on('click',function(){
 				var $item=$(this).parents('.item');
 				var key=$item.find('.optionKey').html();
 				$(this).parents('.rows').find(".key  option[value='"+key+"']").remove(); //删除相应答案选择

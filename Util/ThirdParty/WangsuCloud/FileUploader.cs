@@ -16,9 +16,9 @@ namespace Util.ThirdParty.WangsuCloud
       public const string SECURITY_KEY = "a5834d0469180f9c30d4b761aac90975cfc83d10";
       public const string UPLOAD_DOMAIN = "tejiao.up28.v1.wcsapi.com";
       public const string MANAGER_DOMAIN = "tejiao.mgr28.v1.wcsapi.com";
-      public const string SCOPE = "tejiao-test001";
+      public const string SCOPE = "csj-zyk";
       public const string DEADLINE = "1546300800000";
-      public const string DOMAIN = "cdn.sser.shdjg.net";
+      public const string DOMAIN = "cdncsj.sser.shdjg.net";
 
       public static SimpleUpload SimpleUploader
       {
@@ -119,7 +119,6 @@ namespace Util.ThirdParty.WangsuCloud
       public string Message { get; set; }
       public string FileUrl { get; set; }
    }
-
 
    public class PutPolicy
    {

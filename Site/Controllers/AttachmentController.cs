@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
+using Util.ThirdParty.WangsuCloud;
 
 namespace Res.Controllers
 {
@@ -18,50 +19,9 @@ namespace Res.Controllers
       static APDBDef.FilesTableDef f = APDBDef.Files;
 
       //
-      //	文件 - 上传封面图片
-      // POST:		/Attachment/UploadCover
-      //
-
-      [HttpPost]
-      public ActionResult UploadCover()
-      {
-         if (Request.Files.Count != 1)
-            return Content("Error");
-
-         string dirForSaving = GetDirForSaving(Guid.NewGuid());
-         string mappedDir = Server.MapPath("~" + dirForSaving);
-         if (!Directory.Exists(mappedDir))
-         {
-            Directory.CreateDirectory(mappedDir);
-         }
-
-         HttpPostedFileBase hpf = Request.Files[0];
-         string filename = CutCover(hpf, 480, mappedDir);
-         //hpf.SaveAs(Path.Combine(mappedDir, hpf.FileName));
-
-         string url = dirForSaving + "/" + filename;
-
-         if (Request.IsAjaxRequest())
-         {
-            return Json(new
-            {
-               name = hpf.FileName,
-               path = url,
-               showPath = Url.Content(url)
-            });
-         }
-         else
-         {
-            return Content("upload ok");
-         }
-      }
-
-
-      //
-      //	文件 - 上传文件
+      //	文件 - 上传其他文件到 CDN
       // POST:		/Attachment/UploadResource
       //
-
       [HttpPost]
       public ActionResult UploadResource()
       {
@@ -73,32 +33,29 @@ namespace Res.Controllers
          var file = Files.ConditionQuery(f.Md5 == md5, null).FirstOrDefault();
          if (file == null)
          {
-            var dirForSaving = GetDirForSaving(Guid.NewGuid());
-            var mappedDir = Server.MapPath("~" + dirForSaving);
-            var url = dirForSaving + "/" + hpf.FileName;
-            var ext = Path.GetExtension(hpf.FileName);
-            var absPath = Path.Combine(mappedDir, hpf.FileName);
+            
+            // upload file to CDN Server
+            var uploadFile = new UploadFile { Stream = hpf.InputStream, FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{hpf.FileName}" };
+            var result = FileUploader.Upload(uploadFile);
 
-            if (!Directory.Exists(mappedDir))
+            if (null == result || null == result.FileUrl) return Content("上传失败");
+
+            var ext = Path.GetExtension(hpf.FileName);
+            if (ext == ".doc" || ext == ".docx")
             {
-               Directory.CreateDirectory(mappedDir);
+               //var docStream = Util.ThirdParty.Aspose.WordConverter.ConvertoHtml(hpf.InputStream);
+               //var docFile = new UploadFile
+               //{
+               //   Stream = docStream,
+               //   FileName = $"2018/videos/{DateTime.Today.ToString("yyyyMMdd")}/{hpf.FileName.Replace(".docx", ".html").Replace(".doc", ".html")}"
+               //};
+               //FileUploader.Upload(uploadFile);
+               //docStream.Close();
+               //docStream.Dispose();
             }
 
-            hpf.SaveAs(absPath);
-
-            //if file format is word then convert to html
-            //if (ext==".doc" || ext==".docx")
-            //{
-            //   var saveHtmlPath = absPath.Replace(".doc", ".html").Replace(".docx", ".html");
-            //   Util.Office.WordConverter.ConvertToHtml(absPath, saveHtmlPath);
-            //}
-
-            if (ext != null && ext.StartsWith("."))
-               ext = ext.Substring(1);
-
-            file = new Files { Md5 = md5, FileName = hpf.FileName, FilePath = url, ExtName = ext, FileSize = hpf.ContentLength }; //TODO
+            file = new Files { Md5 = md5, FileName = hpf.FileName, FilePath = result.FileUrl, ExtName = ext, FileSize = hpf.ContentLength };
             db.FilesDal.Insert(file);
-            file.FileId = Files.ConditionQuery(f.Md5 == md5, null).FirstOrDefault().FileId;
          }
 
          if (Request.IsAjaxRequest())
@@ -109,7 +66,7 @@ namespace Res.Controllers
                name = file.FileName,
                path = file.FilePath,
                size = file.FileSize,
-               ext = Path.GetExtension(file.ExtName),
+               ext = file.ExtName
             });
          }
          else
@@ -118,70 +75,40 @@ namespace Res.Controllers
          }
       }
 
-      public string CutCover(HttpPostedFileBase hpf, int targetWidth, string path)
-      {
-         int width, height;
-         Image original = Image.FromStream(hpf.InputStream);
-         width = original.Width;
-         height = original.Height;
-
-         if (width > 480)
-         {
-            string filename = hpf.FileName.Substring(0, hpf.FileName.LastIndexOf('.')) + ".jpg";
-            Bitmap img = new Bitmap(original, targetWidth, targetWidth * height / width);
-            img.Save(Path.Combine(path, filename), ImageFormat.Jpeg);
-            return filename;
-         }
-         else
-         {
-            hpf.SaveAs(Path.Combine(path, hpf.FileName));
-            return hpf.FileName;
-         }
-      }
-
-      public static string GetDirForSaving(Guid guid)
-      {
-         return "/Attachments/" + DateTime.Today.ToString("yyyyMMdd") + "/" + guid.ToString();
-      }
-
-
-
       //
-      //	文件 - 上传用户头像
-      // POST:		/Attachment/UploadPhoto
+      //	文件 - 上传视频到 CDN  只允许mp4文件
+      // POST:		/Attachment/UploadResource
       //
-
       [HttpPost]
-      public ActionResult UploadPhoto()
+      public ActionResult UploadVideo()
       {
-         if (Request.Files.Count != 1)
-            return Content("Error");
-
-         string dirForSaving = GetDirForSaving(Guid.NewGuid());
-         string mappedDir = Server.MapPath("~" + dirForSaving);
-         if (!Directory.Exists(mappedDir))
-         {
-            Directory.CreateDirectory(mappedDir);
-         }
-
          HttpPostedFileBase hpf = Request.Files[0];
-         string filename = CutPhoto(hpf, 184, 184, mappedDir);
-         //hpf.SaveAs(Path.Combine(mappedDir, hpf.FileName));
-
-         string url = dirForSaving + "/" + filename;
-
-         if (Request.IsAuthenticated)
+         var md5 = FileHelper.ConvertToMD5(hpf.InputStream);
+         var file = Files.ConditionQuery(f.Md5 == md5, null).FirstOrDefault();
+         if (file == null)
          {
-            APBplDef.ResUserBpl.UpdatePartial(ResSettings.SettingsInSession.UserId, new { PhotoPath = url });
+            string ext = Path.GetExtension(hpf.FileName);
+            if (ext != ".mp4")
+               return Content("上传失败");
+
+            // upload file to CDN Server
+            var uploadFile = new UploadFile { Stream = hpf.InputStream, FileName = $"2018/videos/{DateTime.Today.ToString("yyyyMMdd")}/{hpf.FileName}" };
+            var result = FileUploader.Upload(uploadFile);
+
+            // save file record
+            file = new Files { Md5 = md5, FileName = hpf.FileName, FilePath = result.FileUrl, ExtName = ext, FileSize = hpf.ContentLength };
+            db.FilesDal.Insert(file);
          }
 
          if (Request.IsAjaxRequest())
          {
             return Json(new
             {
-               name = hpf.FileName,
-               path = url,
-               showPath = Url.Content(url)
+               fileId = file.FileId,
+               name = file.FileName,
+               path = file.FilePath,
+               size = file.FileSize,
+               ext = file.ExtName
             });
          }
          else
@@ -190,71 +117,78 @@ namespace Res.Controllers
          }
       }
 
+      //
+      //	文件 - 上传封面到 CDN
+      // POST:		/Attachment/UploadResource
+      //
+      [HttpPost]
+      public ActionResult UploadCover()
+      {
+         if (Request.Files.Count != 1)
+            return Content("Error");
 
-      public string CutPhoto(HttpPostedFileBase hpf, int targetWidth, int targetHeight, string path)
+         HttpPostedFileBase hpf = Request.Files[0];
+         var md5 = FileHelper.ConvertToMD5(hpf.InputStream);
+         var file = Files.ConditionQuery(f.Md5 == md5, null).FirstOrDefault();
+         if (file == null)
+         {
+            var result = CutAndUploadCover(hpf, 480);
+
+            if (null == result || null == result.FileUrl) return Content("上传失败");
+
+            file = new Files { Md5 = md5, FileName = hpf.FileName, FilePath = result.FileUrl, ExtName = Path.GetExtension(hpf.FileName), FileSize = hpf.ContentLength };
+            db.FilesDal.Insert(file);
+         }
+
+         if (Request.IsAjaxRequest())
+         {
+            return Json(new
+            {
+               fileId = file.FileId,
+               name = file.FileName,
+               path = file.FilePath,
+               showPath = file.FilePath,
+            });
+         }
+         else
+         {
+            return Content("upload ok");
+         }
+      }
+
+      /// <summary>
+      ///  Upload and cut image if possible
+      /// </summary>
+      /// <param name="hpf"></param>
+      /// <param name="targetWidth"></param>
+      /// <returns></returns>
+      protected UploadResult CutAndUploadCover(HttpPostedFileBase hpf, int targetWidth)
       {
          int width, height;
          Image original = Image.FromStream(hpf.InputStream);
+         Stream ms = new MemoryStream();
          width = original.Width;
          height = original.Height;
 
          if (width > 480)
          {
             string filename = hpf.FileName.Substring(0, hpf.FileName.LastIndexOf('.')) + ".jpg";
-            Bitmap img = new Bitmap(original, targetWidth, targetHeight);
-            img.Save(Path.Combine(path, filename), ImageFormat.Jpeg);
-            return filename;
+            var img = new Bitmap(original, targetWidth, targetWidth * height / width);
+            img.Save(ms, ImageFormat.Jpeg);
          }
          else
          {
-            hpf.SaveAs(Path.Combine(path, hpf.FileName));
-            return hpf.FileName;
+            ms = hpf.InputStream;
          }
+
+         var file = new UploadFile { Stream = ms, FileName = $"2018/pics/{DateTime.Today.ToString("yyyyMMdd")}/{hpf.FileName}" };
+         var result = FileUploader.Upload(file);
+
+         ms.Close();
+         ms.Dispose();
+
+         return result;
       }
-
-
-
-
-
-      //
-      //	文件 - 上传资源封面图片
-      // POST:		/Attachment/UpdateCover
-      //
-
-      //[HttpPost]
-      //public ActionResult UpdateCover(long id)
-      //{
-      //   if (Request.Files.Count != 1)
-      //      return Content("Error");
-
-      //   string dirForSaving = GetDirForSaving(Guid.NewGuid());
-      //   string mappedDir = Server.MapPath("~" + dirForSaving);
-      //   if (!Directory.Exists(mappedDir))
-      //   {
-      //      Directory.CreateDirectory(mappedDir);
-      //   }
-
-      //   HttpPostedFileBase hpf = Request.Files[0];
-      //   string filename = CutCover(hpf, 480, mappedDir);
-
-      //   string url = dirForSaving + "/" + filename;
-      //   APBplDef.ResResourceBpl.UpdatePartial(id, new { CoverPath = url });
-
-      //   if (Request.IsAjaxRequest())
-      //   {
-      //      return Json(new
-      //      {
-      //         name = hpf.FileName,
-      //         path = url,
-      //         showPath = Url.Content(url)
-      //      });
-      //   }
-      //   else
-      //   {
-      //      return Content("upload ok");
-      //   }
-      //}
-
 
    }
 

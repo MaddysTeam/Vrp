@@ -33,11 +33,15 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Aspose.Words, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ThirdParty\dll\Aspose.Words.dll</HintPath>
+    </Reference>
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Logger\dll\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ThirdParty\dll\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -57,12 +61,14 @@
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Logger\LogModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThirdParty\Aspose\WordConverter.cs" />
     <Compile Include="ThirdParty\WangsuCloud\FileUploader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Logger\dll\Camoran.GodLog.DB.dll" />
     <Content Include="Logger\dll\Camoran.GodLog.dll" />
     <Content Include="Logger\dll\Dapper.dll" />
+    <Content Include="ThirdParty\dll\Aspose.Words.dll" />
     <Content Include="ThirdParty\dll\Newtonsoft.Json.dll" />
     <Content Include="ThirdParty\dll\Newtonsoft.Json.xml" />
     <Content Include="ThirdParty\dll\WcsLib.dll" />

@@ -396,7 +396,7 @@
 
 			$('#AddCourse').click(function(){
 				$('.courseArea:last').after(createCourse());
-				bindResourceUploader($('.courseUploader'),'course','.mp4,.flv,.txt');
+				bindResourceUploader($('.courseUploader'),'video','.mp4');
 				bindResourceUploader($('.coverUploader'),'cover','image/*');
 				bindResourceUploader($('.designUploader'),'design','.doc,.docx');
 				bindResourceUploader($('.summaryUploader'),'summary','.doc,.docx');
@@ -404,7 +404,7 @@
 				bindAllStemEvnt();
 			});
 
-			bindResourceUploader($('.courseUploader'),'course','.mp4,.flv,.txt');
+			bindResourceUploader($('.courseUploader'),'video','.mp4');
 			bindResourceUploader($('.coverUploader'),'cover','image/*');
 			bindResourceUploader($('.designUploader'),'design','.doc,.docx');
 			bindResourceUploader($('.summaryUploader'),'summary','.doc,.docx');
@@ -488,11 +488,17 @@
 		}
 
 		function bindResourceUploader(uploader,type,mimeTypes){
+			var action ='@Url.Action("UploadResource", "Attachment")';
+			if(type =='cover')
+				action='@Url.Action("UploadCover", "Attachment")';
+			else if(type =='video')
+				action='@Url.Action("UploadVideo", "Attachment")';
+
 			$(uploader).each(function(i){
 				var dropzoneName='dropzone_'+type+i;
 				if($('.'+dropzoneName).size()<=0){
 					var $uploader=$(this);
-					$('.uploadForms').append($('<form action="@Url.Action("UploadResource", "Attachment")" class="'+dropzoneName+' uploaderForm'+i+'"></form>'));
+					$('.uploadForms').append($('<form action="'+action+'" class="'+dropzoneName+' uploaderForm'+i+'"></form>'));
 					$('.'+dropzoneName).dropzone({
 						addRemoveLinks: !0,
 						maxFilesize: 300,
