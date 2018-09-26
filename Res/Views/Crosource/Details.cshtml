@@ -110,7 +110,7 @@
 										@foreach (var item in Model.Courses)
 										{
 											<li style="display:inline-block;list-style-type: none;">
-												<a href="@Url.Action("Details","Crosource",new { id = Model.CrosourceId ,courseId = item.CourseId })"><img src="@item.CoverPath" style="width:184px; height:115px;" /></a>
+												<a href="@Url.Action("Details","Crosource",new { id = Model.CrosourceId ,courseId = item.CourseId })"><img src="@item.FitCoverPath" style="width:184px; height:115px;" /></a>
 												<div class="text-center">@item.CourseTitle</div>
 											</li>
 										}

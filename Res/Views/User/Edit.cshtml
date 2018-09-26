@@ -20,7 +20,7 @@
 							<div class="col-sm-9">
 								@if (Model != null && Model.UserId > 0)
 								{
-								 @Html.LabelFor(m => m.UserName,new { @class = "form-control" })
+								 @Html.LabelFor(m => m.UserName,Model.UserName,new { @class = "form-control" })
 								}
 								else
 								{

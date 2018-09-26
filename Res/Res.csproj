@@ -229,6 +229,7 @@
     <Content Include="assets\ico\trainningadmin-favicon144x144.png" />
     <Content Include="assets\ico\trainningadmin-favicon57x57.png" />
     <Content Include="assets\ico\trainningadmin-favicon72x72.png" />
+    <Content Include="assets\img\cover.png" />
     <Content Include="assets\img\default_m.gif" />
     <Content Include="assets\img\default_s.gif" />
     <Content Include="assets\img\diagonal-stripe.png" />

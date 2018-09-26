@@ -219,12 +219,8 @@
 
 
 			$("#submit").on("click", function () {
-				//额外的验证
-				var validator=$('#form').validate({
-					rules:{
-						CourseTitle:{required:true},
-					}
-				});
+
+				$('.error').remove();
 
 				var gjz=$(".gjz").val();
 				if($.trim(gjz)==""){
@@ -232,25 +228,27 @@
 					return false;
 				}
 				if($('#ProvinceId').val()==0){
-					alert("必须选择省份");
-					return false;
+					$('#ProvinceId').after('<div class="error" style="color:#a94442">必须选择省份</div>');
 				}
 				if($('#AreaId').val()==0){
-					alert("必须选择地区");
-					return false;
+					$('#AreaId').after('<div class="error" style="color:#a94442">必须选择地区</div>');
 				}
 				if($('#CompanyId').val()==0){
-					alert("必须选择学校");
-					return false;
+					$('#CompanyId').after('<div class="error" style="color:#a94442">必须选择学校</div>');
 				}
-				if($('.courseTitle').val()==""){
-					alert("必须填写微课标题");
-				}
+				var isValid=true;
+				$('.courseTitle,.exercises input').each(function(){
+					var $this=$(this);
+					if($this.val()==''){
+						isValid=false;
+						$this.after('<div class="error" style="color:#a94442">内容不能为空</div>');
+					}
+				});
 
-				if(validator.form()){
+				if($('#form').valid() && isValid){
 					var o = createSubmitObject();
 					$.post('@Url.Action("Upload", "CroMy")',{resid:'@Model.CrosourceId',model:o},function(){
-						location.href='@Url.Action("Index","CroHome")';
+						location.href='@Url.Action("CroMyResource", "CroMy",new { id= id})';
 					});
 				}
 
@@ -403,12 +401,21 @@
 			bindItemRemoveEvnt();//绑定习题项删除事件
 		});
 
+		function createCourseTitle(){
+			var title=	 $('<div class="form-group">'+
+							 '<label class="control-label col-sm-3" for="CourseTitle">微课标题</label>' +
+							 '<div class="col-sm-9">' +
+								  '<input class="form-control courseTitle" data-val="true" name="CourseTitle" placeholder="微课标题" type="text" >'+
+							 '</div>'+
+						  '</div>');
+			return title;
+		}
 
 		function createUploder(name,title){
 			return $('<div class="form-group '+name+'"><label class="control-label col-sm-3"> <span class="request">*</span>'+title+'</label>'+
 				            '<div class="col-sm-9">'+
 									'<div class="input-group">'+
-											'<input type="text" class="form-control resource-path courseTitle" name="courseTitle"   placeholder = "添加'+title+'"/>'+
+											'<input type="text" class="form-control resource-path" readonly  placeholder = "添加'+title+'"/>'+
 											'<div class="input-group-btn">'+
 												'<button type="button" class="btn btn-default dropdown-toggle btn-upload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >选择 </button>'+
 												'</div>'+
@@ -441,8 +448,8 @@
 		}
 
 		function createCourse(){
-			var course=$('<div class="courseArea" style="border:1px dashed #808080; padding-right:8%; margin-left:3%; padding-top:3%;"></div>')
-			//course.append('<label class="control-label col-sm-3"> <span class="request">*</span>微课视频</label><div class="col-sm-9"><input class="form-control courseTitle" data-val="true" data-val-length="字段 微课标题 必须是最大长度为 255 的字符串。" data-val-length-max="255" data-val-required="微课标题 字段是必需的。" id="CourseTitle" maxlength="255" name="CourseTitle" placeholder="微课标题" type="text" value=""></div>')
+			var course=$('<div class="courseArea" style="border:1px dashed #808080; padding-right:8%; margin-left:3%; padding-top:3%;"></div>');
+			course.append(createCourseTitle);
 			course.append(createUploder('courseUploader','微课视频'));
 			course.append(creatCover());
 			course.append(createUploder('designUploader','教学设计'));

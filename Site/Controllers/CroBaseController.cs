@@ -32,7 +32,7 @@ namespace Res.Controllers
                   rc.JoinInner(rc.CompanyId == cr.CompanyId),
                   cf.JoinLeft(cf.FileId==mc.CoverId)
                   )    
-				//.where(cr.StatePKID == ResResourceHelper.StateAllow)
+				.where(cr.StatePKID == CroResourceHelper.StateAllow)
 				.order_by(cr.CreatedTime.Desc, cr.CrosourceId.Asc)
 				.primary(cr.CrosourceId)
 				.take(take);
@@ -308,8 +308,8 @@ namespace Res.Controllers
                   cf.JoinLeft(cf.FileId==mc.CoverId),
                   rc.JoinInner(rc.CompanyId == cr.CompanyId)
                   )
-				//.where(t.StatePKID == CroResourceHelper.StateAllow)
-				.order_by(order, cr.CrosourceId.Asc)
+            .where(cr.StatePKID == CroResourceHelper.StateAllow)
+            .order_by(order, cr.CrosourceId.Asc)
 				.primary(mc.CourseId)
 				.take(take);
 

@@ -194,7 +194,7 @@
 
 							<div class="form-group">
 								<div class="col-sm-10 col-sm-offset-1">
-									<button type="submit" id="submit" class="btn btn-primary btn-block"><i class="fa fa-check-circle"></i> 确认修改</button>
+									<button type="submit" id="submit" class="btn btn-primary btn-block"><i class="fa fa-check-circle"></i> 确认上传</button>
 								</div>
 							</div>
 
@@ -232,12 +232,8 @@
 
 
 			$("#submit").on("click", function () {
-				//额外的验证
-				var validator=$('#form').validate({
-					rules:{
-						CourseTitle:{required:true},
-					}
-				});
+
+				$('.error').remove();
 
 				var gjz=$(".gjz").val();
 				if($.trim(gjz)==""){
@@ -245,22 +241,27 @@
 					return false;
 				}
 				if($('#ProvinceId').val()==0){
-					alert("必须选择省份");
-					return false;
+					$('#ProvinceId').after('<div class="error" style="color:#a94442">必须选择省份</div>');
 				}
 				if($('#AreaId').val()==0){
-					alert("必须选择地区");
-					return false;
+					$('#AreaId').after('<div class="error" style="color:#a94442">必须选择地区</div>');
 				}
 				if($('#CompanyId').val()==0){
-					alert("必须选择学校");
-					return false;
+					$('#CompanyId').after('<div class="error" style="color:#a94442">必须选择学校</div>');
 				}
+				var isValid=true;
+				$('.courseTitle,.exercises input').each(function(){
+					var $this=$(this);
+					if($this.val()==''){
+						isValid=false;
+						$this.after('<div class="error" style="color:#a94442">内容不能为空</div>');
+					}
+				});
 
-				if(validator.form()){
+				if($('#form').valid() && isValid){
 					var o = createSubmitObject();
 					$.post('@Url.Action("Edit", "Crosource")',{resid:'@Model.CrosourceId',model:o},function(){
-						location.href='@Url.Action("Search","Crosource")';
+						location.href='@Url.Action("Search", "Crosource",new { id= id})';
 					});
 				}
 
@@ -413,12 +414,21 @@
 			bindItemRemoveEvnt();//绑定习题项删除事件
 		});
 
+		function createCourseTitle(){
+			var title=	 $('<div class="form-group">'+
+							 '<label class="control-label col-sm-3" for="CourseTitle">微课标题</label>' +
+							 '<div class="col-sm-9">' +
+								  '<input class="form-control courseTitle" data-val="true" name="CourseTitle" placeholder="微课标题" type="text" >'+
+							 '</div>'+
+						  '</div>');
+			return title;
+		}
 
 		function createUploder(name,title){
 			return $('<div class="form-group '+name+'"><label class="control-label col-sm-3"> <span class="request">*</span>'+title+'</label>'+
 				            '<div class="col-sm-9">'+
 									'<div class="input-group">'+
-											'<input type="text" class="form-control resource-path courseTitle" name="courseTitle"   placeholder = "添加'+title+'"/>'+
+											'<input type="text" class="form-control resource-path" readonly  placeholder = "添加'+title+'"/>'+
 											'<div class="input-group-btn">'+
 												'<button type="button" class="btn btn-default dropdown-toggle btn-upload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >选择 </button>'+
 												'</div>'+
@@ -451,7 +461,8 @@
 		}
 
 		function createCourse(){
-			var course=$('<div class="courseArea" style="border:1px dashed #808080; padding-right:8%; margin-left:3%; padding-top:3%;">')
+			var course=$('<div class="courseArea" style="border:1px dashed #808080; padding-right:8%; margin-left:3%; padding-top:3%;"></div>');
+			course.append(createCourseTitle);
 			course.append(createUploder('courseUploader','微课视频'));
 			course.append(creatCover());
 			course.append(createUploder('designUploader','教学设计'));
@@ -541,7 +552,7 @@
 		}
 
 
-		var chars=['A','B','C','D','E','F','G']
+		var chars=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q']
 
 		function bindAllExersiesEvnt(){
 			$('.btn-exes').off('click').on('click',function(){
@@ -552,13 +563,16 @@
 				$(stem).append(answer)
 				   .find('.btn-opt').off('click').click(function(){
 				   	var count=$(this).parents('.rows').find('.item').size();
-				   	createItem($(answer),chars[count]); // 创建题项
+				   	if(count<chars.length)
+				   	{
+				   		createItem($(answer),chars[count]); // 创建题项
+				   	}
 				   	return false;
 				   });
 				$(stem).find('.btn-del').on('click',function(){
-				   	$(this).parents('.exercises').remove();
-				   	return false;
-				   });
+					$(this).parents('.exercises').remove();
+					return false;
+				});
 
 				return false;
 			});

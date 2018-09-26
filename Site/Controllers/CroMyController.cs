@@ -97,9 +97,9 @@ namespace Res.Controllers
       [HttpPost]
       public ActionResult Edit(ResUser model)
       {
-         APBplDef.ResUserBpl.UpdatePartial(ResSettings.SettingsInSession.UserId, new { model.RealName, model.Email });
+         APBplDef.ResUserBpl.UpdatePartial(ResSettings.SettingsInSession.UserId, new { model.RealName, model.Email,model.PhotoPath });
 
-         return RedirectToAction("Index");
+         return RedirectToAction("Index",new {id= ResSettings.SettingsInSession.UserId, });
       }
 
 
@@ -278,8 +278,6 @@ namespace Res.Controllers
 
 
       //我的微课作品
-
-
       public ActionResult CroMyResource(long id, int page = 1)
       {
          int total = 0;
@@ -359,10 +357,6 @@ namespace Res.Controllers
       //}
 
 
-
-
-
-
       //
       // 微课作品查看
       // GET:		/CroResource/View
@@ -382,8 +376,8 @@ namespace Res.Controllers
 
       public ActionResult Delete(long id, long resid)
       {
-         APBplDef.CroResourceBpl.PrimaryDelete(resid);
-
+         APBplDef.CroResourceBpl.UpdatePartial(resid, new { StatePKID = CroResourceHelper.StateDelete });
+         
          return RedirectToAction("CroMyResource", new { id = id });
       }
 
