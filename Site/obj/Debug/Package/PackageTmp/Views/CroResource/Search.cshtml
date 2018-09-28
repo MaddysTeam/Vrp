@@ -1,0 +1,154 @@
+﻿@{
+	Layout = "~/Views/Shared/_ZcLayout.cshtml";
+	ViewBag.Title = "首页";
+	string sort = Request["Sort"];
+}
+
+@Html.Partial("_search")
+
+<div class="block_panel">
+	<div class="panel_title nav">
+		<b>资源列表</b>
+
+
+
+
+		<span class="pull-right sort">
+			@if (sort == "vd")
+			{ <a href="javascript:;" data-sort="va">点击量<i class="fa fa-arrow-down"></i></a> <e>|</e> }
+			else if (sort == "va")
+			{ <a href="javascript:;" data-sort="vd">点击量<i class="fa fa-arrow-up"></i></a> <e>|</e> }
+			else
+			{ <a href="javascript:;" data-sort="va">点击量</a> <e>|</e> }
+
+			@if (sort == "dd")
+			{ <a href="javascript:;" data-sort="da">下载次数<i class="fa fa-arrow-down"></i></a> <e>|</e> }
+			else if (sort == "da")
+			{ <a href="javascript:;" data-sort="dd">下载次数<i class="fa fa-arrow-up"></i></a> <e>|</e> }
+			else
+			{ <a href="javascript:;" data-sort="da">下载次数</a> <e>|</e> }
+
+			@if (sort == "cd")
+			{ <a href="javascript:;" data-sort="ca">评论次数<i class="fa fa-arrow-down"></i></a> <e>|</e> }
+			else if (sort == "ca")
+			{ <a href="javascript:;" data-sort="cd">评论次数<i class="fa fa-arrow-up"></i></a> <e>|</e> }
+			else
+			{ <a href="javascript:;" data-sort="ca">评论次数</a> }
+
+			@*@if (sort == "sd")
+			{ <a href="javascript:;" data-sort="sa">评分<i class="fa fa-arrow-down"></i></a> }
+			else if (sort == "sa")
+			{ <a href="javascript:;" data-sort="sd">评分<i class="fa fa-arrow-up"></i></a> }
+			else
+			{ <a href="javascript:;" data-sort="sa">评分</a> }*@
+		</span>
+
+	</div>
+	<div class="d_news">
+
+
+		@foreach (MicroCourseRanking item in ViewBag.ListOfMore)
+		{
+			<div class="res">
+
+				<img src="@item.FitCoverPath" />
+				<div class="i_res_text res_text ">
+					<p>
+						作品：<a href="@Url.Action("ZcView", "CroResource", new { id=item.CrosourceId,courseId=item.CourseId })"><span class="restitle">@item.ResourceTitle  </span></a>
+					</p>
+					<p>
+						微课：<a  title="@item.Title">@item.Title</a>
+					</p>
+					<p class="t">
+						@item.Description
+					</p>
+					<p>
+						省份：<b>@item.Province</b>   市区：<b>@item.Area</b>   学校：<b>@item.School</b> 	作者：<b>@item.Author</b>   单位：<b>@item.AuthorCompany</b>   上传日期：<b>@item.CreatedTime.ToShortDateString()</b> 
+					</p>
+				</div>
+			</div>
+		}
+		<div>
+			@Html.Pager((int)ViewBag.PageSize, (int)ViewBag.PageNumber, (int)ViewBag.TotalItemCount).Options(o => o
+							.DisplayTemplate("_Bootstrap3Pagination")
+							.MaxNrOfPages(10)
+							.AlwaysAddFirstPageNumber()
+							.AddRouteValue("Province", ViewData["Province"])
+							.AddRouteValue("Area", ViewData["Area"])
+							.AddRouteValue("School", ViewData["School"])
+							.AddRouteValue("ResourceType", ViewData["ResourceType"])
+							.AddRouteValue("Subject", ViewData["Subject"])
+							.AddRouteValue("Stage", ViewData["Stage"])
+							.AddRouteValue("Grade", ViewData["Grade"])
+							//.AddRouteValue("SchoolType", ViewData["SchoolType"])
+							//.AddRouteValue("LearnFrom", ViewData["LearnFrom"])
+							//.AddRouteValue("MediumType", ViewData["MediumType"])
+							.AddRouteValue("Keywords", ViewData["Keywords"])
+							.AddRouteValue("Sort", ViewData["Sort"])
+			)
+		</div>
+	</div>
+</div>
+@section Scripts{
+	<script type="text/javascript">
+
+		$(function () {
+
+			$("#provinceChoose a").on("click", function () {
+				$("#Province").val($(this).data("id"));
+				$("#Area").val(null); // 清除原先地区选择，默认全部
+				$("#searchbutton").click();
+			})
+
+			$("#areaChoose a").on("click", function () {
+				$("#Area").val($(this).data("id"));
+				$("#searchbutton").trigger("click");
+			})
+
+			$(".sort a").on("click", function () {
+				var key = $(this).data("sort");
+				$("#Sort").val(key);
+				$("#searchbutton").trigger("click");
+			})
+		})
+
+	</script>
+
+
+
+<script type="text/javascript">
+
+	var resTypes = @Html.Raw(Json.Encode(Res.Controllers.CroMyController.GetStrengthDict(CroResourceHelper.ResourceType.GetItems())));
+
+	var grades = @Html.Raw(Json.Encode(Res.Controllers.CroMyController.GetStrengthDict(CroResourceHelper.Grade.GetItems())));
+
+
+
+	$(function () {
+		//RelationSelect($("#StagePKID"), $("#GradePKID"), grades, "适用全体年级");
+	});
+
+	function RelationSelect(src, tat, rule, none) {
+		var $src = $(src), $tat = $(tat);
+		function doit(init){
+			var key = $src.val();
+			$tat.empty();
+			if (none) {
+				$tat.append($("<option>").val('').text(none));
+			}
+			$.each(rule, function(i, n){
+				if (n.key == key || key == '') {
+					$tat.append($("<option>").val(n.id).text(n.name));
+				}
+			});
+			if (init) $tat.val(init);
+		}
+
+		$src.on("change", function() {
+			doit();
+		});
+		doit($tat.val());
+	}
+
+</script>
+}

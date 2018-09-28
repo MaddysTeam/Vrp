@@ -9,7 +9,7 @@
 		areaId = Int64.Parse((string)Request["Area"]);
 	}
 
-	var schools = ViewBag.Schools as List<ResCompany> ?? new List<ResCompany>();
+	var schools = ViewBag.Schools as List<ResCompany> ;
 }
 <!--微课检索-->
 <div class="block_panel blue_edge">
@@ -69,17 +69,15 @@
 				<dl>
 					<dt>过 滤：</dt>
 					<dd>
-						@*@if (domainPKID == 0)
+						@if (provinceId > 0 ) //如果选择全部省市则不显示学校数据
 						{
-							@Html.DropDownList("ResourceType", ResResourceHelper.ResourceType.GetSelectList(), "全部资源类型", new { @class = "hit" })
+						 @Html.DropDownList("School", schools.Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "全部学校", new { @class = "hit", id = "SchoolId" })
 						}
 						else
 						{
-							@Html.DropDownList("ResourceType", ResResourceHelper.ResourceType.GetSelectList(domainPKID), "全部资源类型", new { @class = "hit" })
-						}*@
-						@Html.DropDownList("School", schools.Select(x=>new SelectListItem { Text=x.CompanyName,Value=x.CompanyId.ToString() }), "全部学校", new { @class = "hit", id = "SchoolId" })
+							@Html.DropDownList("School",new List<SelectListItem>(), "全部学校", new { @class = "hit", id = "SchoolId" })
+						}
 						@Html.DropDownList("Subject", CroResourceHelper.Subject.GetSelectList(), "全部学科", new { @class = "hit" })
-						@Html.DropDownList("Stage", CroResourceHelper.Stage.GetSelectList(), "全部学段", new { @class = "hit", id = "StagePKID" })
 						@Html.DropDownList("Grade", CroResourceHelper.Grade.GetSelectList(), "全部年级", new { @class = "hit", id = "GradePKID" })
 						@*@Html.DropDownList("MediumType", ResResourceHelper.MediumType.GetSelectList(), "全部媒体格式", new { @class = "hit" })*@
 					</dd>

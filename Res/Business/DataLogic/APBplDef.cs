@@ -592,41 +592,58 @@ namespace Res.Business
 		#endregion
 
 
-		#region [ ZSResource ]
+		//#region [ ZSResource ]
 
-		public partial class ZSResourceBpl : ZSResourceBplBase
-		{
+		//public partial class ZSResourceBpl : ZSResourceBplBase
+		//{
 
 
-			public static List<ZSResource> GetLevel()
-			{
+		//	public static List<ZSResource> GetLevel()
+		//	{
 
-				var t = APDBDef.ZSResource;
+		//		var t = APDBDef.ZSResource;
 
-				var query = APQuery
-					.select(t.OneLevel, t.TowLevel)
-					.from(t)
-					.primary(t.ResourceId);
+		//		var query = APQuery
+		//			.select(t.OneLevel, t.TowLevel)
+		//			.from(t)
+		//			.primary(t.ResourceId);
 					
 
-				using (APDBDef db = new APDBDef())
-				{
-					return db.Query(query, r =>
-					{
-						return new ZSResource
-						{
-							OneLevel = t.OneLevel.GetValue(r),
-							TowLevel = t.TowLevel.GetValue(r)
-						};
-					}).ToList();
-				}
+		//		using (APDBDef db = new APDBDef())
+		//		{
+		//			return db.Query(query, r =>
+		//			{
+		//				return new ZSResource
+		//				{
+		//					OneLevel = t.OneLevel.GetValue(r),
+		//					TowLevel = t.TowLevel.GetValue(r)
+		//				};
+		//			}).ToList();
+		//		}
 
-			}
+		//	}
 
-		}
+		//}
 
-		#endregion
+  //    #endregion
 
-	}
+
+      #region [ MIcroCourse ]
+
+      public partial class MicroCourseBpl : MicroCourseBplBase
+      {
+         public static void CountingPlay(APDBDef db, long courseId)
+         {
+            var c = APDBDef.MicroCourse;
+            APQuery.update(c)
+               .set(c.PlayCount, APSqlThroughExpr.Expr("PlayCount+1"))
+               .where(c.CourseId == courseId)
+               .execute(db);
+         }
+      }
+
+      #endregion
+
+   }
 
 }

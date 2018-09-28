@@ -33,7 +33,7 @@ namespace Res.Controllers
          var file = Files.ConditionQuery(f.Md5 == md5, null).FirstOrDefault();
          if (file == null)
          {
-            
+
             // upload file to CDN Server
             var uploadFile = new UploadFile { Stream = hpf.InputStream, FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{hpf.FileName}" };
             var result = FileUploader.Upload(uploadFile);
@@ -43,15 +43,27 @@ namespace Res.Controllers
             var ext = Path.GetExtension(hpf.FileName);
             if (ext == ".doc" || ext == ".docx")
             {
-               //var docStream = Util.ThirdParty.Aspose.WordConverter.ConvertoHtml(hpf.InputStream);
-               //var docFile = new UploadFile
-               //{
-               //   Stream = docStream,
-               //   FileName = $"2018/videos/{DateTime.Today.ToString("yyyyMMdd")}/{hpf.FileName.Replace(".docx", ".html").Replace(".doc", ".html")}"
-               //};
-               //FileUploader.Upload(uploadFile);
-               //docStream.Close();
-               //docStream.Dispose();
+               Stream docStream = null;
+               try
+               {
+                  docStream = Util.ThirdParty.Aspose.WordConverter.ConvertoHtml(hpf.InputStream);
+                  var docFile = new UploadFile
+                  {
+                     Stream = docStream,
+                     FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{hpf.FileName.Replace(".docx", ".html").Replace(".doc", ".html")}"
+                  };
+                  var docResult=FileUploader.Upload(docFile);
+                  if (null == docResult || null == docResult.FileUrl) return Content("word 转html失败");
+               }
+               catch { }
+               finally
+               {
+                  if (docStream != null)
+                  {
+                     docStream.Close();
+                     docStream.Dispose();
+                  }
+               }
             }
 
             file = new Files { Md5 = md5, FileName = hpf.FileName, FilePath = result.FileUrl, ExtName = ext, FileSize = hpf.ContentLength };

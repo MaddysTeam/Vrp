@@ -70,15 +70,15 @@ namespace Res.Business
 		private ResUser _user;
 		private ResRole _role;
 		private long[] _approves;
+      private List<ResCompany> _companys;
+
+      #endregion
 
 
-		#endregion
+      #region [ Constructors ]
 
 
-		#region [ Constructors ]
-
-
-		public SessionSettings()
+      public SessionSettings()
 		{
 		}
 
@@ -127,30 +127,67 @@ namespace Res.Business
 		{
 			get { CheckCurrent(); return Approves.Contains(1); }
 		}
+
 		public bool CanbeDownloadResource
 		{
 			get { CheckCurrent(); return Approves.Contains(2); }
 		}
+
 		public bool CanbeAuditResource
 		{
 			get { CheckCurrent(); return Approves.Contains(3); }
 		}
+
 		public bool CanbeManageComment
 		{
 			get { CheckCurrent(); return Approves.Contains(4); }
 		}
+
 		public bool CanbeManageUser
 		{
 			get { CheckCurrent(); return Approves.Contains(9); }
 		}
 
-		#endregion
+
+      public List<ResCompany> Companies
+      {
+         get
+         {
+            _companys = GetCache(typeof(List<ResCompany>)) as List<ResCompany>;
+            if (_companys == null)
+            {
+               _companys = APBplDef.ResCompanyBpl.GetAll();
+               SetCache(_companys, typeof(List<ResCompany>));
+            }
+
+            return _companys;
+         }
+      }
 
 
-		#region [ Methods ]
+      #endregion
 
 
-		private void CheckCurrent()
+      #region [ Methods ]
+
+
+      public List<ResCompany> AllProvince()
+      {
+         return Companies.FindAll(x => x.ParentId == 0);
+      }
+
+      public List<ResCompany> AllAreas()
+      {
+         return Companies.FindAll(x => x.Path.Length == 10);
+      }
+
+      public List<ResCompany> AllSchools()
+      {
+         return Companies.FindAll(x => x.Path.LastIndexOf(@"\") >= 9);
+      }
+
+
+      private void CheckCurrent()
 		{
          if (!HttpContext.Current.Request.IsAuthenticated)
             throw new NotSupportedException(

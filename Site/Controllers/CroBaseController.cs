@@ -23,7 +23,7 @@ namespace Res.Controllers
          var cf = APDBDef.Files;
          var rc = APDBDef.ResCompany;
 
-         var query = APQuery.select(cr.CrosourceId, cr.Title, cr.Author, cr.FavoriteCount,
+         var query = APQuery.select(cr.CrosourceId, cr.Title, cr.Author, cr.FavoriteCount,cr.ProvinceId,cr.AreaId,cr.CompanyId,
 				cr.AuthorCompany, cr.Description, cr.CreatedTime,rc.Path, //cr.ViewCount, cr.CommentCount, cr.DownCount //cr.FileExtName
             mc.CourseId, mc.CourseTitle, mc.PlayCount, cf.FilePath
             )
@@ -64,6 +64,7 @@ namespace Res.Controllers
 				{
                CourseId = mc.CourseId.GetValue(reader),
                CrosourceId = cr.CrosourceId.GetValue(reader),
+               ResourceTitle=cr.Title.GetValue(reader),
                Title = mc.CourseTitle.GetValue(reader),
                Author = cr.Author.GetValue(reader),
                CoverPath = cf.FilePath.GetValue(reader),
@@ -71,6 +72,9 @@ namespace Res.Controllers
                CreatedTime = cr.CreatedTime.GetValue(reader),
                FavoriteCount = cr.FavoriteCount.GetValue(reader),
                CompanyPath = rc.Path.GetValue(reader),
+               ProvinceId= cr.ProvinceId.GetValue(reader),
+               AreaId=cr.AreaId.GetValue(reader),
+               SchoolId=cr.CompanyId.GetValue(reader),
                //ViewCount = cr.ViewCouncr.GetValue(reader),
                //CommentCount = cr.CommentCouncr.GetValue(reader),
                //DownCount = cr.DownCouncr.GetValue(reader),

@@ -1,0 +1,26 @@
+﻿@model CroBulletin
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "通知公告";
+}
+
+<div class="fl">
+	<a href="@Url.Action("Index", "Home")">首页</a> > <span><a href="@Url.Action("More", "CroBulletin")">@ViewBag.Title</a></span>
+</div>
+<div class=" fl w80">
+	<div class="d_news_show">
+		<h1>@Model.Title</h1>
+		<span class="news_source">来源:@Model.Creator  发布日期:@Model.CreatedTime </span>
+		
+		<p>
+		@Html.Raw(@Model.Content)	
+		</p>
+	</div>
+</div>
+
+
+
+
+
+
+

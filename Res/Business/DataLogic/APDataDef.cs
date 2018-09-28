@@ -177,27 +177,9 @@ namespace Res.Business
 
       #region [ Properties ]
 
-
-      //Dictionary<string, String> mapping;
-      //TODO:will delete later
-
-      //public string Deformity { get { return ResResourceHelper.Deformity.GetName(DeformityPKID); } }
-
-      //public string Domain { get { return ResResourceHelper.Domain.GetName(DomainPKID); } }
-
-      //public string LearnFrom { get { return ResResourceHelper.LearnFrom.GetName(LearnFromPKID); } }
-
-      //public string SchoolType { get { return ResResourceHelper.SchoolType.GetName(SchoolTypePKID); } }
-
       public string Stage { get { return CroResourceHelper.Stage.GetName(StagePKID); } }
 
       public string Grade { get { return CroResourceHelper.Grade.GetName(GradePKID); } }
-
-      //public string ImportSource { get { return ResResourceHelper.ImportSource.GetName(ImportSourcePKID); } }
-
-      //public string MediumType { get { return ResResourceHelper.MediumType.GetName(MediumTypePKID); } }
-
-      // public string ResourceType { get { return CroResourceHelper.ResourceType.GetName(ResourceTypePKID); } }
 
       public string Subject { get { return CroResourceHelper.Subject.GetName(SubjectPKID); } }
 
@@ -205,19 +187,30 @@ namespace Res.Business
 
       public string CourseType { get { return CroResourceHelper.CourseType.GetName(CourseTypePKID); } }
 
+      public string Province { get { return GetCompanyName(ProvinceId); } }
+
+      public string Area { get { return GetCompanyName(AreaId); } }
+
+      public string School { get { return GetCompanyName(CompanyId); } }
+
       [Display(Name = "资源路径")]
       [Required]
       public string GhostFileName { get; set; }
-
-      // public string FileType { get { if (!String.IsNullOrEmpty(FileExtName)) return FileExtName.Substring(1); return ""; } }
-
-      // TODO: delete later public int Star { get { if (StarCount == 0)return 0; return StarTotal / StarCount; } }
 
       public List<MicroCourse> Courses { get; set; }
 
       #endregion
 
 
+      #region [ private methods ]
+
+      private string GetCompanyName(long companyId)
+      {
+         var company = ResSettings.SettingsInSession.Companies.Find(x => x.CompanyId == companyId);
+         return company != null ? company.CompanyName : string.Empty;
+      }
+
+      #endregion
    }
 
 
@@ -358,45 +351,45 @@ namespace Res.Business
 
 	#region [ ZSResource]
 
-	public partial class ZSResource : ZSResourceBase
-	{
+	//public partial class ZSResource : ZSResourceBase
+	//{
 
-		#region [ Properties ]
-
-
-		public string Deformity { get { return ResResourceHelper.Deformity.GetName(DeformityPKID); } }
-
-		public string Domain { get { return ResResourceHelper.Domain.GetName(DomainPKID); } }
-
-		public string LearnFrom { get { return ResResourceHelper.LearnFrom.GetName(LearnFromPKID); } }
-
-		public string SchoolType { get { return ResResourceHelper.SchoolType.GetName(SchoolTypePKID); } }
-
-		public string Stage { get { return ResResourceHelper.Stage.GetName(StagePKID); } }
-
-		public string Grade { get { return ResResourceHelper.Grade.GetName(GradePKID); } }
-
-		public string ImportSource { get { return ResResourceHelper.ImportSource.GetName(ImportSourcePKID); } }
-
-		public string MediumType { get { return ResResourceHelper.MediumType.GetName(MediumTypePKID); } }
-
-		public string ResourceType { get { return ResResourceHelper.ResourceType.GetName(ResourceTypePKID); } }
-
-		public string Subject { get { return ResResourceHelper.Subject.GetName(SubjectPKID); } }
-
-		public string State { get { return ResResourceHelper.State.GetName(StatePKID); } }
-
-		[Display(Name = "资源路径")]
-		[Required]
-		public string GhostFileName { get; set; }
-
-		public string FileType { get { if (FileExtName != null) return FileExtName.Substring(1); return ""; } }
+	//	#region [ Properties ]
 
 
-		#endregion
+	//	public string Deformity { get { return ResResourceHelper.Deformity.GetName(DeformityPKID); } }
+
+	//	public string Domain { get { return ResResourceHelper.Domain.GetName(DomainPKID); } }
+
+	//	public string LearnFrom { get { return ResResourceHelper.LearnFrom.GetName(LearnFromPKID); } }
+
+	//	public string SchoolType { get { return ResResourceHelper.SchoolType.GetName(SchoolTypePKID); } }
+
+	//	public string Stage { get { return ResResourceHelper.Stage.GetName(StagePKID); } }
+
+	//	public string Grade { get { return ResResourceHelper.Grade.GetName(GradePKID); } }
+
+	//	public string ImportSource { get { return ResResourceHelper.ImportSource.GetName(ImportSourcePKID); } }
+
+	//	public string MediumType { get { return ResResourceHelper.MediumType.GetName(MediumTypePKID); } }
+
+	//	public string ResourceType { get { return ResResourceHelper.ResourceType.GetName(ResourceTypePKID); } }
+
+	//	public string Subject { get { return ResResourceHelper.Subject.GetName(SubjectPKID); } }
+
+	//	public string State { get { return ResResourceHelper.State.GetName(StatePKID); } }
+
+	//	[Display(Name = "资源路径")]
+	//	[Required]
+	//	public string GhostFileName { get; set; }
+
+	//	public string FileType { get { if (FileExtName != null) return FileExtName.Substring(1); return ""; } }
 
 
-	}
+	//	#endregion
+
+
+	//}
 
 	#endregion
 

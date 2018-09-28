@@ -1,0 +1,103 @@
+﻿@model ResUser
+@{
+	ViewBag.Title = "用户信息";
+}
+<div class="col-md-10 content-wrapper">
+	<div class="row">
+		<div class="col-lg-4 ">
+			<ul class="breadcrumb">
+				<li class="active">
+					<i class="fa fa-home"></i>
+					首页
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- main -->
+	<div class="content">
+		<div class="main-header">
+			<h2>@ViewBag.Title</h2>
+			<em>查看用户信息</em>
+		</div>
+
+		<div class="main-content">
+
+			<!-- widget -->
+			<div class="widget">
+				<div class="widget-header">
+					<h3><i class="fa fa-edit"></i> @ViewBag.Title</h3>
+				</div>
+				<div class="widget-content">
+					<div class="form-horizontal">
+						<div class="row">
+							<fieldset class="col-sm-6">
+								<div class="form-group">
+									@Html.LabelFor(m => m.UserName, new { @class = "control-label col-sm-3" })
+									<div class="col-sm-9">
+										<p class="form-control">@Html.DisplayFor(m => m.UserName)</p>
+									</div>
+								</div>
+								<div class="form-group">
+									@Html.LabelFor(m => m.RealName, new { @class = "control-label col-sm-3" })
+									<div class="col-sm-9">
+										<p class="form-control">@Html.DisplayFor(m => m.RealName)</p>
+									</div>
+								</div>
+								<div class="form-group">
+									@Html.LabelFor(m => m.GenderPKID, new { @class = "control-label col-sm-3" })
+									<div class="col-sm-9">
+										<p class="form-control">@Html.DisplayFor(m => m.Gender)</p>
+									</div>
+								</div>
+								<div class="form-group">
+									@Html.LabelFor(m => m.IDCard, new { @class = "control-label col-sm-3" })
+									<div class="col-sm-9">
+										<p class="form-control">@Html.DisplayFor(m => m.IDCard)</p>
+									</div>
+								</div>
+								<div class="form-group">
+									@Html.LabelFor(m => m.Email, new { @class = "control-label col-sm-3" })
+									<div class="col-sm-9">
+										<p class="form-control">@Html.DisplayFor(m => m.Email)</p>
+									</div>
+								</div>
+								<div class="form-group">
+									@Html.LabelFor(m => m.CompanyName, "学校",new { @class = "control-label col-sm-3" })
+									<div class="col-sm-9">
+										<p class="form-control">@Html.DisplayFor(m => m.CompanyName)</p>
+									</div>
+								</div>
+								@if (ResSettings.SettingsInSession.CanbeManageUser) { 
+								<div class="form-group">
+									<div class="col-sm-9 col-sm-offset-3">
+										<button id="ResetPwd" class="btn btn-warning">重置该用户密码</button>
+									</div>
+								</div>
+								}
+							</fieldset>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- end widget -->
+
+		</div>
+		<!-- /main-content -->
+	</div>
+	<!-- /main -->
+</div>
+@section Scripts{
+	<script >
+		var id = @Model.UserId;
+
+		$(function () {
+			$("#ResetPwd").on("click", function () {
+				$.post("/User/ResetPwd", { id: id }, function (data) {
+					alert(data);
+				});
+			})
+		})
+	</script>
+}

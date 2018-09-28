@@ -244,6 +244,7 @@ namespace Res.Business
 
       #endregion
 
+
       #region [ ResRoleApproveBpl ]
 
 
@@ -421,6 +422,25 @@ namespace Res.Business
                });
          }
 
+
+         public static void CountingPraise(APDBDef db, long resourceId,long userId)
+         {
+            var t = APDBDef.CroResource;
+
+            APQuery.update(t)
+             .set(t.PraiseCount, APSqlThroughExpr.Expr("PraiseCount+1"))
+             .where(t.CrosourceId == resourceId)
+             .execute(db);
+            if (userId != 0)
+               db.CroPraiseDal.Insert(new CroPraise()
+               {
+                  UserId = userId,
+                  ResourceId = resourceId,
+                  OccurTime = DateTime.Now
+               });
+         }
+
+
          static APDBDef.CroResourceTableDef cr = APDBDef.CroResource;
          static APDBDef.MicroCourseTableDef mc = APDBDef.MicroCourse;
          static APDBDef.ExercisesTableDef et = APDBDef.Exercises;
@@ -507,8 +527,29 @@ namespace Res.Business
 
       }
 
+
+
+
       #endregion
 
+
+      #region [ MIcroCourse ]
+
+      public partial class MicroCourseBpl : MicroCourseBplBase
+      {
+
+         public static void CountingPlay(APDBDef db, long courseId)
+         {
+            var c = APDBDef.MicroCourse;
+            APQuery.update(c)
+               .set(c.PlayCount, APSqlThroughExpr.Expr("PlayCount+1"))
+               .where(c.CourseId == courseId)
+               .execute(db);
+         }
+
+      }
+
+      #endregion
 
    }
 

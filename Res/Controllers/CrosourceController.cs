@@ -268,11 +268,11 @@ namespace Res.Controllers
       public ActionResult Edit(long? id)
       {
          ViewBag.ResTypes = GetStrengthDict(CroResourceHelper.ResourceType.GetItems());
-         ViewBag.Grades = GetStrengthDict(CroResourceHelper.Grade.GetItems());
+         ViewBag.Provinces = GetStrengthDict(ResSettings.SettingsInSession.AllProvince());
+         ViewBag.Areas = GetStrengthDict(ResSettings.SettingsInSession.AllAreas());
+         ViewBag.Schools = GetStrengthDict(ResSettings.SettingsInSession.AllSchools());
 
-         ViewBag.Provinces = GetStrengthDict(ResCompanyHelper.AllProvince());
-         ViewBag.Areas = GetStrengthDict(ResCompanyHelper.GetAreas());
-         ViewBag.Schools = GetStrengthDict(ResCompanyHelper.GetSchools());
+         ViewBag.Actives = APBplDef.ActiveBpl.GetAll();
 
          if (id == null)
          {
@@ -473,6 +473,24 @@ namespace Res.Controllers
 
 
          return View(model);
+      }
+
+
+      //
+      // 微课视频点击
+      // GET:		/Crosource/Play
+      //
+
+      [HttpPost]
+      public ActionResult Play(long courseId)
+      {
+         APBplDef.MicroCourseBpl.CountingPlay(db, courseId);
+
+         return Json(new
+         {
+            state = "ok",
+            msg = "恭喜您，已经播放成功！"
+         });
       }
 
    }

@@ -16,13 +16,14 @@ namespace Res.Controllers
 
       //
       // 搜索
-      // GET:		/Resource/Search
+      // GET:		/CroResurce/Search
       //
 
       public ActionResult Search(int page = 1, string sort = "")
       {
          var t = APDBDef.CroResource;
          var rc = APDBDef.ResCompany;
+         var mc = APDBDef.MicroCourse;
          List<APSqlWherePhrase> where = new List<APSqlWherePhrase>();
          APSqlOrderPhrase order = null;
 
@@ -59,8 +60,8 @@ namespace Res.Controllers
          {
             where.Add(rc.Path.Match(tmp));
 
-            areas = ResCompanyHelper.GetChildren(Int64.Parse(tmp));
-            schools = ResCompanyHelper.GetChildren(areas);
+            areas = ResCompanyHelper.GetChildren(ResSettings.SettingsInSession.Companies,Int64.Parse(tmp));
+            schools = ResCompanyHelper.GetChildren(ResSettings.SettingsInSession.Companies, areas);
          }
          ViewData["Province"] = tmp;
 
@@ -68,7 +69,7 @@ namespace Res.Controllers
          {
             where.Add(rc.Path.Match(tmp));
 
-            schools = ResCompanyHelper.GetChildren(Int64.Parse(tmp));
+            schools = ResCompanyHelper.GetChildren(ResSettings.SettingsInSession.Companies,Int64.Parse(tmp));
          }
          ViewData["Area"] = tmp;
          if (!String.IsNullOrEmpty(tmp = Request.Params.Get("School")))
@@ -77,16 +78,9 @@ namespace Res.Controllers
          }
          ViewData["School"] = tmp;
 
-         //ViewData["Province"] = tmp;
-         //if (!String.IsNullOrEmpty(tmp = Request.Params.Get("MediumType")))
-         //{
-         //   where.Add(t.MediumTypePKID == Int64.Parse(tmp));
-         //}
-         //ViewData["MediumType"] = tmp;
-
          if (!String.IsNullOrEmpty(tmp = Request.Params.Get("Keywords")) && tmp.Trim() != "")
          {
-            where.Add(t.Keywords.Match(tmp) | t.Title.Match(tmp));
+            where.Add(t.Keywords.Match(tmp) | t.Title.Match(tmp) | t.Author.Match(tmp) | t.Description.Match(tmp) | mc.CourseTitle.Match(tmp));
          }
          ViewData["Keywords"] = tmp;
 
@@ -119,9 +113,9 @@ namespace Res.Controllers
          ViewBag.TotalItemCount = total;
 
          // 省市区学校
-         ViewBag.Areas = areas ?? ResCompanyHelper.GetAreas();
-         ViewBag.Schools = schools ?? ResCompanyHelper.GetSchools();
-         ViewBag.Provinces = provinces ?? ResCompanyHelper.AllProvince();
+         ViewBag.Areas = areas ?? ResSettings.SettingsInSession.AllAreas();
+         ViewBag.Schools = schools ?? ResSettings.SettingsInSession.AllSchools();
+         ViewBag.Provinces = provinces ?? ResSettings.SettingsInSession.AllProvince();
 
          return View();
       }
@@ -237,8 +231,10 @@ namespace Res.Controllers
          // 访问历史
          APBplDef.CroResourceBpl.CountingView(db, id, Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0);
 
+         //当前微课
          ViewBag.CurrentCourse = courseId == null || courseId.Value == 0 ? model.Courses[0] : model.Courses.Find(c => c.CourseId == courseId);
 
+         //评论数量
          ViewBag.CommentCount = APBplDef.CroCommentBpl.ConditionQueryCount(APDBDef.CroComment
             .ResourceId == id & APDBDef.CroComment.Audittype == 1);
 
@@ -266,7 +262,7 @@ namespace Res.Controllers
 
       //
       // 作品查看
-      // GET:		/Resource/Favorite
+      // GET:		/CroResurce/Favorite
       //
       public ActionResult Favorite(long id)
 
@@ -344,24 +340,53 @@ namespace Res.Controllers
       }
 
 
-      //[HttpPost]  TODO: will delete later
-      //public ActionResult Star(long id, int value)
-      //{
-      //   if (Request.IsAuthenticated && Request.IsAjaxRequest())
-      //   {
-      //      var t = APDBDef.CroResource;
-      //      var t1 = APDBDef.CroStar;
+      //
+      // 作品点赞
+      // GET:		/CroResurce/Praise
+      //
 
-      //      if (db.CroStarDal.ConditionQueryCount(t1.ResourceId == id & t1.UserId == ResSettings.SettingsInSession.UserId) == 0)
-      //      {
-      //         APBplDef.CroResourceBpl.CountingStar(db, id, value, Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0);
-      //      }
+      [HttpPost]
+      public ActionResult Praise(long id)
+      {
+         if (!Request.IsAuthenticated)
+         {
+            return Json(new
+            {
+               state = "failure",
+               msg = "请您先登录再点赞！"
+            });
+         }
+         else
+         {
+            var t = APDBDef.CroDownload;
+            APBplDef.CroResourceBpl.CountingPraise(db, id, Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0);
+            return Json(new
+            {
+               state = "ok",
+               msg = "恭喜您，已经点赞成功！"
+            });
 
-      //      return Content("allow");
-      //   }
+         }
+      }
 
-      //   return Content("deny");
-      //}
+
+      //
+      // 微课视频点击
+      // GET:		/CroResurce/Play
+      //
+
+      [HttpPost]
+      public ActionResult Play(long courseId)
+      {
+         APBplDef.MicroCourseBpl.CountingPlay(db, courseId);
+
+         return Json(new
+         {
+            state = "ok",
+            msg = "恭喜您，已经播放成功！"
+         });
+      }
+
 
    }
 

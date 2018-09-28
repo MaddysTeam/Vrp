@@ -13,48 +13,22 @@ namespace Res.Business
    public static class ResCompanyHelper
    {
 
-      static List<ResCompany> _all;
-      public static List<ResCompany> All
+      public static List<ResCompany> GetChildren(List<ResCompany> all,long parentId)
       {
-         get
-         {
-            if (_all == null)
-               _all = APBplDef.ResCompanyBpl.GetAll();
-            return _all;
-         }
+         if (all == null) return null;
+         return all.FindAll(x => x.ParentId == parentId);
       }
 
-      public static List<ResCompany> GetChildren(long parentId)
-      {
-         if (All == null) return null;
-         return All.FindAll(x => x.ParentId == parentId);
-      }
-
-      public static List<ResCompany> GetChildren(List<ResCompany> parents)
+      public static List<ResCompany> GetChildren( List<ResCompany> all,List<ResCompany> parents)
       {
          if (parents == null) parents = new List<ResCompany>();
          var children = new List<ResCompany>();
          foreach(var item in parents)
          {
-            children.AddRange(All.FindAll(x=>x.ParentId==item.CompanyId));
+            children.AddRange(all.FindAll(x=>x.ParentId==item.CompanyId));
          }
 
          return children;
-      }
-
-      public static List<ResCompany> AllProvince()
-      {
-         return All.FindAll(x => x.ParentId == 0);
-      }
-
-      public static List<ResCompany> GetSchools()
-      {
-         return All.FindAll(x => x.Path.LastIndexOf(@"\") >= 9);
-      }
-
-      public static List<ResCompany> GetAreas()
-      {
-         return All.FindAll(x => x.Path.Length == 10);
       }
 
    }

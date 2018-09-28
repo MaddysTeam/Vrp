@@ -155,17 +155,14 @@ namespace Res.Controllers
          return array;
       }
 
-
-
-
       public ActionResult Upload(long id, long? resid)
       {
          ViewBag.ResTypes = GetStrengthDict(CroResourceHelper.ResourceType.GetItems());
-         ViewBag.Grades = GetStrengthDict(CroResourceHelper.Grade.GetItems());
+         ViewBag.Provinces = GetStrengthDict(ResSettings.SettingsInSession.AllProvince());
+         ViewBag.Areas = GetStrengthDict(ResSettings.SettingsInSession.AllAreas());
+         ViewBag.Schools = GetStrengthDict(ResSettings.SettingsInSession.AllSchools());
 
-         ViewBag.Provinces = GetStrengthDict(ResCompanyHelper.AllProvince());
-         ViewBag.Areas = GetStrengthDict(ResCompanyHelper.GetAreas());
-         ViewBag.Schools = GetStrengthDict(ResCompanyHelper.GetSchools());
+         ViewBag.Actives = APBplDef.ActiveBpl.GetAll();
 
          if (resid == null)
          {
@@ -433,6 +430,31 @@ namespace Res.Controllers
          ResUser user = new ResUser();
          user.UserId = id;
          return View(user);
+      }
+
+
+      //
+      // 修改个人密码
+      // GET:		/My/ChgPwd
+      // POST:		/My/ChgPwd
+      //
+      public ActionResult ChgPwd(long id)
+      {
+         return View();
+      }
+
+      [HttpPost]
+      public async Task<ActionResult> ChgPwd(ChgPwd model)
+      {
+         var newPassword = model.Password;
+         var user = APBplDef.ResUserBpl.PrimaryGet(ResSettings.SettingsInSession.UserId);
+         var result = await UserManager.ChangePasswordAsync(user.UserId, user.Password, newPassword);
+
+         if (result.Succeeded)
+            APBplDef.ResUserBpl.UpdatePartial(user.UserId, new { Password = newPassword });
+
+         return RedirectToAction("Index", new { id = ResSettings.SettingsInSession.UserId, });
+
       }
 
    }

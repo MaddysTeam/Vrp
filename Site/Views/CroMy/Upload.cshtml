@@ -4,13 +4,13 @@
 	Layout = "~/Views/Shared/_CroLayout.cshtml";
 	ViewBag.Title = "上传新作品";
 
-	var provinces = ResCompanyHelper.AllProvince().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() });
-	var areas = ResCompanyHelper.GetAreas().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() });
-	var schools = ResCompanyHelper.GetSchools().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString(), Selected = Model.CompanyId == x.CompanyId });
+	//var provinces = ResCompanyHelper.AllProvince().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() });
+	//var areas = ResCompanyHelper.GetAreas().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() });
+	//var schools = ResCompanyHelper.GetSchools().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString(), Selected = Model.CompanyId == x.CompanyId });
+	var actives= (ViewBag.Actives as List<Active>).Select(x => new SelectListItem { Text = x.ActiveName, Value = x.ActiveId.ToString(), Selected = Model.ActiveId == Model.ActiveId });
 }
 <div class="menu">
 	<div class="fl">首页 > <span>作品上传</span></div>
-
 </div>
 
 <div class="full_white">
@@ -30,6 +30,13 @@
 						@Html.HiddenFor(m => m.CrosourceId)
 
 						<fieldset class="col-sm-11  fieldContainer">
+
+							<div class="form-group ">
+								<label class="control-label col-sm-3"> <span class="request">*</span> 所属项目</label>
+								<div class="col-sm-9">
+									@Html.DropDownListFor(m => m.ActiveId, actives, "选择项目", new { @class = "form-control" })
+								</div>
+							</div>
 
 							<div class="form-group">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 作品标题</label>
@@ -61,8 +68,6 @@
 
 							</div>
 
-
-
 							<div class="form-group">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 关键词</label>
 								<div class="col-sm-9">
@@ -74,25 +79,19 @@
 							<div class="form-group ">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 省份</label>
 								<div class="col-sm-9">
-									@Html.DropDownListFor(m => m.ProvinceId, provinces, "选择省份", new { @class = "form-control" })
+									@Html.DropDownListFor(m => m.ProvinceId, ResSettings.SettingsInSession.AllProvince().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择省份", new { @class = "form-control" })
 								</div>
 							</div>
 							<div class="form-group ">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 地区</label>
 								<div class="col-sm-9">
-									@Html.DropDownListFor(m => m.AreaId, areas, "选择地区", new { @class = "form-control" })
+									@Html.DropDownListFor(m => m.AreaId, ResSettings.SettingsInSession.AllAreas().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择地区", new { @class = "form-control" })
 								</div>
 							</div>
 							<div class="form-group ">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 学校</label>
 								<div class="col-sm-9">
-									@Html.DropDownListFor(m => m.CompanyId, schools, "选择学校", new { @class = "form-control" })
-								</div>
-							</div>
-							<div class="form-group ">
-								<label class="control-label col-sm-3">  学段</label>
-								<div class="col-sm-9">
-									@Html.DropDownListFor(m => m.StagePKID, CroResourceHelper.Stage.GetSelectList(), "适用全体学段", new { @class = "form-control" })
+									@Html.DropDownListFor(m => m.CompanyId, ResSettings.SettingsInSession.AllSchools().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择学校", new { @class = "form-control" })
 								</div>
 							</div>
 							<div class="form-group ">
@@ -115,14 +114,14 @@
 									@Html.ValidationMessageFor(m => m.Author)
 								</div>
 							</div>
-							@*<div class="form-group">
-									<label class="control-label col-sm-3"> <span class="request">*</span> 所在单位</label>
+							<div class="form-group">
+									<label class="control-label col-sm-3"> <span class="request">*</span> 作者单位</label>
 
 									<div class="col-sm-9">
 										@Html.TextBoxFor(m => m.AuthorCompany, new { @class = "form-control", maxlength = "255", placeholder = "作者所在单位" })
 										@Html.ValidationMessageFor(m => m.AuthorCompany)
 									</div>
-								</div>*@
+								</div>
 							<div class="form-group">
 								@Html.LabelFor(m => m.AuthorAddress, new { @class = "control-label col-sm-3" })
 								<div class="col-sm-9">
@@ -276,6 +275,7 @@
 			o.ProvinceId=$('#ProvinceId').val();
 			o.AreaId=$('#AreaId').val();
 			o.Courses=[];
+			o.ActiveId=$('#ActiveId').val();
 
 			$('.courseArea').each(function(i){
 				var $this=$(this);
@@ -330,7 +330,7 @@
 				var key = $src.val();
 				$tat.empty();
 				if (none) {
-					$tat.append($("<option>").val(0).text(none));
+					$tat.append($("<option>").val(0).text(none)).change();
 				}
 				$.each(rule, function(i, n){
 					if (n.key == key) {
@@ -352,8 +352,6 @@
 			$("select option[value='']").val("0");
 
 			// relation select
-			RelationSelect($("#DomainPKID"), $("#ResourceTypePKID"), resTypes, null, '10234');
-			RelationSelect($("#StagePKID"), $("#GradePKID"), grades, "适用全体年级");
 			RelationSelect($("#ProvinceId"), $("#AreaId"), areas, "选择地区");
 			RelationSelect($("#AreaId"), $("#CompanyId"), schools, "选择学校");
 

@@ -7,7 +7,7 @@
 
 
 <div class="menu">
-	<div class="fl">首页 ><a href="@Url.Action("Index", "CroMy")"><span>个人信息</span></a>> <span>修改个人信息</span></div>
+	<div class="fl">首页 ><a href="@Url.Action("Index", "CroMy",new {id=ResSettings.SettingsInSession.UserId })"><span>个人信息</span></a>> <span>修改个人信息</span></div>
 
 
 </div>
@@ -41,7 +41,6 @@
 				</div>
 			</div>
 
-
 			<div class="form-group">
 				<div class="control-label col-sm-3">头像缩略图</div>
 				<div class="col-sm-9 coverImageArea">
@@ -57,7 +56,7 @@
 						</div>
 					}*@
 				</div>
-				@Html.HiddenFor(m => m.PhotoPath);
+				@Html.HiddenFor(m => m.PhotoPath)
 			</div>
 
 			<div class="form-group">

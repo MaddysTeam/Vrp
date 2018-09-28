@@ -1,0 +1,81 @@
+﻿@model List<ZSResource>
+@{
+	Layout = "~/Views/Shared/_ZSLayout.cshtml";
+	ViewBag.Title = "首页";
+	var LevelList = Model.GroupBy(m => m.TowLevel).ToList();
+	var Banner = ViewBag.Banner as List<ZSResource>;
+	var Hot = ViewBag.Hot as List<ZSResource>;
+	var Level = Request["Level"];
+	var Level1 = Request["Level1"];
+}
+
+<div class="row">
+	<div class="col-md-12">
+
+		<div class="d_banner">
+			
+			<div class="d_title circle">
+				<span><a href="@Url.Action("Search", "ZSResource", new { Level = Level })">@Level</a></span>
+			</div>
+
+			<ul class="nav" id="banner">
+				@foreach (var it in Banner.GroupBy(m => m.TowLevel))
+				{
+					<li><span class="@(Level1 == it.Key ? "sp_c" : "")"><a href="@Url.Action("Search", "ZSResource", new { Level = Level, Level1 = it.Key })">@it.Key</a></span></li>
+				}
+			</ul>
+
+		</div>
+		
+	</div>
+</div>
+
+<div class="row mt-20">
+
+	<div class="col-md-9">
+
+		<!--热门资源-->
+
+		<div class="col-md-12 z_cont">
+
+			<div class="title">
+				<b>@Level</b>
+				@*<a class="glyphicon glyphicon-option-horizontal fr more" id="more_hot" href="/ZSResource/Search?Level=%E5%93%81%E5%BE%B7%E4%B8%8E%E7%A4%BE%E4%BC%9A"></a>*@
+			</div>
+
+			<hr />
+
+			@foreach (var item in LevelList)
+			{
+				<div class="col-md-12 fl">
+					<div class="title">
+						<span>@item.Key</span>
+					</div>
+					<div class="d_res_list" id="contain_hot">
+						<ul class="res_list">
+							@foreach (var it in Model.FindAll(m => m.TowLevel == item.Key))
+							{
+								<li>
+									<a href="@Url.Action("Detail", "ZSResource", new { id = it.ResourceId })">
+										<img class="cover" src="@it.CoverPath" height="124" />
+										<p>@it.Title</p>
+										<p><span>访问量：</span>@it.ViewCount</p>
+									</a>
+								</li>
+							}
+						</ul>
+					</div>
+				</div>
+			}
+
+		</div>
+
+	</div>
+
+	<div class="col-md-3">
+
+		@Html.Partial("_Hot", Hot)
+
+	</div>
+	
+</div>

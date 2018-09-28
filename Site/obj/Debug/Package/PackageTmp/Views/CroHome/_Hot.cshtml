@@ -1,0 +1,16 @@
+﻿@model List<MicroCourseRanking>
+<ul class="res_list">
+
+	@foreach (var item in Model)
+	{
+		<li>
+			<a href="@Url.Action("ZcView", "CroResource", new { id = item.CrosourceId ,courseId=item.CourseId })">
+				<img class="cover" src="@item.FitCoverPath" height="124" />
+				<p>@item.Title</p>
+				<p><span>单位：</span>@item.AuthorCompany</p>
+				<p><span>播放次数：</span>@item.PlayCount</p>
+			</a>
+		</li>
+	}
+
+</ul>

@@ -1,0 +1,57 @@
+﻿
+@{
+	var id = this.ViewContext.RouteData.Values["id"];
+	Layout = "~/Views/Shared/_CroLayout.cshtml";
+	ViewBag.Title = "我的资源评论列表";
+}
+
+
+
+<div class="menu">
+	<div class="fl">首页 > <span>作品评论列表</span></div>
+
+</div>
+
+
+		<div class="ranking">
+			@foreach (CroMyResource item in ViewBag.ListOfResource)
+			{
+				<div class="ranking_square">
+
+					<div class="details wide">
+						<a href="@Url.Action("ZcView", "CroResource", new { id = item.CrosourceId })"><span class="restitle">@item.Title</span></a>
+
+
+						<div class="info">
+							作者：<span>@item.Author</span>
+							评论日期：<span>@item.OccurTime.ToShortDateString()</span>
+							格式：<span>@item.FileExtName</span>
+						</div>
+						<p class="snippet"><b>评论：</b>@item.Content</p>
+@if (ResSettings.SettingsInSession.UserId == Convert.ToInt64(id))
+{
+							<a href="@Url.Action("DeleteComment", "CroMy", new { id = ResSettings.SettingsInSession.UserId, resid = item.OccurId })" class="btn btn-default  ">删除评论</a>
+}
+					</div>
+				</div>
+			}
+		</div>
+
+
+
+
+
+
+
+
+
+<div>
+	@Html.Pager((int)ViewBag.PageSize, (int)ViewBag.PageNumber, (int)ViewBag.TotalItemCount).Options(o => o
+							.DisplayTemplate("_Bootstrap3Pagination")
+						  .MaxNrOfPages(10)
+						  .AlwaysAddFirstPageNumber()
+						  .AddRouteValue("type", ViewBag.ParamType)
+		  )
+</div>
+
+

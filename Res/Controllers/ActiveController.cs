@@ -89,6 +89,8 @@ namespace Res.Controllers
       [HttpPost]
       public ActionResult Edit(long? id, Active model, FormCollection fc)
       {
+         ThrowNotAjax();
+
          if (id == null)
          {
             model.Insert();
@@ -98,7 +100,11 @@ namespace Res.Controllers
             model.Update();
          }
 
-         return RedirectToAction("Index");
+         return Json(new
+         {
+            status = "success",
+            msg = "编辑成功！"
+         });
       }
 
 

@@ -1,0 +1,47 @@
+﻿<div class="div_cont fl w100">
+	<div class="title">
+		<b>@ViewBag.Title</b>
+	</div>
+	<div class="d_news">
+		
+
+			@foreach (MicroCourseRanking item in ViewBag.ListOfMore ?? new List<MicroCourseRanking>())
+			{
+	<div class="res">
+	
+		<img  src="@item.FitCoverPath"/>
+		<div class="i_res_text res_text ">
+			<p>
+				<a href="@Url.Action("ZcView", "CroResource", new { id = item.CrosourceId })" title="@item.Title"><span class="restitle">@item.Title</span></a>
+			</p>
+			<p class="t">
+				@item.Description
+			</p>
+			<p>
+				作者：<b>@item.Author</b>   单位：<b>@item.AuthorCompany</b>   上传日期：<b>@item.CreatedTime.ToShortDateString()</b>  格式：<b>@item.FileExtName</b>
+
+			</p>
+		</div>
+	</div>
+
+			}
+
+
+
+		<div>
+			@Html.Pager((int)ViewBag.PageSize, (int)ViewBag.PageNumber, (int)ViewBag.TotalItemCount).Options(o => o
+							.DisplayTemplate("_Bootstrap3Pagination")
+						  .MaxNrOfPages(10)
+						  .AlwaysAddFirstPageNumber()
+						  .AddRouteValue("type", ViewBag.ParamType)
+							.AddRouteValue("mediumtypepkid", ViewBag.mediumtypepkid)
+							.AddRouteValue("FileExtName", ViewBag.FileExtName)
+		  )
+		</div>
+
+
+
+
+
+	</div>
+</div>

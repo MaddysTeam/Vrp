@@ -125,13 +125,13 @@ namespace Res.Business
 		[Display(Name = "电子邮箱")]
 		public string Email { get; set; }
 
-		[Required]
-		[Display(Name = "密码问题")]
-		public string Question { get; set; }
+		//[Required]
+		//[Display(Name = "密码问题")]
+		//public string Question { get; set; }
 
-		[Required]
-		[Display(Name = "密码答案")]
-		public string Answer { get; set; }
+		//[Required]
+		//[Display(Name = "密码答案")]
+		//public string Answer { get; set; }
 
       [Required]
       [Display(Name = "真实姓名")]

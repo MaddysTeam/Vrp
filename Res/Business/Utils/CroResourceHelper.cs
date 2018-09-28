@@ -61,6 +61,13 @@ namespace Res.Business
       public static long MicroClass = 5010;
       public static long MicroCourse = 5011;
 
+
+      // 作品省份
+      public static long Zhejiang = 1312;
+      public static long Jiangsu = 1181;
+      public static long Shanghai = 1161;
+      public static long Anhui = 1425;
+
       private static Dictionary<string, long> dictMediumType;
 		public static long GetMediumType(string ext)
 		{

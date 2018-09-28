@@ -77,6 +77,7 @@ namespace Symber.Web.Report
 				};
 			}
 		}
+
 		public IEnumerable<System.Web.Mvc.SelectListItem> GetSelectList(long strengthValue)
 		{
 			var cache = APBplDef.ResPickListBpl.Cached(_innerKey);

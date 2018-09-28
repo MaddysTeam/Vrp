@@ -24,14 +24,8 @@ namespace Res.Business
 
       static CroResourceHelper()
 		{
-			//Domain = new PickListAPRptColumn(APDBDef.CroResource.DomainPKID, ThisApp.PLKey_ResourceDomain);
-			//Deformity = new PickListAPRptColumn(APDBDef.CroResource.DeformityPKID, ThisApp.PLKey_ResourceDeformity);
-			//LearnFrom = new PickListAPRptColumn(APDBDef.CroResource.LearnFromPKID, ThisApp.PLKey_ResourceLearnFrom);
-			//SchoolType = new PickListAPRptColumn(APDBDef.CroResource.SchoolTypePKID, ThisApp.PLKey_ResourceSchoolType);
 			Stage = new PickListAPRptColumn(APDBDef.CroResource.StagePKID, ThisApp.PLKey_ResourceStage);
 			Grade = new PickListAPRptColumn(APDBDef.CroResource.GradePKID, ThisApp.PLKey_ResourceGrade);
-			//ImportSource = new PickListAPRptColumn(APDBDef.CroResource.ImportSourcePKID, ThisApp.PLKey_ResourceImportSource);
-			//MediumType = new PickListAPRptColumn(APDBDef.CroResource.MediumTypePKID, ThisApp.PLKey_ResourceMedium);
 			ResourceType = new PickListAPRptColumn(APDBDef.CroResource.ResourceTypePKID, ThisApp.PLKey_ResourceType);
 			Subject = new PickListAPRptColumn(APDBDef.CroResource.SubjectPKID, ThisApp.PLKey_ResourceSubject);
 			State = new PickListAPRptColumn(APDBDef.CroResource.StatePKID, ThisApp.PLKey_ResourceState);
@@ -46,16 +40,16 @@ namespace Res.Business
 		public static long StateDelete = 10359;
 
 		// 资源来源类型
-		public static long SourceImport = 10201;
-		public static long SourceUpload = 10202;
+		//public static long SourceImport = 10201;
+		//public static long SourceUpload = 10202;
 
 		// 资源类型
-		public static long MediumText = 10211;
-		public static long MediumImage = 10212;
-		public static long MediumVideo = 10213;
-		public static long MediumAudio = 10214;
-		public static long MediumAnimation = 10215;
-		public static long MediumMix = 10216;
+		//public static long MediumText = 10211;
+		//public static long MediumImage = 10212;
+		//public static long MediumVideo = 10213;
+		//public static long MediumAudio = 10214;
+		//public static long MediumAnimation = 10215;
+		//public static long MediumMix = 10216;
 
       // 搜索类型
       public static string Hot = "rmyc";
@@ -66,10 +60,10 @@ namespace Res.Business
       public static long MicroCourse = 5011;
 
       // 作品省份
-      public static long Zhejiang = 5429;
-      public static long Jiangsu = 5430;
-      public static long Shanghai = 5427;
-      public static long Anhui = 5431;
+      public static long Zhejiang = 1312;
+      public static long Jiangsu = 1181;
+      public static long Shanghai = 1161;
+      public static long Anhui = 1425;
 
       private static Dictionary<string, long> dictMediumType;
 		public static long GetMediumType(string ext)

@@ -1,0 +1,89 @@
+﻿<!-- left sidebar -->
+<div class="col-md-2 left-sidebar">
+
+	<!-- main-nav -->
+	<nav class="main-nav">
+
+		<ul class="main-menu">
+			@*<li>
+					<a href="@Url.Action("Dashboard", "Home")">
+						<i class="fa fa-dashboard fa-fw"></i>
+						<span class="text">仪表板</span>
+					</a>
+				</li>*@
+			<li>
+				<a href="@Url.Action("Index", "CroBulletin")">
+					<i class="fa fa-newspaper-o fa-fw"></i>
+					<span class="text">平台公告</span>
+				</a>
+			</li>
+			<li>
+				<a href="@Url.Action("Search", "User")">
+					<i class="fa fa-user fa-fw"></i>
+					<span class="text">用户</span>
+				</a>
+			</li>
+			<li>
+				<a href="@Url.Action("Index", "Role")">
+					<i class="fa fa-group fa-fw"></i>
+					<span class="text">角色</span>
+				</a>
+			</li>
+			<li>
+				<a href="@Url.Action("Search", "Active")">
+					<i class="fa fa-fax fa-fw"></i>
+					<span class="text">项目管理</span>
+				</a>
+			</li>
+			<li>
+				<a href="@Url.Action("Index", "Company")">
+					<i class="fa fa-home fa-fw"></i>
+					<span class="text">单位管理</span>
+				</a>
+			</li>
+			@*}*@
+			@*<li>
+					<a href="@Url.Action("Main", "Report")">
+						<i class="fa fa-bar-chart-o fa-fw"></i>
+						<span class="text">报表 & 图表</span>
+					</a>
+				</li>*@
+			<li>
+				<a href="@Url.Action("Index", "Crosource")">
+					<i class="fa fa-image fa-fw"></i>
+					<span class="text">作品管理</span>
+				</a>
+			</li>
+			<li>
+
+				<a href="@Url.Action("Comment", "CroComment")">
+					<i class="fa fa-facebook fa-fw"></i>
+					<span class="text">评论管理</span>
+				</a>
+			</li>
+			<li>
+				<a href="javascript:void(0)" class="js-sub-menu-toggle">
+					<i class="fa fa-twitter fa-fw"></i>
+					<span class="text">评审管理</span>
+				</a>
+				<ul class="sub-menu">
+					<li><a href="@Url.Action("Search","EvalManage")">评审组管理</a></li>
+					<li><a href="@Url.Action("IndicationList","EvalManage")">指标管理</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="@Url.Action("Search","Eval")">
+					<i class="fa fa-image fa-fw"></i>
+					<span class="text">专家评分</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+	<!-- /main-nav -->
+
+	<div class="sidebar-minified js-toggle-minified">
+		<i class="fa fa-angle-left"></i>
+	</div>
+
+</div>
+<!-- end left sidebar -->

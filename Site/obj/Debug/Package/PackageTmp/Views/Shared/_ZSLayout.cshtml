@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="renderer" content="webkit" />
+	<title>@ViewBag.Title - 上海特教资源展示平台</title>
+	<!-- CSS -->
+	@Styles.Render("~/css/bootstrapzc")
+	@RenderSection("css", required: false)
+	@Styles.Render("~/css/app_zs")
+	@{ 
+		var Level = Request["Level"];
+	}
+</head>
+<body>
+
+	<div class="container z_top">
+		<div class="top_nav zs_mg">
+			@if (Request.IsAuthenticated)
+			{
+				<span class="fr">
+					<a href="@Url.Action("Index", "My", new { id = ResSettings.SettingsInSession.UserId })">进入我的个人中心</a>
+					<span class="nav_s_bo"></span>
+					<a href="@Url.Action("LogOff", "Account")">退出我的登录</a>
+				</span>
+			}
+			else
+			{
+				<span class="fr">
+					<a href="@Url.Action("Login", "Account")">登录</a>
+					<span class="nav_s_bo"></span>
+					<a href="@Url.Action("Register", "Account")">注册</a>
+				</span>				
+			}
+			<a class="nav_s_text" href="@Url.Action("Index", "Home")" target="_blank">进入上海特教资源库</a>
+			<span class="nav_s_bo"></span>
+			<a class="nav_s_text" href="@Url.Action("Index", "ZSResource")">欢迎访问特教资源专题展示平台</a>
+		</div>
+	</div>
+
+	<div class="container">
+
+		<div class="bg_img">
+
+			<div class="z_banner">
+
+				<div class="banner_img">
+					<a href="@Url.Action("Index", "ZSResource")"><img src="~/assets/img/zs-logo.png" /></a>
+				</div>
+
+				<div class="zs_mg nav_c">
+					<ul class="nav">
+						<li class="@(Level == "品德与社会" ? "t_c" : "")"><a href="@Url.Action("Search", "ZSResource", new { Level = "品德与社会" })">品德与社会</a></li>
+						<li class="@(Level == "科普活动" ? "t_c" : "")"><a href="@Url.Action("Search", "ZSResource", new { Level = "科普活动" })">科普活动</a></li>
+					</ul>
+
+					@*@using (Html.BeginForm("Search", "CroResource", FormMethod.Get, new { name = "searchform", @class = "nav_f" }))
+					{
+						<div class="input-group">
+							<input name="Keywords" type="text" placeholder="点击输入文字搜索" class="form-control" />
+							<a href="javascript:;" class="input-group-addon glyphicon glyphicon-search"></a>
+						</div>
+					}*@
+				</div>
+
+			</div>
+
+			
+
+			<div class="zs_mg">
+
+				@RenderBody()
+
+			</div>
+
+		</div>
+
+	</div>
+	
+
+
+
+	<div class="d_bottom">
+		<div class="container d_b w_1230">
+			<p>版权所有 Copy right © 2015</p>
+			<p>上海市教育委员会 技术支持: 上海远程教育集团</p>
+		</div>
+	</div>
+	@Scripts.Render("~/js/jquery")
+	@Scripts.Render("~/js/bootstrap")
+	@RenderSection("plugins", required: false)
+	@RenderSection("scripts", required: false)
+</body>
+</html>

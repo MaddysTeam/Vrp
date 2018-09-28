@@ -36,6 +36,12 @@ namespace Res.Business
 		public static long GenderMale = 1001;
 		public static long GenderFemale = 1002;
 
-	}
+
+      //TODO: 用户类型
+      public static long Teacher = 5001;
+      public static long Admin = 5002;
+      public static long Export = 5003;
+
+   }
 
 }

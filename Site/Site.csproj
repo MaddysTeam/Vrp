@@ -852,6 +852,7 @@
     <Content Include="Views\CroMy\CroMyCourses.cshtml" />
     <Content Include="Views\CroHome\_Favorite.cshtml" />
     <Content Include="Views\CroHome\_Province.cshtml" />
+    <Content Include="Views\CroMy\ChgPwd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

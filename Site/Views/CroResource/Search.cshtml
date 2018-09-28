@@ -54,14 +54,16 @@
 				<img src="@item.FitCoverPath" />
 				<div class="i_res_text res_text ">
 					<p>
-						<a href="@Url.Action("ZcView", "CroResource", new { id=item.CrosourceId })" title="@item.Title"><span class="restitle">@item.Title</span></a>
+						作品：<a href="@Url.Action("ZcView", "CroResource", new { id=item.CrosourceId,courseId=item.CourseId })"><span class="restitle">@item.ResourceTitle  </span></a>
+					</p>
+					<p>
+						微课：<a  title="@item.Title">@item.Title</a>
 					</p>
 					<p class="t">
 						@item.Description
 					</p>
 					<p>
-						作者：<b>@item.Author</b>   单位：<b>@item.AuthorCompany</b>   上传日期：<b>@item.CreatedTime.ToShortDateString()</b>  格式：<b>@item.FileExtName</b>
-
+						省份：<b>@item.Province</b>   市区：<b>@item.Area</b>   学校：<b>@item.School</b> 	作者：<b>@item.Author</b>   单位：<b>@item.AuthorCompany</b>   上传日期：<b>@item.CreatedTime.ToShortDateString()</b> 
 					</p>
 				</div>
 			</div>
@@ -123,7 +125,7 @@
 
 
 	$(function () {
-		RelationSelect($("#StagePKID"), $("#GradePKID"), grades, "适用全体年级");
+		//RelationSelect($("#StagePKID"), $("#GradePKID"), grades, "适用全体年级");
 	});
 
 	function RelationSelect(src, tat, rule, none) {

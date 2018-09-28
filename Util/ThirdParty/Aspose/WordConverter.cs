@@ -1,4 +1,5 @@
 ﻿using Aspose.Words;
+using Aspose.Words.Saving;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,8 +15,8 @@ namespace Util.ThirdParty.Aspose
    /// </summary>
    public static class WordConverter
    {
-       
-      public static void ConvertoHtml(Stream source,string destPath)
+
+      public static void ConvertoHtml(Stream source, string destPath)
       {
          if (source == null) throw new ArgumentNullException("source stream can not be null");
 
@@ -33,13 +34,47 @@ namespace Util.ThirdParty.Aspose
 
       public static Stream ConvertoHtml(Stream source)
       {
+
          if (source == null) throw new ArgumentNullException("source stream can not be null");
-         var stream = new MemoryStream();
-         new Document(source).Save(stream, SaveFormat.Html);
+         //byte[] contentBytes = new byte[source.Length];
+         //source.Read(contentBytes, 0, contentBytes.Length);
+         var stream = ConvertRightNowAspose(source, SaveFormat.Html);
 
          return stream;
       }
 
+
+      internal static Stream ConvertRightNowAspose(Stream stream, SaveFormat saveFormat)
+      {
+         Document doc = new Document(stream);
+
+         var firstStream = new MemoryStream();
+         if (saveFormat == SaveFormat.Html)
+         {
+            HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.Html);
+            options.ImageSavingCallback = new HandleImageSaving();
+            doc.Save(firstStream, options);
+         }
+         else
+         {
+            doc.Save(firstStream, saveFormat);
+         }
+
+         return firstStream;
+      }
+
+      class HandleImageSaving : IImageSavingCallback
+      {
+         void IImageSavingCallback.ImageSaving(ImageSavingArgs e)
+         {
+            e.ImageStream = new MemoryStream();
+            e.KeepImageStreamOpen = false;
+         }
+      }
+
+
    }
 
 }
+
+
