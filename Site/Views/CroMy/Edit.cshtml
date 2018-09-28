@@ -44,17 +44,7 @@
 			<div class="form-group">
 				<div class="control-label col-sm-3">头像缩略图</div>
 				<div class="col-sm-9 coverImageArea">
-					<img src="@Model.PhotoPath" id="ShowCover" class="btn-upload" style="width:440px; height:226px;"  onerror=""/>
-					@*@if (!string.IsNullOrEmpty(Model.PhotoPath))
-					{
-						
-					}
-					else
-					{
-						<div id="showCover" title="点击选择头像" class="cover-bg btn-upload">
-							<span>点击选择封面</span>
-						</div>
-					}*@
+					<img src="@Model.PhotoPath" id="showCover" class="btn-upload" style="width:440px; height:226px;"  onerror=""/>
 				</div>
 				@Html.HiddenFor(m => m.PhotoPath)
 			</div>
@@ -70,7 +60,7 @@
 
 	</div>
 	<div class="cb"></div>
-	<form action="@Url.Action("UploadCover", "Attachment")" class="dropzone photo"></form>
+	<form action="@Url.Action("UploadCover", "Attachment")" class="dropzone photo" style="display:none;"></form>
 </div>
 
 @section Plugins {
@@ -100,7 +90,7 @@
 			});
 
 
-			$('#ShowCover').on('click', function () {
+			$('#showCover').on('click', function () {
 				$(".dropzone.photo").trigger('click');
 			});
 

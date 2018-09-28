@@ -201,6 +201,8 @@ namespace Res.Business
       public string CoverName { get; set; }
       public string DesignName { get; set; }
       public string SummaryName { get; set; }
+      public string CoursewareName { get; set; }
+      public string AttachmentName { get; set; }
       public string CoverPath { get; set; }
       public string FitCoverPath
       {
@@ -213,6 +215,9 @@ namespace Res.Business
       }
       public string DesignPath { get; set; }
       public string SummaryPath { get; set; }
+      public string CoursewarePath { get; set; }
+      public string AttachmentPath { get; set; }
+
       public List<Exercises> Exercises { get; set; }
 
    }

@@ -11,14 +11,17 @@
 	
 		<img  src="@item.FitCoverPath"/>
 		<div class="i_res_text res_text ">
+			@*<p>
+				作品：<a href="@Url.Action("ZcView", "CroResource", new { id=item.CrosourceId,courseId=item.CourseId })"><span class="restitle">@item.ResourceTitle  </span></a>
+			</p>*@
 			<p>
-				<a href="@Url.Action("ZcView", "CroResource", new { id = item.CrosourceId })" title="@item.Title"><span class="restitle">@item.Title</span></a>
+				<a href="@Url.Action("ZcView", "CroResource", new { id=item.CrosourceId,courseId=item.CourseId })"  title="@item.Title">@item.Title</a>
 			</p>
 			<p class="t">
-				@item.Description
+				描述：@item.Description
 			</p>
 			<p>
-				作者：<b>@item.Author</b>   单位：<b>@item.AuthorCompany</b>   上传日期：<b>@item.CreatedTime.ToShortDateString()</b>  格式：<b>@item.FileExtName</b>
+			  市区：<b>@item.Area</b> &nbsp; 学校：<b>@item.School</b>  &nbsp;  	作者：<b>@item.Author</b>  &nbsp;   单位：<b>@item.AuthorCompany</b>   &nbsp;  上传日期：<b>@item.CreatedTime.ToShortDateString()</b> 
 
 			</p>
 		</div>

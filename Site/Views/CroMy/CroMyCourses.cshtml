@@ -83,6 +83,44 @@
 		<input type="hidden" class="fileId" value="@Model.SummaryId" />
 	</div>
 
+	<div class="form-group coursewareUploader">
+		<label class="control-label col-sm-3"> <span class="request"></span>课件</label>
+
+		<div class="col-sm-9">
+			<div class="input-group">
+				@Html.TextBoxFor(m => m.CoursewareName, new { @class = "form-control resource-path", maxlength = "255", placeholder = "添加课件", @readonly = "readonly" })
+				<div class="input-group-btn">
+					<button type="button" class="btn btn-default dropdown-toggle btn-upload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">选择 </button>
+				</div>
+			</div>
+			<div class="progress" style="display:none">
+				<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+					<span class="sr-only"></span>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" class="fileId" value="@Model.CoursewareId" />
+	</div>
+
+	<div class="form-group attachmentUploader">
+		<label class="control-label col-sm-3"> <span class="request"></span>其他附件</label>
+
+		<div class="col-sm-9">
+			<div class="input-group">
+				@Html.TextBoxFor(m => m.AttachmentName, new { @class = "form-control resource-path", maxlength = "255", placeholder = "添加其他附件", @readonly = "readonly" })
+				<div class="input-group-btn">
+					<button type="button" class="btn btn-default dropdown-toggle btn-upload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">选择 </button>
+				</div>
+			</div>
+			<div class="progress" style="display:none">
+				<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+					<span class="sr-only"></span>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" class="fileId" value="@Model.AttachmentId" />
+	</div>
+
 	<div class="form-group">
 		<label class="control-label col-sm-3"> <span class="request"></span>练习/测试题</label>
 		<div class="col-sm-9">

@@ -54,6 +54,7 @@ namespace Res.Business
       // 搜索类型
       public static string Hot = "rmyc";
       public static string Latest = "zxyc";
+      public static string Praise = "dpph";
 
       // 作品类型
       public static long MicroClass = 5010;

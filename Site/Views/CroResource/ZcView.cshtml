@@ -5,7 +5,11 @@
 	var course = ViewBag.CurrentCourse as MicroCourse;
 }
 @model CroResource
-
+<style>
+	.btn-sm {
+		padding: 2px 10px;
+	}
+</style>
 <div class="row">
 	<div class="col-md-9">
 
@@ -59,11 +63,13 @@
 						<p><span>关 键 字： @Model.Keywords </span><span>&nbsp;&nbsp;练 习 题：<button class="btn btn-danger  btn-sm">答 题</button></span></p>
 						<p><span>作品类型： 微课程</span><span>收藏次数： @Model.FavoriteCount 次</span></p>
 						<p><span>上传日期： @Model.CreatedTime.ToShortDateString()</span><span>浏览次数： @Model.ViewCount 次</span></p>
+						<p>
+							@if (course.DesignPath != null){<span>教学设计： <a href="@course.DesignPath.Replace(".doc",".html").Replace(".docx",".html")" target="_blank" class="btn btn-info btn-sm">预 览</a></span>}@if (course.SummaryPath != null){<span>教学反思： <a href="@course.SummaryPath.Replace(".doc",".html").Replace(".docx",".html")" target="_blank" class="btn btn-info btn-sm">  预 览</a></span>}
+						</p>
 
-						<p>@if (course.DesignPath != null)
-						{<span>教学设计：<a href="@course.DesignPath.Replace(".doc",".html").Replace(".docx",".html")" target="_blank" class="btn btn-info btn-sm">预 览</a></span>}@if (course.SummaryPath != null)
-						{<span>教学反思： <a href="@course.SummaryPath.Replace(".doc",".html").Replace(".docx",".html")" target="_blank" class="btn btn-info btn-sm">  预 览</a></span>}</p>
-						<p></p>
+						<p>
+							@if (course.CoursewarePath != null){<span>课&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件： <a href="@course.CoursewarePath" target="_blank" class="btn btn-info btn-sm">  下 载</a></span>}@if (course.AttachmentPath != null){<span>其他附件： <a href="@course.AttachmentPath" target="_blank" class="btn btn-info btn-sm">  下 载</a></span>}
+						</p>
 					</div>
 
 					<div class="div ">

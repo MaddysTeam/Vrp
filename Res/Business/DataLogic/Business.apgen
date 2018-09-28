@@ -67,7 +67,6 @@
 				</columns>
 			</table>
 
-
 			<!-- Defined 'ResPickListItem' DB table and auto generite db access codes.
 				-->
 			<table name="ResPickListItem" comment="选项列表项" >
@@ -270,7 +269,7 @@
 					<add name="ProvinceId" type="long" display="所属省份"/>
 					<add name="AreaId" type="long" display="所属地区"/>
 					<add name="CompanyId" type="long" display="所属学校"/>
-					<add name="ActiveId" type="long" display="所属活动"/>
+					<add name="ActiveId" type="long" display="所属项目"/>
 					
 					<add name="AuthorCompany" type="string" dataLength="255" required="true"  display="作者单位"/>
 					<add name="AuthorAddress" type="string" dataLength="255" display="作者地址"/>
@@ -284,6 +283,8 @@
 					<add name="SubjectPKID" type="long" required="true" display="学科" comment="PickList - APEdu.net key is PLKey_ResourceSubject"/>
 					<add name="CourseTypePKID" type="long" required="true" display="微课类型" comment="PickList - APEdu.net key is PLKey_CourseType"/>
 					<add name="StatePKID" type="long" display="状态" comment="PickList - APEdu.net key is PLKey_ResourceState"/>
+					<add name="PublicStatePKID" type="long" display="公开设置"  defaultValue="0" comment="PickList - APEdu.net key is PLKey_ResourcePublicState"/>
+					<add name="DownloadStatePKID" type="long" display="下载设置" defaultValue="0" comment="PickList - APEdu.net key is PLKey_ResourceDownloadState"/>
 					
 					<!-- Count -->
 					<add name="DownCount" type="int" display="下载次数"/>
@@ -312,11 +313,13 @@
 				<columns>
 					<add name="CourseId" type="long" identityType="Provider" primaryKey="true"/>
 					<add name="CourseTitle" type="string" dataLength="255" required="true" display="微课标题"/>
-					<add name="ResourceId" type="long" display="微课程资源Id"  required="true" />
-					<add name="VideoId" type="long" display="视频文件ID" required="true"/>
-					<add name="CoverId" type="long" display="封面文件ID"/>
-					<add name="DesignId" type="long" display="设计ID"/>
-					<add name="SummaryId" type="long" display="反思ID"/>
+					<add name="ResourceId" type="long" display="微课程资源"  required="true" />
+					<add name="VideoId" type="long" display="视频文件" required="true"/>
+					<add name="CoverId" type="long" display="封面文件"/>
+					<add name="DesignId" type="long" display="设计"/>
+					<add name="SummaryId" type="long" display="反思"/>
+					<add name="CoursewareId" type="long" display="课件"/>
+					<add name="AttachmentId" type="long" display="附件"/>
 					<add name="CharpterSortId" type="long"/>
 					<add name="PlayCount" type="int" display="播放次数"/>
 

@@ -46,26 +46,12 @@
 								</div>
 							</div>
 
-							@*<div class="form-group">
-									<label class="control-label col-sm-3"> <span class="request">*</span> 作品类型</label>
-
-									<div class="col-sm-9">
-									@Html.RadioButtonFor(m => m.RType,"1", new { @name = "rdolstState",@class="yuanchuang", @Checked = "checked" })原创作品
-
-									@Html.RadioButtonFor(m => m.RType,"2",new { @name = "rdolstState", @class="tuijian"})推荐作品
-									@Html.TextBoxFor(m => m.RSource, new { @class = "form-control source", maxlength = "255", placeholder = "作品出处" })
-									 @Html.ValidationMessageFor(m => m.RSource)
-									</div>
-								</div>*@
-
 							<div class="form-group">
 								@Html.LabelFor(m => m.Description, new { @class = "control-label col-sm-3" })
 								<div class="col-sm-9">
 									@Html.TextAreaFor(m => m.Description, 4, 30, new { @class = "form-control  textarea", maxlength = "150", placeholder = "作品简介" })
 									<div class="img_ta_num">简介最多只允许填写150个字以内</div>
-
 								</div>
-
 							</div>
 
 							<div class="form-group">
@@ -76,18 +62,21 @@
 
 								</div>
 							</div>
+
 							<div class="form-group ">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 省份</label>
 								<div class="col-sm-9">
 									@Html.DropDownListFor(m => m.ProvinceId, ResSettings.SettingsInSession.AllProvince().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择省份", new { @class = "form-control" })
 								</div>
 							</div>
+
 							<div class="form-group ">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 地区</label>
 								<div class="col-sm-9">
 									@Html.DropDownListFor(m => m.AreaId, ResSettings.SettingsInSession.AllAreas().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择地区", new { @class = "form-control" })
 								</div>
 							</div>
+
 							<div class="form-group ">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 学校</label>
 								<div class="col-sm-9">
@@ -100,6 +89,7 @@
 									@Html.DropDownListFor(m => m.GradePKID, CroResourceHelper.Grade.GetSelectList(), "适用全体年级", new { @class = "form-control" })
 								</div>
 							</div>
+
 							<div class="form-group">
 								<label class="control-label col-sm-3"> 学科</label>
 								<div class="col-sm-9">
@@ -114,6 +104,7 @@
 									@Html.ValidationMessageFor(m => m.Author)
 								</div>
 							</div>
+
 							<div class="form-group">
 									<label class="control-label col-sm-3"> <span class="request">*</span> 作者单位</label>
 
@@ -122,6 +113,7 @@
 										@Html.ValidationMessageFor(m => m.AuthorCompany)
 									</div>
 								</div>
+
 							<div class="form-group">
 								@Html.LabelFor(m => m.AuthorAddress, new { @class = "control-label col-sm-3" })
 								<div class="col-sm-9">
@@ -129,6 +121,7 @@
 									@Html.ValidationMessageFor(m => m.AuthorAddress)
 								</div>
 							</div>
+
 							<div class="form-group">
 								@Html.LabelFor(m => m.AuthorEmail, new { @class = "control-label col-sm-3" })
 								<div class="col-sm-9">
@@ -136,6 +129,7 @@
 									@Html.ValidationMessageFor(m => m.AuthorEmail)
 								</div>
 							</div>
+
 							<div class="form-group">
 								@Html.LabelFor(m => m.AuthorPhone, new { @class = "control-label col-sm-3" })
 								<div class="col-sm-9">
@@ -287,6 +281,8 @@
 					CoverId:$this.find('.coverUploader .fileId').val(),
 					DesignId:$this.find('.designUploader .fileId').val(),
 					SummaryId:$this.find('.summaryUploader .fileId').val(),
+					CoursewareId:$this.find('.coursewareUploader .fileId').val(),
+					AttachmentId:$this.find('.attachmentUploader .fileId').val(),
 					CharpterSortId:i+1,
 					Exercises:[]
 				};
@@ -386,6 +382,8 @@
 				bindResourceUploader($('.coverUploader'),'cover','image/*');
 				bindResourceUploader($('.designUploader'),'design','.doc,.docx');
 				bindResourceUploader($('.summaryUploader'),'summary','.doc,.docx');
+				bindResourceUploader($('.coursewareUploader'),'courseware','.doc,.docx');
+				bindResourceUploader($('.attachmentUploader'),'attachment','.doc,.docx');
 				bindAllExersiesEvnt();
 				bindAllStemEvnt();
 			});
@@ -394,6 +392,8 @@
 			bindResourceUploader($('.coverUploader'),'cover','image/*');
 			bindResourceUploader($('.designUploader'),'design','.doc,.docx');
 			bindResourceUploader($('.summaryUploader'),'summary','.doc,.docx');
+			bindResourceUploader($('.coursewareUploader'),'courseware','.doc,.docx');
+			bindResourceUploader($('.attachmentUploader'),'attachment','.doc,.docx');
 			bindAllExersiesEvnt(); // 绑定所有新增习题	事件
 			bindAllStemEvnt(); // 绑定页面所有题干事件
 			bindItemRemoveEvnt();//绑定习题项删除事件
@@ -452,6 +452,8 @@
 			course.append(creatCover());
 			course.append(createUploder('designUploader','教学设计'));
 			course.append(createUploder('summaryUploader','教学反思'));
+			course.append(createUploder('coursewareUploader','课件'));
+			course.append(createUploder('attachmentUploader','其他附件'));
 			course.append(createExcieses());
 
 			return course;

@@ -193,7 +193,6 @@ namespace Res.Controllers
          var result = await UserManager.CreateAsync(user, model.Password);
          if (result.Succeeded)
          {
-            //  APBplDef.ResRealBpl.UpdatePartial(model.RealId, new { state = true });
             APBplDef.ResUserRoleBpl.Insert(new ResUserRole() { UserId = user.UserId, RoleId = 2 });
             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 

@@ -449,6 +449,8 @@ namespace Res.Business
          static APDBDef.FilesTableDef cf = APDBDef.Files.As("CoverFile");
          static APDBDef.FilesTableDef df = APDBDef.Files.As("DesignFile");
          static APDBDef.FilesTableDef sf = APDBDef.Files.As("SummaryFile");
+         static APDBDef.FilesTableDef cwf = APDBDef.Files.As("CoursewareFile");
+         static APDBDef.FilesTableDef atf = APDBDef.Files.As("AttachmentFile");
 
          /// <summary>
          ///  get complex resource object
@@ -462,7 +464,9 @@ namespace Res.Business
                                       vf.FileName.As("VideoName"), vf.FilePath.As("VideoPath"),
                                       cf.FileName.As("CoverName"), cf.FilePath.As("CoverPath"),
                                       df.FileName.As("DesignName"), df.FilePath.As("DesignPath"),
-                                      sf.FileName.As("SummaryName"), sf.FilePath.As("SummaryPath")
+                                      sf.FileName.As("SummaryName"), sf.FilePath.As("SummaryPath"),
+                                      cwf.FileName.As("CoursewareName"), cwf.FilePath.As("CoursewarePath"),
+                                      atf.FileName.As("AttachmentName"), atf.FilePath.As("AttachmentPath")
                                      )
                                .from(cr,
                                      mc.JoinLeft(cr.CrosourceId == mc.ResourceId),
@@ -471,7 +475,9 @@ namespace Res.Business
                                      vf.JoinLeft(vf.FileId == mc.VideoId),
                                      cf.JoinLeft(cf.FileId == mc.CoverId),
                                      df.JoinLeft(df.FileId == mc.DesignId),
-                                     sf.JoinLeft(sf.FileId == mc.SummaryId)
+                                     sf.JoinLeft(sf.FileId == mc.SummaryId),
+                                     cwf.JoinLeft(cwf.FileId==mc.CoursewareId),
+                                     atf.JoinLeft(atf.FileId == mc.AttachmentId)
                                      )
                                 .where(cr.CrosourceId == resourceId);
 
@@ -492,10 +498,14 @@ namespace Res.Business
                course.VideoPath = vf.FilePath.GetValue(r, "VideoPath");
                course.DesignPath = df.FilePath.GetValue(r, "DesignPath");
                course.SummaryPath = sf.FilePath.GetValue(r, "SummaryPath");
+               course.CoursewarePath = cwf.FilePath.GetValue(r, "CoursewarePath");
+               course.AttachmentPath = atf.FilePath.GetValue(r, "AttachmentPath");
                course.VideoName = vf.FileName.GetValue(r, "VideoName");
                course.CoverName = cf.FileName.GetValue(r, "CoverName");
                course.DesignName = df.FileName.GetValue(r, "DesignName");
                course.SummaryName = sf.FileName.GetValue(r, "SummaryName");
+               course.CoursewareName = cwf.FileName.GetValue(r, "CoursewareName");
+               course.AttachmentName = atf.FileName.GetValue(r, "AttachmentName");
 
                var exe = new Exercises();
                et.Fullup(r, exe, false);

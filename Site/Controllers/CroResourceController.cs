@@ -127,64 +127,58 @@ namespace Res.Controllers
       /// <param name="type"></param>
       /// <param name="page"></param>
       /// <returns></returns>
-      public ActionResult More(string type, int page = 1, string mediumtypepkid = null, string FileExtName = null)
+      public ActionResult More(string type, int page = 1)
       {
          var t = APDBDef.CroResource;
          int total = 0;
 
-         if (mediumtypepkid == "null")
+         if (type == CroResourceHelper.Hot)
          {
-            if (type == CroResourceHelper.Hot)
-            {
-               ViewBag.ListOfMore = CroHomeRankingList(t.EliteScore.Desc, null, out total, 10, (page - 1) * 10);
-               ViewBag.Title = "热门作品";
-            }
-            else if (type == CroResourceHelper.Latest)
-            {
-               ViewBag.ListOfMore = CroHomeRankingList(t.CreatedTime.Desc, null, out total, 10, (page - 1) * 10);
-               ViewBag.Title = "最新作品";
-            }
-
-            // 分页器
-            ViewBag.ParamType = type;
-            ViewBag.PageSize = 10;
-            ViewBag.PageNumber = page;
-            ViewBag.TotalItemCount = total;
-            // 右侧热门作品
-            ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5);
-            // 右侧最新作品
-            ViewBag.RankingROfNewCount = CroHomeRankingList(APDBDef.CroResource.CreatedTime.Desc, null, out total, 5);
-
+            ViewBag.ListOfMore = CroHomeRankingList(t.ViewCount.Desc, null, out total, 10, (page - 1) * 10);
+            ViewBag.Title = "热门微课";
          }
-         else
+         else if (type == CroResourceHelper.Praise)
          {
-            if (type == "rmgd")
-            {
-               //  ViewBag.ListOfMore = CroHomeRankingList(t.EliteScore.Desc, null, out total, 10, (page - 1) * 10, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
-               ViewBag.Title = "热门作品";
-            }
-            else if (type == "zxgd")
-            {
-               //  ViewBag.ListOfMore = CroHomeRankingList(t.CreatedTime.Desc, null, out total, 10, (page - 1) * 10, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
-               ViewBag.Title = "最新作品";
-            }
-
-            // 分页器
-            ViewBag.ParamType = type;
-            ViewBag.PageSize = 10;
-            ViewBag.PageNumber = page;
-            ViewBag.TotalItemCount = total;
-
-
-            // 右侧热门作品
-            //ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5, 0, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
-            // 右侧最新作品
-            //ViewBag.RankingROfNewCount = CroHomeRankingList(APDBDef.CroResource.CreatedTime.Desc, null, out total, 5, 0, t.MediumTypePKID == Int64.Parse(mediumtypepkid), FileExtName);
-
+            ViewBag.ListOfMore = CroHomeRankingList(t.PraiseCount.Desc, null, out total, 10, (page - 1) * 10);
+            ViewBag.Title = "得票微课";
+         }
+         else if (type == CroResourceHelper.Latest)
+         {
+            ViewBag.ListOfMore = CroHomeRankingList(t.CreatedTime.Desc, null, out total, 10, (page - 1) * 10);
+            ViewBag.Title = "最新微课";
+         }
+         else if (type == CroResourceHelper.Jiangsu.ToString())
+         {
+            ViewBag.ListOfMore = CroHomeRankingList(t.CreatedTime.Desc, t.ProvinceId == CroResourceHelper.Jiangsu, out total, 10, (page - 1) * 10);
+            ViewBag.Title = "江苏省";
+         }
+         else if (type == CroResourceHelper.Zhejiang.ToString())
+         {
+            ViewBag.ListOfMore = CroHomeRankingList(t.CreatedTime.Desc, t.ProvinceId == CroResourceHelper.Zhejiang, out total, 10, (page - 1) * 10);
+            ViewBag.Title = "浙江省";
+         }
+         else if (type == CroResourceHelper.Shanghai.ToString())
+         {
+            ViewBag.ListOfMore = CroHomeRankingList(t.CreatedTime.Desc, t.ProvinceId == CroResourceHelper.Shanghai, out total, 10, (page - 1) * 10);
+            ViewBag.Title = "上海市";
+         }
+         else if (type == CroResourceHelper.Anhui.ToString())
+         {
+            ViewBag.ListOfMore = CroHomeRankingList(t.CreatedTime.Desc, t.ProvinceId == CroResourceHelper.Anhui, out total, 10, (page - 1) * 10);
+            ViewBag.Title = "安徽省";
          }
 
-         ViewBag.mediumtypepkid = mediumtypepkid;
-         ViewBag.FileExtName = FileExtName;
+
+         // 分页器
+         ViewBag.ParamType = type;
+         ViewBag.PageSize = 10;
+         ViewBag.PageNumber = page;
+         ViewBag.TotalItemCount = total;
+         // 右侧热门作品
+         ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5);
+         // 右侧最新作品
+         ViewBag.RankingROfNewCount = CroHomeRankingList(APDBDef.CroResource.CreatedTime.Desc, null, out total, 5);
+
 
          return View();
       }
