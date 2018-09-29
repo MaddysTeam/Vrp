@@ -78,11 +78,17 @@ namespace Res.Controllers
 				if (searchPhrase != "")
 
 					query.where_and(t.Title.Match(searchPhrase) | t1.Content.Match(searchPhrase));
-
-
 			}
-		
-			total = db.ExecuteSizeOfSelect(query);
+
+         var user = ResSettings.SettingsInSession.User;
+         if (user.ProvinceId > 0)
+            query.where_and(t.ProvinceId == user.ProvinceId);
+         if (user.AreaId > 0)
+            query.where_and(t.AreaId == user.AreaId);
+         if (user.CompanyId > 0)
+            query.where_and(t.CompanyId == user.CompanyId);
+
+         total = db.ExecuteSizeOfSelect(query);
 
 			return db.Query(query, reader =>
 			{

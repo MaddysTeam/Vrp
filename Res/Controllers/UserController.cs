@@ -78,6 +78,10 @@ namespace Res.Controllers
 
       public ActionResult Edit(long? id)
       {
+         ViewBag.Provinces = CrosourceController.GetStrengthDict(ResSettings.SettingsInSession.AllProvince());
+         ViewBag.Areas = CrosourceController.GetStrengthDict(ResSettings.SettingsInSession.AllAreas());
+         ViewBag.Schools = CrosourceController.GetStrengthDict(ResSettings.SettingsInSession.AllSchools());
+
          if (id == null)
          {
             return Request.IsAjaxRequest() ? (ActionResult)PartialView() : View();
@@ -141,7 +145,9 @@ namespace Res.Controllers
                 model.PhotoPath,
                 model.CompanyId,
                 model.IDCard,
-                model.UserTypePKID
+                model.UserTypePKID,
+                model.ProvinceId,
+                model.AreaId
             });
          }
 
@@ -167,6 +173,8 @@ namespace Res.Controllers
 		[HttpPost]
 		public ActionResult Search(int current, int rowCount, string searchPhrase, long companyId, FormCollection fc)
 		{
+         var companyPath = ResSettings.SettingsInSession.CompanyPath;
+
 			//----------------------------------------------------------
 			var t = APDBDef.ResUser;
 			var c = APDBDef.ResCompany;
@@ -199,14 +207,21 @@ namespace Res.Controllers
 					where &= (t.UserName.Match(searchPhrase) | t.RealName.Match(searchPhrase));
 			}
 
-			if (companyId != 0)
-			{
-				where &= new APSqlConditionPhrase(c.Path, APSqlConditionOperator.Like, 
-					APQuery.select(APSqlThroughExpr.Expr("path + '%'"))
-					.from(c).where(c.CompanyId == companyId));
-			}
+         if (companyId != 0)
+         {
+            where &= new APSqlConditionPhrase(c.Path, APSqlConditionOperator.Like,
+               APQuery.select(APSqlThroughExpr.Expr("path + '%'"))
+               .from(c).where(c.CompanyId == companyId));
+         }
+         else
+         {
+            where &= c.Path.Match(companyPath);
+            //if (!string.IsNullOrEmpty(companyPath))
+            //   where &= new APSqlConditionPhrase(c.Path, APSqlConditionOperator.Like,
+            //   APQuery.select(APSqlThroughExpr.Expr("path + '%'"))
+            //   .from(c).where(c.Path.Match(companyPath)));
 
-
+         }
 			int total;
 			var list = APBplDef.ResUserBpl.TolerantSearch(out total, current, rowCount, where, order);
 			//----------------------------------------------------------
@@ -223,7 +238,7 @@ namespace Res.Controllers
 									 res.UserName,
 									 res.RealName,
 									 res.CompanyName,
-									 res.RoleName,
+									 res.UserType,
 									 res.Gender,
 									 res.Email,
 									 RegisterTime = res.RegisterTime.ToString("yyyy-MM-dd"),

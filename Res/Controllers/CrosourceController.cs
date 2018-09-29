@@ -43,6 +43,8 @@ namespace Res.Controllers
       [HttpPost]
       public ActionResult Search(int current, int rowCount, string searchPhrase, FormCollection fc)
       {
+         var user = ResSettings.SettingsInSession.User;
+
          //----------------------------------------------------------
          var t = APDBDef.CroResource;
          var u = APDBDef.ResUser;
@@ -63,6 +65,7 @@ namespace Res.Controllers
             }
          }
 
+
          // 按作品标题过滤
          if (searchPhrase != null)
          {
@@ -70,6 +73,13 @@ namespace Res.Controllers
             if (searchPhrase != "")
                where &= t.Title.Match(searchPhrase);
          }
+
+         if (user.ProvinceId > 0)
+            where &= t.ProvinceId == user.ProvinceId;
+         if (user.AreaId > 0)
+            where &= t.AreaId == user.AreaId;
+         if (user.CompanyId > 0)
+            where &= t.CompanyId == user.CompanyId;
 
 
          int total;

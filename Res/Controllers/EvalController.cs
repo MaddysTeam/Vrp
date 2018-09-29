@@ -36,7 +36,7 @@ namespace Res.Controllers
       public ActionResult Search(int current, int rowCount, string searchPhrase, FormCollection fc)
       {
          var expertId = ResSettings.SettingsInSession.UserId;
-         var query = APQuery.select(r.CrosourceId, r.Title, r.CourseTypePKID, r.Author, r.StagePKID, r.SubjectPKID, r.AuthorCompany, r.Keywords, eg.GroupName, eg.GroupId, er.Score)
+         var query = APQuery.select(r.CrosourceId, r.Title, r.CourseTypePKID, r.Author, r.StagePKID, r.SubjectPKID, r.AuthorCompany, r.Keywords, eg.GroupName, eg.GroupId.As("groupId"), er.Score, er.ResultId.As("resultId"))
                             .from(egr,
                                   r.JoinInner(egr.ResourceId == r.CrosourceId),
                                   eg.JoinInner(eg.GroupId == egr.GroupId),
@@ -60,7 +60,7 @@ namespace Res.Controllers
          {
             return new
             {
-               id = er.ResultId.GetValue(rd),
+               id = er.ResultId.GetValue(rd, "resultId"),
                resId = r.CrosourceId.GetValue(rd),
                title = r.Title.GetValue(rd),
                author = r.Author.GetValue(rd),
@@ -69,10 +69,10 @@ namespace Res.Controllers
                company = r.AuthorCompany.GetValue(rd),
                keywords = r.Keywords.GetValue(rd),
                groupName = eg.GroupName.GetValue(rd),
-               groupId = eg.GroupId.GetValue(rd),
+               groupId = eg.GroupId.GetValue(rd, "groupId"),
                score = er.Score.GetValue(rd),
             };
-         });
+         }).ToList();
 
          return Json(new
          {
@@ -94,7 +94,7 @@ namespace Res.Controllers
          var i = APDBDef.Indication;
          var a = APDBDef.Active;
 
-         var model = APBplDef.CroResourceBpl.GetResource(db,resId);
+         var model = APBplDef.CroResourceBpl.GetResource(db, resId);
 
          var list = APQuery.select(i.IndicationId, i.Description, i.LevelPKID, i.Score,
                                     i.TypePKID, i.ActiveId, a.ActiveName, a.ActiveId,
@@ -110,7 +110,7 @@ namespace Res.Controllers
                indication.IndicationId = i.IndicationId.GetValue(r);
                indication.Description = i.Description.GetValue(r);
                indication.EvalScore = eri.Score.GetValue(r, "evalScore");
-               indication.Score = i.Score.GetValue(r);
+               indication.Score = (int)eri.Score.GetValue(r);
                indication.LevelPKID = i.LevelPKID.GetValue(r);
                indication.TypePKID = i.TypePKID.GetValue(r);
                return indication;
@@ -142,8 +142,8 @@ namespace Res.Controllers
          foreach (var item in model.Items)
          {
             var maxScore = list.Find(x => x.IndicationId == item.IndicationId).Score;
-            if (item.Score < maxScore || item.Score > maxScore)
-               return Request.IsAjaxRequest() ? (ActionResult)Json(new {  msg = "分数设置不合理，请检查" }) : IsNotAjax();
+            if (item.Score <= 0 || item.Score > maxScore)
+               return Request.IsAjaxRequest() ? (ActionResult)Json(new { msg = "分数设置不合理，请检查" }) : IsNotAjax();
          }
 
          db.BeginTrans();
@@ -156,7 +156,13 @@ namespace Res.Controllers
                APBplDef.EvalResultBpl.PrimaryDelete(model.ResultId);
             }
 
+
             double score = 0;
+            model.AccessDate = DateTime.Now;
+            model.ExpertId = ResSettings.SettingsInSession.UserId;
+
+            APBplDef.EvalResultBpl.Insert(model);
+
             foreach (var item in model.Items)
             {
                item.ResultId = model.ResultId;
@@ -164,19 +170,16 @@ namespace Res.Controllers
                APBplDef.EvalResultItemBpl.Insert(item);
             }
 
+            //model.Score = score;
+            APBplDef.EvalResultBpl.UpdatePartial(model.ResultId, new { Score = score });
 
-
-            model.AccessDate = DateTime.Now;
-            model.ExpertId = ResSettings.SettingsInSession.UserId;
-            model.Score = score;
-            APBplDef.EvalResultBpl.Insert(model);  
          }
          catch
          {
             return Request.IsAjaxRequest() ? (ActionResult)Json(new { msg = "操作失败，请联系管理员" }) : IsNotAjax();
          }
 
-         return Request.IsAjaxRequest() ? (ActionResult)Json(new { msg="操作成功"}) : IsNotAjax();
+         return Request.IsAjaxRequest() ? (ActionResult)Json(new { error = "none", msg = "操作成功" }) : IsNotAjax();
       }
 
    }
