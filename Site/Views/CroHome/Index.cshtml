@@ -87,7 +87,7 @@
 				<b>上海</b>
 				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type =CroResourceHelper.Shanghai })"></a>
 			</div>
-			<div class="d_res_list" id="contain_shagnhai">
+			<div class="d_res_list" id="contain_shanghai">
 			</div>
 		</div>
 
@@ -230,7 +230,7 @@
 				})
 			}
 
-			function load_province(proviceId, containerId) {
+			function load_company(proviceId, containerId) {
 				$.get("/CroHome/Province", { proviceId: proviceId }, function (response) {
 					$("#" + containerId).html(response);
 				})
@@ -255,10 +255,10 @@
 			load_new("1");
 			load_favorite("1");
 
-			load_province('@CroResourceHelper.Zhejiang', 'contain_zhejiang');
-			load_province('@CroResourceHelper.Jiangsu', 'contain_jiangsu');
-			load_province('@CroResourceHelper.Shanghai', 'contain_shanghai');
-			load_province('@CroResourceHelper.Anhui', 'contain_anhui');
+			load_company('@CroResourceHelper.Zhejiang', 'contain_zhejiang');
+			load_company('@CroResourceHelper.Jiangsu', 'contain_jiangsu');
+			load_company('@CroResourceHelper.Shanghai', 'contain_shanghai');
+			load_company('@CroResourceHelper.Anhui', 'contain_anhui');
 
 			$(".tab1").addClass("actived");
 

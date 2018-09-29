@@ -1707,6 +1707,7 @@
     <Content Include="Views\Active\PubRoleList.cshtml" />
     <Content Include="Views\Active\Edit.cshtml" />
     <Content Include="Views\Active\DwnRoleList.cshtml" />
+    <Content Include="Views\EvalManage\EvalResultList.cshtml" />
     <None Include="xml.schema.definition\apgen.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1727,6 +1728,12 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Util\Util.csproj">
+      <Project>{cfa3485f-3fac-444a-a93f-1ec45eb58b18}</Project>
+      <Name>Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

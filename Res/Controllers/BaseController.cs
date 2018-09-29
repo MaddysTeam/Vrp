@@ -16,7 +16,7 @@ namespace Res.Controllers
 		{
 			db = new APDBDef();
 
-         CurrentActive= ActiveHelper.GetCurrentActive; 
+         CurrentActive = ResSettings.SettingsInSession.CurrentActive;
       }
 
       protected Active CurrentActive { get; private set; }

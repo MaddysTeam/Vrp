@@ -53,11 +53,11 @@
 
 				<img src="@item.FitCoverPath" />
 				<div class="i_res_text res_text ">
-					<p>
+					@*<p>
 						作品：<a href="@Url.Action("ZcView", "CroResource", new { id=item.CrosourceId,courseId=item.CourseId })"><span class="restitle">@item.ResourceTitle  </span></a>
-					</p>
+					</p>*@
 					<p>
-						微课：<a  title="@item.Title">@item.Title</a>
+						<a href="@Url.Action("ZcView", "CroResource", new { id=item.CrosourceId,courseId=item.CourseId })" title="@item.Title">@item.Title</a>
 					</p>
 					<p class="t">
 						@item.Description

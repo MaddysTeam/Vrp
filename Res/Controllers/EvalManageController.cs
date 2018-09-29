@@ -15,8 +15,8 @@ namespace Res.Controllers
 
       //
       //	评审组 - 查询
-      // GET:		/EvalGroup/Search
-      // POST:		/EvalGroup/Search
+      // GET:		/EvalManage/Search
+      // POST:		/EvalManage/Search
       //
 
       public ActionResult Search()
@@ -68,8 +68,8 @@ namespace Res.Controllers
 
       //
       // 编辑评审组
-      // GET:		/EvalGroup/Edit
-      // POST     /EvalGroup/Edit
+      // GET:		/EvalManage/Edit
+      // POST     /EvalManage/Edit
       //
 
       public ActionResult Edit(long? id)
@@ -121,8 +121,8 @@ namespace Res.Controllers
 
 
 
-      // GET: ExpManage/ExpList
-      // POST-Ajax: ExpManage/ExpList
+      // GET: EvalManage/ExpList
+      // POST-Ajax: EvalManage/ExpList
 
       public ActionResult ExpList(int id)
       {
@@ -288,8 +288,8 @@ namespace Res.Controllers
 
       //
       // 分配评审组可打分的微课资源
-      // POST:		/EvalGroup/AssignResource
-      // POST:    /EvalGroup/RemoveResource
+      // POST:		/EvalManage/AssignResource
+      // POST:    /EvalManage/RemoveResource
 
       [HttpPost]
       public ActionResult AssignRes(long id, long resId)
@@ -332,8 +332,8 @@ namespace Res.Controllers
 
       //
       // 分配参与评审组的专家
-      // POST:		/EvalGroup/AssignExp
-      // POST:    /EvalGroup/RemoveExp
+      // POST:		/EvalManage/AssignExp
+      // POST:    /EvalManage/RemoveExp
 
       [HttpPost]
       public ActionResult AssignExp(long id, long expId)
@@ -376,8 +376,8 @@ namespace Res.Controllers
 
       //
       // 评审指标列表
-      // GET:		/EvalGroup/IndicationList
-      // POST:		/EvalGroup/IndicationList
+      // GET:		/EvalManage/IndicationList
+      // POST:		/EvalManage/IndicationList
 
       public ActionResult IndicationList()
       {
@@ -393,10 +393,10 @@ namespace Res.Controllers
          var i = APDBDef.Indication;
          var a = APDBDef.Active;
 
-         var query = APQuery.select(i.IndicationId, i.IndicationName, i.Description,i.Score,
-            i.LevelPKID,i.TypePKID,i.ActiveId,a.ActiveName
+         var query = APQuery.select(i.IndicationId, i.IndicationName, i.Description, i.Score,
+            i.LevelPKID, i.TypePKID, i.ActiveId, a.ActiveName
             )
-            .from(i,a.JoinInner(a.ActiveId==i.ActiveId))
+            .from(i, a.JoinInner(a.ActiveId == i.ActiveId))
             .primary(i.IndicationId)
             .skip((current - 1) * rowCount)
             .take(rowCount);
@@ -404,8 +404,8 @@ namespace Res.Controllers
 
 
          //过滤条件
-         //模糊搜索用户名、实名进行
-      
+         //模糊搜索
+
          if (!string.IsNullOrEmpty(searchPhrase))
          {
             searchPhrase = searchPhrase.Trim();
@@ -429,11 +429,12 @@ namespace Res.Controllers
          //获得查询的总数量
 
          var total = Indication.ConditionQueryCount(null);
-         
-         
+
+
          //查询结果集
 
-         var result = query.query(db, r => {
+         var result = query.query(db, r =>
+         {
             return new
             {
                id = i.IndicationId.GetValue(r),
@@ -441,7 +442,7 @@ namespace Res.Controllers
                description = i.Description.GetValue(r),
                level = IndicationHelper.Level.GetName(i.LevelPKID.GetValue(r)),
                type = IndicationHelper.Type.GetName(i.TypePKID.GetValue(r)),
-               activeName =a.ActiveName.GetValue(r),
+               activeName = a.ActiveName.GetValue(r),
                activeId = i.ActiveId.GetValue(r),
                score = i.Score.GetValue(r)
             };
@@ -458,8 +459,8 @@ namespace Res.Controllers
 
       //
       // 评审指标编辑
-      // GET:		/EvalGroup/IndicationEdit
-      // POST:		/EvalGroup/IndicationEdit
+      // GET:		/EvalManage/IndicationEdit
+      // POST:		/EvalManage/IndicationEdit
 
       public ActionResult IndicationEdit(long? id)
       {
@@ -497,8 +498,8 @@ namespace Res.Controllers
                LevelPKID = model.LevelPKID,
                TypePKID = model.TypePKID,
                Description = model.Description,
-               Score=model.EvalScore,
-               ActiveId=model.ActiveId
+               Score = model.EvalScore,
+               ActiveId = model.ActiveId
             });
          }
 
@@ -506,6 +507,91 @@ namespace Res.Controllers
          {
             error = "none",
             msg = "编辑成功"
+         });
+      }
+
+
+      //
+      // 评审结果列表
+      // GET:		/EvalManage/EvalResultList
+      // POST:		/EvalManage/EvalResultList
+
+      public ActionResult EvalResultList()
+      {
+         return View();
+      }
+
+      [HttpPost]
+      public ActionResult EvalResultList(long activeId, long groupid, long expertId, int current, int rowCount, string searchPhrase)
+      {
+         var a = APDBDef.Active;
+         var g = APDBDef.EvalGroup;
+         var u = APDBDef.ResUser;
+         var cr = APDBDef.CroResource;
+         var er = APDBDef.EvalResult;
+
+         var query = APQuery.select(er.ResultId,er.ExpertId,er.GroupId,er.AccessDate,er.Score,
+                                    cr.CrosourceId,cr.Title,u.UserName,u.UserId,
+                                    g.GroupName,g.GroupId,a.ActiveName,a.ActiveId)
+                          .from(er,
+                                cr.JoinInner(cr.CrosourceId == er.ResourceId),
+                                u.JoinInner(u.UserId == er.ExpertId),
+                                g.JoinInner(er.GroupId == g.GroupId),
+                                a.JoinInner(a.ActiveId == cr.ActiveId)
+                                );
+         if (activeId > 0)
+            query = query.where_and(cr.ActiveId == activeId);
+
+         if (groupid > 0)
+            query = query.where_and(er.GroupId==groupid);
+
+         if (expertId > 0)
+            query = query.where_and(er.ExpertId == expertId);
+
+         //if (resourceId > 0)
+         //   query = query.where_and(cr.CrosourceId == resourceId);
+
+
+         //过滤条件
+         //模糊搜索
+
+         if (!string.IsNullOrEmpty(searchPhrase))
+         {
+            //query=query.
+         }
+
+
+         //获得查询的总数量
+
+         var total = db.ExecuteSizeOfSelect(query);
+
+         //查询结果集
+
+         var result = query.query(db, r =>
+         {
+            return new
+            {
+               id=er.ResultId.GetValue(r),
+               sourceId=cr.CrosourceId.GetValue(r),
+               title= cr.Title.GetValue(r),
+               date= er.AccessDate.GetValue(r),
+               expert= u.UserName.GetValue(r),
+               expertId=u.UserId.GetValue(r),
+               averageScore=0,
+               score=er.Score.GetValue(r),
+               group=g.GroupName.GetValue(r),
+               groupId=g.GroupId.GetValue(r),
+               active=a.ActiveName.GetValue(r),
+               activeId=a.ActiveId.GetValue(r)
+            };
+         }).ToList();
+
+         return Json(new
+         {
+            rows = result,
+            current,
+            rowCount,
+            total
          });
       }
 

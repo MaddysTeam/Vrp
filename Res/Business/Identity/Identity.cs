@@ -99,4 +99,5 @@ namespace Res.Business
 		public string ConfirmPassword { get; set; }
 	}
 
+
 }

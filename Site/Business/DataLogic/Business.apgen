@@ -106,7 +106,7 @@
 					<add name="GenderPKID" type="long" required="true" display="性别" comment="PickList - APEdu.net key is PLKey_Gender"/>
 					<add name="IDCard" type="string" dataLength="255" display="身份证"/>
 					<add name="Email" type="string" dataLength="255" display="电子邮件"/>
-					<add name="CompanyId" type="long" comment="公司ID"/>
+					<add name="CompanyId" type="long" comment="单位ID"/>
 
 					<!-- Logic -->
 					<add name="Actived" type="bool" display="有效"/>
@@ -167,13 +167,13 @@
 
 			<!-- Defined 'ResCompany' DB table and auto generite db access codes.
 				-->
-			<table name="ResCompany" comment="公司">
+			<table name="ResCompany" comment="单位">
 				<columns>
-					<add name="CompanyId" type="long" identityType="Provider" primaryKey="true" display="公司ID"/>
+					<add name="CompanyId" type="long" identityType="Provider" primaryKey="true" display="单位ID"/>
 					<add name="ParentId" type="long" display="父ID"/>
 					<add name="Path" type="string" dataLength="500" required="true" display="路径"/>
 					<!-- Content -->
-					<add name="CompanyName" type="string" dataLength="255" required="true" display="公司名称"/>
+					<add name="CompanyName" type="string" dataLength="255" required="true" display="单位名称"/>
 					<add name="Address" type="string" dataLength="255" required="false" display="地址"/>
 					<add name="Email" type="string" dataLength="255" display="电子邮件"/>
 					<add name="Phone" type="string" dataLength="255" display="电话"/>
@@ -188,6 +188,7 @@
 					<!-- Content -->
 					<add name="ActiveName" type="string" dataLength="255" required="true" display="项目名称"/>
 					<add name="Description" type="string" dataLength="255" required="true" display="描述"/>
+					<add name="Year" type="int"  display="项目年份"/>
 					<add name="Company" type="string" dataLength="255" display="主办单位"/>
 					<add name="LevelPKID" type="long"  display="项目级别"/>
 					<add name="StartDate" columnName="StartDate" type="DateTime"  display="起始时间" />

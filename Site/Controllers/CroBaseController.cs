@@ -368,6 +368,7 @@ namespace Res.Controllers
                ProvinceId=cr.ProvinceId.GetValue(reader),
                AreaId=cr.AreaId.GetValue(reader),
                SchoolId=cr.CompanyId.GetValue(reader),
+               PlayCount=mc.PlayCount.GetValue(reader),
 					//ViewCount = t.ViewCount.GetValue(reader),
 					//CommentCount = t.CommentCount.GetValue(reader),
 					//DownCount = t.DownCount.GetValue(reader),

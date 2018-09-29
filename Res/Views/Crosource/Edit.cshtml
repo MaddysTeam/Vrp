@@ -36,7 +36,7 @@
 					@using (Html.BeginForm("Upload", "CroMy", Model == null ? null : new { id = id, resid = Model.CrosourceId }, FormMethod.Post, new { id = "form", role = "form", @class = "form-horizontal" }))
 					{
 						@Html.HiddenFor(m => m.CrosourceId)
-
+						@Html.HiddenFor(m=>m.StatePKID)
 						<fieldset class="col-sm-11  fieldContainer">
 
 							<div class="form-group">

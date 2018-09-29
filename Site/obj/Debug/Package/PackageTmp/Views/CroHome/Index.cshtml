@@ -32,7 +32,7 @@
 						<a href="javascript:;" class="blocktab tab1" data-cat="hot" data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "rmyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
 						<a href="javascript:;" class="blocktab" data-cat="hot" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "rmtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
 					</span>*@
-				<a class="glyphicon glyphicon-option-horizontal fr more" id="more_hot" href="@Url.Action("More", "CroResource", new { type = CroResourceHelper.Hot, mediumtypepkid = "null", FileExtName = "null" })"></a>
+				<a class="glyphicon glyphicon-option-horizontal fr more" id="more_hot" href="@Url.Action("More", "CroResource", new { type = CroResourceHelper.Hot})"></a>
 			</div>
 			<div class="d_res_list" id="contain_hot">
 			</div>
@@ -43,11 +43,7 @@
 		<div class="div_cont fl w100 mt_20 green_edge">
 			<div class="title">
 				<b>得票排行榜</b>
-				@*<span>
-						<a href="javascript:;" class="blocktab tab1" data-cat="new" data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
-						<a href="javascript:;" class="blocktab" data-cat="new" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "zxtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
-					</span>*@
-				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type =CroResourceHelper.Latest, mediumtypepkid = "null", FileExtName = "null" })"></a>
+				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type =CroResourceHelper.Praise})"></a>
 			</div>
 			<div class="d_res_list" id="contain_favorite">
 			</div>
@@ -58,11 +54,7 @@
 		<div class="div_cont fl w100 mt_20 green_edge">
 			<div class="title">
 				<b>最新微课</b>
-				@*<span>
-						<a href="javascript:;" class="blocktab tab1" data-cat="new"  data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
-						<a href="javascript:;" class="blocktab" data-cat="new" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "zxtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
-					</span>*@
-				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })"></a>
+				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = CroResourceHelper.Latest})"></a>
 			</div>
 			<div class="d_res_list" id="contain_new">
 			</div>
@@ -73,11 +65,7 @@
 		<div class="div_cont fl w100 mt_20 green_edge">
 			<div class="title">
 				<b>江苏</b>
-				@*<span>
-						<a href="javascript:;" class="blocktab tab1" data-cat="new" data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
-						<a href="javascript:;" class="blocktab" data-cat="new" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "zxtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
-					</span>*@
-				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })"></a>
+				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = CroResourceHelper.Jiangsu })"></a>
 			</div>
 			<div class="d_res_list" id="contain_jiangsu">
 			</div>
@@ -87,11 +75,7 @@
 		<div class="div_cont fl w100 mt_20 green_edge">
 			<div class="title">
 				<b>浙江</b>
-				@*<span>
-						<a href="javascript:;" class="blocktab tab1" data-cat="new" data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
-						<a href="javascript:;" class="blocktab" data-cat="new" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "zxtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
-					</span>*@
-				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })"></a>
+				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = CroResourceHelper.Zhejiang })"></a>
 			</div>
 			<div class="d_res_list" id="contain_zhejiang">
 			</div>
@@ -101,11 +85,7 @@
 		<div class="div_cont fl w100 mt_20 green_edge">
 			<div class="title">
 				<b>上海</b>
-				@*<span>
-						<a href="javascript:;" class="blocktab tab1" data-cat="new" data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
-						<a href="javascript:;" class="blocktab" data-cat="new" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "zxtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
-					</span>*@
-				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })"></a>
+				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type =CroResourceHelper.Shanghai })"></a>
 			</div>
 			<div class="d_res_list" id="contain_shagnhai">
 			</div>
@@ -115,11 +95,7 @@
 		<div class="div_cont fl w100 mt_20 green_edge">
 			<div class="title">
 				<b>安徽</b>
-				@*<span>
-						<a href="javascript:;" class="blocktab tab1" data-cat="new" data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
-						<a href="javascript:;" class="blocktab" data-cat="new" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "zxtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
-					</span>*@
-				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = "zxyc", mediumtypepkid = "null", FileExtName = "null" })"></a>
+				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = CroResourceHelper.Anhui})"></a>
 			</div>
 			<div class="d_res_list" id="contain_anhui">
 			</div>

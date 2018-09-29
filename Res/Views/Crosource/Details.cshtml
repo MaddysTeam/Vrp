@@ -4,6 +4,7 @@
 
 	var course = ViewBag.CurrentCourse as MicroCourse;
 }
+
 <div class="col-md-10 content-wrapper">
 	<div class="row">
 		<div class="col-lg-4 ">
@@ -41,9 +42,9 @@
 									<strong class="badge">@Model.ViewCount</strong>
 								</li>
 								@*<li>
-									下载次数:
-									<strong class="badge">@Model.DownCount</strong>
-								</li>*@
+										下载次数:
+										<strong class="badge">@Model.DownCount</strong>
+									</li>*@
 								<li>
 									收藏次数:
 									<strong class="badge">@Model.FavoriteCount</strong>
@@ -63,7 +64,7 @@
 						<!-- left side, main content -->
 						<div class="col-lg-9">
 							<div class="row">
-								<div class="col-sm-7">
+								<div class="col-sm-12">
 									@if (course.VideoPath != null)
 									{
 										<div id="video"></div>
@@ -74,22 +75,24 @@
 									}
 									@*<img class="cover-img img-frame" src="@Model.CoverPath" />*@
 								</div>
-								<div class="col-sm-5">
+								@*<div class="col-sm-5">
 									<div class="summary">
 										<p><label>微课名称</label> @course.CourseTitle</p>
 										<p><label>播放次数</label> @course.PlayCount 次</p>
 										<p><label>创建时间</label> @Model.CreatedTime.ToString("yyyy-MM-dd")</p>
-										<p><label>关键字</label> @foreach (var item in Model.Keywords.Split(','))
-										{ <span class="badge">@item</span> }</p>
+										<p>
+											<label>关键字</label> @foreach (var item in Model.Keywords.Split(','))
+											{ <span class="badge">@item</span> }
+										</p>
 										<p><label>作者</label> @Model.Author</p>
 										@if (course.DesignPath != null)
 										{
-										  <p><label>教学设计</label><span><a href="@course.DesignPath.Replace(".doc",".html").Replace(".docx",".html")" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> 预 览</a></span></p>
-                              }
+											<p><label>教学设计</label><span><a href="@course.DesignPath.Replace(".doc",".html").Replace(".docx",".html")" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> 预 览</a></span></p>
+}
 										@if (course.SummaryPath != null)
 										{
 											<p><label>教学反思</label><span><a href="@course.SummaryPath.Replace(".doc",".html").Replace(".docx",".html")" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> 预 览</a></span></p>
-                              }
+}
 										<p><label>审核意见</label><span id="opinion" class="@(Model.StatePKID==10353?"text-danger":"text-info")">@Model.AuditOpinion</span></p>
 									</div>
 									<div class="switchs">
@@ -100,7 +103,7 @@
 									<div class="buttons">
 										<a href="@Url.Action("Edit", "Crosource", new { id = Model.CrosourceId })" class="btn btn-primary btn-block"><i class="fa fa-edit"></i> 修改作品信息</a>
 									</div>
-								</div>
+								</div>*@
 							</div> <!-- row -->
 							<hr />
 							<div>
@@ -111,59 +114,97 @@
 									</div>
 								</div>
 
-								<div  style="overflow-y:hidden; overflow-x:auto; white-space: nowrap;">
-								<div class="details-courses">
-									<ul class="course-list">
-										@foreach (var item in Model.Courses)
-										{
-											<li style="display:inline-block;list-style-type: none;">
-												<a href="@Url.Action("Details","Crosource",new { id = Model.CrosourceId ,courseId = item.CourseId })"><img src="@item.FitCoverPath" style="width:184px; height:115px;" /></a>
-												<div class="text-center">@item.CourseTitle</div>
-											</li>
-										}
-									</ul>
+								<div style="overflow-y:hidden; overflow-x:auto; white-space: nowrap;">
+									<div class="details-courses">
+										<ul class="course-list">
+											@foreach (var item in Model.Courses)
+											{
+												<li style="display:inline-block;list-style-type: none;">
+													<a href="@Url.Action("Details","Crosource",new { id = Model.CrosourceId ,courseId = item.CourseId })"><img src="@item.FitCoverPath" style="width:184px; height:115px;" /></a>
+													<div class="text-center">@item.CourseTitle</div>
+												</li>
+}
+										</ul>
+									</div>
 								</div>
-							</div>
-							
+
 							</div> <!-- row -->
 						</div>
 						<!-- end left side, main content -->
 						<!-- right side, main content -->
 						<div class="col-lg-3">
-
-							<!-- widget -->
+							<div class="buttons">
+								<a href="@Url.Action("Edit", "Crosource", new { id = Model.CrosourceId })" class="btn btn-primary btn-block"><i class="fa fa-edit"></i> 修改作品信息</a>
+							</div>
 							<div class="widget">
 								<div class="widget-header">
-                                    <h3><i class="fa fa-paperclip"></i> 作品分类信息</h3>
+									<h3><i class="fa fa-paperclip"></i> 详细信息</h3>
 								</div>
 
 								<div class="widget-content">
 									<ul class="list-group">
-	
-                              <li class="list-group-item">作品类型：@Model.CourseType</li>
+
+										<li class="list-group-item">微课名称：@course.CourseTitle</li>
+				
+										<li class="list-group-item">播放次数：@course.PlayCount</li>
+
+										<li class="list-group-item">创建时间：@Model.CreatedTime.ToString("yyyy-MM-dd")</li>
+
+										<li class="list-group-item">作者：@Model.Author</li>
+
+										@if (!string.IsNullOrEmpty(Model.Keywords))
+										{
+											<li class="list-group-item">关键字: &nbsp;@foreach (var item in Model.Keywords.Split(',')){<span class="badge" style="float:none;">  @item</span> }</li>
+										}
+										@if (!string.IsNullOrEmpty(Model.Province))
+										{
+											<li class="list-group-item">审核意见：<span id="opinion" class="@(Model.StatePKID==10353?"text-danger":"text-info")">@Model.AuditOpinion</span></li>
+										}
+									
+											<li class="list-group-item">
+												<div class="switchs">
+													@Html.CheckBox("State", Model.StatePKID == ResResourceHelper.StateAllow, new { @class = "switch", data_label_text = "审核合格", data_size = "small" })
+												</div>
+											</li>
+							
+
+									</ul>
+								</div>
+							</div>
+
+							<!-- widget -->
+							<div class="widget">
+								<div class="widget-header">
+									<h3><i class="fa fa-paperclip"></i> 作品分类信息</h3>
+								</div>
+
+								<div class="widget-content">
+									<ul class="list-group">
+
+										<li class="list-group-item">作品类型：@Model.CourseType</li>
 										@if (@Model.SubjectPKID != 0)
 										{
-											<li class="list-group-item">学科：@Model.Subject</li>
+										<li class="list-group-item">学科：@Model.Subject</li>
 										}
 										@if (@Model.StagePKID != 0)
 										{
-											<li class="list-group-item">学段：@Model.Stage</li>
+										<li class="list-group-item">学段：@Model.Stage</li>
 										}
 										@if (@Model.GradePKID != 0)
 										{
-											<li class="list-group-item">年级：@Model.Grade</li>
+										<li class="list-group-item">年级：@Model.Grade</li>
 										}
 										@if (!string.IsNullOrEmpty(Model.Province))
 										{
-											<li class="list-group-item">省份：@Model.Province</li>
+										<li class="list-group-item">省份：@Model.Province</li>
 										}
 										@if (!string.IsNullOrEmpty(Model.Province))
 										{
-											<li class="list-group-item">市区：@Model.Area</li>
+										<li class="list-group-item">市区：@Model.Area</li>
 										}
 										@if (!string.IsNullOrEmpty(Model.Province))
 										{
-											<li class="list-group-item">学校：@Model.School</li>
+										<li class="list-group-item">学校：@Model.School</li>
 										}
 
 									</ul>
@@ -181,19 +222,19 @@
 										<li class="list-group-item">作者：@Model.Author</li>
 										@if (@Model.AuthorCompany != "")
 										{
-											<li class="list-group-item">单位：@Model.AuthorCompany</li>
+										<li class="list-group-item">单位：@Model.AuthorCompany</li>
 										}
 										@if (@Model.AuthorEmail != "")
 										{
-											<li class="list-group-item">电子邮箱：@Model.AuthorEmail</li>
+										<li class="list-group-item">电子邮箱：@Model.AuthorEmail</li>
 										}
 										@if (@Model.AuthorPhone != "")
 										{
-											<li class="list-group-item">电话：@Model.AuthorPhone</li>
+										<li class="list-group-item">电话：@Model.AuthorPhone</li>
 										}
 										@if (@Model.AuthorAddress != "")
 										{
-											<li class="list-group-item">地址：@Model.AuthorAddress</li>
+										<li class="list-group-item">地址：@Model.AuthorAddress</li>
 										}
 									</ul>
 								</div>
@@ -224,7 +265,7 @@
 	<script src="~/assets/plugins/ckplayer/ckplayer/ckplayer.js"></script>
 	<script src="~/assets/plugins/jwplayer/jwplayer.js"></script>
 	<script type="text/javascript">
-		
+
 
 		// bootstrap-switch
 		$("input.switch").not("[data-switch-no-init]").bootstrapSwitch().show();
