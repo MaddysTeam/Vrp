@@ -107,12 +107,10 @@ namespace Res.Business
          get { CheckCurrent(); return _user != null ? _user.UserName : ""; }
       }
 
-
       public string RealName
       {
          get { CheckCurrent(); return _user != null ? _user.RealName : ""; }
       }
-
 
       public string RoleName
       {
@@ -149,6 +147,27 @@ namespace Res.Business
          get { CheckCurrent(); return Approves.Contains(9); }
       }
 
+      public string CompanyPath
+      {
+         get {
+            string path = string.Empty;
+            CheckCurrent();
+            if (_user.ProvinceId > 0)
+               path += _user.ProvinceId + @"\";
+            if (_user.AreaId > 0)
+               path += _user.AreaId + @"\";
+            if (_user.CompanyId > 0)
+               path += _user.CompanyId + @"\";
+            if (_user.UserTypePKID == ResUserHelper.Admin)
+               path = string.Empty;
+            return path;
+         }
+      }
+
+      public ResUser User
+      {
+         get { CheckCurrent(); return _user; }
+      }
 
       public List<ResCompany> Companies
       {

@@ -106,7 +106,9 @@
 					<add name="GenderPKID" type="long" required="true" display="性别" comment="PickList - APEdu.net key is PLKey_Gender"/>
 					<add name="IDCard" type="string" dataLength="255" display="身份证"/>
 					<add name="Email" type="string" dataLength="255" display="电子邮件"/>
-					<add name="CompanyId" type="long" comment="单位ID"/>
+					<add name="CompanyId" type="long" comment="单位"/>
+					<add name="ProvinceId" type="long" comment="省份"/>
+					<add name="AreaId" type="long" comment="区县"/>
 
 					<!-- Logic -->
 					<add name="Actived" type="bool" display="有效"/>
