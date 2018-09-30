@@ -66,8 +66,10 @@
 					<span class="text">作品管理</span>
 				</a>
 			</li>
-		
+			}
 
+			@if (ResSettings.SettingsInSession.User.UserTypePKID == ResUserHelper.Admin)
+			{
 			<li>
 				<a href="@Url.Action("Comment", "CroComment")">
 					<i class="fa fa-facebook fa-fw"></i>
@@ -76,7 +78,7 @@
 			</li>
 			}
 
-			@if (ResSettings.SettingsInSession.User.UserTypePKID == ResUserHelper.Admin)
+			@if (ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.Export && ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.Teacher)
 			{
 			<li>
 				<a href="javascript:void(0)" class="js-sub-menu-toggle">
@@ -85,7 +87,10 @@
 				</a>
 				<ul class="sub-menu">
 					<li><a href="@Url.Action("Search", "EvalManage")">评审组管理</a></li>
-					<li><a href="@Url.Action("IndicationList", "EvalManage")">指标管理</a></li>
+					@if (ResSettings.SettingsInSession.User.UserTypePKID == ResUserHelper.Admin)
+					{
+						<li><a href="@Url.Action("IndicationList", "EvalManage")">指标管理</a></li>
+					}
 					<li><a href="@Url.Action("EvalResultList", "EvalManage")">评审结果查询</a></li>
 				</ul>
 			</li>

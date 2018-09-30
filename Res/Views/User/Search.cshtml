@@ -121,9 +121,9 @@
 				"cmd_actived": function (column, row) {
 					return "<button type='button' class='btn btn-xs " + (row["Actived"] == '有效' ? "isactived" : "") + " cmd_actived' data-row-id='" + row.id + "' data-row-title='" + row.RealName + "' title='有效/无效'><span class='fa fa-check-square-o'></span></button>";
 				},
-				"cmd_Approve": function (column, row) {
-					return "<button type='button' class='btn btn-xs cmd_Approve' data-row-id='" + row.id + "' data-row-title='" + row.RealName + "' title='用户授权'><span class='fa fa-key'></span></button>";
-				},
+				//"cmd_Approve": function (column, row) {
+				//	return "<button type='button' class='btn btn-xs cmd_Approve' data-row-id='" + row.id + "' data-row-title='" + row.RealName + "' title='用户授权'><span class='fa fa-key'></span></button>";
+				//},
 			},
 
 			defaultSearch: decodeURI(window.location.search.substr(3)),
@@ -194,19 +194,6 @@
 								brother.text(!value ? "有效" : "无效");
 							});
 						}).end()
-
-						// 授权
-						.find(".cmd_Approve").on("click", function (e) {
-							var id = $(this).data("row-id");
-
-							$.get("@Url.Action("Approve", "User")", { id: id }, function (response) {
-								$("#inner-edit-form")
-									.html(response).modal("show")
-									.find(".form-control").first().focus();
-							});
-
-						}).end()
-
 					   .find(".cmd_edit").on("click", function () {
 					   	var id = $(this).data("row-id");
 					   	$.get("@Url.Action("Edit", "User")", { id: id }, function (response) {

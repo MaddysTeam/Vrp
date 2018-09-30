@@ -362,17 +362,16 @@ namespace Res.Business
          {
             var t = APDBDef.ResUser;
             var c = APDBDef.ResCompany;
-            var r = APDBDef.ResRole;
-            var ur = APDBDef.ResUserRole;
+            //var r = APDBDef.ResRole;
+            //var ur = APDBDef.ResUserRole;
 
             var query = APQuery
                .select(t.UserId, t.UserName, t.RealName, t.GenderPKID, t.Email, t.RegisterTime, t.LoginCount, t.Actived, t.UserTypePKID,
+               t.CompanyId,t.ProvinceId,t.AreaId,
                c.CompanyName //,r.RoleName
                )
                .from(t,
                   c.JoinLeft(t.CompanyId == c.CompanyId)
-                  //ur.JoinLeft(t.UserId == ur.UserId),
-                  //r.JoinLeft(r.RoleId == ur.RoleId)
                   )
                .where(where)
                .primary(t.UserId)
@@ -399,6 +398,8 @@ namespace Res.Business
                      LoginCount = t.LoginCount.GetValue(reader),
                      Actived = t.Actived.GetValue(reader),
                      CompanyName = c.CompanyName.GetValue(reader),
+                     ProvinceId=t.ProvinceId.GetValue(reader),
+                     AreaId=t.AreaId.GetValue(reader)
                   };
                }).ToList();
             }

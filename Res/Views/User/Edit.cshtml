@@ -34,7 +34,7 @@
 						<div class="form-group">
 							@Html.LabelFor(m => m.UserTypePKID, new { @class = "control-label col-sm-3" })
 							<div class="col-sm-9">
-								@Html.DropDownListFor(m => m.UserTypePKID, ResUserHelper.UserType.GetSelectList(), "请选择", new { @class = "form-control", maxlength = "80", })
+								@Html.DropDownListFor(m => m.UserTypePKID, (ViewBag.Roles as List<ResPickListItem>).Select(x => new SelectListItem { Text = x.Name, Value = x.PickListItemId.ToString() }), "请选择", new { @class = "form-control", maxlength = "80", })
 								@Html.ValidationMessageFor(m => m.UserType)
 							</div>
 						</div>
@@ -42,19 +42,19 @@
 						<div class="form-group hidden" id="province">
 							<label class="control-label col-sm-3"> <span class="request">*</span> 省份</label>
 							<div class="col-sm-9">
-								@Html.DropDownListFor(m => m.ProvinceId, ResSettings.SettingsInSession.AllProvince().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择省份", new { @class = "form-control" })
+								@Html.DropDownListFor(m => m.ProvinceId, (ViewBag.Provinces as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择省份", new { @class = "form-control" })
 							</div>
 						</div>
 						<div class="form-group hidden" id="area">
 							<label class="control-label col-sm-3"> <span class="request">*</span> 地区</label>
 							<div class="col-sm-9">
-								@Html.DropDownListFor(m => m.AreaId, ResSettings.SettingsInSession.AllAreas().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择地区", new { @class = "form-control" })
+								@Html.DropDownListFor(m => m.AreaId, (ViewBag.Areas as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择地区", new { @class = "form-control" })
 							</div>
 						</div>
 						<div class="form-group hidden" id="company">
 							<label class="control-label col-sm-3"> <span class="request">*</span> 学校</label>
 							<div class="col-sm-9">
-								@Html.DropDownListFor(m => m.CompanyId, ResSettings.SettingsInSession.AllSchools().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择学校", new { @class = "form-control" })
+								@Html.DropDownListFor(m => m.CompanyId, (ViewBag.Companies as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择学校", new { @class = "form-control" })
 							</div>
 						</div>
 
@@ -158,8 +158,8 @@
 		});
 
 
-		var areas=@Html.Raw(Json.Encode(ViewBag.Areas));
-		var schools=@Html.Raw(Json.Encode(ViewBag.Schools));
+		var areas=@Html.Raw(Json.Encode(ViewBag.AreasDic));
+		var schools=@Html.Raw(Json.Encode(ViewBag.SchoolsDic));
 		RelationSelect($("#ProvinceId"), $("#AreaId"), areas, "选择地区");
 		RelationSelect($("#AreaId"), $("#CompanyId"), schools, "选择学校");
 
@@ -167,13 +167,13 @@
 			$('#company,#province,#area').addClass('hidden');
 
 			var userType = $(this).val();
-			if (userType == '@ResUserHelper.ProvinceAdmin' || userType == '@ResUserHelper.CityAdmin' || userType == '@ResUserHelper.SchoolAdmin') {
+			if (userType == '@ResUserHelper.ProvinceAdmin' || userType == '@ResUserHelper.CityAdmin' || userType == '@ResUserHelper.SchoolAdmin' ||  userType == '@ResUserHelper.Export') {
 				$('#province').removeClass('hidden').show();
 			}
-			if (userType == '@ResUserHelper.CityAdmin' || userType == '@ResUserHelper.SchoolAdmin') {
+			if (userType == '@ResUserHelper.CityAdmin' || userType == '@ResUserHelper.SchoolAdmin'  ||  userType == '@ResUserHelper.Export') {
 				$('#area').removeClass('hidden');
 			}
-			if (userType == '@ResUserHelper.SchoolAdmin') {
+			if (userType == '@ResUserHelper.SchoolAdmin'  ||  userType == '@ResUserHelper.Export') {
 				$('#company').removeClass('hidden').show()
 			}
 

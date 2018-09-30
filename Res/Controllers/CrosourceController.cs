@@ -73,7 +73,8 @@ namespace Res.Controllers
             if (searchPhrase != "")
                where &= t.Title.Match(searchPhrase);
          }
-
+         
+         // 用户数据范围
          if (user.ProvinceId > 0)
             where &= t.ProvinceId == user.ProvinceId;
          if (user.AreaId > 0)

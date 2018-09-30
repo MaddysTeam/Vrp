@@ -27,6 +27,7 @@ namespace Res.Controllers
       [HttpPost]
       public ActionResult Search(int current, int rowCount, string searchPhrase, FormCollection fc)
       {
+         var user = ResSettings.SettingsInSession.User;
          var eg = APDBDef.EvalGroup;
          var query = APQuery
              .select(eg.GroupId, eg.GroupName, eg.LevelPKID, eg.StartDate, eg.EndDate) //t.MediumTypePKID,
@@ -36,6 +37,15 @@ namespace Res.Controllers
          {
             query.where(eg.GroupName.Match(searchPhrase));
          }
+
+         if (user.ProvinceId > 0)
+            query.where_and(eg.ProvinceId == user.ProvinceId);
+
+         if (user.AreaId > 0)
+            query.where_and(eg.ProvinceId == user.AreaId);
+
+         if (user.CompanyId > 0)
+            query.where_and(eg.ProvinceId == user.CompanyId);
 
          query.primary(eg.GroupId)
               .skip((current - 1) * rowCount)
@@ -96,6 +106,25 @@ namespace Res.Controllers
       [HttpPost]
       public ActionResult Edit(EvalGroup model)
       {
+         var user = ResSettings.SettingsInSession.User;
+         if (user.ProvinceId > 0)
+         {
+            model.ProvinceId = user.ProvinceId;
+            model.LevelPKID = EvalGroupHelper.ProvinceLevel;
+         }
+
+         if (user.AreaId > 0)
+         {
+            model.LevelPKID = EvalGroupHelper.CityLevel;
+            model.AreaId = user.AreaId;
+         }
+
+         if (user.CompanyId > 0)
+         {
+            model.LevelPKID = EvalGroupHelper.CityLevel;
+            model.CompanyId = user.CompanyId;
+         }
+
          if (model.GroupId == 0)
          {
             model.ActiveId = CurrentActive.ActiveId;
@@ -134,6 +163,8 @@ namespace Res.Controllers
       {
          ThrowNotAjax();
 
+         var user = ResSettings.SettingsInSession.User;
+
          var u = APDBDef.ResUser;
          var ur = APDBDef.ResUserRole;
          var ege = APDBDef.EvalGroupExpert;
@@ -159,6 +190,14 @@ namespace Res.Controllers
             query.where_and(u.RealName.Match(searchPhrase));
          }
 
+         // 角色数据范围过滤
+
+         if (user.ProvinceId > 0)
+            query.where_and(u.ProvinceId == user.ProvinceId);
+         if (user.AreaId > 0)
+            query.where_and(u.AreaId == user.AreaId);
+         if (user.CompanyId > 0)
+            query.where_and(u.CompanyId == user.CompanyId);
 
          //排序条件表达式
 
@@ -530,9 +569,9 @@ namespace Res.Controllers
          var cr = APDBDef.CroResource;
          var er = APDBDef.EvalResult;
 
-         var query = APQuery.select(er.ResultId,er.ExpertId,er.GroupId,er.AccessDate,er.Score,
-                                    cr.CrosourceId,cr.Title,u.UserName,u.UserId,
-                                    g.GroupName,g.GroupId,a.ActiveName,a.ActiveId)
+         var query = APQuery.select(er.ResultId, er.ExpertId, er.GroupId, er.AccessDate, er.Score,
+                                    cr.CrosourceId, cr.Title, u.UserName, u.UserId,
+                                    g.GroupName, g.GroupId, a.ActiveName, a.ActiveId)
                           .from(er,
                                 cr.JoinInner(cr.CrosourceId == er.ResourceId),
                                 u.JoinInner(u.UserId == er.ExpertId),
@@ -543,7 +582,7 @@ namespace Res.Controllers
             query = query.where_and(cr.ActiveId == activeId);
 
          if (groupid > 0)
-            query = query.where_and(er.GroupId==groupid);
+            query = query.where_and(er.GroupId == groupid);
 
          if (expertId > 0)
             query = query.where_and(er.ExpertId == expertId);
@@ -571,18 +610,18 @@ namespace Res.Controllers
          {
             return new
             {
-               id=er.ResultId.GetValue(r),
-               sourceId=cr.CrosourceId.GetValue(r),
-               title= cr.Title.GetValue(r),
-               date= er.AccessDate.GetValue(r),
-               expert= u.UserName.GetValue(r),
-               expertId=u.UserId.GetValue(r),
-               averageScore=0,
-               score=er.Score.GetValue(r),
-               group=g.GroupName.GetValue(r),
-               groupId=g.GroupId.GetValue(r),
-               active=a.ActiveName.GetValue(r),
-               activeId=a.ActiveId.GetValue(r)
+               id = er.ResultId.GetValue(r),
+               sourceId = cr.CrosourceId.GetValue(r),
+               title = cr.Title.GetValue(r),
+               date = er.AccessDate.GetValue(r),
+               expert = u.UserName.GetValue(r),
+               expertId = u.UserId.GetValue(r),
+               averageScore = 0,
+               score = er.Score.GetValue(r),
+               group = g.GroupName.GetValue(r),
+               groupId = g.GroupId.GetValue(r),
+               active = a.ActiveName.GetValue(r),
+               activeId = a.ActiveId.GetValue(r)
             };
          }).ToList();
 

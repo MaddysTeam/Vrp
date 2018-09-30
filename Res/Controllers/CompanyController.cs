@@ -143,7 +143,17 @@ namespace Res.Controllers
 
       public ActionResult Tree()
       {
-         var path = ResSettings.SettingsInSession.CompanyPath;
+         var path = string.Empty;
+         var user = ResSettings.SettingsInSession.User;
+         if (user.ProvinceId > 0)
+            path += user.ProvinceId + @"\";
+         if (user.AreaId > 0)
+            path += user.AreaId + @"\";
+         if (user.CompanyId > 0)
+            path += user.CompanyId + @"\";
+         if (user.UserTypePKID == ResUserHelper.Admin)
+            path = string.Empty;
+
          var rootList = APBplDef.ResCompanyBpl.GetTree(path);
 
          return Json(getChildren(rootList), JsonRequestBehavior.AllowGet);

@@ -156,11 +156,10 @@ namespace Res.Controllers
                APBplDef.EvalResultBpl.PrimaryDelete(model.ResultId);
             }
 
-
             double score = 0;
             model.AccessDate = DateTime.Now;
             model.ExpertId = ResSettings.SettingsInSession.UserId;
-
+            model.Score = model.Items.Sum(m => m.Score);
             APBplDef.EvalResultBpl.Insert(model);
 
             foreach (var item in model.Items)
@@ -169,9 +168,6 @@ namespace Res.Controllers
                score += item.Score;
                APBplDef.EvalResultItemBpl.Insert(item);
             }
-
-            //model.Score = score;
-            APBplDef.EvalResultBpl.UpdatePartial(model.ResultId, new { Score = score });
 
          }
          catch

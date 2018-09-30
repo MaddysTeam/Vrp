@@ -98,7 +98,7 @@
 					<add name="SecurityStamp" type="string" dataLength="255" display="Salt"/>
 					<add name="Question" type="string" dataLength="255" display="密码问题"/>
 					<add name="Answer" type="string" dataLength="255" display="密码答案"/>
-					<add name="UserTypePKID" type="long" display="用户类型"/>
+					<add name="UserTypePKID" type="long" display="用户角色"/>
 					
 					<!-- Content -->
 					<add name="RealName" type="string" dataLength="255" display="实名"/>
@@ -371,6 +371,9 @@
 					<add name="StartDate" columnName="StartDate" type="DateTime"  display="起始时间" />
 					<add name="EndDate" columnName="EndDate" type="DateTime"  display="结束时间" />
 					<add name="ActiveId" columnName="ActiveId" type="long" display="所属活动"/>
+					<add name="ProvinceId" columnName="ProvinceId" type="long" display="省份"/>
+					<add name="AreaId" columnName="AreaId" type="long" display="地区"/>
+					<add name="CompanyId" columnName="CompanyId" type="long" display="单位"/>
 					
 				</columns>
 			</table>

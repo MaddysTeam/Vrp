@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using Symber.Web.Data;
 using Res.Business;
 using Res.Business.Utils;
+using System.Collections.Generic;
 
 namespace Res.Controllers
 {
@@ -78,9 +79,40 @@ namespace Res.Controllers
 
       public ActionResult Edit(long? id)
       {
-         ViewBag.Provinces = CrosourceController.GetStrengthDict(ResSettings.SettingsInSession.AllProvince());
-         ViewBag.Areas = CrosourceController.GetStrengthDict(ResSettings.SettingsInSession.AllAreas());
-         ViewBag.Schools = CrosourceController.GetStrengthDict(ResSettings.SettingsInSession.AllSchools());
+         var user = ResSettings.SettingsInSession.User;
+         var provinces = ResSettings.SettingsInSession.AllProvince();
+         var areas = ResSettings.SettingsInSession.AllAreas();
+         var schools = ResSettings.SettingsInSession.AllSchools();
+         var roles = new List<ResPickListItem>(); 
+         var allRoles= ResUserHelper.UserType.GetItems();
+
+         if (user.ProvinceId > 0)
+         {
+            roles.Add(allRoles.Find(x=>x.PickListItemId==ResUserHelper.CityAdmin));
+            roles.Add(allRoles.Find(x => x.PickListItemId == ResUserHelper.SchoolAdmin));
+            roles.Add(allRoles.Find(x => x.PickListItemId == ResUserHelper.Export));
+            provinces = provinces.Where(x => x.CompanyId == user.ProvinceId).ToList();
+         }
+         if(user.AreaId > 0)
+         {
+            roles.Add(allRoles.Find(x => x.PickListItemId == ResUserHelper.SchoolAdmin));
+            roles.Add(allRoles.Find(x => x.PickListItemId == ResUserHelper.Export));
+            areas = areas.Where(x => x.CompanyId == user.ProvinceId).ToList();
+         }
+         if(user.CompanyId > 0)
+         {
+            roles.Add(allRoles.Find(x => x.PickListItemId == ResUserHelper.Export));
+            schools = schools.Where(x => x.CompanyId == user.ProvinceId).ToList();
+         }
+
+         ViewBag.Provinces = provinces;
+         ViewBag.Areas = areas;
+         ViewBag.Companies = schools;
+         ViewBag.Roles = roles;
+
+         //ViewBag.ProvincesDic = CrosourceController.GetStrengthDict(ResSettings.SettingsInSession.AllProvince());
+         ViewBag.AreasDic = CrosourceController.GetStrengthDict(ResSettings.SettingsInSession.AllAreas());
+         ViewBag.SchoolsDic = CrosourceController.GetStrengthDict(ResSettings.SettingsInSession.AllSchools());
 
          if (id == null)
          {
@@ -173,7 +205,7 @@ namespace Res.Controllers
 		[HttpPost]
 		public ActionResult Search(int current, int rowCount, string searchPhrase, long companyId, FormCollection fc)
 		{
-         var companyPath = ResSettings.SettingsInSession.CompanyPath;
+         var user = ResSettings.SettingsInSession.User;
 
 			//----------------------------------------------------------
 			var t = APDBDef.ResUser;
@@ -213,16 +245,17 @@ namespace Res.Controllers
                APQuery.select(APSqlThroughExpr.Expr("path + '%'"))
                .from(c).where(c.CompanyId == companyId));
          }
-         else
-         {
-            where &= c.Path.Match(companyPath);
-            //if (!string.IsNullOrEmpty(companyPath))
-            //   where &= new APSqlConditionPhrase(c.Path, APSqlConditionOperator.Like,
-            //   APQuery.select(APSqlThroughExpr.Expr("path + '%'"))
-            //   .from(c).where(c.Path.Match(companyPath)));
 
-         }
-			int total;
+         // 用户数据范围
+         if (user.ProvinceId > 0)
+            where &= t.ProvinceId == user.ProvinceId;
+         if (user.AreaId > 0)
+            where &= t.AreaId == user.AreaId;
+         if (user.CompanyId > 0)
+            where &= t.CompanyId == user.CompanyId;
+
+
+         int total;
 			var list = APBplDef.ResUserBpl.TolerantSearch(out total, current, rowCount, where, order);
 			//----------------------------------------------------------
 
