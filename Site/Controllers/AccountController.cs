@@ -74,7 +74,7 @@ namespace Res.Controllers
 
       [HttpPost]
       [AllowAnonymous]
-      [ValidateAntiForgeryToken]
+      //[ValidateAntiForgeryToken]
       public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
       {
          if (!ModelState.IsValid)
@@ -82,20 +82,13 @@ namespace Res.Controllers
             return View(model);
          }
 
-         //var md5 = BitConverter.ToString(MD5.Create().ComputeHash(Encoding.Default.GetBytes(model.Password))).Replace("-", "").Substring(0,15);
-         //var u = APDBDef.ResUser;
-         //var all = APBplDef.ResUserBpl.GetAll();
-         //var userInfo = APBplDef.ResUserBpl.ConditionQuery(u.UserName == model.UserName & u.mo == md5, null).FirstOrDefault();
-         //if (userInfo != null)
-         //{
-         //   APBplDef.ResUserBpl.SetLastLoginTime(model.UserName);
-         //   return RedirectToLocal(returnUrl);
-         //}
-         //else
-         //{
-         //   ModelState.AddModelError("", "用户名或密码不正确。");
-         //   return View(model);
-         //}
+         // 如果市旧系统密码，则也让其登录
+         var md5 = BitConverter.ToString(MD5.Create().ComputeHash(Encoding.Default.GetBytes(model.Password))).Replace("-", "").Substring(0, 15);
+         var u = APDBDef.ResUser;
+         var userInfo = APBplDef.ResUserBpl.ConditionQuery(u.UserName == model.UserName & u.MD5 == md5, null).FirstOrDefault();
+         if (userInfo != null)
+            model.Password = ThisApp.Default_Password;
+
 
          //这不会计入到为执行帐户锁定而统计的登录失败次数中
          //若要在多次输入错误密码的情况下触发帐户锁定，请更改为 shouldLockout: true
@@ -161,8 +154,6 @@ namespace Res.Controllers
          model.Password = model.Password.Trim();
          model.ConfirmPassword = model.ConfirmPassword.Trim();
          model.Email = model.Email.Trim();
-         //model.Question = model.Question.Trim();
-         //model.Answer = model.Answer.Trim();
 
          var t = APDBDef.ResUser;
          if (APBplDef.ResUserBpl.ConditionQueryCount(t.UserName == model.Username) > 0)
@@ -200,35 +191,6 @@ namespace Res.Controllers
          }
 
          return View(model);
-      }
-
-
-      //
-      // 修改密码
-      // GET:		/Account/ChgPwd
-      // POST:		/Account/ChgPwd
-      //
-
-      public ActionResult ChgPwd()
-      {
-         return View();
-      }
-
-      [HttpPost]
-      [ValidateAntiForgeryToken]
-      public async Task<ActionResult> ChgPwd(LocalPasswordModel model)
-      {
-         var result = await UserManager.ChangePasswordAsync(ResSettings.SettingsInSession.UserId, model.OldPassword, model.NewPassword);
-
-         if (result.Succeeded)
-         {
-            return RedirectToAction("Info", "User", new { id = ResSettings.SettingsInSession.UserId });
-         }
-         else
-         {
-            AddErrors(result);
-            return View();
-         }
       }
 
 

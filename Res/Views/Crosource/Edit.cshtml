@@ -2,7 +2,10 @@
 @{
 	var id = this.ViewContext.RouteData.Values["id"];
 	ViewBag.Title = Model == null ? "添加新作品" : "编辑作品";
+
+	var actives = (ViewBag.Actives as List<Active>).Select(x => new SelectListItem { Text = x.ActiveName, Value = x.ActiveId.ToString(), Selected = Model.ActiveId == Model.ActiveId });
 }
+
 <div class="col-md-10 content-wrapper">
 	<div class="row">
 		<div class="col-lg-4 ">
@@ -36,8 +39,18 @@
 					@using (Html.BeginForm("Upload", "CroMy", Model == null ? null : new { id = id, resid = Model.CrosourceId }, FormMethod.Post, new { id = "form", role = "form", @class = "form-horizontal" }))
 					{
 						@Html.HiddenFor(m => m.CrosourceId)
-						@Html.HiddenFor(m=>m.StatePKID)
+						@*@Html.HiddenFor(m => m.StatePKID)
+						@Html.HiddenFor(m => m.PublicStatePKID)
+						@Html.HiddenFor(m => m.DownloadStatePKID)*@
+
 						<fieldset class="col-sm-11  fieldContainer">
+
+							<div class="form-group ">
+								<label class="control-label col-sm-3"> <span class="request">*</span> 所属项目</label>
+								<div class="col-sm-9">
+									@Html.DropDownListFor(m => m.ActiveId, (ViewBag.Actives as List<Active>).Select(x => new SelectListItem { Text = x.ActiveName, Value = x.ActiveId.ToString(), Selected = Model.ActiveId == Model.ActiveId }), "选择项目", new { @class = "form-control" })
+								</div>
+							</div>
 
 							<div class="form-group">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 作品标题</label>
@@ -54,6 +67,7 @@
 									<div class="img_ta_num">简介最多只允许填写150个字以内</div>
 								</div>
 							</div>
+
 							<div class="form-group">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 关键词</label>
 								<div class="col-sm-9">
@@ -62,40 +76,38 @@
 
 								</div>
 							</div>
+
 							<div class="form-group ">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 省份</label>
 								<div class="col-sm-9">
-									@Html.DropDownListFor(m => m.ProvinceId, ResSettings.SettingsInSession.AllProvince().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择省份", new { @class = "form-control" })
+									@Html.DropDownListFor(m => m.ProvinceId, (ViewBag.Provinces as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择省份", new { @class = "form-control" })
 								</div>
 							</div>
+
 							<div class="form-group ">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 地区</label>
 								<div class="col-sm-9">
-									@Html.DropDownListFor(m => m.AreaId, ResSettings.SettingsInSession.AllAreas().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择地区", new { @class = "form-control" })
+									@Html.DropDownListFor(m => m.AreaId, (ViewBag.Areas as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择地区", new { @class = "form-control" })
 								</div>
 							</div>
+
 							<div class="form-group ">
 								<label class="control-label col-sm-3"> <span class="request">*</span> 学校</label>
 								<div class="col-sm-9">
-									@Html.DropDownListFor(m => m.CompanyId, ResSettings.SettingsInSession.AllSchools().Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择学校", new { @class = "form-control" })
-								</div>
-							</div>
-							<div class="form-group ">
-								<label class="control-label col-sm-3">  学段</label>
-								<div class="col-sm-9">
-									@Html.DropDownListFor(m => m.StagePKID, CroResourceHelper.Stage.GetSelectList(), "适用全体学段", new { @class = "form-control" })
+									@Html.DropDownListFor(m => m.CompanyId, (ViewBag.Companies as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择学校", new { @class = "form-control" })
 								</div>
 							</div>
 							<div class="form-group ">
 								<label class="control-label col-sm-3">  年级</label>
 								<div class="col-sm-9">
-									@Html.DropDownListFor(m => m.GradePKID, CroResourceHelper.Grade.GetSelectList(), "适用全体年级", new { @class = "form-control" })
+									@Html.DropDownListFor(m => m.GradePKID, CroResourceHelper.Grade.GetSelectList(), "选择年级", new { @class = "form-control" })
 								</div>
 							</div>
+
 							<div class="form-group">
 								<label class="control-label col-sm-3"> 学科</label>
 								<div class="col-sm-9">
-									@Html.DropDownListFor(m => m.SubjectPKID, CroResourceHelper.Subject.GetSelectList(), "不分学科", new { @class = "form-control" })
+									@Html.DropDownListFor(m => m.SubjectPKID, CroResourceHelper.Subject.GetSelectList(), "选择学科", new { @class = "form-control" })
 								</div>
 							</div>
 
@@ -106,14 +118,16 @@
 									@Html.ValidationMessageFor(m => m.Author)
 								</div>
 							</div>
+
 							<div class="form-group">
-								<label class="control-label col-sm-3"> <span class="request">*</span> 所在单位</label>
+								<label class="control-label col-sm-3"> <span class="request">*</span> 作者单位</label>
 
 								<div class="col-sm-9">
 									@Html.TextBoxFor(m => m.AuthorCompany, new { @class = "form-control", maxlength = "255", placeholder = "作者所在单位" })
 									@Html.ValidationMessageFor(m => m.AuthorCompany)
 								</div>
 							</div>
+
 							<div class="form-group">
 								@Html.LabelFor(m => m.AuthorAddress, new { @class = "control-label col-sm-3" })
 								<div class="col-sm-9">
@@ -121,6 +135,7 @@
 									@Html.ValidationMessageFor(m => m.AuthorAddress)
 								</div>
 							</div>
+
 							<div class="form-group">
 								@Html.LabelFor(m => m.AuthorEmail, new { @class = "control-label col-sm-3" })
 								<div class="col-sm-9">
@@ -128,6 +143,7 @@
 									@Html.ValidationMessageFor(m => m.AuthorEmail)
 								</div>
 							</div>
+
 							<div class="form-group">
 								@Html.LabelFor(m => m.AuthorPhone, new { @class = "control-label col-sm-3" })
 								<div class="col-sm-9">
@@ -173,7 +189,7 @@
 
 							<div class="form-group">
 								<div class="col-sm-10 col-sm-offset-1">
-									<button type="submit" id="submit" class="btn btn-primary btn-block"><i class="fa fa-check-circle"></i> 确认上传</button>
+									<button type="submit" id="submit" class="btn btn-primary btn-block"><i class="fa fa-check-circle"></i> 确认完成</button>
 								</div>
 							</div>
 
@@ -199,11 +215,8 @@
 }
 @section Scripts {
 
-
-	<script type="text/javascript">
+<script type="text/javascript">
 		$(function () {
-
-			//$("#GhostFileName").val("").prop("disabled", true);
 
 			$(".textarea").keyup(function () {
 				$(".img_ta_num").html("简介还可以填写"+(150 - $(this).val().length)+"个字")
@@ -214,33 +227,50 @@
 
 				$('.error').remove();
 
+				var isValid=true;
 				var gjz=$(".gjz").val();
 				if($.trim(gjz)==""){
 					alert("关键词必须填写");
 					return false;
 				}
+				if($('#ActiveId').val()==0){
+					$('#ActiveId').after('<div class="error" style="color:#a94442">必须选择项目</div>');isValid= false;
+				}
 				if($('#ProvinceId').val()==0){
-					$('#ProvinceId').after('<div class="error" style="color:#a94442">必须选择省份</div>');
+					$('#ProvinceId').after('<div class="error" style="color:#a94442">必须选择省份</div>');isValid= false;
 				}
 				if($('#AreaId').val()==0){
-					$('#AreaId').after('<div class="error" style="color:#a94442">必须选择地区</div>');
+					$('#AreaId').after('<div class="error" style="color:#a94442">必须选择地区</div>');isValid= false;
 				}
 				if($('#CompanyId').val()==0){
-					$('#CompanyId').after('<div class="error" style="color:#a94442">必须选择学校</div>');
+					$('#CompanyId').after('<div class="error" style="color:#a94442">必须选择学校</div>');isValid= false;
 				}
-				var isValid=true;
-				$('.courseTitle,.exercises input').each(function(){
+				if($('#GradePKID').val()==0){
+					$('#GradePKID').after('<div class="error" style="color:#a94442">必须选择年级</div>');isValid= false;
+				}
+				if($('#SubjectPKID').val()==0){
+					$('#SubjectPKID').after('<div class="error" style="color:#a94442">必须选择学科</div>');isValid= false;
+				}
+				$('.courseTitle, .exercises input').each(function(){
 					var $this=$(this);
 					if($this.val()==''){
 						isValid=false;
 						$this.after('<div class="error" style="color:#a94442">内容不能为空</div>');
 					}
 				});
+			
+				$('.courseUploader .resource-path,.designUploader .resource-path').each(function(){
+					var $this=$(this);
+					if($this.val()==''){
+						isValid=false;
+						$this.parent().after('<div class="error" style="color:#a94442">内容不能为空</div>');
+					}
+				});
 
 				if($('#form').valid() && isValid){
 					var o = createSubmitObject();
 					$.post('@Url.Action("Edit", "Crosource")',{resid:'@Model.CrosourceId',model:o},function(){
-						location.href='@Url.Action("Search", "Crosource",new { id= id})';
+						location.href='@Url.Action("Search", "Crosource", new { id= id})';
 					});
 				}
 
@@ -260,7 +290,6 @@
 			o.AuthorAddress=$('#AuthorAddress').val();
 			o.AuthorEmail=$('#AuthorEmail').val();
 			o.AuthorPhone=$('#AuthorPhone').val();
-			o.StagePKID=$('#StagePKID').val();
 			o.GradePKID=$('#GradePKID').val();
 			o.SubjectPKID=$('#SubjectPKID').val();
 			o.CourseTypePKID=$('#CourseTypePKID').val();
@@ -268,6 +297,7 @@
 			o.ProvinceId=$('#ProvinceId').val();
 			o.AreaId=$('#AreaId').val();
 			o.Courses=[];
+			o.ActiveId=$('#ActiveId').val();
 
 			$('.courseArea').each(function(i){
 				var $this=$(this);
@@ -279,6 +309,8 @@
 					CoverId:$this.find('.coverUploader .fileId').val(),
 					DesignId:$this.find('.designUploader .fileId').val(),
 					SummaryId:$this.find('.summaryUploader .fileId').val(),
+					CoursewareId:$this.find('.coursewareUploader .fileId').val(),
+					AttachmentId:$this.find('.attachmentUploader .fileId').val(),
 					CharpterSortId:i+1,
 					Exercises:[]
 				};
@@ -306,14 +338,14 @@
 			return o;
 		}
 
-	</script>
+</script>
 
-	<script type="text/javascript">
+<script type="text/javascript">
 
 		var resTypes = @Html.Raw(Json.Encode(ViewBag.ResTypes));
-		var provinces=@Html.Raw(Json.Encode(ViewBag.Provinces));
-		var areas=@Html.Raw(Json.Encode(ViewBag.Areas));
-		var schools=@Html.Raw(Json.Encode(ViewBag.Schools));
+		var provinces=@Html.Raw(Json.Encode(ViewBag.ProvincesDic));
+		var areas=@Html.Raw(Json.Encode(ViewBag.AreasDic));
+		var schools=@Html.Raw(Json.Encode(ViewBag.SchoolsDic));
 
 		function RelationSelect(src, tat, rule, none, fixInit) {
 			var $src = $(src), $tat = $(tat);
@@ -321,7 +353,7 @@
 				var key = $src.val();
 				$tat.empty();
 				if (none) {
-					$tat.append($("<option>").val(0).text(none));
+					$tat.append($("<option>").val(0).text(none)).change();
 				}
 				$.each(rule, function(i, n){
 					if (n.key == key) {
@@ -340,11 +372,11 @@
 
 		$(function () {
 
+			// hide first course remove button
+			$(".courseRemove:first").remove();
 			$("select option[value='']").val("0");
 
 			// relation select
-			//RelationSelect($("#DomainPKID"), $("#ResourceTypePKID"), resTypes, null, '10234');
-			//RelationSelect($("#StagePKID"), $("#GradePKID"), grades, "适用全体年级");
 			RelationSelect($("#ProvinceId"), $("#AreaId"), areas, "选择地区");
 			RelationSelect($("#AreaId"), $("#CompanyId"), schools, "选择学校");
 
@@ -358,6 +390,8 @@
 			else{
 				$('.addCourse').hide();
 			}
+
+			$('#CourseTypePKID').val(@CroResourceHelper.MicroClass); //默认类型为微课
 			$("input[name='courseType']").on("click", function () {
 				var val = $(this).val();
 				if (val == '@CroResourceHelper.MicroCourse') {
@@ -375,21 +409,19 @@
 
 			$('#AddCourse').click(function(){
 				$('.courseArea:last').after(createCourse());
-				bindResourceUploader($('.courseUploader'),'video','.mp4');
-				bindResourceUploader($('.coverUploader'),'cover','image/*');
-				bindResourceUploader($('.designUploader'),'design','.doc,.docx');
-				bindResourceUploader($('.summaryUploader'),'summary','.doc,.docx');
+				bindUploaders();
 				bindAllExersiesEvnt();
 				bindAllStemEvnt();
+				bindUploadCancelEvnt();
+				bindRemoveCourseEvnt();
 			});
 
-			bindResourceUploader($('.courseUploader'),'video','.mp4');
-			bindResourceUploader($('.coverUploader'),'cover','image/*');
-			bindResourceUploader($('.designUploader'),'design','.doc,.docx');
-			bindResourceUploader($('.summaryUploader'),'summary','.doc,.docx');
+			bindUploaders();
 			bindAllExersiesEvnt(); // 绑定所有新增习题	事件
 			bindAllStemEvnt(); // 绑定页面所有题干事件
 			bindItemRemoveEvnt();//绑定习题项删除事件
+			bindUploadCancelEvnt();
+			bindRemoveCourseEvnt();
 		});
 
 		function createCourseTitle(){
@@ -403,12 +435,13 @@
 		}
 
 		function createUploder(name,title){
-			return $('<div class="form-group '+name+'"><label class="control-label col-sm-3"> <span class="request">*</span>'+title+'</label>'+
+			return $('<div class="form-group '+name+' uploader"><label class="control-label col-sm-3"> <span class="request">*</span>'+title+'</label>'+
 				            '<div class="col-sm-9">'+
 									'<div class="input-group">'+
 											'<input type="text" class="form-control resource-path" readonly  placeholder = "添加'+title+'"/>'+
 											'<div class="input-group-btn">'+
-												'<button type="button" class="btn btn-default dropdown-toggle btn-upload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >选择 </button>'+
+												'<button type="button" class="btn btn-default dropdown-toggle btn-upload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><i class="fa fa-upload"></i> </button>'+
+												'<button type="button" class="btn btn-danger btn-cancel hidden" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-remove"></i></button>' +
 												'</div>'+
 												'</div>' +
 										'<div class="progress" style="display:none">'+
@@ -439,14 +472,15 @@
 		}
 
 		function createCourse(){
-			var course=$('<div class="courseArea" style="border:1px dashed #808080; padding-right:8%; margin-left:3%; padding-top:3%;"></div>');
+			var course=$('<div class="courseArea"><div class="courseRemove"><button class="btn btn-danger btn-course-remove"><i class="fa fa-close"></i></button></div></div>');
 			course.append(createCourseTitle);
 			course.append(createUploder('courseUploader','微课视频'));
 			course.append(creatCover());
 			course.append(createUploder('designUploader','教学设计'));
 			course.append(createUploder('summaryUploader','教学反思'));
+			course.append(createUploder('coursewareUploader','课件'));
+			course.append(createUploder('attachmentUploader','其他附件'));
 			course.append(createExcieses());
-
 			return course;
 		}
 
@@ -456,7 +490,7 @@
 				    '<div class="form-group stem">'+
 						'<div class="col-sm-3">题干：</div>'+
 						'<div class="col-sm-4"><input class="form-control title valid" aria-invalid="false"></div>'+
-						'<div class="col-sm-5"><button class="btn btn-sm btn-success btn-opt">增加选项</button> <button class="btn btn-sm btn-info btn-del">删除</button> </div>'+
+						'<div class="col-sm-5"><button class="btn btn-sm btn-success btn-opt" title="新增"><i class="fa fa-plus"></i></button> <button class="btn btn-sm btn-info btn-del" title="删除"><i class="fa fa-remove"></i></button> </div>'+
 					'</div>');
 		}
 
@@ -464,7 +498,7 @@
 			return '<div class="form-group item">' +
 						'<div class="col-sm-3"><b class="optionKey">'+key+'</b>、：</div>' +
 						'<div class="col-sm-4"><input class="form-control optionName" placeholder="选项内容"/></div>' +
-						'<div class="col-sm-5"><button class="btn btn-sm btn-danger btn-rem">删除</button> </div>' +
+						'<div class="col-sm-5"><button class="btn btn-sm btn-danger btn-rem" title="删除"><i class="fa fa-remove"></i></button></div>' +
 					'</div>';
 		}
 
@@ -490,7 +524,7 @@
 					$('.uploadForms').append($('<form action="'+action+'" class="'+dropzoneName+' uploaderForm'+i+'"></form>'));
 					$('.'+dropzoneName).dropzone({
 						addRemoveLinks: !0,
-						maxFilesize: 300,
+						maxFilesize: 700,
 						filesizeBase:100*1024,
 						maxFiles: 100,
 						acceptedFiles:mimeTypes,
@@ -514,6 +548,7 @@
 									if(type =='cover'){
 										$uploader.find('.coverImageArea').html('').append('<img src="'+data.path+'" style="width:100%; height:100%" class="btn-upload">');
 									}
+									$uploader.find('.btn-cancel').removeClass('hidden').show();
 								})
 								.on("error", function (file, message) {
 									alert(message)
@@ -527,6 +562,15 @@
 				}
 
 			});
+		}
+
+		function bindUploaders(){
+			bindResourceUploader($('.courseUploader'),'video','.mp4');
+			bindResourceUploader($('.coverUploader'),'cover','image/*');
+			bindResourceUploader($('.designUploader'),'design','.doc,.docx');
+			bindResourceUploader($('.summaryUploader'),'summary','.doc,.docx');
+			bindResourceUploader($('.coursewareUploader'),'courseware','.doc,.docx');
+			bindResourceUploader($('.attachmentUploader'),'attachment','.doc,.docx,.txt,.wps,.rtf,.pdf,.rar,.zip,.ppt,.pptx,jpg,png,.gif.xls,.xlsx');
 		}
 
 
@@ -598,5 +642,28 @@
 			});
 		}
 
-	</script>
+		function bindUploadCancelEvnt(){
+			$('.btn-cancel').off('click').on('click',function(){
+				var $this=$(this);
+				$this.parents('.uploader').find('input').val('');
+				$this.hide();
+
+				return false;
+			});
+		}
+
+		function bindRemoveCourseEvnt(){
+			$('.btn-course-remove').off('click').on('click',function(){
+				var $this=$(this);
+				$this.parents('.courseArea').html('').remove();
+
+				// 重新绑定上传控件
+				$('.uploadForms').html('');
+				bindUploaders();
+
+				return false;
+			});
+		}
+
+</script>
 }

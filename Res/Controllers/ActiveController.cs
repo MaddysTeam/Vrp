@@ -30,7 +30,7 @@ namespace Res.Controllers
       {
          var a = APDBDef.Active;
          var query = APQuery
-             .select(a.ActiveId, a.ActiveName, a.LevelPKID, a.Company, a.Description, a.StartDate, a.EndDate)
+             .select(a.ActiveId, a.ActiveName, a.LevelPKID, a.Company, a.Description, a.StartDate, a.EndDate, a.PublicStatePKID,a.DownloadStatePKID)
              .from(a);
 
          if (!string.IsNullOrEmpty(searchPhrase))
@@ -53,7 +53,9 @@ namespace Res.Controllers
                         company = ac.Company,
                         description = ac.Description,
                         start = ac.StartDate.ToString("yyyy-MM-dd"),
-                        end = ac.EndDate.ToString("yyyy-MM-dd")
+                        end = ac.EndDate.ToString("yyyy-MM-dd"),
+                        pstateId = ac.PublicStatePKID,
+                        dstateId= ac.DownloadStatePKID,
                      }).ToList();
 
 
@@ -93,6 +95,9 @@ namespace Res.Controllers
 
          if (id == null)
          {
+            model.DownloadStatePKID = ActiveHelper.AllowDownload;
+            model.PublicStatePKID = ActiveHelper.Public;
+
             model.Insert();
          }
          else
@@ -377,6 +382,57 @@ namespace Res.Controllers
          {
             error = "none",
             msg = "编辑成功"
+         });
+      }
+
+
+
+      //
+      // 修改公开状态
+      // POST:		/Active/PublicSettings
+      //
+
+      [HttpPost]
+      public ActionResult PublicSetting(long id)
+      {
+         if (id > 0)
+         {
+            var act = APBplDef.ActiveBpl.PrimaryGet(id);
+
+            act.PublicStatePKID = act.PublicStatePKID == ActiveHelper.Public ? ActiveHelper.Private : ActiveHelper.Public;
+
+            APBplDef.ActiveBpl.UpdatePartial(id, new { PublicStatePKID = act.PublicStatePKID });
+         }
+
+         return Json(new
+         {
+            cmd = "Updated",
+            msg = "设置成功"
+         });
+      }
+
+
+      //
+      // 修改下载状态
+      // POST:		/Active/DownloadSettings
+      //
+
+      [HttpPost]
+      public ActionResult DownloadSetting(long id)
+      {
+         if (id > 0)
+         {
+            var act = APBplDef.ActiveBpl.PrimaryGet(id);
+
+            act.DownloadStatePKID = act.DownloadStatePKID == ActiveHelper.AllowDownload ? ActiveHelper.DenyDownload : ActiveHelper.AllowDownload;
+
+            APBplDef.ActiveBpl.UpdatePartial(id, new { DownloadStatePKID = act.DownloadStatePKID });
+         }
+
+         return Json(new
+         {
+            cmd = "Updated",
+            msg = "设置成功"
          });
       }
 

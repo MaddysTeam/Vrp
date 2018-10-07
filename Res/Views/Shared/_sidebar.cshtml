@@ -20,12 +20,12 @@
 				</a>
 			</li>
 }
-@if (ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.Export)
+@if (ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.Export && ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.RegistedUser)
 {
 			<li>
 				<a href="@Url.Action("Search", "User")">
 					<i class="fa fa-user fa-fw"></i>
-					<span class="text">用户</span>
+					<span class="text">用户管理</span>
 				</a>
 			</li>
 }
@@ -39,10 +39,10 @@
 				</a>
 			</li>
 	}
-			@if (ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.Teacher 
-				&& ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.SchoolAdmin 
+			@if (ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.RegistedUser
+				&& ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.SchoolAdmin
 				&& ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.Export
-				&& ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.Teacher)
+				&& ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.RegistedUser)
 			{
 			<li>
 				<a href="@Url.Action("Index", "Company")">
@@ -61,7 +61,7 @@
 			@if (ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.Export)
 			{
 			<li>
-				<a href="@Url.Action("Index", "Crosource")">
+				<a href="@Url.Action("Search", "Crosource")">
 					<i class="fa fa-image fa-fw"></i>
 					<span class="text">作品管理</span>
 				</a>
@@ -78,7 +78,7 @@
 			</li>
 			}
 
-			@if (ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.Export && ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.Teacher)
+			@if (ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.Export && ResSettings.SettingsInSession.User.UserTypePKID != ResUserHelper.RegistedUser)
 			{
 			<li>
 				<a href="javascript:void(0)" class="js-sub-menu-toggle">
@@ -91,7 +91,10 @@
 					{
 						<li><a href="@Url.Action("IndicationList", "EvalManage")">指标管理</a></li>
 					}
+					@if (ResSettings.SettingsInSession.User.UserTypePKID == ResUserHelper.Export)
+					{
 					<li><a href="@Url.Action("EvalResultList", "EvalManage")">评审结果查询</a></li>
+					}
 				</ul>
 			</li>
 			}

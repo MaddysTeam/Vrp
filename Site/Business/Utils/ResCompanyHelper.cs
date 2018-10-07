@@ -31,6 +31,13 @@ namespace Res.Business
          return children;
       }
 
+
+      public static string GetCompanyName(long companyId)
+      {
+         var company = ResSettings.SettingsInSession.Companies.Find(x => x.CompanyId == companyId);
+         return company != null ? company.CompanyName : string.Empty;
+      }
+
    }
 
 }

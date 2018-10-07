@@ -20,17 +20,22 @@
 
 					<div class="form-group">
 						@Html.LabelFor(a=>a.ActiveName,new {@class= "control-label col-sm-3" })
-						@*<label class="control-label col-sm-3"> <span class="request">*</span> </label>*@
 						<div class="col-sm-9">
 						@Html.TextBoxFor(a => a.ActiveName, new { @class = "form-control" })
+						@Html.ValidationMessageFor(a=>a.ActiveName)
 						</div>
 					</div>
 
 					<div class="form-group">
 						@Html.LabelFor(a => a.LevelPKID, new { @class = "control-label col-sm-3" })
-						@*<label class="control-label col-sm-3"> <span class="request">*</span> 评审组名称</label>*@
 						<div class="col-sm-9">
 							@Html.DropDownListFor(a => a.LevelPKID, ActiveHelper.Level.GetSelectList(), new { @class = "form-control" })
+						</div>
+					</div>
+					<div class="form-group">
+						@Html.LabelFor(a => a.SemesterPKID, new { @class = "control-label col-sm-3" })
+						<div class="col-sm-9">
+							@Html.DropDownListFor(a => a.SemesterPKID, ActiveHelper.Semester.GetSelectList(), new { @class = "form-control" })
 						</div>
 					</div>
 					<div class="form-group">
@@ -38,6 +43,7 @@
 						@*<label class="control-label col-sm-3"> <span class="request">*</span> </label>*@
 						<div class="col-sm-9">
 							@Html.TextBoxFor(a => a.Year, new { @class = "form-control" })
+							@Html.ValidationMessageFor(a => a.Year)
 						</div>
 					</div>
 					<div class="form-group">
@@ -45,10 +51,9 @@
 						@*<label class="control-label col-sm-3"> <span class="request">*</span> </label>*@
 						<div class="col-sm-9">
 							@Html.TextBoxFor(a => a.Company, new { @class = "form-control" })
+							@Html.ValidationMessageFor(a => a.Company)
 						</div>
 					</div>
-
-
 	
 					<div class="form-group">
 						@Html.LabelFor(a => a.StartDate, new { @class = "control-label col-md-3" })

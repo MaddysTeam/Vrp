@@ -10,57 +10,57 @@ namespace Res.Business
 	{
 
 		/// <summary>
-		/// 资源 - 领域
+		/// 作品 - 领域
 		/// </summary>
 		public static readonly string PLKey_ResourceDomain = "PLKey_ResourceDomain";
 
 		/// <summary>
-		/// 资源 - 残疾类型
+		/// 作品 - 残疾类型
 		/// </summary>
 		public static readonly string PLKey_ResourceDeformity = "PLKey_ResourceDeformity";
 
 		/// <summary>
-		/// 资源 - 安置类型
+		/// 作品 - 安置类型
 		/// </summary>
 		public static readonly string PLKey_ResourceLearnFrom = "PLKey_ResourceLearnFrom";
 
 		/// <summary>
-		/// 资源 - 学校类型
+		/// 作品 - 学校类型
 		/// </summary>
 		public static readonly string PLKey_ResourceSchoolType = "PLKey_ResourceSchoolType";
 
 		/// <summary>
-		/// 资源 - 学段
+		/// 作品 - 学段
 		/// </summary>
 		public static readonly string PLKey_ResourceStage = "PLKey_ResourceStage";
 
 		/// <summary>
-		/// 资源 - 年级
+		/// 作品 - 年级
 		/// </summary>
 		public static readonly string PLKey_ResourceGrade = "PLKey_ResourceGrade";
 
 		/// <summary>
-		/// 资源 - 来源类型
+		/// 作品 - 来源类型
 		/// </summary>
 		public static readonly string PLKey_ResourceImportSource = "PLKey_ResourceImportSource";
 
 		/// <summary>
-		/// 资源 - 媒体类型
+		/// 作品 - 媒体类型
 		/// </summary>
 		public static readonly string PLKey_ResourceMedium = "PLKey_ResourceMedium";
 
 		/// <summary>
-		/// 资源 - 资源类型
+		/// 作品 - 作品类型
 		/// </summary>
 		public static readonly string PLKey_ResourceType = "PLKey_ResourceType";
 
 		/// <summary>
-		/// 资源 - 学科
+		/// 作品 - 学科
 		/// </summary>
 		public static readonly string PLKey_ResourceSubject = "PLKey_ResourceSubject";
 
 		/// <summary>
-		/// 资源 - 状态
+		/// 作品 - 状态
 		/// </summary>
 		public static readonly string PLKey_ResourceState = "PLKey_ResourceState";
 
@@ -73,6 +73,22 @@ namespace Res.Business
       /// 微课 - 微课类型
       /// </summary>
       public static readonly string PLKey_CourseType = "PLKey_CourseType";
+
+      /// <summary>
+      /// 微课作品 - 奖项
+      /// </summary>
+      public static readonly string PLKey_WinLevel = "PLKey_WinLevel";
+
+      /// <summary>
+      /// 微课作品 - 公开设定
+      /// </summary>
+      public static readonly string PLKey_PublicState = "PLKey_PublicState";
+
+      /// <summary>
+      /// 微课作品 - 下载设定
+      /// </summary>
+      public static readonly string PLKey_DownloadState = "PLKey_DownloadState";
+
    }
 
 }

@@ -349,7 +349,7 @@ namespace Res.Business
          }
 
 
-         public static void CountingView(APDBDef db, long resourceId, long userId)
+         public static void CountingView(APDBDef db, long resourceId,long courseId, long userId)
          {
             var t = APDBDef.CroResource;
 
@@ -358,15 +358,16 @@ namespace Res.Business
                .where(t.CrosourceId == resourceId)
                .execute(db);
 
-            if (userId != 0)
-            {
+            //if (userId != 0)
+            //{
                db.CroViewDal.Insert(new CroView()
                {
                   UserId = userId,
                   ResourceId = resourceId,
+                  CourseId=courseId,
                   OccurTime = DateTime.Now
                });
-            }
+            //}
          }
 
          public static void CountingFavorite(APDBDef db, long resourceId, long userId)
@@ -405,19 +406,27 @@ namespace Res.Business
                });
          }
 
-         public static void CountingDownload(APDBDef db, long resourceId, long userId)
+         public static void CountingDownload(APDBDef db, long resourceId,long courseId,long fileId, long userId)
          {
             var t = APDBDef.CroResource;
+            var c = APDBDef.MicroCourse;
 
             APQuery.update(t)
                .set(t.DownCount, APSqlThroughExpr.Expr("DownCount+1"))
                .where(t.CrosourceId == resourceId)
                .execute(db);
+            APQuery.update(c)
+              .set(c.DownCount, APSqlThroughExpr.Expr("DownCount+1"))
+              .where(c.CourseId == courseId)
+              .execute(db);
+
             if (userId != 0)
                db.CroDownloadDal.Insert(new CroDownload()
                {
                   UserId = userId,
                   ResourceId = resourceId,
+                  CourseId=courseId,
+                  FileId=fileId,
                   OccurTime = DateTime.Now
                });
          }
@@ -460,7 +469,7 @@ namespace Res.Business
          /// <returns>CroResource</returns>
          public static CroResource GetResource(APDBDef db, long resourceId)
          {
-            var query = APQuery.select(cr.Asterisk, mc.Asterisk, et.Asterisk,eti.Asterisk,
+            var query = APQuery.select(cr.Asterisk, mc.Asterisk, et.Asterisk,eti.Asterisk, cr.DownCount.As("totalDownCount"), mc.DownCount.As("courseDownCount"),
                                       vf.FileName.As("VideoName"), vf.FilePath.As("VideoPath"),
                                       cf.FileName.As("CoverName"), cf.FilePath.As("CoverPath"),
                                       df.FileName.As("DesignName"), df.FilePath.As("DesignPath"),
@@ -505,7 +514,8 @@ namespace Res.Business
                course.DesignName = df.FileName.GetValue(r, "DesignName");
                course.SummaryName = sf.FileName.GetValue(r, "SummaryName");
                course.CoursewareName = cwf.FileName.GetValue(r, "CoursewareName");
-               course.AttachmentName = atf.FileName.GetValue(r, "AttachmentName");
+               course.AttachmentName =  atf.FileName.GetValue(r, "AttachmentName");
+               course.DownCount = cr.DownCount.GetValue(r, "courseDownCount");
 
                var exe = new Exercises();
                et.Fullup(r, exe, false);
@@ -548,13 +558,21 @@ namespace Res.Business
       public partial class MicroCourseBpl : MicroCourseBplBase
       {
 
-         public static void CountingPlay(APDBDef db, long courseId)
+         public static void CountingPlay(APDBDef db, long userId,long resourceId,long courseId)
          {
             var c = APDBDef.MicroCourse;
             APQuery.update(c)
                .set(c.PlayCount, APSqlThroughExpr.Expr("PlayCount+1"))
                .where(c.CourseId == courseId)
                .execute(db);
+
+            db.CroPlayDal.Insert(new CroPlay()
+            {
+               UserId = userId,
+               ResourceId = resourceId,
+               CourseId = courseId,
+               OccurTime = DateTime.Now
+            });
          }
 
       }

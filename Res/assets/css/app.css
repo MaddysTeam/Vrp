@@ -589,6 +589,10 @@ video {
 	width:100px;
 }
 
+#bootgrid .width200{
+	width:200px;
+}
+
 #bootgrid .fa {
   font-size: 13px;
 }
@@ -794,3 +798,11 @@ video {
 .contextual-summary-info.contextual-background i, .contextual-summary-info.contextual-background p {
   color: #fff;
 }
+
+.courseArea{position:relative; border:1px dashed #808080; padding-right:8%; margin-left:3%; padding-top:3%;}
+.courseArea .courseRemove{position:absolute; top:0px; left:0px;}
+
+.dz-preview{display:none;}
+
+.details-courses ul li{display:inline-block;list-style-type: none;}
+.details-courses ul li img{width:184px; height:115px; border:2px solid #ddd;}

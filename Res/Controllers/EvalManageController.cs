@@ -29,9 +29,10 @@ namespace Res.Controllers
       {
          var user = ResSettings.SettingsInSession.User;
          var eg = APDBDef.EvalGroup;
+         var a = APDBDef.Active;
          var query = APQuery
-             .select(eg.GroupId, eg.GroupName, eg.LevelPKID, eg.StartDate, eg.EndDate) //t.MediumTypePKID,
-             .from(eg);
+             .select(eg.GroupId, eg.GroupName, eg.LevelPKID, eg.StartDate, eg.EndDate, a.ActiveId, a.ActiveName) //t.MediumTypePKID,
+             .from(eg, a.JoinInner(eg.ActiveId == a.ActiveId));
 
          if (!string.IsNullOrEmpty(searchPhrase))
          {
@@ -42,25 +43,35 @@ namespace Res.Controllers
             query.where_and(eg.ProvinceId == user.ProvinceId);
 
          if (user.AreaId > 0)
-            query.where_and(eg.ProvinceId == user.AreaId);
+            query.where_and(eg.AreaId == user.AreaId);
 
          if (user.CompanyId > 0)
-            query.where_and(eg.ProvinceId == user.CompanyId);
+            query.where_and(eg.CompanyId == user.CompanyId);
 
          query.primary(eg.GroupId)
               .skip((current - 1) * rowCount)
               .take(rowCount);
 
          var total = db.ExecuteSizeOfSelect(query);
-         var egs = db.Query(query, eg.TolerantMap).ToList();
+         var egs = query.query(db, r =>
+                                 new EvalGroup
+                                 {
+                                    GroupId = eg.GroupId.GetValue(r),
+                                    GroupName = eg.GroupName.GetValue(r),
+                                    LevelPKID = eg.LevelPKID.GetValue(r),
+                                    ActiveId = a.ActiveId.GetValue(r),
+                                    ActiveName = a.ActiveName.GetValue(r),
+                                    StartDate = eg.StartDate.GetValue(r),
+                                    EndDate = eg.EndDate.GetValue(r)
+                                 }).ToList();
          var list = (from c in egs
                      select new
                      {
                         id = c.GroupId,
                         gropupName = c.GroupName,
                         level = c.Level,
-                        activeId = CurrentActive.ActiveId,
-                        activeName = CurrentActive.ActiveName,
+                        activeId = c.ActiveId,
+                        activeName = c.ActiveName,
                         start = c.StartDate.ToString("yyyy-MM-dd"),
                         end = c.EndDate.ToString("yyyy-MM-dd")
                      }).ToList();
@@ -89,16 +100,16 @@ namespace Res.Controllers
          {
             model = new EvalGroup
             {
-               ActiveId = CurrentActive.ActiveId,
-               ActiveName = CurrentActive.ActiveName
+               StartDate = DateTime.Now,
+               EndDate = DateTime.Now.AddMonths(2)
             };
          }
          else
          {
             model = APBplDef.EvalGroupBpl.PrimaryGet(id.Value);
-            model.ActiveId = CurrentActive.ActiveId;
-            model.ActiveName = CurrentActive.ActiveName;
          }
+
+         ViewBag.Actives = APBplDef.ActiveBpl.GetAll();
 
          return PartialView(model);
       }
@@ -107,6 +118,8 @@ namespace Res.Controllers
       public ActionResult Edit(EvalGroup model)
       {
          var user = ResSettings.SettingsInSession.User;
+         model.LevelPKID = EvalGroupHelper.UnionLevel;
+
          if (user.ProvinceId > 0)
          {
             model.ProvinceId = user.ProvinceId;
@@ -127,7 +140,6 @@ namespace Res.Controllers
 
          if (model.GroupId == 0)
          {
-            model.ActiveId = CurrentActive.ActiveId;
             APBplDef.EvalGroupBpl.Insert(model);
          }
          else
@@ -166,13 +178,11 @@ namespace Res.Controllers
          var user = ResSettings.SettingsInSession.User;
 
          var u = APDBDef.ResUser;
-         var ur = APDBDef.ResUserRole;
          var ege = APDBDef.EvalGroupExpert;
 
          var query = APQuery.select(u.UserId, u.RealName, u.UserName, ege.GroupExpertId)
              .from(
                  u,
-                 ur.JoinLeft(u.UserId == ur.UserId),
                  ege.JoinLeft(u.UserId == ege.ExpertId & ege.GroupId == id)
                  )
              .where(u.UserTypePKID == ResUserHelper.Export)
@@ -194,10 +204,9 @@ namespace Res.Controllers
 
          if (user.ProvinceId > 0)
             query.where_and(u.ProvinceId == user.ProvinceId);
-         if (user.AreaId > 0)
+         if (user.AreaId > 0 && user.ProvinceId != ResCompanyHelper.Shanghai) //如果非上海，其他市区id都是areaId
             query.where_and(u.AreaId == user.AreaId);
-         if (user.CompanyId > 0)
-            query.where_and(u.CompanyId == user.CompanyId);
+
 
          //排序条件表达式
 
@@ -257,6 +266,8 @@ namespace Res.Controllers
       {
          ThrowNotAjax();
 
+         var user = ResSettings.SettingsInSession.User;
+
          var r = APDBDef.CroResource;
          var egr = APDBDef.EvalGroupResource;
 
@@ -276,6 +287,12 @@ namespace Res.Controllers
             query.where_and(r.Author.Match(searchPhrase));
          }
 
+         if (user.ProvinceId > 0)
+            query.where_and(r.ProvinceId == user.ProvinceId);
+         if (user.AreaId > 0)
+            query.where_and(r.AreaId == user.AreaId);
+         if (user.CompanyId > 0)
+            query.where_and(r.CompanyId == user.CompanyId);
 
          //排序条件表达式
 
@@ -467,7 +484,7 @@ namespace Res.Controllers
 
          //获得查询的总数量
 
-         var total = Indication.ConditionQueryCount(null);
+         var total = db.ExecuteSizeOfSelect(query);
 
 
          //查询结果集
@@ -485,7 +502,7 @@ namespace Res.Controllers
                activeId = i.ActiveId.GetValue(r),
                score = i.Score.GetValue(r)
             };
-         });
+         }).ToList();
 
          return Json(new
          {
@@ -506,17 +523,14 @@ namespace Res.Controllers
          Indication model = null;
          if (id == null)
          {
-            model = new Indication
-            {
-               ActiveId = CurrentActive.ActiveId,
-               ActiveName = CurrentActive.ActiveName
-            };
+            model = new Indication();
          }
          else
          {
             model = APBplDef.IndicationBpl.PrimaryGet(id.Value);
-            model.ActiveName = CurrentActive.ActiveName;
          }
+
+         ViewBag.Actives = APBplDef.ActiveBpl.GetAll();
 
          return PartialView(model);
       }
@@ -537,7 +551,7 @@ namespace Res.Controllers
                LevelPKID = model.LevelPKID,
                TypePKID = model.TypePKID,
                Description = model.Description,
-               Score = model.EvalScore,
+               Score = model.Score,
                ActiveId = model.ActiveId
             });
          }
@@ -555,7 +569,7 @@ namespace Res.Controllers
       // GET:		/EvalManage/EvalResultList
       // POST:		/EvalManage/EvalResultList
 
-      public ActionResult EvalResultList()
+      public ActionResult EvalResultList(long? expertId, long? groupId)
       {
          return View();
       }
@@ -563,14 +577,16 @@ namespace Res.Controllers
       [HttpPost]
       public ActionResult EvalResultList(long activeId, long groupid, long expertId, int current, int rowCount, string searchPhrase)
       {
+         var user = ResSettings.SettingsInSession.User;
+
          var a = APDBDef.Active;
          var g = APDBDef.EvalGroup;
          var u = APDBDef.ResUser;
          var cr = APDBDef.CroResource;
          var er = APDBDef.EvalResult;
 
-         var query = APQuery.select(er.ResultId, er.ExpertId, er.GroupId, er.AccessDate, er.Score,
-                                    cr.CrosourceId, cr.Title, u.UserName, u.UserId,
+         var query = APQuery.select(er.ResultId, er.ExpertId, er.GroupId, er.AccessDate, er.Score,er.Comment,
+                                    cr.CrosourceId, cr.Title, cr.Score.As("AverageScore"), u.UserName, u.UserId,
                                     g.GroupName, g.GroupId, a.ActiveName, a.ActiveId)
                           .from(er,
                                 cr.JoinInner(cr.CrosourceId == er.ResourceId),
@@ -580,12 +596,16 @@ namespace Res.Controllers
                                 );
          if (activeId > 0)
             query = query.where_and(cr.ActiveId == activeId);
-
          if (groupid > 0)
             query = query.where_and(er.GroupId == groupid);
-
          if (expertId > 0)
             query = query.where_and(er.ExpertId == expertId);
+         if (user.ProvinceId > 0)
+            query.where_and(cr.ProvinceId == user.ProvinceId);
+         if (user.AreaId > 0)
+            query.where_and(cr.AreaId == user.AreaId);
+         if (user.CompanyId > 0)
+            query.where_and(cr.CompanyId == user.CompanyId);
 
          //if (resourceId > 0)
          //   query = query.where_and(cr.CrosourceId == resourceId);
@@ -616,12 +636,13 @@ namespace Res.Controllers
                date = er.AccessDate.GetValue(r),
                expert = u.UserName.GetValue(r),
                expertId = u.UserId.GetValue(r),
-               averageScore = 0,
+               averageScore = cr.Score.GetValue(r, "AverageScore"),
                score = er.Score.GetValue(r),
                group = g.GroupName.GetValue(r),
                groupId = g.GroupId.GetValue(r),
                active = a.ActiveName.GetValue(r),
-               activeId = a.ActiveId.GetValue(r)
+               activeId = a.ActiveId.GetValue(r),
+               comment=er.Comment.GetValue(r),
             };
          }).ToList();
 
@@ -631,6 +652,55 @@ namespace Res.Controllers
             current,
             rowCount,
             total
+         });
+      }
+
+
+      //
+      // 评审进度列表
+      // GET:		/EvalManage/GroupEvalProgress
+      // POST:		/EvalManage/GroupEvalProgress
+
+      public ActionResult EvalProgress(long id)
+      {
+         return PartialView();
+      }
+
+      [HttpPost]
+      public ActionResult EvalProgress(long id, int current, int rowCount, string searchPhrase)
+      {
+         var ege = APDBDef.EvalGroupExpert;
+         var egr = APDBDef.EvalGroupResource;
+         var g = APDBDef.EvalGroup;
+         var u = APDBDef.ResUser;
+         var er = APDBDef.EvalResult;
+
+         var groupResourceCount = APBplDef.EvalGroupResourceBpl.ConditionQueryCount(egr.GroupId == id);
+         var result = APQuery.select(er.ExpertId, u.UserName, u.RealName, g.GroupId, g.GroupName, er.ResultId.Count().As("evalCount"))
+                            .from(g,
+                                  ege.JoinInner(ege.GroupId == g.GroupId),
+                                  u.JoinInner(ege.ExpertId == u.UserId),
+                                  er.JoinLeft(er.GroupId == g.GroupId & er.ExpertId == u.UserId))
+                            .group_by(er.ExpertId, u.UserName, u.RealName, g.GroupId, g.GroupName)
+                            .where(g.GroupId == id)
+                            .skip(rowCount * (current - 1))
+                            .take(rowCount)
+                            .query(db, r => new EvalProgress
+                            {
+                               ExpertId = er.ExpertId.GetValue(r),
+                               Expert = u.RealName.GetValue(r),
+                               GorupId = g.GroupId.GetValue(r),
+                               GroupName = g.GroupName.GetValue(r),
+                               Percent = ((double)er.ResultId.GetValue(r, "evalCount") / (groupResourceCount == 0 ? 1 : groupResourceCount)) * 100
+                            }).ToList();
+
+
+         return Json(new
+         {
+            rows = result,
+            current,
+            rowCount,
+            total = result.Count
          });
       }
 

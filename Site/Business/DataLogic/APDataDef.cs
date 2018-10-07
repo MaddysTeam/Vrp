@@ -161,6 +161,8 @@ namespace Res.Business
 
       public string ResourceType { get { return CroResourceHelper.ResourceType.GetName(ResourceTypePKID); } }
 
+      public string CourseType { get { return CroResourceHelper.CourseType.GetName(CourseTypePKID); } }
+
       public string Subject { get { return CroResourceHelper.Subject.GetName(SubjectPKID); } }
 
       public string State { get { return CroResourceHelper.State.GetName(StatePKID); } }
@@ -170,6 +172,13 @@ namespace Res.Business
       public string Area { get { return GetCompanyName(AreaId); } }
 
       public string School { get { return GetCompanyName(CompanyId); } }
+
+      public string WinLevel { get { return CroResourceHelper.WinLevel.GetName(WinLevelPKID); } }
+
+      public string PublicState { get { return CroResourceHelper.PublicState.GetName(PublicStatePKID);  }}
+
+      public string DownloadState { get { return CroResourceHelper.DownloadState.GetName(DownloadStatePKID); } }
+
 
       [Display(Name = "资源路径")]
       [Required]
@@ -217,6 +226,8 @@ namespace Res.Business
       public string SummaryPath { get; set; }
       public string CoursewarePath { get; set; }
       public string AttachmentPath { get; set; }
+      public string DesignPreviewPath => DesignPath.Replace(".DOC", ".html").Replace(".doc", ".html").Replace(".docx", ".html").Replace(".htmlx", ".html");
+      public string SummaryPreviewPath => SummaryPath.Replace(".DOC", ".html").Replace(".doc", ".html").Replace(".docx", ".html").Replace(".htmlx", ".html");
 
       public List<Exercises> Exercises { get; set; }
 

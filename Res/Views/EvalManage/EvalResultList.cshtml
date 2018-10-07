@@ -1,8 +1,10 @@
 ﻿@{
 	var pageTitle = ViewBag.Title = "评审结果查询";
+	var expertId = Request["expertId"]==null? ResSettings.SettingsInSession.UserId.ToString() : Request["expertId"];
+	var groupId = Request["groupId"] == null ? "0" : Request["groupId"];
 }
 
-<div class="col-md-10 content-wrapper">
+<div class="col-md-10 content-wrapper"> 
 	<div class="row">
 		<div class="col-lg-4 ">
 			<ul class="breadcrumb">
@@ -66,7 +68,7 @@
 									<th data-column-id="group">评审组</th>
 									<th data-column-id="expert">评审专家</th>
 									<th data-column-id="score">评分</th>
-									<th data-column-id="score">作品总得分</th>
+									<th data-column-id="averageScore">作品总得分</th>
 									<th data-column-id="comment" class="titlewidth">专家评语</th>
 									<th data-column-id="commands" data-formatter="commands" data-sortable="false" data-header-Css-Class="width180">操作</th>
 								</tr>
@@ -83,9 +85,9 @@
 		<!-- /main-content -->
 	</div>
 	<!-- /main -->
-	<input type="hidden" id="groupId" value="0" />
 	<input type="hidden" id="activeId" value="0" />
-	<input type="hidden" id="expertId" value="0" />
+	<input type="hidden" id="groupId" value="@groupId" />
+	<input type="hidden" id="expertId" value="@expertId" />
 </div>
 
 @section Css {
@@ -115,7 +117,7 @@
 				formatters: {
 					'commands': function (column, row) {
 						return '<div class="btn-group btn-group-xs pull-right">' +
-									 '<a target="_blank" class="btn btn-warning btn-remove" href="@Url.Action("Details", "Crosource")?id=' + row.sourceId + '">作品详细</a>' +
+									 '<a target="_blank" class="btn btn-warning btn-remove" href="@Url.Action("Details", "Eval")?id=' + row.id + '&resId=' + row.sourceId + '&groupId=' + row.groupId+'&expertId='+row.expertId+'">考核详情</a>' +
 									 '</div>';
 					},
 				},

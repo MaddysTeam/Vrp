@@ -15,7 +15,6 @@
 		@using (Html.BeginForm("IndicationEdit", "EvalManage", Model == null ? null : new { id = Model.IndicationId }, FormMethod.Post, new { id = "form1", role = "form", @class = "form-horizontal" }))
 		{
 			@Html.HiddenFor(m => m.IndicationId)
-			@Html.HiddenFor(m => m.ActiveId)
 
 			<div class="modal-body">
 				<div class="form-horizontal">
@@ -23,7 +22,7 @@
 					<div class="form-group">
 						<label class="control-label col-sm-3"> <span class="request">*</span> 项目名称</label>
 						<div class="col-sm-9">
-							@Html.Label(Model.ActiveName, new { @class = "form-control", maxlength = "255" })
+						@Html.DropDownListFor(i => i.ActiveId, (ViewBag.Actives as List<Active>).Select(x => new SelectListItem { Text = x.ActiveName, Value = x.ActiveId.ToString(), Selected = Model.ActiveId == Model.ActiveId }), "选择项目", new { @class = "form-control" })
 						</div>
 					</div>
 

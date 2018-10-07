@@ -73,37 +73,7 @@
 									{
 										<img style="width:100%" height="100%" src="@course.FitCoverPath" />
 									}
-									@*<img class="cover-img img-frame" src="@Model.CoverPath" />*@
 								</div>
-								@*<div class="col-sm-5">
-									<div class="summary">
-										<p><label>微课名称</label> @course.CourseTitle</p>
-										<p><label>播放次数</label> @course.PlayCount 次</p>
-										<p><label>创建时间</label> @Model.CreatedTime.ToString("yyyy-MM-dd")</p>
-										<p>
-											<label>关键字</label> @foreach (var item in Model.Keywords.Split(','))
-											{ <span class="badge">@item</span> }
-										</p>
-										<p><label>作者</label> @Model.Author</p>
-										@if (course.DesignPath != null)
-										{
-											<p><label>教学设计</label><span><a href="@course.DesignPath.Replace(".doc",".html").Replace(".docx",".html")" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> 预 览</a></span></p>
-}
-										@if (course.SummaryPath != null)
-										{
-											<p><label>教学反思</label><span><a href="@course.SummaryPath.Replace(".doc",".html").Replace(".docx",".html")" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> 预 览</a></span></p>
-}
-										<p><label>审核意见</label><span id="opinion" class="@(Model.StatePKID==10353?"text-danger":"text-info")">@Model.AuditOpinion</span></p>
-									</div>
-									<div class="switchs">
-										@Html.CheckBox("Elite", Model.EliteScore > 0, new { @class = "switch", data_label_text = "加精", data_size = "small" })
-										<span></span>
-										@Html.CheckBox("State", Model.StatePKID == ResResourceHelper.StateAllow, new { @class = "switch", data_label_text = "审核合格", data_size = "small" })
-									</div>
-									<div class="buttons">
-										<a href="@Url.Action("Edit", "Crosource", new { id = Model.CrosourceId })" class="btn btn-primary btn-block"><i class="fa fa-edit"></i> 修改作品信息</a>
-									</div>
-								</div>*@
 							</div> <!-- row -->
 							<hr />
 							<div>
@@ -119,11 +89,11 @@
 										<ul class="course-list">
 											@foreach (var item in Model.Courses)
 											{
-												<li style="display:inline-block;list-style-type: none;">
-													<a href="@Url.Action("Details","Crosource",new { id = Model.CrosourceId ,courseId = item.CourseId })"><img src="@item.FitCoverPath" style="width:184px; height:115px;" /></a>
+												<li>
+													<a href="@Url.Action("Details","Crosource",new { id = Model.CrosourceId ,courseId = item.CourseId })"><img src="@item.FitCoverPath"/></a>
 													<div class="text-center">@item.CourseTitle</div>
 												</li>
-}
+                                 }
 										</ul>
 									</div>
 								</div>
@@ -138,48 +108,17 @@
 							</div>
 							<div class="widget">
 								<div class="widget-header">
-									<h3><i class="fa fa-paperclip"></i> 详细信息</h3>
+									<h3><i class="fa fa-paperclip"></i> 作品信息</h3>
 								</div>
 
 								<div class="widget-content">
 									<ul class="list-group">
 
-										<li class="list-group-item">微课名称：@course.CourseTitle</li>
-				
-										<li class="list-group-item">播放次数：@course.PlayCount</li>
-
-										<li class="list-group-item">创建时间：@Model.CreatedTime.ToString("yyyy-MM-dd")</li>
-
-										<li class="list-group-item">作者：@Model.Author</li>
-
+										<li class="list-group-item">作品名称：@Model.Title</li>
 										@if (!string.IsNullOrEmpty(Model.Keywords))
 										{
 											<li class="list-group-item">关键字: &nbsp;@foreach (var item in Model.Keywords.Split(',')){<span class="badge" style="float:none;">  @item</span> }</li>
 										}
-										@if (!string.IsNullOrEmpty(Model.Province))
-										{
-											<li class="list-group-item">审核意见：<span id="opinion" class="@(Model.StatePKID==10353?"text-danger":"text-info")">@Model.AuditOpinion</span></li>
-										}
-									
-											<li class="list-group-item">
-												<div class="switchs">
-													@Html.CheckBox("State", Model.StatePKID == ResResourceHelper.StateAllow, new { @class = "switch", data_label_text = "审核合格", data_size = "small" })
-												</div>
-											</li>
-							
-
-									</ul>
-								</div>
-							</div>
-
-							<!-- widget -->
-							<div class="widget">
-								<div class="widget-header">
-									<h3><i class="fa fa-paperclip"></i> 作品分类信息</h3>
-								</div>
-
-								<div class="widget-content">
-									<ul class="list-group">
 
 										<li class="list-group-item">作品类型：@Model.CourseType</li>
 										@if (@Model.SubjectPKID != 0)
@@ -206,11 +145,80 @@
 										{
 										<li class="list-group-item">学校：@Model.School</li>
 										}
+		
+										<li class="list-group-item">创建时间：@Model.CreatedTime.ToString("yyyy-MM-dd")</li>
+
+										@if (!string.IsNullOrEmpty(Model.Province))
+										{
+											<li class="list-group-item">审核意见：<span id="opinion" class="@(Model.StatePKID==10353?"text-danger":"text-info")">@Model.AuditOpinion</span></li>
+										}
+									
+											<li class="list-group-item">
+												<div class="switchs">
+													@Html.CheckBox("State", Model.StatePKID == CroResourceHelper.StateAllow, new { @class = "switch", data_label_text = "审核合格", data_size = "small" })
+												</div>
+											</li>
+							
+
+									</ul>
+								</div>
+							</div>
+
+							<!-- widget -->
+							<div class="widget">
+								<div class="widget-header">
+									<h3><i class="fa fa-paperclip"></i> 当前微课信息</h3>
+								</div>
+
+								<div class="widget-content">
+									<ul class="list-group">
+										<li class="list-group-item">
+											<span>微课名称：@course.CourseTitle</span>
+										</li>
+										<li  class="list-group-item">
+											<span>播放次数： @course.PlayCount</span>
+									   </li>
+
+									   <li  class="list-group-item">
+											<span>下载次数： @course.DownCount</span>
+										</li>
+										<li  class="list-group-item">
+											练  习  题：&nbsp;&nbsp;<a href="javascript:void(0)" class="btn-danger btn-sm" id="exercies">答 题</a>
+										</li>
+								
+									
+										@if(course.DesignId != 0)
+										{
+											<li  class="list-group-item">
+												<span>教学设计： <a href="@course.DesignPath.Replace(".DOC",".html").Replace(".doc",".html").Replace(".docx",".html").Replace(".htmlx",".html")" target="_blank" class="btn-info btn-sm">预 览</a></span>
+										   </li>
+										}
+
+										@if (course.SummaryId != 0)
+										{
+											<li  class="list-group-item">
+												<span>教学反思： <a href="@course.SummaryPath.Replace(".DOC",".html").Replace(".doc",".html").Replace(".docx",".html").Replace(".htmlx",".html")" target="_blank" class="btn-info btn-sm">预 览</a></span>
+										   </li>
+										}
+
+										@if (course.CoursewareId != 0)
+										{
+											<li  class="list-group-item">
+												<span>课&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件：&nbsp;<a href="@course.CoursewarePath" target="_blank" data-id="@course.CoursewareId" class="btn-info btn-sm btn-download">下 载</a></span>
+											</li>
+										}
+										@if (course.AttachmentId != 0)
+										{
+											<li  class="list-group-item">
+												<span>其他附件： <a href="@course.AttachmentPath" target="_blank" data-id="@course.AttachmentId" class="btn-info btn-sm btn-download">下 载</a></span>
+											</li>
+										}
 
 									</ul>
 								</div>
 							</div>
 							<!-- end widget -->
+
 							<!-- widget -->
 							<div class="widget">
 								<div class="widget-header">
@@ -250,10 +258,15 @@
 			</div>
 			<!-- Details -->
 
+			<!-- modal frame -->
+			<div class="modal fade" id="inner-edit-form" tabindex="-1" role="dialog" aria-hidden="true"></div>
+			<!-- end modal frame -->
+
 		</div>
 		<!-- /main-content -->
 	</div>
 	<!-- /main -->
+
 </div>
 
 
@@ -302,7 +315,7 @@
 				});
 
 				player.onPlay(function(){
-					$.post('@Url.Action("Play", "Crosource")',{courseId:'@course.CourseId'},function(){});
+					$.post('@Url.Action("Play", "Crosource")',{id:'@Model.CrosourceId',courseId:'@course.CourseId'},function(){});
 				});
 			}
 
@@ -324,8 +337,8 @@
 			});
 
 			$("#State").on("switchChange.bootstrapSwitch", function (event, state) {
-				var message = state ? "审核该资源为 - 合格" : "审核该资源为 - 不合格";
-				var success = state ? "资源已审核为合格。" : "课程已审核为不合格。";
+				var message = state ? "审核该作品为 - 合格" : "审核该作品为 - 不合格";
+				var success = state ? "作品已审核为合格。" : "作品已审核为不合格。";
 				$this = $(this);
 
 				alertify.prompt("审核意见", function (e, str) {
@@ -345,6 +358,24 @@
 						$this.bootstrapSwitch("state", !state, true);
 					}
 				}, message);
+			});
+
+
+			$('#exercies').on('click',function(){
+				$.post('/Crosource/ExerciesList',{courseId:'@course.CourseId'},function(response){
+					$('#inner-edit-form').html(response).modal("show")
+				});
+			});
+
+			$('.btn-download').on('click',function(){
+				var $this=$(this);
+				var fileId=$(this).data('id');
+				if(fileId>0){
+					$.post('/Crosource/Download',{id:'@Model.CrosourceId',  courseId:'@course.CourseId', fileId:fileId},function(response){});
+				}
+				else{
+					alert('暂无文件可下载');
+				}
 			});
 
 		});

@@ -71,7 +71,7 @@ namespace Res.Controllers
 					name = user.RealName,
 					photoPath = act.FitPhotoPath,
 					time = DateTime.Now.ToShortDateString(),
-					content = SentisiveWordHelper.Replace(content,'*'),
+					content = content,//TODO: SentisiveWordHelper.Replace(content,'*'),
 					canDelete = true,
 				});
 			}

@@ -1,6 +1,8 @@
 ﻿@model ResCompany
 @{
 	ViewBag.Title = "修改单位信息";
+	var user = ResSettings.SettingsInSession.User;
+	var isCityAdmin = user.UserTypePKID == ResUserHelper.CityAdmin;
 }
 
 <div class="modal-dialog" style="width:800px;">
@@ -23,7 +25,7 @@
 
 			<div class="modal-body">
 				<div class="form-horizontal">
-					@if (Model.CompanyId == 0)
+					@if (Model.CompanyId == 0 && !isCityAdmin)
 					{
 						<div class="form-group">
 							<label class="control-label col-sm-3">所属单位</label>
@@ -40,6 +42,10 @@
 								</div><!-- /input-group -->
 							</div>
 						</div>
+					}
+					else
+					{
+					@Html.Hidden("SuperiorId",user.AreaId) // 如果是上海市区管或者外地的市管则无需选择父级单位，默认areaid为父级单位id
 					}
 					<div class="form-group">
 						@Html.LabelFor(m => m.CompanyName, new { @class = "control-label col-md-3" })
@@ -105,6 +111,11 @@
 			if (!$form.valid())
 				return false;
 
+			if ($('#SuperiorId').val() == "") {
+				alert('所属单位不能为空！')
+				return false;
+			}
+
 			$.post($form.attr("action"), $form.serialize(), function (data, status) {
 				if (status == "success") {
 
@@ -112,11 +123,9 @@
 						alertify.error(data.msg);
 						return;
 					}
-
-					alertify.success(data.msg);
 					$('#inner-edit-form').modal('hide');
-					$("#jstree").jstree("refresh");
-
+					//$("#jstree").jstree("refresh");
+					alertify.success(data.msg);
 				}
 			});
 

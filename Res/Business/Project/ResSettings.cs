@@ -156,31 +156,35 @@ namespace Res.Business
       {
          get
          {
-            _companys = GetCache(typeof(List<ResCompany>)) as List<ResCompany>;
-            if (_companys == null)
-            {
-               _companys = APBplDef.ResCompanyBpl.GetAll();
-               SetCache(_companys, typeof(List<ResCompany>));
-            }
+            //_companys = GetCache(typeof(List<ResCompany>)) as List<ResCompany>;
+            //if (_companys == null)
+            //{
+            //   _companys = APBplDef.ResCompanyBpl.GetAll();
+            //   SetCache(_companys, typeof(List<ResCompany>));
+            //}
 
-            return _companys;
+            return APBplDef.ResCompanyBpl.GetAll();
          }
       }
 
-      public Active CurrentActive
-      {
-         get
-         {
-            _crrentActive = GetCache(typeof(Active)) as Active;
-            if (_crrentActive == null)
-            {
-               _crrentActive = APBplDef.ActiveBpl.GetAll().First(x=>x.IsCurrent);
-               SetCache(_crrentActive, typeof(Active));
-            }
+      //public Active CurrentActive
+      //{
+      //   get
+      //   {
+      //      _crrentActive = GetCache(typeof(Active)) as Active;
+      //      if (_crrentActive == null)
+      //      {
+      //         var all = APBplDef.ActiveBpl.GetAll();
+      //         if (all.Count()>0)
+      //         {
+      //            _crrentActive =all.FirstOrDefault(x => x.IsCurrent);
+      //            SetCache(_crrentActive, typeof(Active));
+      //         }
+      //      }
 
-            return _crrentActive;
-         }
-      }
+      //      return _crrentActive;
+      //   }
+      //}
 
 
       #endregion

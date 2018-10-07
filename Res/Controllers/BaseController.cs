@@ -16,10 +16,10 @@ namespace Res.Controllers
 		{
 			db = new APDBDef();
 
-         CurrentActive = ResSettings.SettingsInSession.CurrentActive;
+         //CurrentActive = ResSettings.SettingsInSession.CurrentActive;
       }
 
-      protected Active CurrentActive { get; private set; }
+     // protected Active CurrentActive { get; private set; }
 
 		protected APDBDef db { get; set; }
 

@@ -180,7 +180,6 @@
     <Compile Include="Business\Utils\ResCompanyHelper.cs" />
     <Compile Include="Business\Utils\ResModelBinder.cs" />
     <Compile Include="Business\Utils\CroResourceHelper.cs" />
-    <Compile Include="Business\Utils\ResResourceHelper.cs" />
     <Compile Include="Business\Utils\ResApproveHelper.cs" />
     <Compile Include="Business\Utils\ResUserHelper.cs" />
     <Compile Include="Business\Utils\EvalGroupHelper.cs" />
@@ -1708,6 +1707,9 @@
     <Content Include="Views\Active\Edit.cshtml" />
     <Content Include="Views\Active\DwnRoleList.cshtml" />
     <Content Include="Views\EvalManage\EvalResultList.cshtml" />
+    <Content Include="Views\Crosource\WinLevel.cshtml" />
+    <Content Include="Views\EvalManage\EvalProgress.cshtml" />
+    <Content Include="Views\Crosource\_exercies.cshtml" />
     <None Include="xml.schema.definition\apgen.xsd">
       <SubType>Designer</SubType>
     </None>

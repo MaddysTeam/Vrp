@@ -32,23 +32,17 @@ namespace Res.Controllers
          string tmp = "";
          List<ResCompany> schools = null, areas = null, provinces = null;
 
-         if (!String.IsNullOrEmpty(tmp = Request.Params.Get("ResourceType")))
+         if (!String.IsNullOrEmpty(tmp = Request.Params.Get("CourseType")))
          {
-            where.Add(t.ResourceTypePKID == Int64.Parse(tmp));
+            where.Add(t.CourseTypePKID == Int64.Parse(tmp));
          }
-         ViewData["ResourceType"] = tmp;
+         ViewData["CourseType"] = tmp;
 
          if (!String.IsNullOrEmpty(tmp = Request.Params.Get("Subject")))
          {
             where.Add(t.SubjectPKID == Int64.Parse(tmp));
          }
          ViewData["Subject"] = tmp;
-
-         if (!String.IsNullOrEmpty(tmp = Request.Params.Get("Stage")))
-         {
-            where.Add(t.StagePKID == Int64.Parse(tmp));
-         }
-         ViewData["Stage"] = tmp;
 
          if (!String.IsNullOrEmpty(tmp = Request.Params.Get("Grade")))
          {
@@ -60,7 +54,7 @@ namespace Res.Controllers
          {
             where.Add(rc.Path.Match(tmp));
 
-            areas = ResCompanyHelper.GetChildren(ResSettings.SettingsInSession.Companies,Int64.Parse(tmp));
+            areas = ResCompanyHelper.GetChildren(ResSettings.SettingsInSession.Companies, Int64.Parse(tmp));
             schools = ResCompanyHelper.GetChildren(ResSettings.SettingsInSession.Companies, areas);
          }
          ViewData["Province"] = tmp;
@@ -69,15 +63,16 @@ namespace Res.Controllers
          {
             where.Add(rc.Path.Match(tmp));
 
-            schools = ResCompanyHelper.GetChildren(ResSettings.SettingsInSession.Companies,Int64.Parse(tmp));
+            schools = ResCompanyHelper.GetChildren(ResSettings.SettingsInSession.Companies, Int64.Parse(tmp));
          }
          ViewData["Area"] = tmp;
+
          if (!String.IsNullOrEmpty(tmp = Request.Params.Get("School")))
          {
             where.Add(t.CompanyId == Int64.Parse(tmp));
          }
          ViewData["School"] = tmp;
-
+            
          if (!String.IsNullOrEmpty(tmp = Request.Params.Get("Keywords")) && tmp.Trim() != "")
          {
             where.Add(t.Keywords.Match(tmp) | t.Title.Match(tmp) | t.Author.Match(tmp) | t.Description.Match(tmp) | mc.CourseTitle.Match(tmp));
@@ -105,10 +100,10 @@ namespace Res.Controllers
 
          int total = 0;
 
-         ViewBag.ListOfMore = SearchCroResourceList(where.Count > 0 ? new APSqlConditionAndPhrase(where) : null, order, out total, 5, (page - 1) * 5);
+         ViewBag.ListOfMore = SearchCroResourceList(where.Count > 0 ? new APSqlConditionAndPhrase(where) : null, order, out total, 10, (page - 1) * 10);
 
          // 分页器
-         ViewBag.PageSize = 5;
+         ViewBag.PageSize = 10;
          ViewBag.PageNumber = page;
          ViewBag.TotalItemCount = total;
 
@@ -222,35 +217,26 @@ namespace Res.Controllers
          var model = APBplDef.CroResourceBpl.GetResource(db, id);
          ViewBag.Title = model.Title;
 
+         var currentCourse = courseId == null || courseId.Value == 0 ? model.Courses[0] : model.Courses.Find(c => c.CourseId == courseId);
+
          // 访问历史
-         APBplDef.CroResourceBpl.CountingView(db, id, Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0);
+         APBplDef.CroResourceBpl.CountingView(db, id, currentCourse.CourseId, Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0);
 
          //当前微课
-         ViewBag.CurrentCourse = courseId == null || courseId.Value == 0 ? model.Courses[0] : model.Courses.Find(c => c.CourseId == courseId);
+         ViewBag.CurrentCourse = currentCourse;
 
          //评论数量
          ViewBag.CommentCount = APBplDef.CroCommentBpl.ConditionQueryCount(APDBDef.CroComment
             .ResourceId == id & APDBDef.CroComment.Audittype == 1);
 
-         //var t = APDBDef.CroResource;
+         int total = 10;
+         //右侧热门作品
+         ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5, 0);
 
-         //model.GhostFileName = Path.GetFullPath( model.ResourcePath); //model.IsLink ? model.ResourcePath : Path.GetFileName(model.ResourcePath);
-
-         //// 相关作品
-         //ViewBag.RankingOfRelation = CroHomeRelationList(id, model.Keywords.Split(','), 8, model.FileExtName, APDBDef.CroResource.MediumTypePKID == model.MediumTypePKID);
-
-         ////右侧热门作品
-         //ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5, 0, t.MediumTypePKID == model.MediumTypePKID, model.FileExtName);
-
-         ////右侧最新作品
-         //ViewBag.RankingROfNewCount = CroHomeRankingList(APDBDef.CroResource.CreatedTime.Desc, null, out total, 5, 0, t.MediumTypePKID == model.MediumTypePKID, model.FileExtName);
-
-         //ViewBag.mediumtypepkid = model.MediumTypePKID;
-         //ViewBag.FileExtName = model.FileExtName;
-
+         //右侧最新作品
+         ViewBag.RankingROfNewCount = CroHomeRankingList(APDBDef.CroResource.CreatedTime.Desc, null, out total, 5, 0);
 
          return View(model);
-
       }
 
 
@@ -296,7 +282,7 @@ namespace Res.Controllers
       }
 
 
-      public ActionResult Download(long id)
+      public ActionResult Download(long id,long courseId,long fileId)
       {
          if (!Request.IsAuthenticated)
          {
@@ -309,7 +295,7 @@ namespace Res.Controllers
          else
          {
             var t = APDBDef.CroDownload;
-            APBplDef.CroResourceBpl.CountingDownload(db, id, Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0);
+            APBplDef.CroResourceBpl.CountingDownload(db, id, courseId,fileId,Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0);
             return Json(new
             {
                state = "ok",
@@ -336,7 +322,7 @@ namespace Res.Controllers
 
       //
       // 作品点赞
-      // GET:		/CroResurce/Praise
+      // POST:		/CroResurce/Praise
       //
 
       [HttpPost]
@@ -352,7 +338,17 @@ namespace Res.Controllers
          }
          else
          {
-            var t = APDBDef.CroDownload;
+            var cp = APDBDef.CroPraise;
+            if (APBplDef.CroPraiseBpl.ConditionQueryCount(
+               cp.UserId == ResSettings.SettingsInSession.UserId & cp.ResourceId == id) > 0)
+            {
+               return Json(new
+               {
+                  state = "failure",
+                  msg = "无法重复点赞！"
+               });
+
+            }
             APBplDef.CroResourceBpl.CountingPraise(db, id, Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0);
             return Json(new
             {
@@ -366,13 +362,14 @@ namespace Res.Controllers
 
       //
       // 微课视频点击
-      // GET:		/CroResurce/Play
+      // POSt:		/CroResurce/Play
       //
 
       [HttpPost]
-      public ActionResult Play(long courseId)
+      public ActionResult Play(long resourceId,long courseId)
       {
-         APBplDef.MicroCourseBpl.CountingPlay(db, courseId);
+         var userId = Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0;
+         APBplDef.MicroCourseBpl.CountingPlay(db,userId, resourceId,courseId);
 
          return Json(new
          {
@@ -381,6 +378,49 @@ namespace Res.Controllers
          });
       }
 
+
+      //
+      // 在线答题列表
+      // POSt:		/CroResurce/ExerciesList
+      //
+
+      public ActionResult ExerciesList(long courseId)
+      {
+         var exe = APDBDef.Exercises;
+         var exei = APDBDef.ExercisesItem;
+
+         var list = APQuery.select(exe.Name, exe.Answer, exe.ExerciseId, exei.Item, exei.ItemId, exei.Code)
+                       .from(exe, exei.JoinInner(exe.ExerciseId == exei.ExerciseId))
+                       .where(exe.CourseId == courseId)
+                       .query(db, r =>
+                         new
+                         {
+                            itemId = exei.ItemId.GetValue(r),
+                            item = exei.Item.GetValue(r),
+                            code = exei.Code.GetValue(r),
+                            answer = exe.Answer.GetValue(r),
+                            exeName = exe.Name.GetValue(r),
+                            exeId = exe.ExerciseId.GetValue(r)
+                         }
+                       ).ToList();
+
+         var models = new List<Exercises>();
+
+         foreach (var item in list)
+         {
+            var model = models.FirstOrDefault(x => x.ExerciseId == item.exeId);
+            if (null == model)
+            {
+               model = new Exercises { ExerciseId = item.exeId, Answer = item.answer, Name = item.exeName };
+               model.Items = new List<ExercisesItem>();
+               models.Add(model);
+            }
+
+            model.Items.Add(new ExercisesItem { Code = item.code, Item = item.item, ItemId = item.itemId });
+         }
+
+         return PartialView("_exercies", models);
+      }
 
    }
 

@@ -6,6 +6,7 @@
 	var resultId = Request["id"] ==null? 0:Convert.ToInt32(Request["id"]);
 	var groupId = Request["groupId"] == null ? 0 : Convert.ToInt32(Request["groupId"]);
 
+	var comment = (string)ViewBag.Comment;
 	var course = ViewBag.CurrentCourse as MicroCourse;
 }
 <div class="col-md-10 content-wrapper">
@@ -78,35 +79,7 @@
 									}
 									@*<img class="cover-img img-frame" src="@Model.CoverPath" />*@
 								</div>
-								@*<div class="col-sm-5">
-									<div class="summary">
-										<p><label>微课名称</label> @course.CourseTitle</p>
-										<p><label>播放次数</label> @course.PlayCount 次</p>
-										<p><label>创建时间</label> @Model.CreatedTime.ToString("yyyy-MM-dd")</p>
-										<p>
-											<label>关键字</label> @foreach (var item in Model.Keywords.Split(','))
-											{ <span class="badge">@item</span> }
-										</p>
-										<p><label>作者</label> @Model.Author</p>
-										@if (course.DesignPath != null)
-										{
-											<p><label>教学设计</label><span><a href="@course.DesignPath.Replace(".doc",".html").Replace(".docx",".html")" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> 预 览</a></span></p>
-}
-										@if (course.SummaryPath != null)
-										{
-											<p><label>教学反思</label><span><a href="@course.SummaryPath.Replace(".doc",".html").Replace(".docx",".html")" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> 预 览</a></span></p>
-}
-										<p><label>审核意见</label><span id="opinion" class="@(Model.StatePKID==10353?"text-danger":"text-info")">@Model.AuditOpinion</span></p>
-									</div>
-									<div class="switchs">
-										@Html.CheckBox("Elite", Model.EliteScore > 0, new { @class = "switch", data_label_text = "加精", data_size = "small" })
-										<span></span>
-										@Html.CheckBox("State", Model.StatePKID == ResResourceHelper.StateAllow, new { @class = "switch", data_label_text = "审核合格", data_size = "small" })
-									</div>
-									<div class="buttons">
-										<a href="@Url.Action("Edit", "Crosource", new { id = Model.CrosourceId })" class="btn btn-primary btn-block"><i class="fa fa-edit"></i> 修改作品信息</a>
-									</div>
-								</div>*@
+
 							</div> <!-- row -->
 							<hr />
 							<div>
@@ -161,9 +134,19 @@
 														</td>
 													</tr>
 												}
+												<tr>
+													<td colspan="6">
+														<strong>专家评语</strong>
+														<p></p>
+														@Html.TextArea("comment", comment, 6,6,new {@class="form-control" })
+													</td>
+												</tr>
 											</tbody>
 										</table>
+										@if ((bool)ViewBag.isSlef)
+										{
 										<a class="btn btn-block btn-danger btn-eval" href="#">确定评审</a>
+                              }
 									</div>
 								</div>
 								</div>
@@ -200,7 +183,7 @@
 									
 											<li class="list-group-item">
 												<div class="switchs">
-													@Html.CheckBox("State", Model.StatePKID == ResResourceHelper.StateAllow, new { @class = "switch", data_label_text = "审核合格", data_size = "small" })
+													@Html.CheckBox("State", Model.StatePKID == CroResourceHelper.StateAllow, new { @class = "switch", data_label_text = "审核合格", data_size = "small" })
 												</div>
 											</li>
 							
@@ -243,7 +226,32 @@
 										{
 										<li class="list-group-item">学校：@Model.School</li>
 										}
+										@if(course.DesignId != 0)
+										{
+											<li  class="list-group-item">
+												<span>教学设计： <a href="@course.DesignPath.Replace(".doc",".html").Replace(".docx",".html").Replace(".htmlx",".html")" target="_blank" class="btn-info btn-sm">预 览</a></span>
+										   </li>
+										}
 
+										@if (course.SummaryId != 0)
+										{
+											<li  class="list-group-item">
+												<span>教学反思： <a href="@course.SummaryPath.Replace(".doc",".html").Replace(".docx",".html").Replace(".htmlx",".html")" target="_blank" class="btn-info btn-sm">  预 览</a></span>
+										   </li>
+										}
+
+										@if (course.CoursewareId != 0)
+										{
+											<li  class="list-group-item">
+												<span>课&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件： <a href="@course.CoursewarePath" target="_blank" class="btn-info btn-sm">  下 载</a></span>
+											</li>
+										}
+										@if (course.AttachmentId != 0)
+										{
+											<li  class="list-group-item">
+												<span>其他附件： <a href="@course.AttachmentPath" target="_blank" class="btn-info btn-sm">  下 载</a></span>
+											</li>
+										}
 									</ul>
 								</div>
 							</div>
@@ -344,6 +352,7 @@
 					ResultId:'@resultId',
 					GroupId:'@groupId',
 					ResourceId: '@Model.CrosourceId',
+					Comment: $('#comment').val(),
 					Items:[]
 				};
 

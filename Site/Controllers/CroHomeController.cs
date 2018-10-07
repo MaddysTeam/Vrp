@@ -30,9 +30,9 @@ namespace Res.Controllers
       {
          int total;
          // 首页--活跃用户
-         ViewBag.RankingOfActiveUser = new List<ResActiveUser>(); // CroHomeActiveUserList(out total, 9);
+         ViewBag.RankingOfActiveUser =  CroHomeActiveUserList(out total, 9);
          // 首页--热门作品
-         ViewBag.RankingOfRMViewCount = new List<ResResourceRanking>();// HomeRecommandList(APDBDef.ResResource.ViewCount.Desc, out total, 5);
+         ViewBag.RankingOfRMViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5);
          // 首页--公告
          ViewBag.RankingOfBulletin = HomeCroBulltinList(APDBDef.CroBulletin.CreatedTime.Desc, out total, 5);
          return View();

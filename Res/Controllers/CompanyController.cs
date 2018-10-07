@@ -154,7 +154,7 @@ namespace Res.Controllers
          if (user.UserTypePKID == ResUserHelper.Admin)
             path = string.Empty;
 
-         var rootList = APBplDef.ResCompanyBpl.GetTree(path);
+         var rootList = APBplDef.ResCompanyBpl.GetTree(path, user.UserTypePKID != ResUserHelper.Admin && user.UserTypePKID != ResUserHelper.ProvinceAdmin);
 
          return Json(getChildren(rootList), JsonRequestBehavior.AllowGet);
       }

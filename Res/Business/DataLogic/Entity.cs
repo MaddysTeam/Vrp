@@ -6,7 +6,7 @@ using System.Web;
 namespace Res.Business
 {
 	/// <summary>
-	/// 推荐资源
+	/// 推荐作品
 	/// </summary>
 	public class ResResourceRecommand
 	{
@@ -29,7 +29,7 @@ namespace Res.Business
 	}
 
 	/// <summary>
-	/// 排行榜资源
+	/// 排行榜作品
 	/// </summary>
 	public class ResResourceRanking : ResResourceRecommand
 	{
@@ -71,7 +71,7 @@ namespace Res.Business
 	}
 
 
-	//我的众筹资源
+	//我的作品
 
 	public class CroMyResource
 	{
@@ -103,11 +103,10 @@ namespace Res.Business
 	}
 
 
-
-
 	/// <summary>
-	/// 评价资源
+	/// 评价作品
 	/// </summary>
+   /// 
 	public class CroResourcecommend
 	{
 		public long CrosourceId { get; set; }
@@ -129,8 +128,6 @@ namespace Res.Business
 	}
 
 
-
-
 	public class CroResourceRanking : CroResourcecommend
 	{
 		public string AuthorCompany { get; set; }
@@ -141,6 +138,31 @@ namespace Res.Business
 		public string FileExtName { get; set; }
 		public string Description { get; set; }
 	}
+
+   /// <summary>
+   /// 作品获奖级别
+   /// </summary>
+   public class CroResourceLevel
+   {
+      public long LevelId { get; set; }
+      public string Name { get; set; }
+      public bool IsSelect { get; set; }
+   }
+
+
+   /// <summary>
+   /// 评审进度
+   /// </summary>
+   public class EvalProgress
+   {
+      public string Expert { get; set; }
+      public long ExpertId { get; set; }
+      public long GorupId { get; set; }
+      public string GroupName { get; set; }
+      public double Percent { get; set; }
+   }
+
+
 
 	/// <summary>
 	/// 活跃用户
@@ -168,9 +190,6 @@ namespace Res.Business
 				return "/assets/img/gender_" + user.GenderPKID + ".jpg";
 			return user.PhotoPath;
 		}
-
-
-
 
 
 		/// <summary>

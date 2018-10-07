@@ -189,9 +189,14 @@
 					<!-- Content -->
 					<add name="ActiveName" type="string" dataLength="255" required="true" display="项目名称"/>
 					<add name="Description" type="string" dataLength="255" required="true" display="描述"/>
-					<add name="Year" type="int"  display="项目年份"/>
-					<add name="Company" type="string" dataLength="255" display="主办单位"/>
+					<add name="Year" type="int"  display="项目年份" required="true"/>
+
+					<add name="Company" type="string" dataLength="255" required="true" display="主办单位" />
 					<add name="LevelPKID" type="long"  display="项目级别"/>
+					<add name="SemesterPKID" type="long"  display="学期"/>
+					<add name="PublicStatePKID" type="long" display="公开设置"  defaultValue="10450" comment="PickList - APEdu.net key is PLKey_PublicState"/>
+					<add name="DownloadStatePKID" type="long" display="下载设置" defaultValue="10452" comment="PickList - APEdu.net key is PLKey_DownloadState"/>
+
 					<add name="StartDate" columnName="StartDate" type="DateTime"  display="起始时间" />
 					<add name="EndDate" columnName="EndDate" type="DateTime"  display="结束时间" />
 					<add name="UploadStartDate" columnName="UploadStartDate" type="DateTime"  display="上传起始时间" />
@@ -240,9 +245,9 @@
 			</table>
 
 
-			<table name="CroResource" comment="微课作品资源">
+			<table name="CroResource" comment="微课作品">
 				<columns>
-					<add name="CrosourceId" type="long" identityType="Provider" primaryKey="true" display="资源ID"/>
+					<add name="CrosourceId" type="long" identityType="Provider" primaryKey="true" display="作品ID"/>
 
 					<!-- Content -->
 					<add name="Title" type="string" dataLength="255" required="true" display="标题"/>
@@ -263,12 +268,13 @@
 					<!-- Properties -->
 					<add name="StagePKID" type="long" required="true" display="学段" comment="PickList - APEdu.net key is PLKey_ResourceStage"/>
 					<add name="GradePKID" type="long" required="true" display="年级" comment="PickList - APEdu.net key is PLKey_ResourceGrade"/>
-					<add name="ResourceTypePKID" type="long" required="false" display="资源类型" comment="PickList - APEdu.net key is PLKey_ResourceType"/>
+					<add name="ResourceTypePKID" type="long" required="false" display="作品类型" comment="PickList - APEdu.net key is PLKey_ResourceType"/>
 					<add name="SubjectPKID" type="long" required="true" display="学科" comment="PickList - APEdu.net key is PLKey_ResourceSubject"/>
 					<add name="CourseTypePKID" type="long" required="true" display="微课类型" comment="PickList - APEdu.net key is PLKey_CourseType"/>
 					<add name="StatePKID" type="long" display="状态" comment="PickList - APEdu.net key is PLKey_ResourceState"/>
-					<add name="PublicStatePKID" type="long" display="公开设置" defaultValue="0" comment="PickList - APEdu.net key is PLKey_ResourcePublicState"/>
-					<add name="DownloadStatePKID" type="long" display="下载设置"  defaultValue="0" comment="PickList - APEdu.net key is PLKey_ResourceDownloadState"/>
+					<add name="PublicStatePKID" type="long" display="公开设置" defaultValue="10450" comment="PickList - APEdu.net key is PLKey_ResourcePublicState"/>
+					<add name="DownloadStatePKID" type="long" display="下载设置"  defaultValue="10452" comment="PickList - APEdu.net key is PLKey_ResourceDownloadState"/>
+					<add name="WinLevelPKID" type="long" display="获奖等级" defaultValue="0" comment="PickList - APEdu.net key is PLKey_WinLevel"/>
 					
 					<!-- Count -->
 					<add name="DownCount" type="int" display="下载次数"/>
@@ -278,7 +284,7 @@
 					<!--<add name="StarCount" type="int" display="评分次数"/>
           <add name="StarTotal" type="int" display="总评分"/>-->
 					<add name="EliteScore" type="int" display="加精分数"/>
-					<add name="PraiseCount" type="int" display="加精分数" defaultValue="0"/>
+					<add name="PraiseCount" type="int" display="点赞次数" defaultValue="0"/>
 					
 					<!-- Logic -->
 					<add name="Auditor" type="long" display="审核人ID"/>
@@ -290,7 +296,10 @@
 					<add name="CreatedTime" type="DateTime"/>
 					<add name="LastModifier" type="long"/>
 					<add name="LastModifiedTime" type="DateTime"/>
-
+					
+					<!-- Eval -->
+					<add name="Score" type="double" display="作品得分"/>
+					
 				</columns>
 			</table>
 
@@ -299,7 +308,7 @@
 				<columns>
 					<add name="CourseId" type="long" identityType="Provider" primaryKey="true"/>
 					<add name="CourseTitle" type="string" dataLength="255" required="true" display="微课标题"/>
-					<add name="ResourceId" type="long" display="微课程资源"  required="true" />
+					<add name="ResourceId" type="long" display="微课程作品"  required="true" />
 					<add name="VideoId" type="long" display="视频文件" required="true"/>
 					<add name="CoverId" type="long" display="封面文件"/>
 					<add name="DesignId" type="long" display="设计"/>
@@ -309,7 +318,7 @@
 					<add name="AttachmentId" type="long" display="附件"/>
 					<add name="CharpterSortId" type="long"/>
 					<add name="PlayCount" type="int" display="播放次数"/>
-
+					<add name="DownCount" type="int" display="下载次数"/>
 				</columns>
 			</table>
 
@@ -339,7 +348,7 @@
 					<add name="FileId" type="long" identityType="Provider" primaryKey="true" display="文件ID"/>
 					<add name="FileName" type="string" dataLength="100" display="文件名称"   required="true"/>
 					<add name="ExtName"  type="string" dataLength="10" display="后缀名称"  required="true"/>
-					<add name="FilePath" type="string" dataLength="255" display="资源路径" required="true"/>
+					<add name="FilePath" type="string" dataLength="255" display="作品路径" required="true"/>
 					<add name="FileSize" type="long" display="文件大小" required="true"/>
 					<add name="Md5" type="string" dataLength="50" required="true"/>
 				</columns>
@@ -351,7 +360,7 @@
 
 					<add name="IndicationId" columnName="ID" type="long" primaryKey="true" identityType="Provider" ></add>
 					<add name="IndicationName" columnName="Name" type="string"  dataLength="200" required="true" display="指标名称"/>
-					<add name="Description" columnName="Description" type="string" dataLength="40000"  isNullable="true" display="指标描述"/>
+					<add name="Description" columnName="Description" type="string" dataLength="40000" required="true"  display="指标描述"/>
 					<add name="TypePKID" type="long" display="评价项目"></add>
 					<add name="LevelPKID" type="long"  display="评审级别"></add>
 					<add name="Score" type="int"  display="最大分值"></add>
@@ -366,7 +375,7 @@
 				<columns>
 
 					<add name="GroupId" columnName="ID" type="long" identityType="Provider" primaryKey="true" ></add>
-					<add name="GroupName" columnName="Name" type="string" dataLength="100"  display="组名称"></add>
+					<add name="GroupName" columnName="Name" type="string" dataLength="100" required="true"  display="组名称"></add>
 					<add name="LevelPKID" type="long" dataLength="100"  display="评审级别"></add>
 					<add name="StartDate" columnName="StartDate" type="DateTime"  display="起始时间" />
 					<add name="EndDate" columnName="EndDate" type="DateTime"  display="结束时间" />
@@ -407,9 +416,10 @@
 					<add name="ResultId" columnName="ID" type="long" identityType="Provider" primaryKey="true"  display="评价结果ID"/>
 					<add name="ExpertId" type="long" display="评审人" comment="评审人ID"/>
 					<add name="GroupId" type="long" display="评审组ID"/>
-					<add name="ResourceId" type="long" display="被考核资源ID"/>
+					<add name="ResourceId" type="long" display="被考核作品ID"/>
 					<add name="AccessDate" type="DateTime" display="评审时间"/>
 					<add name="Score" type="double" display="得分"/>
+					<add name ="Comment" type="string" dataLength="4000" required="false" display="专家评语"/>
 
 				</columns>
 			</table>
@@ -431,7 +441,7 @@
 				<columns>
 					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
 					<add name="UserId" type="long" required="true" display="用户ID"/>
-					<add name="ResourceId" type="long" required="true" display="资源ID"/>
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
 					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
 				</columns>
 			</table>
@@ -442,7 +452,7 @@
 				<columns>
 					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
 					<add name="UserId" type="long" required="true" display="用户ID"/>
-					<add name="ResourceId" type="long" required="true" display="资源ID"/>
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
 					<add name="Content" type="string" dataLength="2000" required="true" display="内容"/>
 					<add name="Audittype" type="long" display="审核状态"  dbDefaultValue="0"/>
 					<!--0 未审 1审核通过 2审核未通过 -->
@@ -458,7 +468,7 @@
 				<columns>
 					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
 					<add name="UserId" type="long" required="true" display="用户ID"/>
-					<add name="ResourceId" type="long" required="true" display="资源ID"/>
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
 					<add name="Score" type="int" required="true" display="分数"/>
 					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
 				</columns>
@@ -466,11 +476,24 @@
 
 			<!-- Defined 'CroView' DB table and auto generite db access codes.
 				-->
-			<table name="CroView" comment="点击">
+			<table name="CroView" comment="浏览">
 				<columns>
 					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
 					<add name="UserId" type="long" required="true" display="用户ID"/>
-					<add name="ResourceId" type="long" required="true" display="资源ID"/>
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
+					<add name="CourseId" type="long" required="true" display="微课ID"/>
+					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
+				</columns>
+			</table>
+
+			<!-- Defined 'CroView' DB table and auto generite db access codes.
+				-->
+			<table name="CroPlay" comment="播放">
+				<columns>
+					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="UserId" type="long" required="true" display="用户ID"/>
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
+					<add name="CourseId" type="long" required="true" display="微课ID"/>
 					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
 				</columns>
 			</table>
@@ -481,7 +504,9 @@
 				<columns>
 					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
 					<add name="UserId" type="long" required="true" display="用户ID"/>
-					<add name="ResourceId" type="long" required="true" display="资源ID"/>
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
+					<add name="CourseId" type="long" required="true" display="微课ID"/>
+					<add name="FileId" type="long" required="true" display="文件ID"/>
 					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
 				</columns>
 			</table>
@@ -492,13 +517,13 @@
 				<columns>
 					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
 					<add name="UserId" type="long" required="true" display="用户ID"/>
-					<add name="ResourceId" type="long" required="true" display="资源ID"/>
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
 					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
 				</columns>
 			</table>
 			
 
-			<table name="SensitiveWords" comment="敏感词表">
+			<!--<table name="SensitiveWords" comment="敏感词表">
 				<columns>
 
 					<add name="WordId" type="long" identityType="Database" primaryKey="true" display="敏感词ID"/>
@@ -508,7 +533,7 @@
 					<add name="SetDate" type="string" dataLength="20"  display="设定时间"/>
 
 				</columns>
-			</table>
+			</table>-->
 
 
 		</tables>

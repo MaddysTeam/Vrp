@@ -19,7 +19,7 @@
 	<div class="content">
 		<div class="main-header">
 			<h2>@ViewBag.Title</h2>
-            <em>项目列表</em>
+			<em>项目列表</em>
 		</div>
 
 		<div class="main-content">
@@ -47,7 +47,7 @@
 									<th data-column-id="description">描述</th>
 									<th data-column-id="start" data-formatter="DateOnly">起始时间</th>
 									<th data-column-id="end" data-formatter="DateOnly">结束时间</th>
-									<th data-column-id="commands" data-formatter="commands" data-headercs="titlewidth">操作</th>
+									<th data-column-id="cmd_edit" data-formatter="cmd_edit"  data-headercs=""></th>
 								</tr>
 							</thead>
 						</table>
@@ -79,52 +79,69 @@
 	<script type="text/javascript">
 
 
-	function getGridOptions() {
+		function getGridOptions() {
+			var userType = '@ResSettings.SettingsInSession.User';
+			var isAdmin = userType != '@ResUserHelper.RegistedUser' && userType != '@ResUserHelper.Export';
+			return $.extend(true, {}, gridOptions, {
 
-		return $.extend(true, {}, gridOptions, {
+				url: "@Url.Action("Search","Active")",
 
-			url: "@Url.Action("Search","Active")",
-
-			formatters: {
-				'commands': function (column, row) {
-					var id = row.id;
-					return '<div class="btn-group btn-group-xs pull-right" data-row-id="' + row.id +'">' +
-											 '<button class="btn btn-success btn-edit">编辑</button>' +
-											 '<button class="btn btn-info btn-pub">公开设置</button>' +
-						                '<button class="btn btn-primary btn-dwn">下载设置</button>'
-					'</div>';
+				formatters: {
+					"cmd_edit": function (column, row) {
+						if (isAdmin) {
+							return '<div class="btn-group btn-group-xs pull-right"><button data-row-id="' + row.id + '" class="btn btn-success btn-edit">编辑</button>' +
+								'<button type="button" class="btn cmd_public" data-row-id="' + row.id + '" title="公开/不公开"><fa>' + (row["pstateId"] == 10450 ? "不公开" : "公开") + '</fa></button>' +
+								'<button type="button" class="btn btn-info  cmd_download" data-row-id="' + row.id + '" title="下载/禁止下载"><fa>' + (row["dstateId"] == 10452 ? "下载" : "禁止下载") + '</fa></button></div>';
+						}
+					}
 				},
-			},
 
-			//defaultSearch: decodeURI(window.location.search.substr(3)),
+				//defaultSearch: decodeURI(window.location.search.substr(3)),
 
-			labels: {
-				search: "名称搜索"
-			},
+				labels: {
+					search: "名称搜索"
+				},
 
-		});
+			});
 
-	}
+		}
 
 
-	$(function () {
+		$(function () {
 
-		var grid = $("#bootgrid")
-				.bootgrid(getGridOptions())
-				.on("loaded.rs.jquery.bootgrid", function () {
+			var grid = $("#bootgrid")
+					.bootgrid(getGridOptions())
+					.on("loaded.rs.jquery.bootgrid", function () {
 
-					grid.find("tbody tr:has(button.iselite)").addClass("flagelite");
-					grid.find("tbody tr:has(button.isallow)").addClass("flagallow");
+						grid.find("tbody tr:has(button.iselite)").addClass("flagelite");
+						grid.find("tbody tr:has(button.isallow)").addClass("flagallow");
 
-					grid
-						.find('.btn-edit').on('click', function () {
-							var id = $(this).parent().data("row-id");
-							$.get('@Url.Action("Edit", "Active")?id=' + id, function (response) {
-								$("#inner-edit-form")
-										.html(response).modal("show");
+						grid
+							.find('.btn-edit').on('click', function () {
+								var id = $(this).data("row-id");
+								$.get('@Url.Action("Edit", "Active")?id=' + id, function (response) {
+									$("#inner-edit-form")
+											.html(response).modal("show");
+								});
+							}).end()
+						.find(".cmd_public").on("click", function () {
+							var id = $(this).data("row-id");
+							$.post("/Active/PublicSetting", { id: id }, function (data, status) {
+								if (data.cmd == "Updated") { alertify.success(data.msg); grid.bootgrid("reload"); }
+								else { alertify.error(data.msg); }
 							});
-						});
-					grid
+						}).end()
+
+					   // 下载设置
+					   .find(".cmd_download").on("click", function () {
+					   	var id = $(this).data("row-id");
+					   	$.post("/Active/DownloadSetting", { id: id }, function (data, status) {
+					   		if (data.cmd == "Updated") { alertify.success(data.msg); grid.bootgrid("reload"); }
+					   		else { alertify.error(data.msg); }
+					   	});
+					   }).end();
+
+						@*grid
 						.find('.btn-pub').on('click', function () {
 					   	var id = $(this).parent().data("row-id");
 					   	$.get('@Url.Action("PubRoleList", "Active")?id=' + id, function (response) {
@@ -139,19 +156,19 @@
 							$("#inner-edit-form")
 									.html(response).modal("show");
 						});
+					});*@
+
 					});
-				
+
+
+			$('#addActive').on('click', function () {
+				$.get('@Url.Action("Edit", "Active")', function (response) {
+					$("#inner-edit-form")
+							.html(response).modal("show");
 				});
-
-
-		$('#addActive').on('click', function () {
-			$.get('@Url.Action("Edit", "Active")', function (response) {
-				$("#inner-edit-form")
-						.html(response).modal("show");
 			});
-		});
 
-	});
+		});
 
 	</script>
 }

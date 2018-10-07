@@ -18,6 +18,10 @@ namespace Res.Business
          Type = new PickListAPRptColumn(APDBDef.Indication.TypePKID,ThisApp.PLKey_IndicationType);
       }
 
+      public static int ProvinceLevel=5005;
+      public static int CityLevel = 5004;
+      public static int UnionLevel = 5006;
+
    }
 
 }

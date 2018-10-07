@@ -6,7 +6,7 @@ using System.Web;
 namespace Res.Business
 {
    /// <summary>
-   /// 推荐资源
+   /// 推荐作品
    /// </summary>
    public class ResResourceRecommand
    {
@@ -29,7 +29,7 @@ namespace Res.Business
    }
 
    /// <summary>
-   /// 排行榜资源
+   /// 作品排行榜
    /// </summary>
    public class ResResourceRanking : ResResourceRecommand
    {
@@ -68,11 +68,12 @@ namespace Res.Business
    }
 
 
-   //我的众筹资源
+   //我的作品
 
    public class CroMyResource
    {
       public long CrosourceId { get; set; }
+      public string Active { get; set; }
       public string Title { get; set; }
       public string Author { get; set; }
       public string CoverPath { get; set; }
@@ -80,6 +81,17 @@ namespace Res.Business
       public string Description { get; set; }
       public DateTime OccurTime { get; set; }
       public long StatePKID { get; set; }
+      public long PublicStatePKID { get; set; }
+      public long DownloadStatePKID { get; set; }
+      public string PublicState => PublicStatePKID == CroResourceHelper.Public ? "取消公开" : "点击公开";
+      public string DownloadState => DownloadStatePKID == CroResourceHelper.AllowDownload ? "禁止下载" : "允许下载";
+
+      public long ProvinceId { get; set; }
+      public long AreaId { get; set; }
+      public long CompanyId { get; set; }
+      public string Province { get { return ResCompanyHelper.GetCompanyName(ProvinceId); } }
+      public string Area { get { return ResCompanyHelper.GetCompanyName(AreaId); } }
+      public string Company { get { return ResCompanyHelper.GetCompanyName(CompanyId); } }
 
       public long OccurId { get; set; }
       public string Content { get; set; }
@@ -103,7 +115,7 @@ namespace Res.Business
 
 
    /// <summary>
-   /// 微课程评价资源
+   /// 微课程评价
    /// </summary>
    public class MicroCoursecommend
    {
@@ -126,15 +138,9 @@ namespace Res.Business
       public long ProvinceId { get; set; }
       public long AreaId { get; set; }
       public long SchoolId { get; set; }
-      public string Province { get { return GetCompanyName(ProvinceId); } }
-      public string Area { get { return GetCompanyName(AreaId); } }
-      public string School { get { return GetCompanyName(SchoolId); } }
-
-      protected string GetCompanyName(long companyId)
-      {
-         var company = ResSettings.SettingsInSession.Companies.Find(x => x.CompanyId == companyId);
-         return company != null ? company.CompanyName : string.Empty;
-      }
+      public string Province { get { return ResCompanyHelper.GetCompanyName(ProvinceId); } }
+      public string Area { get { return ResCompanyHelper.GetCompanyName(AreaId); } }
+      public string School { get { return ResCompanyHelper.GetCompanyName(SchoolId); } }
    }
 
 
@@ -152,13 +158,6 @@ namespace Res.Business
       //public int DownCount { get; set; }
       public string FileExtName { get; set; }
       public string Description { get; set; }
-
-
-      //public string RType { get; set; }
-
-      //public string RSource { get; set; }
-
-
    }
 
    /// <summary>
@@ -189,8 +188,15 @@ namespace Res.Business
       }
 
 
-
-
+      /// <summary>
+      /// 作品获奖级别
+      /// </summary>
+      public class CroResourceLevel
+      {
+         public long LevelId { get; set; }
+         public string Name { get; set; }
+         public bool IsSelect { get; set; }
+      }
 
       /// <summary>
       /// 公告

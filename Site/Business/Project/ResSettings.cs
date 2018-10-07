@@ -145,6 +145,11 @@ namespace Res.Business
          get { CheckCurrent(); return Approves.Contains(9); }
       }
 
+      public ResUser User
+      {
+         get { CheckCurrent(); return _user; }
+      }
+
       public List<ResCompany> Companies
       {
          get

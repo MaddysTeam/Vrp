@@ -269,7 +269,7 @@ namespace Res.Business
       public partial class ResCompanyBpl : ResCompanyBplBase
       {
 
-         public static List<ResCompany> GetTree(string path)
+         public static List<ResCompany> GetTree(string path,bool isShowRoot=true)
          {
             var t = APDBDef.ResCompany;
             var query = APQuery.select(t.CompanyId, t.ParentId, t.CompanyName, t.Path)
@@ -292,7 +292,11 @@ namespace Res.Business
                     };
                  }).ToList();
 
+            
             ResCompany root = new ResCompany() { CompanyId = 0, ParentId = 0, CompanyName = "上海市", Path = "" };
+            if (list.Count > 0 && isShowRoot)
+               root = list.FirstOrDefault();
+
             Dictionary<long, ResCompany> dict = new Dictionary<long, ResCompany>(){
                {0, root}
             };
@@ -493,7 +497,10 @@ namespace Res.Business
             var u = APDBDef.ResUser;
 
             var query = APQuery
-                .select(t.CrosourceId, t.Title, u.RealName.As("Author"), t.CreatedTime, t.StatePKID, t.EliteScore, t.CourseTypePKID) //t.MediumTypePKID,
+                .select(t.CrosourceId, t.Title, t.CreatedTime, t.StatePKID,
+                        t.EliteScore, t.CourseTypePKID,t.ProvinceId,t.AreaId,t.CompanyId,t.WinLevelPKID,t.Score,
+                        t.PublicStatePKID,t.DownloadStatePKID,
+                        u.RealName.As("Author"))
                 .from(t, u.JoinInner(t.Creator == u.UserId))
                 .where(where)
                 .primary(t.CrosourceId)
@@ -519,6 +526,8 @@ namespace Res.Business
          static APDBDef.FilesTableDef cf = APDBDef.Files.As("CoverFile");
          static APDBDef.FilesTableDef df = APDBDef.Files.As("DesignFile");
          static APDBDef.FilesTableDef sf = APDBDef.Files.As("SummaryFile");
+         static APDBDef.FilesTableDef cwf = APDBDef.Files.As("CoursewareFile");
+         static APDBDef.FilesTableDef atf = APDBDef.Files.As("AttachmentFile");
 
          /// <summary>
          ///  get complex resource object
@@ -528,22 +537,26 @@ namespace Res.Business
          /// <returns>CroResource</returns>
          public static CroResource GetResource(APDBDef db, long resourceId)
          {
-            var query = APQuery.select(cr.Asterisk, mc.Asterisk, et.Asterisk, eti.Asterisk,
-                                  vf.FileName.As("VideoName"), vf.FilePath.As("VideoPath"),
-                                  cf.FileName.As("CoverName"), cf.FilePath.As("CoverPath"),
-                                  df.FileName.As("DesignName"), df.FilePath.As("DesignPath"),
-                                  sf.FileName.As("SummaryName"), sf.FilePath.As("SummaryPath")
-                                 )
-                           .from(cr,
-                                 mc.JoinLeft(cr.CrosourceId == mc.ResourceId),
-                                 et.JoinLeft(et.CourseId == mc.CourseId),
-                                 eti.JoinLeft(eti.ExerciseId == et.ExerciseId),
-                                 vf.JoinLeft(vf.FileId == mc.VideoId),
-                                 cf.JoinLeft(cf.FileId == mc.CoverId),
-                                 df.JoinLeft(df.FileId == mc.DesignId),
-                                 sf.JoinLeft(sf.FileId == mc.SummaryId)
-                                 )
-                            .where(cr.CrosourceId == resourceId);
+            var query = APQuery.select(cr.Asterisk, mc.Asterisk, et.Asterisk, eti.Asterisk, cr.DownCount.As("totalDownCount"), mc.DownCount.As("courseDownCount"), // 作品表和微课表的【下载数】重复了，需要分开处理
+                                      vf.FileName.As("VideoName"), vf.FilePath.As("VideoPath"),
+                                      cf.FileName.As("CoverName"), cf.FilePath.As("CoverPath"),
+                                      df.FileName.As("DesignName"), df.FilePath.As("DesignPath"),
+                                      sf.FileName.As("SummaryName"), sf.FilePath.As("SummaryPath"),
+                                      cwf.FileName.As("CoursewareName"), cwf.FilePath.As("CoursewarePath"),
+                                      atf.FileName.As("AttachmentName"), atf.FilePath.As("AttachmentPath")
+                                     )
+                               .from(cr,
+                                     mc.JoinLeft(cr.CrosourceId == mc.ResourceId),
+                                     et.JoinLeft(et.CourseId == mc.CourseId),
+                                     eti.JoinLeft(eti.ExerciseId == et.ExerciseId),
+                                     vf.JoinLeft(vf.FileId == mc.VideoId),
+                                     cf.JoinLeft(cf.FileId == mc.CoverId),
+                                     df.JoinLeft(df.FileId == mc.DesignId),
+                                     sf.JoinLeft(sf.FileId == mc.SummaryId),
+                                     cwf.JoinLeft(cwf.FileId == mc.CoursewareId),
+                                     atf.JoinLeft(atf.FileId == mc.AttachmentId)
+                                     )
+                                .where(cr.CrosourceId == resourceId);
 
             CroResource model = null;
             var result = query.query(db, r =>
@@ -562,10 +575,15 @@ namespace Res.Business
                course.VideoPath = vf.FilePath.GetValue(r, "VideoPath");
                course.DesignPath = df.FilePath.GetValue(r, "DesignPath");
                course.SummaryPath = sf.FilePath.GetValue(r, "SummaryPath");
+               course.CoursewarePath = cwf.FilePath.GetValue(r, "CoursewarePath");
+               course.AttachmentPath = atf.FilePath.GetValue(r, "AttachmentPath");
                course.VideoName = vf.FileName.GetValue(r, "VideoName");
                course.CoverName = cf.FileName.GetValue(r, "CoverName");
                course.DesignName = df.FileName.GetValue(r, "DesignName");
                course.SummaryName = sf.FileName.GetValue(r, "SummaryName");
+               course.CoursewareName = cwf.FileName.GetValue(r, "CoursewareName");
+               course.AttachmentName = atf.FileName.GetValue(r, "AttachmentName");
+               course.DownCount = cr.DownCount.GetValue(r, "courseDownCount");
 
                var exe = new Exercises();
                et.Fullup(r, exe, false);
@@ -595,58 +613,56 @@ namespace Res.Business
             return model;
          }
 
+
+         public static void CountingDownload(APDBDef db, long resourceId, long courseId, long fileId, long userId)
+         {
+            var t = APDBDef.CroResource;
+            var c = APDBDef.MicroCourse;
+
+            APQuery.update(t)
+               .set(t.DownCount, APSqlThroughExpr.Expr("DownCount+1"))
+               .where(t.CrosourceId == resourceId)
+               .execute(db);
+            APQuery.update(c)
+              .set(c.DownCount, APSqlThroughExpr.Expr("DownCount+1"))
+              .where(c.CourseId == courseId)
+              .execute(db);
+
+            if (userId != 0)
+               db.CroDownloadDal.Insert(new CroDownload()
+               {
+                  UserId = userId,
+                  ResourceId = resourceId,
+                  CourseId = courseId,
+                  FileId = fileId,
+                  OccurTime = DateTime.Now
+               });
+         }
+
       }
 
       #endregion
-
-
-      //#region [ ZSResource ]
-
-      //public partial class ZSResourceBpl : ZSResourceBplBase
-      //{
-
-
-      //	public static List<ZSResource> GetLevel()
-      //	{
-
-      //		var t = APDBDef.ZSResource;
-
-      //		var query = APQuery
-      //			.select(t.OneLevel, t.TowLevel)
-      //			.from(t)
-      //			.primary(t.ResourceId);
-
-
-      //		using (APDBDef db = new APDBDef())
-      //		{
-      //			return db.Query(query, r =>
-      //			{
-      //				return new ZSResource
-      //				{
-      //					OneLevel = t.OneLevel.GetValue(r),
-      //					TowLevel = t.TowLevel.GetValue(r)
-      //				};
-      //			}).ToList();
-      //		}
-
-      //	}
-
-      //}
-
-      //    #endregion
 
 
       #region [ MIcroCourse ]
 
       public partial class MicroCourseBpl : MicroCourseBplBase
       {
-         public static void CountingPlay(APDBDef db, long courseId)
+         public static void CountingPlay(APDBDef db, long resourceId, long courseId, long userId)
          {
             var c = APDBDef.MicroCourse;
             APQuery.update(c)
                .set(c.PlayCount, APSqlThroughExpr.Expr("PlayCount+1"))
                .where(c.CourseId == courseId)
                .execute(db);
+
+            db.CroPlayDal.Insert(new CroPlay()
+            {
+               UserId = userId,
+               ResourceId = resourceId,
+               CourseId = courseId,
+               OccurTime = DateTime.Now
+            });
          }
       }
 

@@ -70,7 +70,7 @@ namespace Res
 
 
 
-			//众筹
+			
 			bundles.Add(new ScriptBundle("~/js/Ace").Include(
 					"~/assets/js/Ace.js"));
 			bundles.Add(new StyleBundle("~/css/Ace").Include(

@@ -12,9 +12,9 @@ namespace Res.Controllers
 	public class CroBaseController : BaseController
 	{
 
-		//以下为众筹资源
+		//以下为活动作品
 
-		#region [ 众筹资源查询 ]
+		#region [ 活动作品查询 ]
 
 		public List<MicroCourseRanking> SearchCroResourceList(APSqlWherePhrase where, APSqlOrderPhrase order, out int total, int take, int skip = -1)
 		{
@@ -32,7 +32,7 @@ namespace Res.Controllers
                   rc.JoinInner(rc.CompanyId == cr.CompanyId),
                   cf.JoinLeft(cf.FileId==mc.CoverId)
                   )    
-				.where(cr.StatePKID == CroResourceHelper.StateAllow)
+				.where(cr.StatePKID == CroResourceHelper.StateAllow & cr.PublicStatePKID==CroResourceHelper.Public) // 审核通过和公开的作品
 				.order_by(cr.CreatedTime.Desc, cr.CrosourceId.Asc)
 				.primary(cr.CrosourceId)
 				.take(take);
@@ -86,13 +86,13 @@ namespace Res.Controllers
 
 		#endregion
 
-		#region [我的众筹资源]
+		#region [我的活动作品]
 
 		public List<CroMyResource> MyCroResource(long id, out int total, int take, int skip = 0)
 		{
 			var t = APDBDef.CroResource;
 			var userid = id;
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, //t.CoverPath, t.FileExtName, 
+			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.PublicStatePKID,t.DownloadStatePKID, //t.CoverPath, t.FileExtName, 
              t.Description, t.CreatedTime, t.AuditOpinion, t.StatePKID)
 				.from(t)
 				.where(t.Creator == userid)
@@ -115,6 +115,8 @@ namespace Res.Controllers
 					CrosourceId = t.CrosourceId.GetValue(reader),
 					Title = t.Title.GetValue(reader),
 					Author = t.Author.GetValue(reader),
+               PublicStatePKID=t.PublicStatePKID.GetValue(reader),
+               DownloadStatePKID=t.DownloadStatePKID.GetValue(reader),
 					//CoverPath = t.CoverPath.GetValue(reader),
 					//FileExtName = t.FileExtName.GetValue(reader),
 					Description = des,
@@ -126,17 +128,23 @@ namespace Res.Controllers
 		}
 		#endregion
 
-		#region [我的众筹收藏资源]
+		#region [我的活动收藏作品]
 
 		public List<CroMyResource> MyCroFavorite(long id, out int total, int take, int skip = 0)
 		{
 			var t = APDBDef.CroResource;
 			var t1 = APDBDef.CroFavorite;
+         var a = APDBDef.Active;
+
 			var userid = id;
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author
-            //t.CoverPath, t.FileExtName, 
-            ,t.Description, t1.OccurTime, t1.OccurId)
-				.from(t, t1.JoinInner(t.CrosourceId == t1.ResourceId))
+			var query = APQuery.select(t.CrosourceId, t.Title, t.Author,t.ActiveId,        
+                                   t.Description, t1.OccurTime, t1.OccurId,
+                                   t.ProvinceId,t.AreaId,t.CompanyId,
+                                   a.ActiveName)
+				.from(t,
+            t1.JoinInner(t.CrosourceId == t1.ResourceId),
+            a.JoinInner(a.ActiveId==t.ActiveId)
+            )
 				.where(t1.UserId == userid)
 				.order_by(t1.OccurTime.Desc)
 				.primary(t.CrosourceId)
@@ -155,8 +163,10 @@ namespace Res.Controllers
 					CrosourceId = t.CrosourceId.GetValue(reader),
 					Title = t.Title.GetValue(reader),
 					Author = t.Author.GetValue(reader),
-					//CoverPath = t.CoverPath.GetValue(reader),
-					//FileExtName = t.FileExtName.GetValue(reader),
+               Active=a.ActiveName.GetValue(reader),
+               CompanyId=t.CompanyId.GetValue(reader),
+               AreaId=t.AreaId.GetValue(reader),
+               ProvinceId=t.ProvinceId.GetValue(reader),
 					Description = des,
 					OccurTime = t1.OccurTime.GetValue(reader),
 					OccurId = t1.OccurId.GetValue(reader),
@@ -165,17 +175,21 @@ namespace Res.Controllers
 		}
 		#endregion
 
-		#region [我的众筹评价资源]
+		#region [我的活动评价作品]
 
 		public List<CroMyResource> MyCroComment(long id, out int total, int take, int skip = 0)
 		{
 			var t = APDBDef.CroResource;
 			var t1 = APDBDef.CroComment;
-			var userid = id;
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, 
-            //t.CoverPath, t.FileExtName, 
-            t.Description, t1.OccurTime, t1.OccurId, t1.Content)
-				.from(t, t1.JoinInner(t.CrosourceId == t1.ResourceId))
+         var a = APDBDef.Active;
+
+         var userid = id;
+			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.ActiveId,
+                                    t.Description, t1.OccurTime, t1.OccurId, t1.Content,
+                                    t.ProvinceId,t.AreaId,t.CompanyId,a.ActiveName)
+				.from(t, 
+                 t1.JoinInner(t.CrosourceId == t1.ResourceId),
+                 a.JoinInner(a.ActiveId == t.ActiveId))
 				.where(t1.UserId == userid)
 				.order_by(t1.OccurTime.Desc)
 				.primary(t1.OccurId)
@@ -194,9 +208,11 @@ namespace Res.Controllers
 					CrosourceId = t.CrosourceId.GetValue(reader),
 					Title = t.Title.GetValue(reader),
 					Author = t.Author.GetValue(reader),
-					//CoverPath = t.CoverPath.GetValue(reader),
-					//FileExtName = t.FileExtName.GetValue(reader),
-					Description = des,
+               Active = a.ActiveName.GetValue(reader),
+               CompanyId = t.CompanyId.GetValue(reader),
+               AreaId = t.AreaId.GetValue(reader),
+               ProvinceId = t.ProvinceId.GetValue(reader),
+               Description = des,
 					OccurTime = t1.OccurTime.GetValue(reader),
 					OccurId = t1.OccurId.GetValue(reader),
 					Content = t1.Content.GetValue(reader),
@@ -206,18 +222,21 @@ namespace Res.Controllers
 
 		#endregion
 
-		#region [我的众筹推荐资源]
-		//我的推荐
+		#region [我的点赞作品]
 
-
-		public List<CroMyResource> CroRecommandList(long id, APSqlOrderPhrase order, out int total, int take, int skip = 0)
+		public List<CroMyResource> MyCroPraise(long id, out int total, int take, int skip = 0)
 		{
 			var t = APDBDef.CroResource;
-			var userid = id;
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author,
-           // t.CoverPath, t.FileExtName, 
-            t.Description, t.CreatedTime, t.StatePKID)
-				.from(t)
+         var p = APDBDef.CroPraise;
+         var a = APDBDef.Active;
+
+         var userid = id;
+			var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.ActiveId,
+                                    t.Description, t.CreatedTime, t.StatePKID,
+                                    t.ProvinceId, t.AreaId, t.CompanyId, a.ActiveName,p.OccurId,p.OccurTime)
+				.from(t,
+                  p.JoinInner(p.ResourceId==t.CrosourceId),
+                  a.JoinInner(a.ActiveId == t.ActiveId))
 				.where(t.Creator == userid)
 				.order_by(t.CreatedTime.Desc)
 				.primary(t.CrosourceId)
@@ -237,10 +256,13 @@ namespace Res.Controllers
 					CrosourceId = t.CrosourceId.GetValue(reader),
 					Title = t.Title.GetValue(reader),
 					Author = t.Author.GetValue(reader),
-					//CoverPath = t.CoverPath.GetValue(reader),
-					//FileExtName = t.FileExtName.GetValue(reader),
-					Description = des,
+               Active = a.ActiveName.GetValue(reader),
+               CompanyId = t.CompanyId.GetValue(reader),
+               AreaId = t.AreaId.GetValue(reader),
+               ProvinceId = t.ProvinceId.GetValue(reader),
+               Description = des,
 					OccurTime = t.CreatedTime.GetValue(reader),
+               OccurId=p.OccurId.GetValue(reader),
 					StatePKID = t.StatePKID.GetValue(reader)
 				};
 			}).ToList();
@@ -249,55 +271,55 @@ namespace Res.Controllers
 
 		#endregion
 
-		#region [我的众筹下载资源]
+		#region [我的活动下载作品]
 
-		public List<CroMyResource> MyCroDownload(long id, out int total, int take, int skip = 0)
-		{
-			var t = APDBDef.CroResource;
-			var t1 = APDBDef.CroDownload;
-			var userid = id;
-			var query = APQuery.select(t.CrosourceId, t.Title, t.Author,
-            //t.CoverPath, t.FileExtName,
-            t.Description, t1.OccurTime, t1.OccurId)
-				.from(t, t1.JoinInner(t.CrosourceId == t1.ResourceId))
-				.where(t1.UserId == userid)
-				.order_by(t1.OccurTime.Desc)
-				.primary(t.CrosourceId)
-				.take(take)
-				.skip(skip);
+		//public List<CroMyResource> MyCroDownload(long id, out int total, int take, int skip = 0)
+		//{
+		//	var t = APDBDef.CroResource;
+		//	var t1 = APDBDef.CroDownload;
+		//	var userid = id;
+		//	var query = APQuery.select(t.CrosourceId, t.Title, t.Author,
+  //          //t.CoverPath, t.FileExtName,
+  //          t.Description, t1.OccurTime, t1.OccurId)
+		//		.from(t, t1.JoinInner(t.CrosourceId == t1.ResourceId))
+		//		.where(t1.UserId == userid)
+		//		.order_by(t1.OccurTime.Desc)
+		//		.primary(t.CrosourceId)
+		//		.take(take)
+		//		.skip(skip);
 
-			total = db.ExecuteSizeOfSelect(query);
+		//	total = db.ExecuteSizeOfSelect(query);
 
-			return db.Query(query, reader =>
-			{
-				var des = t.Description.GetValue(reader);
-				if (des.Length > 100)
-					des = des.Substring(0, 100);
-				return new CroMyResource()
-				{
-					CrosourceId = t.CrosourceId.GetValue(reader),
-					Title = t.Title.GetValue(reader),
-					Author = t.Author.GetValue(reader),
-					//CoverPath = t.CoverPath.GetValue(reader),
-					//FileExtName = t.FileExtName.GetValue(reader),
-					Description = des,
-					OccurTime = t1.OccurTime.GetValue(reader),
-					OccurId = t1.OccurId.GetValue(reader),
-				};
-			}).ToList();
-		}
-		#endregion
+		//	return db.Query(query, reader =>
+		//	{
+		//		var des = t.Description.GetValue(reader);
+		//		if (des.Length > 100)
+		//			des = des.Substring(0, 100);
+		//		return new CroMyResource()
+		//		{
+		//			CrosourceId = t.CrosourceId.GetValue(reader),
+		//			Title = t.Title.GetValue(reader),
+		//			Author = t.Author.GetValue(reader),
+		//			//CoverPath = t.CoverPath.GetValue(reader),
+		//			//FileExtName = t.FileExtName.GetValue(reader),
+		//			Description = des,
+		//			OccurTime = t1.OccurTime.GetValue(reader),
+		//			OccurId = t1.OccurId.GetValue(reader),
+		//		};
+		//	}).ToList();
+		//}
+      #endregion
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="order"></param>
-		/// <param name="rtype">1是原创，2是网络推荐</param>
-		/// <param name="total"></param>
-		/// <param name="take"></param>
-		/// <param name="skip"></param>
-		/// <returns></returns>
-		public List<MicroCourseRanking> CroHomeRankingList(APSqlOrderPhrase order, APSqlWherePhrase where, out int total, int take, int skip = -1, APSqlWherePhrase moreWhere = null, string FileExtName = null)
+      /// <summary>
+      /// 首页排名作品
+      /// </summary>
+      /// <param name="order"></param>
+      /// <param name="rtype">1是原创，2是网络推荐</param>
+      /// <param name="total"></param>
+      /// <param name="take"></param>
+      /// <param name="skip"></param>
+      /// <returns></returns>
+      public List<MicroCourseRanking> CroHomeRankingList(APSqlOrderPhrase order, APSqlWherePhrase where, out int total, int take, int skip = -1, APSqlWherePhrase moreWhere = null, string FileExtName = null)
 		{
 			var cr = APDBDef.CroResource;
          var mc = APDBDef.MicroCourse;
@@ -312,7 +334,7 @@ namespace Res.Controllers
                   cf.JoinLeft(cf.FileId==mc.CoverId),
                   rc.JoinInner(rc.CompanyId == cr.CompanyId)
                   )
-            .where(cr.StatePKID == CroResourceHelper.StateAllow)
+            .where(cr.StatePKID == CroResourceHelper.StateAllow & cr.PublicStatePKID==CroResourceHelper.Public)
             .order_by(order, cr.CrosourceId.Asc)
 				.primary(mc.CourseId)
 				.take(take);
@@ -323,19 +345,6 @@ namespace Res.Controllers
 			if (moreWhere != null)
 			{
 				query.where_and(moreWhere);
-			}
-
-			if (FileExtName != null)
-			{
-				if (FileExtName == ".pdf")
-				{
-					//query.where_and(t.FileExtName == ".pdf");
-				}
-				else
-				{
-					//query.where_and(t.FileExtName != ".pdf");
-				}
-
 			}
 
 			if (skip != -1)
@@ -380,7 +389,7 @@ namespace Res.Controllers
 
 		/// <summary>
 		/// 
-		/// 众筹相关资源
+		/// 活动相关作品
 		/// </summary>
 		/// <param name="selfId"></param>
 		/// <param name="keywords"></param>
@@ -404,14 +413,6 @@ namespace Res.Controllers
 			if (moreWhere != null)
 				query.where_and(moreWhere);
 
-			//if (FileExtName == ".pdf")
-			//{
-			//	query.where_and(t.FileExtName == ".pdf");
-			//}
-			//else
-			//{
-			//	query.where_and(t.FileExtName != ".pdf");
-			//}
 			List<APSqlWherePhrase> like = new List<APSqlWherePhrase>();
 			foreach (var key in keywords)
 			{
@@ -438,7 +439,7 @@ namespace Res.Controllers
 		}
 
 
-		//众筹活跃用户
+		//活动活跃用户
 
 		#region [ 用户短查询 ]
 
@@ -457,7 +458,14 @@ namespace Res.Controllers
 			if (skip != -1)
 			{
 				query.skip(skip);
-				total = db.ExecuteSizeOfSelect(query);
+            try
+            {
+               total = db.ExecuteSizeOfSelect(query);
+            }
+            catch
+            {
+               total = 0;
+            }
 			}
 			else
 			{

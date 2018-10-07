@@ -102,6 +102,7 @@
 			$('#jstree')
 				.on("click.jstree", function (e) {
 					e.stopImmediatePropagation();
+					
 				})
 				.on("changed.jstree", function (e, data) {
 					$("#companyName").val(data.instance.get_node(data.selected).id);
@@ -109,7 +110,7 @@
 					$("#EditCompany").show();
 					$("#RemoveCompany").show();
 					$("#CompanyId").val(data.instance.get_node(data.selected).id);
-					//data.instance.click();
+					data.instance.click();
 				})
 				.jstree({
 					"core": {

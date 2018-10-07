@@ -79,7 +79,7 @@
 						}
 						@Html.DropDownList("Subject", CroResourceHelper.Subject.GetSelectList(), "全部学科", new { @class = "hit" })
 						@Html.DropDownList("Grade", CroResourceHelper.Grade.GetSelectList(), "全部年级", new { @class = "hit", id = "GradePKID" })
-						@*@Html.DropDownList("MediumType", ResResourceHelper.MediumType.GetSelectList(), "全部媒体格式", new { @class = "hit" })*@
+						@Html.DropDownList("CourseType", CroResourceHelper.CourseType.GetSelectList(), "作品类型", new { @class = "hit"})
 					</dd>
 				</dl>
 				<dl>

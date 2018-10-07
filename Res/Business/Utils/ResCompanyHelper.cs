@@ -31,6 +31,9 @@ namespace Res.Business
          return children;
       }
 
+
+      public static long Shanghai = 1161;
+
    }
 
 }

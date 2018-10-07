@@ -28,7 +28,7 @@
 					<div class="form-group">
 						<label class="control-label col-sm-3"> <span class="request">*</span> 所属活动</label>
 						<div class="col-sm-9">
-							@Html.Label(Model.ActiveName, new { @class = "form-control", maxlength = "255" })
+							@Html.DropDownListFor(m => m.ActiveId, (ViewBag.Actives as List<Active>).Select(x => new SelectListItem { Text = x.ActiveName, Value = x.ActiveId.ToString(), Selected = Model.ActiveId == Model.ActiveId }), "选择项目", new { @class = "form-control" })
 						</div>
 					</div>
 
@@ -44,7 +44,7 @@
 						@Html.LabelFor(g => g.StartDate, new { @class = "control-label col-md-3" })
 						<div class="col-md-9">
 							<div class="input-group date" data-provide="datepicker" data-date-language="zh-CN" data-date-format="yyyy-mm-dd" data-date-autoclose="true">
-								@Html.TextBoxFor(g => g.StartDate, "{0:yyyy-MM-dd}", new { @class = "form-control plan", @hasValue = Model.StartDate != DateTime.MinValue })
+								@Html.TextBoxFor(g => g.StartDate, "{0:yyyy-MM-dd}", new { @class = "form-control date plan", @hasValue = Model.StartDate != DateTime.MinValue })
 								<div class="input-group-addon"><i class="fa fa-calendar"></i></div>
 							</div>
 						</div>
@@ -54,7 +54,7 @@
 						@Html.LabelFor(g => g.EndDate, new { @class = "control-label col-md-3" })
 						<div class="col-md-9">
 							<div class="input-group date" data-provide="datepicker" data-date-language="zh-CN" data-date-format="yyyy-mm-dd" data-date-autoclose="true">
-								@Html.TextBoxFor(g => g.EndDate, "{0:yyyy-MM-dd}", new { @class = "form-control plan", @hasValue = Model.StartDate != DateTime.MinValue })
+								@Html.TextBoxFor(g => g.EndDate, "{0:yyyy-MM-dd}", new { @class = "form-control date plan", @hasValue = Model.StartDate != DateTime.MinValue })
 								<div class="input-group-addon"><i class="fa fa-calendar"></i></div>
 							</div>
 						</div>
@@ -71,27 +71,38 @@
 </div>
 
 <script>
-	$.validator.unobtrusive.parse("#form1");
 
-	$('#form1').submit(function () {
-		var $form = $(this);
-		if (!$form.valid())
-			return false;
+	$(function () {
 
-		$.post($form.attr("action"), $form.serialize(), function (data, status) {
-			if (status == "success") {
+		$.validator.unobtrusive.parse("#form1");
 
-				if (data.error != 'none') {
-					alertify.error(data.msg);
-					return;
-				}
-
-				alertify.success(data.msg);
-				$('#inner-edit-form').modal('hide');
-				$('#bootgrid').bootgrid('reload');
+		$('#form1').submit(function () {
+			if ($('#ActiveId').val() == 0) {
+				$('#ActiveId').after('<div class="error" style="color:#a94442">必须选择项目</div>');
+				return false;
 			}
+
+			var $form = $(this);
+			if (!$form.valid())
+				return false;
+
+			$.post($form.attr("action"), $form.serialize(), function (data, status) {
+				if (status == "success") {
+
+					if (data.error != 'none') {
+						alertify.error(data.msg);
+						return;
+					}
+
+					alertify.success(data.msg);
+					$('#inner-edit-form').modal('hide');
+					$('#bootgrid').bootgrid('reload');
+				}
+			});
+
+			return false;
 		});
 
-		return false;
 	});
+	
 </script>

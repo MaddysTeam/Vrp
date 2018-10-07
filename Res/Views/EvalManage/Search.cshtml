@@ -89,7 +89,7 @@
 					var id = row.id;
 					return '<div class="btn-group btn-group-xs pull-right" data-row-id="' + row.id +'">' +
 											 '<button class="btn btn-success btn-edit">编辑</button>' +
-											 '<button class="btn btn-warning btn-process">评审进度</button>' +
+											 '<button class="btn btn-warning btn-pro">评审进度</button>' +
 											 '<button class="btn btn-info btn-exp">分配专家</button>' +
 						                '<button class="btn btn-primary btn-res">分配作品</button>'
 					'</div>';
@@ -120,6 +120,14 @@
 						.find('.btn-edit').on('click', function () {
 							var id = $(this).parent().data("row-id");
 							$.get('@Url.Action("Edit", "EvalManage")?id=' + id, function (response) {
+								$("#inner-edit-form")
+										.html(response).modal("show");
+							});
+						});
+					grid
+						.find('.btn-pro').on('click', function () {
+							var id = $(this).parent().data("row-id");
+							$.get('@Url.Action("EvalProgress", "EvalManage")?id=' + id, function (response) {
 								$("#inner-edit-form")
 										.html(response).modal("show");
 							});

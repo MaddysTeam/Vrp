@@ -16,59 +16,59 @@ using System.Collections.Generic;
 namespace Res.Controllers
 {
 
-	public class UserController : BaseController
-	{
+   public class UserController : BaseController
+   {
 
-		#region [ UserManager ]
+      #region [ UserManager ]
 
-		private ApplicationSignInManager _signInManager;
-		private ApplicationUserManager _userManager;
+      private ApplicationSignInManager _signInManager;
+      private ApplicationUserManager _userManager;
 
-		public UserController()
-		{
-		}
+      public UserController()
+      {
+      }
 
-		public UserController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-		{
-			UserManager = userManager;
-			SignInManager = signInManager;
-		}
+      public UserController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+      {
+         UserManager = userManager;
+         SignInManager = signInManager;
+      }
 
-		public ApplicationSignInManager SignInManager
-		{
-			get
-			{
-				return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-			}
-			private set
-			{
-				_signInManager = value;
-			}
-		}
+      public ApplicationSignInManager SignInManager
+      {
+         get
+         {
+            return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+         }
+         private set
+         {
+            _signInManager = value;
+         }
+      }
 
-		public ApplicationUserManager UserManager
-		{
-			get
-			{
-				return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-			}
-			private set
-			{
-				_userManager = value;
-			}
-		}
+      public ApplicationUserManager UserManager
+      {
+         get
+         {
+            return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+         }
+         private set
+         {
+            _userManager = value;
+         }
+      }
 
-		#endregion
+      #endregion
 
-		//
-		//	用户 - 首页
-		// GET:		/User/Index
-		//
+      //
+      //	用户 - 首页
+      // GET:		/User/Index
+      //
 
-		public ActionResult Index()
-		{
-			return View();
-		}
+      public ActionResult Index()
+      {
+         return View();
+      }
 
 
       //
@@ -83,27 +83,39 @@ namespace Res.Controllers
          var provinces = ResSettings.SettingsInSession.AllProvince();
          var areas = ResSettings.SettingsInSession.AllAreas();
          var schools = ResSettings.SettingsInSession.AllSchools();
-         var roles = new List<ResPickListItem>(); 
-         var allRoles= ResUserHelper.UserType.GetItems();
+        
+         var allRoles = ResUserHelper.UserType.GetItems();
+         var roles = new List<ResPickListItem>();
+         roles.AddRange(roles);
 
          if (user.ProvinceId > 0)
          {
-            roles.Add(allRoles.Find(x=>x.PickListItemId==ResUserHelper.CityAdmin));
+            roles.Clear();
+            roles.Add(allRoles.Find(x => x.PickListItemId == ResUserHelper.CityAdmin));
             roles.Add(allRoles.Find(x => x.PickListItemId == ResUserHelper.SchoolAdmin));
             roles.Add(allRoles.Find(x => x.PickListItemId == ResUserHelper.Export));
+            roles.Add(allRoles.Find(x => x.PickListItemId == ResUserHelper.RegistedUser));
             provinces = provinces.Where(x => x.CompanyId == user.ProvinceId).ToList();
          }
-         if(user.AreaId > 0)
+         if (user.AreaId > 0)
          {
+            roles.Clear();
             roles.Add(allRoles.Find(x => x.PickListItemId == ResUserHelper.SchoolAdmin));
             roles.Add(allRoles.Find(x => x.PickListItemId == ResUserHelper.Export));
-            areas = areas.Where(x => x.CompanyId == user.ProvinceId).ToList();
+            roles.Add(allRoles.Find(x => x.PickListItemId == ResUserHelper.RegistedUser));
+            areas = areas.Where(x => x.CompanyId == user.AreaId).ToList();
          }
-         if(user.CompanyId > 0)
+         if (user.CompanyId > 0)
          {
+            roles.Clear();
             roles.Add(allRoles.Find(x => x.PickListItemId == ResUserHelper.Export));
-            schools = schools.Where(x => x.CompanyId == user.ProvinceId).ToList();
+            roles.Add(allRoles.Find(x => x.PickListItemId == ResUserHelper.RegistedUser));
+            schools = schools.Where(x => x.CompanyId == user.CompanyId).ToList();
          }
+
+         if (user.UserTypePKID == ResUserHelper.Admin)
+            roles = allRoles;
+        
 
          ViewBag.Provinces = provinces;
          ViewBag.Areas = areas;
@@ -111,8 +123,8 @@ namespace Res.Controllers
          ViewBag.Roles = roles;
 
          //ViewBag.ProvincesDic = CrosourceController.GetStrengthDict(ResSettings.SettingsInSession.AllProvince());
-         ViewBag.AreasDic = CrosourceController.GetStrengthDict(ResSettings.SettingsInSession.AllAreas());
-         ViewBag.SchoolsDic = CrosourceController.GetStrengthDict(ResSettings.SettingsInSession.AllSchools());
+         ViewBag.AreasDic = CrosourceController.GetStrengthDict(areas);
+         ViewBag.SchoolsDic = CrosourceController.GetStrengthDict(schools);
 
          if (id == null)
          {
@@ -157,7 +169,8 @@ namespace Res.Controllers
             model.RegisterTime = DateTime.Now;
             model.LastLoginTime = DateTime.Now;
             model.Password = password;
-            var result=await UserManager.CreateAsync(model, password);
+            model.Actived = true; //默认激活
+            var result = await UserManager.CreateAsync(model, password);
             if (!result.Succeeded)
             {
                return Json(new
@@ -166,20 +179,20 @@ namespace Res.Controllers
                   msg = string.Join(",", result.Errors)
                });
             }
-           // APBplDef.ResUserBpl.Insert(model);
+            // APBplDef.ResUserBpl.Insert(model);
          }
          else
          {
             APBplDef.ResUserBpl.UpdatePartial(model.UserId, new
             {
-                model.Email,
-                model.RealName,
-                model.PhotoPath,
-                model.CompanyId,
-                model.IDCard,
-                model.UserTypePKID,
-                model.ProvinceId,
-                model.AreaId
+               model.Email,
+               model.RealName,
+               model.PhotoPath,
+               model.CompanyId,
+               model.IDCard,
+               model.UserTypePKID,
+               model.ProvinceId,
+               model.AreaId
             });
          }
 
@@ -198,46 +211,49 @@ namespace Res.Controllers
       //
 
       public ActionResult Search()
-		{
-			return View();
-		}
+      {
+         return View();
+      }
 
-		[HttpPost]
-		public ActionResult Search(int current, int rowCount, string searchPhrase, long companyId, FormCollection fc)
-		{
+      [HttpPost]
+      public ActionResult Search(int current, int rowCount, string searchPhrase, long companyId, FormCollection fc)
+      {
          var user = ResSettings.SettingsInSession.User;
 
-			//----------------------------------------------------------
-			var t = APDBDef.ResUser;
-			var c = APDBDef.ResCompany;
-			APSqlOrderPhrase order = null;
-			APSqlWherePhrase where = t.Removed == false;
+         //----------------------------------------------------------
+         var t = APDBDef.ResUser;
+         var c = APDBDef.ResCompany;
+         APSqlOrderPhrase order = null;
+         APSqlWherePhrase where = t.Removed == false;
 
-			// 取排序
-			var co = GridOrder.GetSortDef(fc);
-			if (co != null)
-			{
-				switch (co.Id)
-				{
-					case "UserName": order = new APSqlOrderPhrase(t.UserName, co.Order); break;
-					case "RealName": order = new APSqlOrderPhrase(t.RealName, co.Order); break;
-					case "CompanyName": order = new APSqlOrderPhrase(c.CompanyName, co.Order); break;
-					case "RoleName": order = new APSqlOrderPhrase(APDBDef.ResRole.RoleId, co.Order); break;
-					case "Gender": order = new APSqlOrderPhrase(t.GenderPKID, co.Order); break;
-					case "Email": order = new APSqlOrderPhrase(t.Email, co.Order); break;
-					case "RegisterTime": order = new APSqlOrderPhrase(t.RegisterTime, co.Order); break;
-					case "LoginCount": order = new APSqlOrderPhrase(t.LoginCount, co.Order); break;
-					case "Actived": order = new APSqlOrderPhrase(t.Actived, co.Order); break;
-				}
-			}
+         // 取排序
+         var co = GridOrder.GetSortDef(fc);
+         if (co != null)
+         {
+            switch (co.Id)
+            {
+               case "UserName": order = new APSqlOrderPhrase(t.UserName, co.Order); break;
+               case "RealName": order = new APSqlOrderPhrase(t.RealName, co.Order); break;
+               case "CompanyName": order = new APSqlOrderPhrase(c.CompanyName, co.Order); break;
+               case "RoleName": order = new APSqlOrderPhrase(APDBDef.ResRole.RoleId, co.Order); break;
+               case "Gender": order = new APSqlOrderPhrase(t.GenderPKID, co.Order); break;
+               case "Email": order = new APSqlOrderPhrase(t.Email, co.Order); break;
+               case "RegisterTime": order = new APSqlOrderPhrase(t.RegisterTime, co.Order); break;
+               case "LoginCount": order = new APSqlOrderPhrase(t.LoginCount, co.Order); break;
+               case "Actived": order = new APSqlOrderPhrase(t.Actived, co.Order); break;
+            }
+         }
 
-			// 按资源标题过滤
-			if (searchPhrase != null)
-			{
-				searchPhrase = searchPhrase.Trim();
-				if (searchPhrase != "")
-					where &= (t.UserName.Match(searchPhrase) | t.RealName.Match(searchPhrase));
-			}
+         // 默认排序
+         // if (order == null) order = new APSqlOrderPhrase(t.RegisterTime, APSqlOrderAccording.Desc);
+
+         // 按用户名或真实姓名过滤
+         if (searchPhrase != null)
+         {
+            searchPhrase = searchPhrase.Trim();
+            if (searchPhrase != "")
+               where &= (t.UserName.Match(searchPhrase) | t.RealName.Match(searchPhrase));
+         }
 
          if (companyId != 0)
          {
@@ -256,144 +272,145 @@ namespace Res.Controllers
 
 
          int total;
-			var list = APBplDef.ResUserBpl.TolerantSearch(out total, current, rowCount, where, order);
-			//----------------------------------------------------------
+         var list = APBplDef.ResUserBpl.TolerantSearch(out total, current, rowCount, where, order);
+         //----------------------------------------------------------
 
-			if (Request.IsAjaxRequest())
-			{
-				return Json(
-					new
-					{
-						rows = from res in list
-								 select new
-								 {
-									 id = res.UserId,
-									 res.UserName,
-									 res.RealName,
-									 res.CompanyName,
-									 res.UserType,
-									 res.Gender,
-									 res.Email,
-									 RegisterTime = res.RegisterTime.ToString("yyyy-MM-dd"),
-									 res.LoginCount,
-									 Actived = res.Actived ? "有效" : "无效"
-								 },
-						current = current,
-						rowCount = rowCount,
-						total = total
+         if (Request.IsAjaxRequest())
+         {
+            return Json(
+               new
+               {
+                  rows = from res in list
+                         select new
+                         {
+                            id = res.UserId,
+                            res.UserName,
+                            res.RealName,
+                            res.CompanyName,
+                            res.UserType,
+                            res.Gender,
+                            res.Email,
+                            RegisterTime = res.RegisterTime.ToString("yyyy-MM-dd"),
+                            res.LoginCount,
+                            Actived = res.Actived ? "有效" : "无效"
+                         },
+                  current = current,
+                  rowCount = rowCount,
+                  total = total
 
-					});
-			}
-			else
-			{
-				return View(list);
-			}
-		}
-
-
-		//
-		//	用户 - 有效/无效
-		// POST:		/User/Actived
-		//
-
-		[HttpPost]
-		public ActionResult Actived(long id, bool value)
-		{
-			if (Request.IsAjaxRequest())
-			{
-				APBplDef.ResUserBpl.UpdatePartial(id, new { Actived = value });
-				return Json(new { cmd = "Processed", value = value, msg = "用户是否有效设置完成。" });
-			}
-
-			return IsNotAjax();
-		}
+               });
+         }
+         else
+         {
+            return View(list);
+         }
+      }
 
 
-		//
-		//	用户 - 授权
-		// GET:		/User/Approve
-		// POST:		/User/Approve
-		//
+      //
+      //	用户 - 有效/无效
+      // POST:		/User/Actived
+      //
 
-		public ActionResult Approve(long id)
-		{
-			if (Request.IsAjaxRequest()){
-				return PartialView(id);
-			}
+      [HttpPost]
+      public ActionResult Actived(long id, bool value)
+      {
+         if (Request.IsAjaxRequest())
+         {
+            APBplDef.ResUserBpl.UpdatePartial(id, new { Actived = value });
+            return Json(new { cmd = "Processed", value = value, msg = "用户是否有效设置完成。" });
+         }
 
-			return IsNotAjax();
-		}
-
-		[HttpPost]
-		public ActionResult Approve(long id, long roleId)
-		{
-			var t = APDBDef.ResUserRole;
-
-			if (Request.IsAjaxRequest())
-			{
-				var item = APBplDef.ResUserRoleBpl.ConditionQuery(t.UserId == id, null).FirstOrDefault();
-				if (item == null)
-				{
-					new ResUserRole() { UserId = id, RoleId = roleId }.Insert();
-				}
-				else if (item.RoleId != roleId)
-				{
-					item.RoleId = roleId;
-					item.Update();
-				}
-
-				return Json(new
-				{
-					error = "none",
-					msg = "权限设置成功"
-				});
-			}
-
-			return IsNotAjax();
-		}
+         return IsNotAjax();
+      }
 
 
-		//
-		//	用户 - 详情
-		// GET:		/User/Info
-		//
+      //
+      //	用户 - 授权
+      // GET:		/User/Approve
+      // POST:		/User/Approve
+      //
 
-		public ActionResult Info(long? id)
-		{
-			if (id == null)
-				id = ResSettings.SettingsInSession.UserId;
+      public ActionResult Approve(long id)
+      {
+         if (Request.IsAjaxRequest())
+         {
+            return PartialView(id);
+         }
 
-			var model = APBplDef.ResUserBpl.PrimaryGet(id.Value);
-			var company = APBplDef.ResCompanyBpl.PrimaryGet(model.CompanyId);
-			if (company != null)
-				model.CompanyName = company.CompanyName;
+         return IsNotAjax();
+      }
 
-			return View(model);
-		}
+      [HttpPost]
+      public ActionResult Approve(long id, long roleId)
+      {
+         var t = APDBDef.ResUserRole;
+
+         if (Request.IsAjaxRequest())
+         {
+            var item = APBplDef.ResUserRoleBpl.ConditionQuery(t.UserId == id, null).FirstOrDefault();
+            if (item == null)
+            {
+               new ResUserRole() { UserId = id, RoleId = roleId }.Insert();
+            }
+            else if (item.RoleId != roleId)
+            {
+               item.RoleId = roleId;
+               item.Update();
+            }
+
+            return Json(new
+            {
+               error = "none",
+               msg = "权限设置成功"
+            });
+         }
+
+         return IsNotAjax();
+      }
 
 
-		[HttpPost]
-		public async Task<ActionResult> ResetPwd(long? id)
-		{
-			if (id == null)
-				id = ResSettings.SettingsInSession.UserId;
+      //
+      //	用户 - 详情
+      // GET:		/User/Info
+      //
 
-			var user = APBplDef.ResUserBpl.PrimaryGet(id.Value);
+      public ActionResult Info(long? id)
+      {
+         if (id == null)
+            id = ResSettings.SettingsInSession.UserId;
 
-			var Token = await UserManager.GeneratePasswordResetTokenAsync(id.Value);
-			var result = await UserManager.ResetPasswordAsync(id.Value, Token, "111111");
-		//	var result = await UserManager.ChangePasswordAsync(id.Value, user.Password, "111111");
-			APBplDef.ResUserBpl.UpdatePartial(id.Value, new { Password = "111111" });
+         var model = APBplDef.ResUserBpl.PrimaryGet(id.Value);
+         var company = APBplDef.ResCompanyBpl.PrimaryGet(model.CompanyId);
+         if (company != null)
+            model.CompanyName = company.CompanyName;
 
-			if (result.Succeeded)
-			{
-				return Json("用户密码已经被重置为6个1");
-			}
-			else
-			{
-				return Json("error");
-			}
-		}
-	}
+         return View(model);
+      }
+
+
+      [HttpPost]
+      public async Task<ActionResult> ResetPwd(long? id)
+      {
+         if (id == null)
+            id = ResSettings.SettingsInSession.UserId;
+
+         var user = APBplDef.ResUserBpl.PrimaryGet(id.Value);
+
+         var Token = await UserManager.GeneratePasswordResetTokenAsync(id.Value);
+         var result = await UserManager.ResetPasswordAsync(id.Value, Token, "111111");
+         //	var result = await UserManager.ChangePasswordAsync(id.Value, user.Password, "111111");
+         APBplDef.ResUserBpl.UpdatePartial(id.Value, new { Password = "111111" });
+
+         if (result.Succeeded)
+         {
+            return Json("用户密码已经被重置为6个1");
+         }
+         else
+         {
+            return Json("error");
+         }
+      }
+   }
 
 }

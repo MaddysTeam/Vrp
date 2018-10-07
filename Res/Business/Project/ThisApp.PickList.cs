@@ -64,11 +64,37 @@ namespace Res.Business
       /// </summary>
       public static readonly string PLKey_UserType = "PLKey_UserType";
 
-
       /// <summary>
       /// 指标 - 类型
       /// </summary>
       public static readonly string PLKey_IndicationType = "PLKey_IndicationType";
+
+      /// <summary>
+      /// 微课作品 - 奖项
+      /// </summary>
+      public static readonly string PLKey_WinLevel = "PLKey_WinLevel";
+
+      /// <summary>
+      /// 微课作品 - 公开设定
+      /// </summary>
+      public static readonly string PLKey_PublicState = "PLKey_PublicState";
+
+      /// <summary>
+      /// 微课作品 - 下载设定
+      /// </summary>
+      public static readonly string PLKey_DownloadState = "PLKey_DownloadState";
+
+
+      /// <summary>
+      /// 项目 - 级别
+      /// </summary>
+      public static readonly string PLKey_ProjectLevel = "PLKey_ProjectLevel";
+
+      /// <summary>
+      /// 项目 - 学期
+      /// </summary>
+      public static readonly string PLKey_SemesterType = "PLKey_SemesterType";
+
    }
 
 }

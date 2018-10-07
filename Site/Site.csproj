@@ -793,7 +793,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
@@ -812,10 +811,8 @@
     <Content Include="Views\CroMy\CroMyResource.cshtml" />
     <Content Include="Views\CroMy\Upload.cshtml" />
     <Content Include="Views\CroMy\More.cshtml" />
-    <Content Include="Views\CroMy\CroMyRecommand.cshtml" />
     <Content Include="Views\CroMy\CroMyFavorite.cshtml" />
     <Content Include="Views\CroMy\CroMyComment.cshtml" />
-    <Content Include="Views\CroMy\Details.cshtml" />
     <Content Include="Views\CroMy\CroMyDownload.cshtml" />
     <Content Include="Views\CroHome\Index.cshtml" />
     <Content Include="Views\CroHome\_Hot.cshtml" />
@@ -844,15 +841,13 @@
     <Content Include="Views\CroResource\_relation.cshtml" />
     <Content Include="Views\Shared\_ZcLayout.cshtml" />
     <None Include="Properties\PublishProfiles\Site.pubxml" />
-    <Content Include="Views\ZSResource\Index.cshtml" />
-    <Content Include="Views\ZSResource\Search.cshtml" />
     <Content Include="Views\Shared\_ZSLayout.cshtml" />
-    <Content Include="Views\ZSResource\Detail.cshtml" />
-    <Content Include="Views\ZSResource\_Hot.cshtml" />
     <Content Include="Views\CroMy\CroMyCourses.cshtml" />
     <Content Include="Views\CroHome\_Favorite.cshtml" />
     <Content Include="Views\CroHome\_Province.cshtml" />
     <Content Include="Views\CroMy\ChgPwd.cshtml" />
+    <Content Include="Views\CroResource\_exercies.cshtml" />
+    <Content Include="Views\CroMy\CroMyPraise.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

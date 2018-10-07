@@ -71,12 +71,12 @@ namespace Res.Controllers
 		}
 
 
-		//
-		//	资源 - 删除
-		// POST:		/Role/Delete
-		//
+      //
+      //	作品 - 删除
+      // POST:		/Role/Delete
+      //
 
-		[HttpPost]
+      [HttpPost]
 		public ActionResult Delete(long id)
 		{
 			if (Request.IsAjaxRequest())

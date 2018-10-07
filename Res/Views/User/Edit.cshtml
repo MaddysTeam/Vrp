@@ -1,5 +1,7 @@
 ﻿@model ResUser
-
+@{ 
+	var isEdit = Model != null && Model.UserId > 0;
+}
 <div class="modal-dialog">
 
 	<!-- widget -->
@@ -39,19 +41,19 @@
 							</div>
 						</div>
 
-						<div class="form-group hidden" id="province">
+						<div class="form-group @(isEdit && Model.ProvinceId>0? "":"hidden")" id="province">
 							<label class="control-label col-sm-3"> <span class="request">*</span> 省份</label>
 							<div class="col-sm-9">
 								@Html.DropDownListFor(m => m.ProvinceId, (ViewBag.Provinces as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择省份", new { @class = "form-control" })
 							</div>
 						</div>
-						<div class="form-group hidden" id="area">
+						<div class="form-group @(isEdit && Model.AreaId>0? "":"hidden")" id="area">
 							<label class="control-label col-sm-3"> <span class="request">*</span> 地区</label>
 							<div class="col-sm-9">
 								@Html.DropDownListFor(m => m.AreaId, (ViewBag.Areas as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择地区", new { @class = "form-control" })
 							</div>
 						</div>
-						<div class="form-group hidden" id="company">
+						<div class="form-group @(isEdit &&  Model.CompanyId>0? "":"hidden")" id="company">
 							<label class="control-label col-sm-3"> <span class="request">*</span> 学校</label>
 							<div class="col-sm-9">
 								@Html.DropDownListFor(m => m.CompanyId, (ViewBag.Companies as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择学校", new { @class = "form-control" })
@@ -134,7 +136,7 @@
 			var userType=$('#UserTypePKID').val();
 			if (userType == '@ResUserHelper.ProvinceAdmin' && isEmpty($('#ProvinceId').val())){ alert('省管理员必须选择省份'); return false;}
 			if (userType == '@ResUserHelper.CityAdmin' && (isEmpty($('#ProvinceId').val()) || isEmpty($('#AreaId').val()))){ alert('市管理员必须选择省份和地区'); return false;}
-			if (userType == '@ResUserHelper.SchoolAdmin' && (isEmpty($('#ProvinceId').val()) || isEmpty($('#AreaId').val())|| isEmpty($('#CompanyId').val()))){ alert('校管理员必须选择省份，地区和单位'); return false;}
+			if (userType == '@ResUserHelper.SchoolAdmin' || userType == '@ResUserHelper.RegistedUser' && (isEmpty($('#ProvinceId').val()) || isEmpty($('#AreaId').val())|| isEmpty($('#CompanyId').val()))){ alert('必须选择省份，地区和单位'); return false;}
 
 			var $form = $(this);
 			if (!$form.valid())
@@ -163,21 +165,25 @@
 		RelationSelect($("#ProvinceId"), $("#AreaId"), areas, "选择地区");
 		RelationSelect($("#AreaId"), $("#CompanyId"), schools, "选择学校");
 
-		$('#UserTypePKID').on('change', function () {
-			$('#company,#province,#area').addClass('hidden');
+		var o=$('#UserTypePKID').on('change', function () {
+			$('#company,#province,#area').addClass('hidden').val("0");
+
+			$("#province option:first").prop('selected','selected');
+			$("#area option:gt(0),#company option:gt(0)").remove();
 
 			var userType = $(this).val();
-			if (userType == '@ResUserHelper.ProvinceAdmin' || userType == '@ResUserHelper.CityAdmin' || userType == '@ResUserHelper.SchoolAdmin' ||  userType == '@ResUserHelper.Export') {
+			if (userType == '@ResUserHelper.ProvinceAdmin' || userType == '@ResUserHelper.CityAdmin' || userType == '@ResUserHelper.SchoolAdmin' ||  userType == '@ResUserHelper.Export' || userType=='@ResUserHelper.RegistedUser') {
 				$('#province').removeClass('hidden').show();
 			}
-			if (userType == '@ResUserHelper.CityAdmin' || userType == '@ResUserHelper.SchoolAdmin'  ||  userType == '@ResUserHelper.Export') {
+			if (userType == '@ResUserHelper.CityAdmin' || userType == '@ResUserHelper.SchoolAdmin'  ||  userType == '@ResUserHelper.Export' || userType=='@ResUserHelper.RegistedUser') {
 				$('#area').removeClass('hidden');
 			}
-			if (userType == '@ResUserHelper.SchoolAdmin'  ||  userType == '@ResUserHelper.Export') {
+			if (userType == '@ResUserHelper.SchoolAdmin'  ||  userType == '@ResUserHelper.Export' || userType=='@ResUserHelper.RegistedUser') {
 				$('#company').removeClass('hidden').show()
 			}
 
-		}).change();
+		});
+
 
 	});
 </script>
