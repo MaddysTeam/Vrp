@@ -33,14 +33,14 @@ namespace Res.Controllers
          var file = Files.ConditionQuery(f.Md5 == md5, null).FirstOrDefault();
          if (file == null)
          {
-
+            var ext = Path.GetExtension(hpf.FileName);
+            var anotherName = md5 + ext;
             // upload file to CDN Server
-            var uploadFile = new UploadFile { Stream = hpf.InputStream, FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{hpf.FileName}" };
+            var uploadFile = new UploadFile { Stream = hpf.InputStream, FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{anotherName}" };
             var result = FileUploader.SliceUpload(uploadFile);
 
             if (null == result || null == result.FileUrl) return Content("上传失败");
 
-            var ext = Path.GetExtension(hpf.FileName);
             if (ext.ToLowerInvariant() == ".doc" || ext.ToLowerInvariant() == ".docx" )
             {
                Stream docStream = null;
@@ -50,7 +50,7 @@ namespace Res.Controllers
                   var docFile = new UploadFile
                   {
                      Stream = docStream,
-                     FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{hpf.FileName.Replace(".docx", ".html").Replace(".doc", ".html")}"
+                     FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{anotherName.Replace(".docx", ".html").Replace(".doc", ".html")}"
                   };
                   var docResult=FileUploader.SliceUpload(docFile);
                   if (null == docResult || null == docResult.FileUrl || !docResult.IsSuccess) return Content("word 转html失败");
