@@ -366,10 +366,10 @@ namespace Res.Controllers
       //
 
       [HttpPost]
-      public ActionResult Play(long resourceId,long courseId)
+      public ActionResult Play(long id,long courseId)
       {
          var userId = Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0;
-         APBplDef.MicroCourseBpl.CountingPlay(db,userId, resourceId,courseId);
+         APBplDef.MicroCourseBpl.CountingPlay(db,userId, id, courseId);
 
          return Json(new
          {

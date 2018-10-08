@@ -5,6 +5,14 @@
 
 	var actives = (ViewBag.Actives as List<Active>).Select(x => new SelectListItem { Text = x.ActiveName, Value = x.ActiveId.ToString(), Selected = Model.ActiveId == Model.ActiveId });
 }
+<script>
+		if (navigator.userAgent.indexOf("MSIE") > 0) {
+			if (navigator.userAgent.indexOf("MSIE 6.0") > 0 || navigator.userAgent.indexOf("MSIE 7.0") > 0 || navigator.userAgent.indexOf("MSIE 8.0") > 0 || navigator.userAgent.indexOf("MSIE 9.0") > 0) {
+				alert("浏览器版本过低，请使用高版本的浏览器");
+				location.href="/Home/index/";
+			}
+		}
+</script>
 
 <div class="col-md-10 content-wrapper">
 	<div class="row">
@@ -664,7 +672,7 @@
 				var $this=$(this);
 				$this.parents('.courseArea').html('').remove();
 
-				// 重新绑定上传控件
+				//因为每个course创建时会自动产生dropzone控件，所以删除时重新绑定上传控件
 				$('.uploadForms').html('');
 				bindUploaders();
 

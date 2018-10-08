@@ -4,6 +4,16 @@
 	Layout = "~/Views/Shared/_CroLayout.cshtml";
 	ViewBag.Title = "上传新作品";
 }
+
+<script>
+		if (navigator.userAgent.indexOf("MSIE") > 0) {
+			if (navigator.userAgent.indexOf("MSIE 6.0") > 0 || navigator.userAgent.indexOf("MSIE 7.0") > 0 || navigator.userAgent.indexOf("MSIE 8.0") > 0 || navigator.userAgent.indexOf("MSIE 9.0") > 0) {
+				alert("浏览器版本过低，请使用高版本的浏览器");
+				location.href="/CroHome/index/";
+			}
+		}
+</script>
+
 <div class="menu">
 	<div class="fl">首页 > <span>作品上传</span></div>
 </div>
@@ -23,9 +33,6 @@
 					@using (Html.BeginForm("Upload", "CroMy", Model == null ? null : new { id = id, resid = Model.CrosourceId }, FormMethod.Post, new { id = "form", role = "form", @class = "form-horizontal" }))
 					{
 						@Html.HiddenFor(m => m.CrosourceId)
-						@*@Html.HiddenFor(m => m.StatePKID)
-						@Html.HiddenFor(m => m.PublicStatePKID)
-						@Html.HiddenFor(m=>m.DownloadStatePKID)*@
 
 						<fieldset class="col-sm-11  fieldContainer">
 							

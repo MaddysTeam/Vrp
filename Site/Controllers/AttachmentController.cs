@@ -104,7 +104,7 @@ namespace Res.Controllers
                return Content("上传失败");
 
             // upload file to CDN Server
-            var uploadFile = new UploadFile { Stream = hpf.InputStream, FileName = $"2018/videos/{DateTime.Today.ToString("yyyyMMdd")}/{hpf.FileName}" };
+            var uploadFile = new UploadFile { Stream = hpf.InputStream, FileName = $"2018/videos/{DateTime.Today.ToString("yyyyMMdd")}/{md5+ext}" };
             var result = FileUploader.SliceUpload(uploadFile);
             if (result.IsSuccess)
             {

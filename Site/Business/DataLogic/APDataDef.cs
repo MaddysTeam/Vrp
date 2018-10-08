@@ -175,7 +175,7 @@ namespace Res.Business
 
       public string WinLevel { get { return CroResourceHelper.WinLevel.GetName(WinLevelPKID); } }
 
-      public string PublicState { get { return CroResourceHelper.PublicState.GetName(PublicStatePKID);  }}
+      public string PublicState { get { return CroResourceHelper.PublicState.GetName(PublicStatePKID); } }
 
       public string DownloadState { get { return CroResourceHelper.DownloadState.GetName(DownloadStatePKID); } }
 
@@ -226,8 +226,8 @@ namespace Res.Business
       public string SummaryPath { get; set; }
       public string CoursewarePath { get; set; }
       public string AttachmentPath { get; set; }
-      public string DesignPreviewPath => DesignPath.Replace(".DOC", ".html").Replace(".doc", ".html").Replace(".docx", ".html").Replace(".htmlx", ".html");
-      public string SummaryPreviewPath => SummaryPath.Replace(".DOC", ".html").Replace(".doc", ".html").Replace(".docx", ".html").Replace(".htmlx", ".html");
+      public string DesignPreviewPath => string.IsNullOrEmpty(DesignPath) ? string.Empty : DesignPath.Replace(".DOC", ".html").Replace(".doc", ".html").Replace(".docx", ".html").Replace(".htmlx", ".html");
+      public string SummaryPreviewPath => string.IsNullOrEmpty(SummaryPath) ? string.Empty : SummaryPath.Replace(".DOC", ".html").Replace(".doc", ".html").Replace(".docx", ".html").Replace(".htmlx", ".html");
 
       public List<Exercises> Exercises { get; set; }
 

@@ -207,11 +207,11 @@
 					<add name="ActiveId" columnName="id" type="long" identityType="Provider" primaryKey="true" display="项目ID"/>
 
 					<!-- Content -->
-					<add name="ActiveName" type="string" dataLength="255" required="true" display="项目名称"/>
+					<add name="ActiveName" type="string" dataLength="100" required="true" display="项目名称"/>
 					<add name="Description" type="string" dataLength="255" required="true" display="描述"/>
 					<add name="Year" type="int"  display="项目年份" required="true"/>
 					
-					<add name="Company" type="string" dataLength="255" required="true" display="主办单位" />
+					<add name="Company" type="string" dataLength="100" required="true" display="主办单位" />
 					<add name="LevelPKID" type="long"  display="项目级别"/>
 					<add name="SemesterPKID" type="long"  display="学期"/>
 					<add name="PublicStatePKID" type="long" display="公开设置"  defaultValue="10450" comment="PickList - APEdu.net key is PLKey_PublicState"/>
@@ -270,19 +270,19 @@
 					<add name="CrosourceId" type="long" identityType="Provider" primaryKey="true" display="作品ID"/>
 
 					<!-- Content -->
-					<add name="Title" type="string" dataLength="255" required="true" display="标题"/>
-					<add name="Author" type="string" dataLength="100" required="true" display="作者"/>
-					<add name="Keywords" type="string" dataLength="255"  required="true"  display="关键字"/>
+					<add name="Title" type="string" dataLength="100" required="true" display="标题"/>
+					<add name="Author" type="string" dataLength="50" required="true" display="作者"/>
+					<add name="Keywords" type="string" dataLength="50"  required="true"  display="关键字"/>
 					<add name="Description" type="string" dataLength="30000" display="微课信息简介"/>
 					<add name="ProvinceId" type="long" display="所属省份"/>
 					<add name="AreaId" type="long" display="所属地区"/>
 					<add name="CompanyId" type="long" display="所属学校"/>
 					<add name="ActiveId" type="long" display="所属项目"/>
 					
-					<add name="AuthorCompany" type="string" dataLength="255" required="true"  display="作者单位"/>
-					<add name="AuthorAddress" type="string" dataLength="255" display="指导教师"/>
-					<add name="AuthorEmail" type="string" dataLength="255" display="作者邮箱"/>
-					<add name="AuthorPhone" type="string" dataLength="255" display="作者电话"/>
+					<add name="AuthorCompany" type="string" dataLength="80" required="true"  display="作者单位"/>
+					<add name="AuthorAddress" type="string" dataLength="50" display="指导教师"/>
+					<add name="AuthorEmail" type="string" dataLength="50" display="作者邮箱"/>
+					<add name="AuthorPhone" type="string" dataLength="11" display="作者电话"/>
 
 					<!-- Properties -->
 					<add name="StagePKID" type="long" required="true" display="学段" comment="PickList - APEdu.net key is PLKey_ResourceStage"/>
@@ -325,7 +325,7 @@
 			<table name="MicroCourse" comment="课程">
 				<columns>
 					<add name="CourseId" type="long" identityType="Provider" primaryKey="true"/>
-					<add name="CourseTitle" type="string" dataLength="255" required="true" display="微课标题"/>
+					<add name="CourseTitle" type="string" dataLength="50" required="true" display="微课标题"/>
 					<add name="ResourceId" type="long" display="微课程作品"  required="true" />
 					<add name="VideoId" type="long" display="视频文件" required="true"/>
 					<add name="CoverId" type="long" display="封面文件"/>

@@ -167,8 +167,9 @@
 		var path='@course.VideoPath';
 		var ua = navigator.userAgent;
 		ua = ua.toLocaleLowerCase();
+		//alert(ua);
 		//IE11 用ckplayer
-		if (ua.match(/edge/) != null && hasVideo){
+		if (ua.match(/edge/) != null || ua.match(/firefox/)!=null || ua.match(/Firefox/)!=null && hasVideo){
 			var videoObject = {
 				container: '#video',//“#”代表容器的ID，“.”或“”代表容器的class
 				variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
