@@ -35,12 +35,12 @@ namespace Res.Controllers
 
             // upload file to CDN Server
             var uploadFile = new UploadFile { Stream = hpf.InputStream, FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{hpf.FileName}" };
-            var result = FileUploader.Upload(uploadFile);
+            var result = FileUploader.SliceUpload(uploadFile);
 
             if (null == result || null == result.FileUrl) return Content("上传失败");
 
             var ext = Path.GetExtension(hpf.FileName);
-            if (ext == ".doc" || ext == ".docx")
+            if (ext.ToLowerInvariant() == ".doc" || ext.ToLowerInvariant() == ".docx")
             {
                Stream docStream = null;
                try
@@ -51,8 +51,8 @@ namespace Res.Controllers
                      Stream = docStream,
                      FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{hpf.FileName.Replace(".docx", ".html").Replace(".doc", ".html")}"
                   };
-                  var docResult = FileUploader.Upload(docFile);
-                  if (null == docResult || null == docResult.FileUrl) return Content("word 转html失败");
+                  var docResult = FileUploader.SliceUpload(docFile);
+                  if (null == docResult || null == docResult.FileUrl || !docResult.IsSuccess) return Content("word 转html失败");
                }
                catch { }
                finally
@@ -104,11 +104,13 @@ namespace Res.Controllers
 
             // upload file to CDN Server
             var uploadFile = new UploadFile { Stream = hpf.InputStream, FileName = $"2018/videos/{DateTime.Today.ToString("yyyyMMdd")}/{hpf.FileName}" };
-            var result = FileUploader.Upload(uploadFile);
-
-            // save file record
-            file = new Files { Md5 = md5, FileName = hpf.FileName, FilePath = result.FileUrl, ExtName = ext, FileSize = hpf.ContentLength };
-            db.FilesDal.Insert(file);
+            var result = FileUploader.SliceUpload(uploadFile);
+            if (result.IsSuccess)
+            {
+               // save file record
+               file = new Files { Md5 = md5, FileName = hpf.FileName, FilePath = result.FileUrl, ExtName = ext, FileSize = hpf.ContentLength };
+               db.FilesDal.Insert(file);
+            }
          }
 
          if (Request.IsAjaxRequest())

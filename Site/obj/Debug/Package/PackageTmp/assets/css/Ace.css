@@ -130,7 +130,7 @@ body {
 /*-------------------------内容-------------------------*/
 
 .d_container {
-    margin-top: -18px;
+    margin-top: 15px;
 }
 
 .d_statement {
@@ -1224,7 +1224,7 @@ a:hover {
 
 .form-control {
     display: inline-block;
-    height: 29px;
+    /*height: 29px;*/
     margin-right: 10px;
     vertical-align: bottom;
 }
@@ -1431,7 +1431,7 @@ a.more {
   }
 
 
-/*------众筹登录-----*/
+/*------平台登录-----*/
 
 
 .block_panel2 {
@@ -1583,10 +1583,10 @@ span.request
 }
 
 /** upload page */
+.courseArea{position:relative; border:1px dashed #808080; padding-right:8%; margin-left:3%; padding-top:3%;}
+.courseArea .courseRemove{position:absolute; top:0px; left:0px;}
 .exercises {border:1px dashed #808080;margin:4px; padding:4px;}
 .exercises input { font-size:10px;}
-.exercises .courseArea{border:1px dashed #808080; padding-right:8%; margin-left:3%; padding-top:3%;}
 .exercises .btn-upload{width:100%; height:100%}
 .exercises .addCourse{margin-top:30px;}
-
 .dz-preview{display:none;}

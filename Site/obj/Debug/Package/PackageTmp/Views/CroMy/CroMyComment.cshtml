@@ -2,7 +2,7 @@
 @{
 	var id = this.ViewContext.RouteData.Values["id"];
 	Layout = "~/Views/Shared/_CroLayout.cshtml";
-	ViewBag.Title = "我的资源评论列表";
+	ViewBag.Title = "我的评论";
 }
 
 
@@ -23,15 +23,22 @@
 
 
 						<div class="info">
-							作者：<span>@item.Author</span>
-							评论日期：<span>@item.OccurTime.ToShortDateString()</span>
-							格式：<span>@item.FileExtName</span>
+							<p>
+								项目：<span>@item.Active</span>
+								作者：<span>@item.Author</span>
+								省份：<span>@item.Province</span>
+								地区：<span>@item.Area</span>
+							</p>
+							<p>
+								单位：<span>@item.Company</span>
+								评论日期：<span>@item.OccurTime.ToShortDateString()</span>
+							</p>
 						</div>
 						<p class="snippet"><b>评论：</b>@item.Content</p>
-@if (ResSettings.SettingsInSession.UserId == Convert.ToInt64(id))
-{
+                  @if (ResSettings.SettingsInSession.UserId == Convert.ToInt64(id))
+                   {
 							<a href="@Url.Action("DeleteComment", "CroMy", new { id = ResSettings.SettingsInSession.UserId, resid = item.OccurId })" class="btn btn-default  ">删除评论</a>
-}
+                   }
 					</div>
 				</div>
 			}

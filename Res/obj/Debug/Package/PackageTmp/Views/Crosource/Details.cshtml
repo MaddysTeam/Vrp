@@ -1,0 +1,383 @@
+﻿@model CroResource
+@{
+	ViewBag.Title = "作品详情";
+
+	var course = ViewBag.CurrentCourse as MicroCourse;
+}
+
+<div class="col-md-10 content-wrapper">
+	<div class="row">
+		<div class="col-lg-4 ">
+			<ul class="breadcrumb">
+				<li>
+					<i class="fa fa-home"></i>
+					<a href="@Url.Action("Index", "Home")">首页</a>
+				</li>
+				<li><a href="@Url.Action("Search", "Crosource")">作品</a></li>
+				<li class="active">@ViewBag.Title</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- main -->
+	<div class="content">
+		<div class="main-header">
+			<h2>@ViewBag.Title</h2>
+			<em>本页面查看选中作品的详细信息</em>
+		</div>
+
+		<div class="main-content">
+			<!-- Details -->
+			<div class="details">
+				<!-- details header -->
+				<div class="details-header">
+					<div class="row">
+						<div class="col-lg-4 col-print-4">
+							<h3><strong>@Model.Title</strong></h3>
+						</div>
+						<div class="col-lg-8 col-print-8 text-right">
+							<ul class="list-inline">
+								<li>
+									点击次数:
+									<strong class="badge">@Model.ViewCount</strong>
+								</li>
+								@*<li>
+										下载次数:
+										<strong class="badge">@Model.DownCount</strong>
+									</li>*@
+								<li>
+									收藏次数:
+									<strong class="badge">@Model.FavoriteCount</strong>
+								</li>
+								<li>
+									评论次数:
+									<strong class="badge">@Model.CommentCount</strong>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- end details header -->
+				<!-- details summary -->
+				<div class="details-summary">
+					<div class="row">
+						<!-- left side, main content -->
+						<div class="col-lg-9">
+							<div class="row">
+								<div class="col-sm-12">
+									@if (course.VideoPath != null)
+									{
+										<div id="video"></div>
+									}
+									else
+									{
+										<img style="width:100%" height="100%" src="@course.FitCoverPath" />
+									}
+								</div>
+							</div> <!-- row -->
+							<hr />
+							<div>
+
+								<div class="panel">
+									<div class="panel-body">
+										@Model.Description
+									</div>
+								</div>
+
+								<div style="overflow-y:hidden; overflow-x:auto; white-space: nowrap;">
+									<div class="details-courses">
+										<ul class="course-list">
+											@foreach (var item in Model.Courses)
+											{
+												<li>
+													<a href="@Url.Action("Details","Crosource",new { id = Model.CrosourceId ,courseId = item.CourseId })"><img src="@item.FitCoverPath"/></a>
+													<div class="text-center">@item.CourseTitle</div>
+												</li>
+                                 }
+										</ul>
+									</div>
+								</div>
+
+							</div> <!-- row -->
+						</div>
+						<!-- end left side, main content -->
+						<!-- right side, main content -->
+						<div class="col-lg-3">
+							<div class="buttons">
+								<a href="@Url.Action("Edit", "Crosource", new { id = Model.CrosourceId })" class="btn btn-primary btn-block"><i class="fa fa-edit"></i> 修改作品信息</a>
+							</div>
+							<div class="widget">
+								<div class="widget-header">
+									<h3><i class="fa fa-paperclip"></i> 作品信息</h3>
+								</div>
+
+								<div class="widget-content">
+									<ul class="list-group">
+
+										<li class="list-group-item">作品名称：@Model.Title</li>
+										@if (!string.IsNullOrEmpty(Model.Keywords))
+										{
+											<li class="list-group-item">关键字: &nbsp;@foreach (var item in Model.Keywords.Split(',')){<span class="badge" style="float:none;">  @item</span> }</li>
+										}
+
+										<li class="list-group-item">作品类型：@Model.CourseType</li>
+										@if (@Model.SubjectPKID != 0)
+										{
+										<li class="list-group-item">学科：@Model.Subject</li>
+										}
+										@if (@Model.StagePKID != 0)
+										{
+										<li class="list-group-item">学段：@Model.Stage</li>
+										}
+										@if (@Model.GradePKID != 0)
+										{
+										<li class="list-group-item">年级：@Model.Grade</li>
+										}
+										@if (!string.IsNullOrEmpty(Model.Province))
+										{
+										<li class="list-group-item">省份：@Model.Province</li>
+										}
+										@if (!string.IsNullOrEmpty(Model.Province))
+										{
+										<li class="list-group-item">市区：@Model.Area</li>
+										}
+										@if (!string.IsNullOrEmpty(Model.Province))
+										{
+										<li class="list-group-item">学校：@Model.School</li>
+										}
+		
+										<li class="list-group-item">创建时间：@Model.CreatedTime.ToString("yyyy-MM-dd")</li>
+
+										@if (!string.IsNullOrEmpty(Model.Province))
+										{
+											<li class="list-group-item">审核意见：<span id="opinion" class="@(Model.StatePKID==10353?"text-danger":"text-info")">@Model.AuditOpinion</span></li>
+										}
+									
+											<li class="list-group-item">
+												<div class="switchs">
+													@Html.CheckBox("State", Model.StatePKID == CroResourceHelper.StateAllow, new { @class = "switch", data_label_text = "审核合格", data_size = "small" })
+												</div>
+											</li>
+							
+
+									</ul>
+								</div>
+							</div>
+
+							<!-- widget -->
+							<div class="widget">
+								<div class="widget-header">
+									<h3><i class="fa fa-paperclip"></i> 当前微课信息</h3>
+								</div>
+
+								<div class="widget-content">
+									<ul class="list-group">
+										<li class="list-group-item">
+											<span>微课名称：@course.CourseTitle</span>
+										</li>
+										<li  class="list-group-item">
+											<span>播放次数： @course.PlayCount</span>
+									   </li>
+
+									   <li  class="list-group-item">
+											<span>下载次数： @course.DownCount</span>
+										</li>
+										<li  class="list-group-item">
+											练  习  题：&nbsp;&nbsp;<a href="javascript:void(0)" class="btn-danger btn-sm" id="exercies">答 题</a>
+										</li>
+								
+									
+										@if(course.DesignId != 0)
+										{
+											<li  class="list-group-item">
+												<span>教学设计： <a href="@course.DesignPath.Replace(".DOC",".html").Replace(".doc",".html").Replace(".docx",".html").Replace(".htmlx",".html")" target="_blank" class="btn-info btn-sm">预 览</a></span>
+										   </li>
+										}
+
+										@if (course.SummaryId != 0)
+										{
+											<li  class="list-group-item">
+												<span>教学反思： <a href="@course.SummaryPath.Replace(".DOC",".html").Replace(".doc",".html").Replace(".docx",".html").Replace(".htmlx",".html")" target="_blank" class="btn-info btn-sm">预 览</a></span>
+										   </li>
+										}
+
+										@if (course.CoursewareId != 0)
+										{
+											<li  class="list-group-item">
+												<span>课&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件：&nbsp;<a href="@course.CoursewarePath" target="_blank" data-id="@course.CoursewareId" class="btn-info btn-sm btn-download">下 载</a></span>
+											</li>
+										}
+										@if (course.AttachmentId != 0)
+										{
+											<li  class="list-group-item">
+												<span>其他附件： <a href="@course.AttachmentPath" target="_blank" data-id="@course.AttachmentId" class="btn-info btn-sm btn-download">下 载</a></span>
+											</li>
+										}
+
+									</ul>
+								</div>
+							</div>
+							<!-- end widget -->
+
+							<!-- widget -->
+							<div class="widget">
+								<div class="widget-header">
+									<h3><i class="fa fa-paperclip"></i> 作者信息</h3>
+								</div>
+
+								<div class="widget-content">
+									<ul class="list-group">
+										<li class="list-group-item">作者：@Model.Author</li>
+										@if (@Model.AuthorCompany != "")
+										{
+										<li class="list-group-item">单位：@Model.AuthorCompany</li>
+										}
+										@if (@Model.AuthorEmail != "")
+										{
+										<li class="list-group-item">电子邮箱：@Model.AuthorEmail</li>
+										}
+										@if (@Model.AuthorPhone != "")
+										{
+										<li class="list-group-item">电话：@Model.AuthorPhone</li>
+										}
+										@if (@Model.AuthorAddress != "")
+										{
+										<li class="list-group-item">地址：@Model.AuthorAddress</li>
+										}
+									</ul>
+								</div>
+							</div>
+							<!-- end widget -->
+						</div>
+						<!-- end right side, main content -->
+
+					</div>
+				</div>
+				<!-- end details summary -->
+
+			</div>
+			<!-- Details -->
+
+			<!-- modal frame -->
+			<div class="modal fade" id="inner-edit-form" tabindex="-1" role="dialog" aria-hidden="true"></div>
+			<!-- end modal frame -->
+
+		</div>
+		<!-- /main-content -->
+	</div>
+	<!-- /main -->
+
+</div>
+
+
+@section Css{
+}
+@section Plugins{
+}
+@section Scripts {
+	<script src="~/assets/plugins/ckplayer/ckplayer/ckplayer.js"></script>
+	<script src="~/assets/plugins/jwplayer/jwplayer.js"></script>
+	<script type="text/javascript">
+
+
+		// bootstrap-switch
+		$("input.switch").not("[data-switch-no-init]").bootstrapSwitch().show();
+
+
+		$(function () {
+
+			var hasVideo='@course.VideoPath'!='';
+
+			var id = @Model.CrosourceId;
+			var path='@course.VideoPath';
+			var ua = navigator.userAgent;
+			ua = ua.toLocaleLowerCase();
+			//IE11 用ckplayer
+			if (ua.match(/edge/) != null && hasVideo){
+				var videoObject = {
+					container: '#video',//“#”代表容器的ID，“.”或“”代表容器的class
+					variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
+					poster:'@course.CoverPath',//封面图片
+					video:path
+				};
+				var player=new ckplayer(videoObject);
+			}
+			else if(hasVideo){
+				var player=jwplayer("video").setup({
+					flashplayer:"../../assets/plugins/jwplayer/jwplayer.flash.swf",
+					file:path,
+					width: 'auto',
+					height: 500,
+					controls: true ,
+					primary: "flash",
+					autostart:false,
+					image: '@course.CoverPath',
+				});
+
+				player.onPlay(function(){
+					$.post('@Url.Action("Play", "Crosource")',{id:'@Model.CrosourceId',courseId:'@course.CourseId'},function(){});
+				});
+			}
+
+
+			$("#Elite").on("switchChange.bootstrapSwitch", function (event, state) {
+				$this = $(this);
+
+				$.post("/Crosource/Elite", { id: id, value: state }, function (data, status) {
+					if (status == "success") {
+						$this.bootstrapSwitch("state", data.value, true);
+						alertify.success(data.msg);
+					}
+					else {
+						$this.bootstrapSwitch("state", !state, true);
+						alertify.error(ajaxErrorMessage);
+					}
+				});
+
+			});
+
+			$("#State").on("switchChange.bootstrapSwitch", function (event, state) {
+				var message = state ? "审核该作品为 - 合格" : "审核该作品为 - 不合格";
+				var success = state ? "作品已审核为合格。" : "作品已审核为不合格。";
+				$this = $(this);
+
+				alertify.prompt("审核意见", function (e, str) {
+					if (e) {
+						$.post("/Crosource/Approve", { id: id, value: state, opinion: str }, function (data, status) {
+							if (status == "success") {
+								$this.bootstrapSwitch("state", data.value, true);
+								$("#opinion").html(str)
+								alertify.success(success);
+							}
+							else {
+								$this.bootstrapSwitch("state", !state, true);
+								alertify.error(ajaxErrorMessage);
+							}
+						});
+					} else {
+						$this.bootstrapSwitch("state", !state, true);
+					}
+				}, message);
+			});
+
+
+			$('#exercies').on('click',function(){
+				$.post('/Crosource/ExerciesList',{courseId:'@course.CourseId'},function(response){
+					$('#inner-edit-form').html(response).modal("show")
+				});
+			});
+
+			$('.btn-download').on('click',function(){
+				var $this=$(this);
+				var fileId=$(this).data('id');
+				if(fileId>0){
+					$.post('/Crosource/Download',{id:'@Model.CrosourceId',  courseId:'@course.CourseId', fileId:fileId},function(response){});
+				}
+				else{
+					alert('暂无文件可下载');
+				}
+			});
+
+		});
+	</script>
+}

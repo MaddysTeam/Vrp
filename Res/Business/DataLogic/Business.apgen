@@ -101,11 +101,11 @@
 					<add name="UserTypePKID" type="long" display="用户角色"/>
 					
 					<!-- Content -->
-					<add name="RealName" type="string" dataLength="255" display="实名"/>
+					<add name="RealName" type="string" dataLength="255" required="false" display="实名"/>
 					<add name="PhotoPath" type="string" dataLength="255" display="头像"/>
 					<add name="GenderPKID" type="long" required="true" display="性别" comment="PickList - APEdu.net key is PLKey_Gender"/>
-					<add name="IDCard" type="string" dataLength="255" display="身份证"/>
-					<add name="Email" type="string" dataLength="255" display="电子邮件"/>
+					<add name="IDCard" type="string" dataLength="255"  required="false"  display="身份证"/>
+					<add name="Email" type="string" dataLength="255"  required="false" display="电子邮件"/>
 					<add name="CompanyId" type="long" comment="单位"/>
 					<add name="ProvinceId" type="long" comment="省份"/>
 					<add name="AreaId" type="long" comment="区县"/>
@@ -280,7 +280,7 @@
 					<add name="ActiveId" type="long" display="所属项目"/>
 					
 					<add name="AuthorCompany" type="string" dataLength="255" required="true"  display="作者单位"/>
-					<add name="AuthorAddress" type="string" dataLength="255" display="作者地址"/>
+					<add name="AuthorAddress" type="string" dataLength="255" display="指导教师"/>
 					<add name="AuthorEmail" type="string" dataLength="255" display="作者邮箱"/>
 					<add name="AuthorPhone" type="string" dataLength="255" display="作者电话"/>
 

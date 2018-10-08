@@ -9,13 +9,13 @@
   </PropertyGroup>
   <ItemGroup>
     <File Include="assets/css/Ace.css">
-      <publishTime>09/27/2018 08:59:10</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="assets/css/app-zs.css">
       <publishTime>09/21/2018 17:10:16</publishTime>
     </File>
     <File Include="assets/css/app.css">
-      <publishTime>09/21/2018 17:10:16</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="assets/css/app2.css">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -219,7 +219,7 @@
       <publishTime>09/21/2018 17:10:16</publishTime>
     </File>
     <File Include="assets/img/i_banner.jpg">
-      <publishTime>09/21/2018 17:10:16</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="assets/img/i_s.jpg">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -231,7 +231,13 @@
       <publishTime>09/21/2018 17:10:16</publishTime>
     </File>
     <File Include="assets/img/logo.png">
-      <publishTime>09/21/2018 17:10:16</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
+    </File>
+    <File Include="assets/img/logo2.png">
+      <publishTime>10/08/2018 09:16:59</publishTime>
+    </File>
+    <File Include="assets/img/logo3.png">
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="assets/img/l_nav.png">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -247,6 +253,9 @@
     </File>
     <File Include="assets/img/pdf.jpg">
       <publishTime>09/21/2018 17:10:16</publishTime>
+    </File>
+    <File Include="assets/img/previouslink.jpg">
+      <publishTime>10/08/2018 15:23:01</publishTime>
     </File>
     <File Include="assets/img/r1.jpg">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -1740,10 +1749,10 @@
       <publishTime>09/21/2018 17:10:18</publishTime>
     </File>
     <File Include="bin/Res.dll">
-      <publishTime>09/29/2018 13:23:53</publishTime>
+      <publishTime>10/08/2018 15:23:31</publishTime>
     </File>
     <File Include="bin/Res.pdb">
-      <publishTime>09/29/2018 13:23:53</publishTime>
+      <publishTime>10/08/2018 15:23:31</publishTime>
     </File>
     <File Include="bin/stdole.dll">
       <publishTime>12/21/2009 11:40:04</publishTime>
@@ -1776,10 +1785,10 @@
       <publishTime>09/21/2018 17:10:18</publishTime>
     </File>
     <File Include="bin/Util.dll">
-      <publishTime>09/29/2018 09:48:25</publishTime>
+      <publishTime>10/08/2018 15:17:09</publishTime>
     </File>
     <File Include="bin/Util.pdb">
-      <publishTime>09/29/2018 09:48:25</publishTime>
+      <publishTime>10/08/2018 15:17:09</publishTime>
     </File>
     <File Include="bin/WcsLib.dll">
       <publishTime>09/25/2018 09:13:20</publishTime>
@@ -1824,7 +1833,7 @@
       <publishTime>09/21/2018 17:10:17</publishTime>
     </File>
     <File Include="Business/DataLogic/Business.apgen">
-      <publishTime>09/29/2018 09:01:03</publishTime>
+      <publishTime>10/08/2018 15:04:27</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -1872,7 +1881,7 @@
       <publishTime>03/31/2016 15:20:35</publishTime>
     </File>
     <File Include="Views/Account/Login.cshtml">
-      <publishTime>09/25/2018 09:13:20</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/Account/Register.cshtml">
       <publishTime>09/27/2018 09:43:03</publishTime>
@@ -1893,7 +1902,7 @@
       <publishTime>09/21/2018 17:10:16</publishTime>
     </File>
     <File Include="Views/CroHome/Index.cshtml">
-      <publishTime>09/29/2018 09:01:03</publishTime>
+      <publishTime>10/08/2018 15:49:03</publishTime>
     </File>
     <File Include="Views/CroHome/_Favorite.cshtml">
       <publishTime>09/26/2018 09:01:12</publishTime>
@@ -1905,7 +1914,7 @@
       <publishTime>09/25/2018 09:13:20</publishTime>
     </File>
     <File Include="Views/CroHome/_Province.cshtml">
-      <publishTime>09/26/2018 09:01:12</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroMy/ChgPwd.cshtml">
       <publishTime>09/29/2018 09:00:11</publishTime>
@@ -1914,22 +1923,25 @@
       <publishTime>09/21/2018 17:10:16</publishTime>
     </File>
     <File Include="Views/CroMy/CroMyComment.cshtml">
-      <publishTime>09/25/2018 09:13:20</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroMy/CroMyCourses.cshtml">
-      <publishTime>09/29/2018 09:06:12</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroMy/CroMyDownload.cshtml">
-      <publishTime>09/21/2018 17:10:16</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroMy/CroMyFavorite.cshtml">
-      <publishTime>09/25/2018 09:13:20</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
+    </File>
+    <File Include="Views/CroMy/CroMyPraise.cshtml">
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroMy/CroMyRecommand.cshtml">
       <publishTime>09/25/2018 09:13:20</publishTime>
     </File>
     <File Include="Views/CroMy/CroMyResource.cshtml">
-      <publishTime>09/25/2018 09:13:20</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroMy/Declare.cshtml">
       <publishTime>09/27/2018 08:59:10</publishTime>
@@ -1941,19 +1953,19 @@
       <publishTime>09/29/2018 09:01:03</publishTime>
     </File>
     <File Include="Views/CroMy/Favorite.cshtml">
-      <publishTime>09/21/2018 17:10:16</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroMy/Index.cshtml">
-      <publishTime>09/29/2018 09:01:03</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroMy/More.cshtml">
       <publishTime>09/21/2018 17:10:16</publishTime>
     </File>
     <File Include="Views/CroMy/NewsView.cshtml">
-      <publishTime>09/21/2018 17:10:16</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroMy/Upload.cshtml">
-      <publishTime>09/29/2018 12:28:19</publishTime>
+      <publishTime>10/08/2018 15:11:24</publishTime>
     </File>
     <File Include="Views/CroResource/More.cshtml">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -1965,10 +1977,13 @@
       <publishTime>09/21/2018 17:10:16</publishTime>
     </File>
     <File Include="Views/CroResource/Search.cshtml">
-      <publishTime>09/29/2018 09:01:03</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroResource/ZcView.cshtml">
-      <publishTime>09/29/2018 09:01:03</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
+    </File>
+    <File Include="Views/CroResource/_exercies.cshtml">
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroResource/_more.cshtml">
       <publishTime>09/29/2018 09:01:03</publishTime>
@@ -1977,16 +1992,16 @@
       <publishTime>09/29/2018 09:01:03</publishTime>
     </File>
     <File Include="Views/CroResource/_relation.cshtml">
-      <publishTime>09/21/2018 17:10:16</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroResource/_search.cshtml">
-      <publishTime>09/28/2018 15:58:04</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroResource/_user.cshtml">
       <publishTime>09/21/2018 17:10:16</publishTime>
     </File>
     <File Include="Views/CroResource/_viewcount.cshtml">
-      <publishTime>09/29/2018 09:01:03</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroUser/MoreUser.cshtml">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -2010,7 +2025,7 @@
       <publishTime>03/31/2016 15:20:35</publishTime>
     </File>
     <File Include="Views/My/Index.cshtml">
-      <publishTime>09/21/2018 17:10:16</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/My/Resource.cshtml">
       <publishTime>03/31/2016 15:20:35</publishTime>
@@ -2061,31 +2076,31 @@
       <publishTime>09/21/2018 17:10:16</publishTime>
     </File>
     <File Include="Views/Shared/_CroLayout.cshtml">
-      <publishTime>09/21/2018 17:10:16</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/Shared/_CroViewLayout.cshtml">
-      <publishTime>09/21/2018 17:10:16</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>09/25/2018 09:13:20</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
-      <publishTime>09/21/2018 17:10:16</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/Shared/_mzLayout.cshtml">
-      <publishTime>09/25/2018 09:13:20</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/Shared/_Row.cshtml">
       <publishTime>09/25/2018 09:13:20</publishTime>
     </File>
     <File Include="Views/Shared/_sidebar.cshtml">
-      <publishTime>09/28/2018 14:48:40</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/Shared/_ZcLayout.cshtml">
-      <publishTime>09/27/2018 09:22:07</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/Shared/_ZSLayout.cshtml">
-      <publishTime>09/21/2018 17:10:16</publishTime>
+      <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -2106,7 +2121,7 @@
       <publishTime>09/21/2018 17:10:16</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>09/29/2018 13:23:54</publishTime>
+      <publishTime>10/08/2018 10:16:21</publishTime>
     </File>
   </ItemGroup>
 </Project>

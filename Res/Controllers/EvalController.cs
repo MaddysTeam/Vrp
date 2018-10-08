@@ -51,13 +51,14 @@ namespace Res.Controllers
          {
             query.where(eg.GroupName.Match(searchPhrase));
          }
-
-         if (user.ProvinceId > 0)
-            query.where_and(r.ProvinceId == user.ProvinceId);
-         if (user.AreaId > 0)
-            query.where_and(r.AreaId == user.AreaId);
-         if (user.CompanyId > 0)
-            query.where_and(r.CompanyId == user.CompanyId);
+         
+         //TODO：只要加到组里的专家不用数据范围
+         //if (user.ProvinceId > 0)
+         //   query.where_and(r.ProvinceId == user.ProvinceId);
+         //if (user.AreaId > 0)
+         //   query.where_and(r.AreaId == user.AreaId);
+         //if (user.CompanyId > 0)
+         //   query.where_and(r.CompanyId == user.CompanyId);
 
          query.primary(r.CrosourceId)
               .skip((current - 1) * rowCount)
@@ -121,12 +122,12 @@ namespace Res.Controllers
 
          // 数据范围
 
-         if (expert.ProvinceId > 0)
-            query.where(i.LevelPKID == IndicationHelper.ProvinceLevel);
-         else if (expert.AreaId > 0)
-            query.where(i.LevelPKID == IndicationHelper.CityLevel);
-         else
-            query.where(i.LevelPKID == IndicationHelper.UnionLevel);
+         //if (expert.ProvinceId > 0)
+         //   query.where(i.LevelPKID == IndicationHelper.ProvinceLevel);
+         //else if (expert.AreaId > 0)
+         //   query.where(i.LevelPKID == IndicationHelper.CityLevel);
+         //else
+         //   query.where(i.LevelPKID == IndicationHelper.UnionLevel);
 
 
          string comment = string.Empty, expId = string.Empty;

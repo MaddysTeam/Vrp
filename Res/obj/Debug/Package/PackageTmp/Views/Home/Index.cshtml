@@ -1,0 +1,44 @@
+﻿@{
+	ViewBag.Title = "首页";
+}
+
+<div class="col-md-10 content-wrapper">
+	<div class="row">
+		<div class="col-lg-4 ">
+			<ul class="breadcrumb">
+				<li>
+					<i class="fa fa-home"></i>@ViewBag.Title
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- main -->
+	<div class="content">
+		<div class="main-header">
+			<h2>@ViewBag.Title</h2>
+			<em>欢迎参加中国长三角微课教学评比活动</em>
+		</div>
+
+		<div class="main-content">
+
+			@*<ul class="list-unstyled list-results">
+				<li class="type-page">
+					<h3><a href="@Url.Action("Dashboard", "Home")">仪表板</a></h3>
+					<p>查看资源库资源近期全局统计情况。</p>
+				</li>
+				<li class="type-page">
+					<h3><a href="@Url.Action("Index", "Resource")">资源</a></h3>
+					<p>按资源名称查询或者点击查看资源分类列表。</p>
+				</li>
+				<li class="type-page">
+					<h3><a href="@Url.Action("Main", "Report")">报表 & 图表</a></h3>
+					<p>分类查看资源库统计报表和图表。</p>
+				</li>
+			</ul>*@
+
+		</div>
+		<!-- /main-content -->
+	</div>
+	<!-- /main -->
+</div>

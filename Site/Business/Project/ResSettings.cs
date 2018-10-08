@@ -154,14 +154,14 @@ namespace Res.Business
       {
          get
          {
-            _companys = GetCache(typeof(List<ResCompany>)) as List<ResCompany>;
-            if (_companys == null)
-            {
-               _companys = APBplDef.ResCompanyBpl.GetAll();
-               SetCache(_companys, typeof(List<ResCompany>));
-            }
+            //_companys = GetCache(typeof(List<ResCompany>)) as List<ResCompany>;
+            //if (_companys == null)
+            //{
+            //   _companys = APBplDef.ResCompanyBpl.GetAll();
+            //   SetCache(_companys, typeof(List<ResCompany>));
+            //}
 
-            return _companys;
+            return APBplDef.ResCompanyBpl.GetAll();
          }
       }
 

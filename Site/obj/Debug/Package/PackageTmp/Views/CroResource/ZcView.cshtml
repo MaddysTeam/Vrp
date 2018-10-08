@@ -18,7 +18,7 @@
 
 			<div class="show">
 				<div class="row">
-					<div class="col-md-3">
+					<div class="col-md-8">
 						<h1>
 							@*<div class="@Model.FileType"></div>*@
 							@Model.Title
@@ -60,27 +60,36 @@
 					</div>
 
 					<div class="div ">
-						<p><span>关 键 字： @Model.Keywords </span><span>&nbsp;&nbsp;练 习 题：<button class="btn btn-danger  btn-sm">答 题</button></span></p>
-						<p><span>作品类型： 微课程</span><span>收藏次数： @Model.FavoriteCount 次</span></p>
-						<p><span>上传日期： @Model.CreatedTime.ToShortDateString()</span><span>浏览次数： @Model.ViewCount 次</span></p>
-						<p>
-							@if (course.DesignPath != null){<span>教学设计： <a href="@course.DesignPath.Replace(".doc",".html").Replace(".docx",".html")" target="_blank" class="btn btn-info btn-sm">预 览</a></span>}@if (course.SummaryPath != null){<span>教学反思： <a href="@course.SummaryPath.Replace(".doc",".html").Replace(".docx",".html")" target="_blank" class="btn btn-info btn-sm">  预 览</a></span>}
-						</p>
+						<h3><i class="fa fa-file"></i> 作品信息</h3>
+					</div>
 
-						<p>
-							@if (course.CoursewarePath != null){<span>课&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件： <a href="@course.CoursewarePath" target="_blank" class="btn btn-info btn-sm">  下 载</a></span>}@if (course.AttachmentPath != null){<span>其他附件： <a href="@course.AttachmentPath" target="_blank" class="btn btn-info btn-sm">  下 载</a></span>}
-						</p>
+					<div class="div ">
+						<p><span>关 键 字： @Model.Keywords </span><span><span>省　　份： @Model.Province</span></span></p>
+						<p><span>市　　区： @Model.Area</span><span>学　　校： @Model.School</span></p>
+						<p><span>下载设置： @Model.PublicState </span><span>下载设置： @Model.DownloadState</span></p>
+						<p><span>年　　级： @Html.ShowPKID(Model.Grade)</span><span>学　　科： @Html.ShowPKID(Model.Subject)</span></p>
+						<p><span>作品类型： @Model.CourseType</span><span>收藏次数： @Model.FavoriteCount 次</span></p>
+						<p><span>上传日期： @Model.CreatedTime.ToShortDateString()</span><span>浏览次数： @Model.ViewCount 次</span></p>	
 					</div>
 
 					<div class="div ">
 						<p>@Model.Description</p>
-						<h3><i class="fa fa-video-camera"></i> 详细属性</h3>
+						<h3><i class="fa fa-tencent-weibo"></i> 微课信息</h3>
 					</div>
 					<div class="div ">
 
-						<p><span>年　　级： @Html.ShowPKID(Model.Grade)</span><span>学　　科： @Html.ShowPKID(Model.Subject)</span></p>
-						<p><span>省　　份： @Model.Province</span><span>市　　区： @Model.Area</span> </p>
-						<p><span>学　　校： @Model.School</span></p>
+						<p><span>微课名称： @course.CourseTitle </span><span>&nbsp;&nbsp;练 习 题：<button class="btn btn-danger btn-sm" id="exercies">答 题</button></span></p>
+						<p>
+							<span>教学设计： <a href="@(course.DesignId > 0? course.DesignPreviewPath :"javascript:void(0)")" target="_blank" class="btn btn-info btn-sm">预 览</a></span><span>教学反思： <a href="@(course.SummaryId > 0? course.SummaryPreviewPath :"javascript:void(0)")" target="_blank" class="btn btn-info btn-sm">  预 览</a></span>
+						</p>
+
+						<p>
+							@if (Model.DownloadStatePKID == CroResourceHelper.AllowDownload)
+							{
+							<span>课&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件： <a href="@(course.CoursewareId > 0 ? course.CoursewarePath : "javascript:void(0)")" data-id="@course.CoursewareId" target="_blank" class="btn btn-info btn-sm btn-download">  下 载</a></span><span>其他附件： <a href="@(course.AttachmentId > 0 ? course.AttachmentPath : "javascript:void(0)")" data-id="@course.AttachmentId" target="_blank" class="btn btn-info btn-sm btn-download">  下 载</a></span>
+							}
+						</p>
+						<p><span>播放次数：@course.PlayCount </span><span>下载次数：@course.DownCount</span></p>
 
 						<h3><i class="fa fa-user"></i> 作者信息</h3>
 					</div>
@@ -136,8 +145,14 @@
 
 			@Html.Partial("../CroResource/_newcomment", new { mediumtypepkid = @Model.MediumTypePKID, FileExtName = @Model.FileExtName })*@
 
+		@Html.Partial("../CroResource/_viewcount")
 
+		@Html.Partial("../CroResource/_newcomment")
 	</div>
+
+	<!-- modal frame -->
+	<div class="modal fade"  id="inner-edit-form" tabindex="-1" role="dialog" aria-hidden="true"></div>
+	<!-- end modal frame -->
 
 </div>
 @section Plugins {
@@ -148,11 +163,12 @@
 	<script src="~/assets/plugins/ckplayer/ckplayer/ckplayer.js"></script>
 	<script src="~/assets/plugins/jwplayer/jwplayer.js"></script>
 	<script>
+		var hasVideo='@course.VideoPath'!='';
 		var path='@course.VideoPath';
 		var ua = navigator.userAgent;
 		ua = ua.toLocaleLowerCase();
 		//IE11 用ckplayer
-		if (ua.match(/edge/) != null){
+		if (ua.match(/edge/) != null && hasVideo){
 			var videoObject = {
 				container: '#video',//“#”代表容器的ID，“.”或“”代表容器的class
 				variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
@@ -161,7 +177,7 @@
 			};
 			var player=new ckplayer(videoObject);
 		}
-		else{
+		else if(hasVideo){
 			var player=jwplayer("video").setup({
 				flashplayer:"../../assets/plugins/jwplayer/jwplayer.flash.swf",
 				file:path,//'http://movie.ks.js.cn/flv/other/1_0.flv',
@@ -173,7 +189,7 @@
 				image: '@course.FitCoverPath',
 			});
 			player.onPlay(function(){
-				$.post('@Url.Action("Play", "CroResource")',{courseId:'@course.CourseId'},function(){});
+				$.post('@Url.Action("Play", "CroResource")',{resourceId:'@Model.CrosourceId',  courseId:'@course.CourseId'},function(){});
 			});
 		}
 	</script>
@@ -303,6 +319,23 @@
 				$.post("/CroResource/praise", { id: id }, function (data, status) {
 					alert(JSON.stringify(data.msg));
 				});
+			});
+
+			$('#exercies').on('click',function(){
+				$.post('/CroResource/ExerciesList',{courseId:'@course.CourseId'},function(response){
+					$('#inner-edit-form').html(response).modal("show")
+				});
+			});
+
+			$('.btn-download').on('click',function(){
+				var $this=$(this);
+				var fileId=$(this).data('id');
+				if(fileId>0){
+					$.post('/CroResource/Download',{id:'@Model.CrosourceId',  courseId:'@course.CourseId', fileId:fileId},function(response){});
+				}
+				else{
+					alert('暂无文件可下载');
+				}
 			});
 
 		});

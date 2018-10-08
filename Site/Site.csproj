@@ -276,11 +276,14 @@
     <Content Include="assets\img\i_zy.jpg" />
     <Content Include="assets\img\list_btn.jpg" />
     <Content Include="assets\img\logo.png" />
+    <Content Include="assets\img\logo2.png" />
+    <Content Include="assets\img\logo3.png" />
     <Content Include="assets\img\l_nav.png" />
     <Content Include="assets\img\l_nav_s.png" />
     <Content Include="assets\img\nstar.png" />
     <Content Include="assets\img\p1.jpg" />
     <Content Include="assets\img\pdf.jpg" />
+    <Content Include="assets\img\previouslink.jpg" />
     <Content Include="assets\img\r1.jpg" />
     <Content Include="assets\img\re.png" />
     <Content Include="assets\img\re1.jpg" />

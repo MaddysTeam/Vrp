@@ -140,19 +140,9 @@ namespace Res.Controllers
       [HttpPost]
       public async Task<ActionResult> Edit(ResUser model)
       {
-         DateTime birthday;
-
-         if (!IDCardCheck.CheckIdentityCode(model.IDCard, out birthday))
-            return Json(new
-            {
-               error = "IDCard",
-               msg = "身份证号码无效"
-            });
-
          var t = APDBDef.ResUser;
 
-         int g = model.IDCard[model.IDCard.Length - 2] - '0';
-         model.GenderPKID = g % 2 == 0 ? ResUserHelper.GenderFemale : ResUserHelper.GenderMale;
+         model.GenderPKID =  ResUserHelper.GenderMale;
 
          if (model.UserId == 0)
          {
@@ -179,7 +169,6 @@ namespace Res.Controllers
                   msg = string.Join(",", result.Errors)
                });
             }
-            // APBplDef.ResUserBpl.Insert(model);
          }
          else
          {

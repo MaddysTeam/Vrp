@@ -8,10 +8,7 @@
 
 <div class="block_panel">
 	<div class="panel_title nav">
-		<b>资源列表</b>
-
-
-
+		<b>作品列表</b>
 
 		<span class="pull-right sort">
 			@if (sort == "vd")
@@ -76,13 +73,9 @@
 							.AddRouteValue("Province", ViewData["Province"])
 							.AddRouteValue("Area", ViewData["Area"])
 							.AddRouteValue("School", ViewData["School"])
-							.AddRouteValue("ResourceType", ViewData["ResourceType"])
+							.AddRouteValue("CourseType", ViewData["CourseType"])
 							.AddRouteValue("Subject", ViewData["Subject"])
-							.AddRouteValue("Stage", ViewData["Stage"])
 							.AddRouteValue("Grade", ViewData["Grade"])
-							//.AddRouteValue("SchoolType", ViewData["SchoolType"])
-							//.AddRouteValue("LearnFrom", ViewData["LearnFrom"])
-							//.AddRouteValue("MediumType", ViewData["MediumType"])
 							.AddRouteValue("Keywords", ViewData["Keywords"])
 							.AddRouteValue("Sort", ViewData["Sort"])
 			)

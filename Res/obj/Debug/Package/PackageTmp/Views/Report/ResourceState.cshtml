@@ -1,0 +1,117 @@
+﻿@model Dictionary<string, int>
+@{
+	ViewBag.Title = "资源分布";
+}
+
+<div class="col-md-10 content-wrapper">
+	<div class="row">
+		<div class="col-lg-4 ">
+			<ul class="breadcrumb">
+				<li>
+					<i class="fa fa-home"></i>
+					<a href="@Url.Action("Index", "Home")">首页</a>
+				</li>
+				<li><a href="@Url.Action("Main", "Report")">报表 & 图表</a></li>
+				<li class="active">@ViewBag.Title</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- main -->
+	<div class="content">
+		<div class="main-header">
+			<h2>@ViewBag.Title</h2>
+			<em>查看资源库用户统计情况</em>
+		</div>
+
+		<div class="main-content">
+
+			<!-- widget -->
+			<div class="widget">
+				<div class="widget-header">
+					<h3><i class="fa fa-paperclip"></i> @ViewBag.Title</h3>
+					<div class="btn-group widget-header-toolbar">
+						<a href="#" title="专注" class="btn-borderless btn-focus"><i class="fa fa-eye"></i></a>
+					</div>
+				</div>
+
+				<div class="widget-content">
+					<!-- Condition -->
+					<div class="col-sm-12">
+						<form class="pull-right condition">
+							<select class="multiselect">
+								<option value="DomainPKID">按领域分类</option>
+								<option value="SubjectPKID">按学科分类</option>
+								<option value="MediumTypePKID">按媒体类型分类</option>
+								<option value="ResourceTypePKID">按资源类型分类</option>
+								<option value="DeformityPKID">按残疾类别分类</option>
+								<option value="StagePKID">按学段分类</option>
+								<option value="GradePKID">按年级分类</option>
+								<option value="LearnFromPKID">按安置现实分类</option>
+								<option value="SchoolTypePKID">按学校类型分类</option>
+							</select>
+						</form>
+					</div>
+					<!-- end Condition-->
+
+					<!-- Grid -->
+					<div id="table-responsive">
+
+						<table class="table table-striped table-hover">
+							<thead>
+								<tr>
+									<th class="titlewidth">统计项目</th>
+									<th>数量</th>
+									<th>容量</th>
+								</tr>
+							</thead>
+							<tbody id="list">
+							</tbody>
+						</table>
+					</div>
+					<!-- end Grid-->
+				</div>
+				<!-- end widget content -->
+
+			</div>
+			<!-- end widget -->
+
+		</div>
+		<!-- /main-content -->
+	</div>
+	<!-- /main -->
+</div>
+@section Plugins {
+	@Scripts.Render("~/js/dot")
+}
+@section Scripts {
+<script id="tmpl-list" type="text/template">
+	{{ for(var i = 0, l = it.length; i < l; i++){ }}
+	<tr><td>{{= it[i].name }}</td><td>{{= it[i].count }}</td><td>{{= Math.round(it[i].size/(1024*1024)) }} M</td></tr>
+	{{ } }}
+</script>
+
+<script type="text/javascript">
+
+	$(function () {
+
+		function load() {
+			
+			var type = $(".multiselect").val();
+			$.post("/Report/ResourceState", { type: type }, function (data, status) {
+				var template = $('#tmpl-list').html();
+				var html = doT.template(template).apply(null, [data]);
+				$('#list').html(html);
+			});
+
+		}
+
+		$(".multiselect").on("change", function () {
+			load();
+		});
+
+		load();
+	});
+
+</script>
+}

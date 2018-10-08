@@ -1,0 +1,240 @@
+﻿@model CroBulletin
+
+@{
+	ViewBag.Title = Model == null ? "添加新公告":"编辑公告";
+}
+<div class="col-md-10 content-wrapper">
+	<div class="row">
+		<div class="col-lg-4 ">
+			<ul class="breadcrumb">
+				<li>
+					<i class="fa fa-home"></i>
+					<a href="@Url.Action("Index", "Home")">首页</a>
+				</li>
+				<li><a href="@Url.Action("Index", "CroBulletin")">公告</a></li>
+				<li class="active">@ViewBag.Title</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- main -->
+	<div class="content">
+		<div class="main-header">
+			<h2>@ViewBag.Title</h2>
+			<em>本页面编辑公告内容信息</em>
+		</div>
+
+		<div class="main-content">
+
+	
+				<!-- widget -->
+				<div class="widget">
+					<div class="widget-header">
+						<h3><i class="fa fa-edit "></i> @ViewBag.Title</h3>
+					</div>
+					<div class="widget-content">
+						<form action="@Url.Action("UploadResource", "Attachment")" class="dropzone file"></form>
+
+						@using (Html.BeginForm("Edit", "CroBulletin", Model == null ? null : new { id = Model.BulletinId }, FormMethod.Post, new { id = "form", role = "form", @class = "form-horizontal" }))
+						{	@Html.HiddenFor(m => m.ResourcePath)
+							@Html.HiddenFor(m => m.FileExtName)
+							@Html.HiddenFor(m => m.FileSize)
+							<div class="row">
+								<fieldset class="col-sm-12">
+									<div class="form-group">
+										@Html.HiddenFor(m => m.BulletinId)
+										@Html.LabelFor(m => m.Title, new { @class = "control-label col-sm-3 " })
+										<div class="col-sm-9">
+											@Html.TextBoxFor(m => m.Title, new { @class = "form-control", maxlength = "255", placeholder = "公告名称" })
+											@Html.ValidationMessageFor(m => m.Title)
+										</div>
+									</div>
+
+
+
+
+						<!--		<div class="form-group">
+										@Html.LabelFor(m => m.Content, new { @class = "control-label col-sm-3 " })
+										<div class="col-sm-9">
+											@Html.TextAreaFor(m => m.Content, 5, 20,  new { @class = "form-control", maxlength = "1000", placeholder = "公告内容" })
+											@Html.ValidationMessageFor(m => m.Content)
+										</div>
+									</div>
+                    -->	
+					
+
+									<div class="form-group">
+										<label class="control-label col-sm-3">  附件添加</label>
+
+										<div class="col-sm-9">
+											<div class="input-group">
+												@Html.TextBoxFor(m => m.GhostFileName, new { @class = "form-control", maxlength = "255", placeholder = "附件添加" })
+												<div class="input-group-btn">
+													<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="LocalRes">选择 <span class="caret"></span></button>
+
+												</div>
+											</div>
+											<div class="progress" style="display:none">
+												<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+													<span class="sr-only"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+									<div class="form-group">
+										@Html.LabelFor(m => m.Content, new { @class = "control-label col-sm-3" })
+										<div class="col-sm-9">
+											@Html.TextAreaFor(m => m.Content, new { @class = "hidden jieshao" })
+											<div class="summernote-frame no-padding">
+												<div class="summernote" data-whatever="Content"></div>
+											</div>
+											@Html.ValidationMessageFor(m => m.Content)
+										</div>
+									</div>
+
+
+									<div class="form-group">
+										<div class="col-sm-9 col-sm-offset-3">
+											<button type="submit" id="submit" class="btn btn-primary btn-block"><i class="fa fa-check-circle"></i> 保存</button>
+					
+
+										</div>
+									</div>
+								</fieldset>
+							</div>
+					}
+					</div>
+
+				</div>
+				<!-- end widget -->
+
+
+
+		</div>
+		<!-- /main-content -->
+	</div>
+	<!-- /main -->
+</div>
+@section Css {
+	@Styles.Render("~/css/multiselect")
+   @Styles.Render("~/css/summernote")
+@Styles.Render("~/css/tagsinput")
+}
+@section Plugins {
+	@Scripts.Render("~/js/multiselect")
+   @Scripts.Render("~/js/summernote")
+@Scripts.Render("~/js/dropzone")
+@Scripts.Render("~/js/tagsinput")
+}
+
+
+@section Scripts {
+
+<script type="text/javascript">
+	$("#GhostFileName").val("").prop("disabled", true);
+		$("#submit").on("click", function () {
+	
+			if ($.trim($(".jieshao").val()) == "") {
+				alert("公告内容不能为空");
+				return false;
+			}
+
+
+		});
+	
+</script>
+
+
+
+
+<script type="text/javascript">
+
+	var resTypes = @Html.Raw(Json.Encode(ViewBag.ResTypes));
+	var grades = @Html.Raw(Json.Encode(ViewBag.Grades));
+
+	function RelationSelect(src, tat, rule, none) {
+		var $src = $(src), $tat = $(tat);
+
+		function doit(init){
+			var key = $src.val();
+			$tat.empty();
+			if (none) {
+				$tat.append($("<option>").val(0).text(none));
+			}
+			$.each(rule, function(i, n){
+				if (n.key == key) {
+					$tat.append($("<option>").val(n.id).text(n.name));
+				}
+			});
+			if (init) $tat.val(init);
+		}
+
+		$src.on("change", function() {
+			doit();
+		});
+
+		doit($tat.val());
+	}
+
+	$(function () {
+
+
+		Dropzone.autoDiscover = false;
+
+		$(".dropzone.file").dropzone({
+			addRemoveLinks: !0,
+			maxFilesize: 400,
+			maxFiles: 100,
+			acceptedFiles: ".ZIP,.zip,.RAR,.rar",
+			thumbnailHeight: 50,
+			dictResponseError: "File Upload Error.",
+			dictDefaultMessage: "上传资源文件",
+			init: function () {
+				this
+					.on("processing", function(i){
+						$(".progress").show();
+					})
+					.on("totaluploadprogress", function(i){
+						$(".progress-bar").css("width", parseInt(i)+"%");
+					})
+					.on("removedfile", function() {
+					})
+					.on("success", function (file, data) {
+						$("#ResourcePath").val(data.path);
+						$("#FileExtName").val(data.ext);
+						$("#FileSize").val(data.size);
+						$("#GhostFileName").val(data.name);
+					})
+					.on("error", function (file, message) {
+						alert(message)
+					});
+			}
+		})
+
+
+
+		$("#LocalRes").on("click", function(){
+			$("#GhostFileName").val("").prop("disabled", true);
+		 
+			$(".progress").hide();
+			$(".dropzone.file").trigger('click');
+		});
+	
+
+
+	})
+
+
+</script>
+
+}
+
+
+
+
+
+
+
+

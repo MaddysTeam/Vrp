@@ -113,10 +113,10 @@
 							</div>
 
 							<div class="form-group">
-								@Html.LabelFor(m => m.AuthorAddress, new { @class = "control-label col-sm-3" })
+								@Html.LabelFor(m => m.AuthorPhone, new { @class = "control-label col-sm-3" })
 								<div class="col-sm-9">
-									@Html.TextBoxFor(m => m.AuthorAddress, new { @class = "form-control", maxlength = "255", placeholder = "作者单位地址" })
-									@Html.ValidationMessageFor(m => m.AuthorAddress)
+									@Html.TextBoxFor(m => m.AuthorPhone, new { @class = "form-control", maxlength = "255", placeholder = "作者电话" })
+									@Html.ValidationMessageFor(m => m.AuthorPhone)
 								</div>
 							</div>
 
@@ -129,10 +129,10 @@
 							</div>
 
 							<div class="form-group">
-								@Html.LabelFor(m => m.AuthorPhone, new { @class = "control-label col-sm-3" })
+								@Html.LabelFor(m => m.AuthorAddress, new { @class = "control-label col-sm-3" })
 								<div class="col-sm-9">
-									@Html.TextBoxFor(m => m.AuthorPhone, new { @class = "form-control", maxlength = "255", placeholder = "作者联系电话" })
-									@Html.ValidationMessageFor(m => m.AuthorPhone)
+									@Html.TextBoxFor(m => m.AuthorAddress, new { @class = "form-control", maxlength = "255", placeholder = "指导教师" })
+									@Html.ValidationMessageFor(m => m.AuthorAddress)
 								</div>
 							</div>
 
@@ -535,7 +535,7 @@
 								})
 								.on('success', function (file, data) {
 									clearInterval(clock);
-									$uploader.find('.progress').hide();
+									$uploader.find('.progress-bar').css('width', '100%').text('100%');
 									$uploader.find('.resource-path').val(data.name);
 									$uploader.find('.fileId').val(data.fileId);
 									//如果是封面则显示

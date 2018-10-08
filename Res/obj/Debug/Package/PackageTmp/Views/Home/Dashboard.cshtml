@@ -1,0 +1,254 @@
+﻿@{
+	ViewBag.Title = "仪表板";
+}
+
+<div class="col-md-10 content-wrapper">
+	<div class="row">
+		<div class="col-lg-4 ">
+			<ul class="breadcrumb">
+				<li>
+					<i class="fa fa-home"></i>
+					<a href="@Url.Action("Index", "Home")">首页</a>
+				</li>
+				<li class="active">@ViewBag.Title</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- main -->
+	<div class="content">
+		<div class="main-header">
+			<h2>@ViewBag.Title</h2>
+			<em>查看资源库资源近期全局统计情况</em>
+		</div>
+
+		<div class="main-content">
+
+			<div class="widget widget-hide-header">
+				<div class="widget-header hide">
+					<h3>Main Dashboard Info</h3>
+				</div>
+				<div class="widget-content">
+					<!-- NUMBER-CHART STAT -->
+					<div class="row">
+						<div class="col-md-3 col-sm-6">
+							<div class="number-chart" id="number-chart-ResView" >
+								<div class="number pull-left"><span class="total">0</span> <span>周点击</span></div>
+								<div class="mini-stat">
+									<div class="inlinesparkline">Loading...</div>
+									<p class="text-muted"></p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6">
+							<div class="number-chart" id="number-chart-ResDownload" >
+								<div class="number pull-left"><span class="total">0</span> <span>周下载</span></div>
+								<div class="mini-stat">
+									<div id="number-chart2" class="inlinesparkline">Loading...</div>
+									<p class="text-muted"></p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6">
+							<div class="number-chart" id="number-chart-ResComment" >
+								<div class="number pull-left"><span class="total">0</span> <span>周评论</span></div>
+								<div class="mini-stat">
+									<div id="number-chart3" class="inlinesparkline">Loading...</div>
+									<p class="text-muted"></p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6">
+							<div class="number-chart" id="number-chart-ResStar" >
+								<div class="number pull-left"><span class="total">0</span> <span>周评分</span></div>
+								<div class="mini-stat">
+									<div id="number-chart4" class="inlinesparkline">Loading...</div>
+									<p class="text-muted"></p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- END NUMBER-CHART STAT -->
+				</div>
+			</div>
+
+			<div class="row">
+
+				<div class="col-md-6">
+
+					<!-- 领域 PIE CHART -->
+					<div class="widget">
+						<div class="widget-header">
+							<h3><i class="fa fa-truck"></i> 领域分布</h3> <em>- 资源在领域中的分布</em>
+							<div class="btn-group widget-header-toolbar">
+								<a href="#" title="Focus" class="btn-borderless btn-focus"><i class="fa fa-eye"></i></a>
+								<a href="#" title="Expand/Collapse" class="btn-borderless btn-toggle-expand"><i class="fa fa-chevron-up"></i></a>
+								<a href="#" title="Remove" class="btn-borderless btn-remove"><i class="fa fa-times"></i></a>
+							</div>
+						</div>
+						<div class="widget-content">
+							<div class="demo-flot-chart" id="chart-domain"></div>
+						</div>
+					</div>
+					<!-- END 领域 PIE CHART -->
+
+				</div>
+
+				<div class="col-md-6">
+
+					<!-- 媒体类型 PIE CHART -->
+					<div class="widget">
+						<div class="widget-header">
+							<h3><i class="fa fa-truck"></i> 媒体类型分布</h3> <em>- 资源在媒体类型中的分布</em>
+							<div class="btn-group widget-header-toolbar">
+								<a href="#" title="Focus" class="btn-borderless btn-focus"><i class="fa fa-eye"></i></a>
+								<a href="#" title="Expand/Collapse" class="btn-borderless btn-toggle-expand"><i class="fa fa-chevron-up"></i></a>
+								<a href="#" title="Remove" class="btn-borderless btn-remove"><i class="fa fa-times"></i></a>
+							</div>
+						</div>
+						<div class="widget-content">
+							<div class="demo-flot-chart" id="chart-medinum"></div>
+						</div>
+					</div>
+					<!-- END 媒体类型 PIE CHART -->
+
+				</div>
+
+			</div>
+
+		</div>
+		<!-- /main-content -->
+	</div>
+	<!-- /main -->
+</div>
+@section Plugins {
+	@Scripts.Render("~/js/chart/sparkline")
+	@Scripts.Render("~/js/chart/flot")
+}
+@section Scripts {
+<script type="text/javascript">
+
+	function randomVal() {
+		return Math.floor(Math.random() * 80);
+	}
+	function getRandomValues() {
+		// data setup
+		var values = new Array(20);
+
+		for (var i = 0; i < values.length; i++) {
+			values[i] = [500,0, 5,1000, 5, 0,5]
+			//values[i] = [5 + randomVal(), 10 + randomVal(), 15 + randomVal(), 20 + randomVal(), 30 + randomVal(),
+			//	35 + randomVal(), 40 + randomVal(), 45 + randomVal(), 50 + randomVal()]
+		}
+
+		return values;
+	}
+
+	function getWeekData(type, params) {
+		$.get("/Chart/WeekState?type=" + type, function (data) {
+			$('#number-chart-' + type + ' .inlinesparkline').sparkline(data.state, params);
+			$('#number-chart-' + type + ' .total').text(data.total);
+			if (data.total == data.lastTotal)
+				$('#number-chart-' + type + ' .text-muted').html('<i class="fa fa-caret-up green-font"></i> 与上周持平');
+			else if (data.lastTotal == 0)
+				$('#number-chart-' + type + ' .text-muted').html('<i class="fa fa-caret-up green-font"></i> 上周无数据');
+			else if (data.total > data.lastTotal)
+				$('#number-chart-' + type + ' .text-muted').html('<i class="fa fa-caret-up green-font"></i> 比上周多 ' + Math.round((data.total - data.lastTotal) * 100 / data.lastTotal) + '%');
+			else if (data.then < 0)
+				$('#number-chart-' + type + ' .text-muted').html('<i class="fa fa-caret-down red-font"></i> 比上周少 ' + Math.round((data.lastTotal - data.total) * 100 / data.lastTotal) + '%');
+		});
+	}
+
+	$(function () {
+
+		//*******************************************
+		/*	NUMBER-CHART SPARKLINE (Dashboard v2)
+		/********************************************/
+
+		if ($('.number-chart .inlinesparkline').length > 0) {
+
+			var randomVal = getRandomValues();
+			var sparklineNumberChart = function () {
+
+				var params = {
+					width: '140px',
+					height: '30px',
+					lineWidth: '2',
+					lineColor: '#1D92AF',
+					fillColor: false,
+					spotRadius: '2',
+					highlightLineColor: '#aedaff',
+					highlightSpotColor: '#71aadb',
+					spotColor: false,
+					minSpotColor: false,
+					maxSpotColor: false,
+					disableInteraction: false
+				}
+
+				getWeekData("ResView", params);
+				getWeekData("ResDownload", params);
+				getWeekData("ResComment", params);
+				getWeekData("ResStar", params);
+			}
+
+			sparklineNumberChart();
+		}
+
+		//*******************************************
+		/*	DONUT CHART
+		/********************************************/
+
+		if ($('#chart-domain').length > 0) {
+
+			$.get("/Chart/DomainState", function (data) {
+
+				$.plot('#chart-domain', data, {
+					series: {
+						pie: {
+							show: true,
+							innerRadius: 0.4,
+							label: {
+								show: true,
+								radius: 3 / 4,
+								formatter: function(label, series) { return "<div class=\"donut-label\">" + label + "<br/>" + Math.round(series.percent) + "%</div>"; }
+							}
+						},
+					},
+					legend: { labelBoxBorderColor: "#ddd", backgroundColor: "none" },
+					grid: {
+						hoverable: true
+					},
+					colors: ["#d9d9d9", "#5399D6", "#d7ea2b", "#348fe2", "#49b6d6", "#f59c1a", "#727cb6", "#ff5b57"],
+				});
+			});
+		}
+		if ($('#chart-medinum').length > 0) {
+
+			$.get("/Chart/MediumState", function (data) {
+
+				$.plot('#chart-medinum', data, {
+					series: {
+						pie: {
+							show: true,
+							innerRadius: 0.4,
+							label: {
+								show: true,
+								radius: 3 / 4,
+								formatter: function (label, series) { return "<div class=\"donut-label\">" + label + "<br/>" + Math.round(series.percent) + "%</div>"; }
+							}
+						},
+					},
+					legend: { labelBoxBorderColor: "#ddd", backgroundColor: "none" },
+					grid: {
+						hoverable: true
+					},
+					colors: ["#d9d9d9", "#5399D6", "#d7ea2b", "#348fe2", "#49b6d6", "#f59c1a", "#727cb6", "#ff5b57"],
+				});
+			});
+		}
+
+	});
+
+</script>
+
+}

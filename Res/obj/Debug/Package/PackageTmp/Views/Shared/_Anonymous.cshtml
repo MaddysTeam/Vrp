@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<head>
+	<title>@ViewBag.Title - 上海特教资源库管理系统</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<!-- CSS -->
+	@Styles.Render("~/css/bootstrap")
+	@Styles.Render("~/css/themes/king")
+	@Styles.Render("~/css/app")
+
+	<!--[if lte IE 9]>
+		<link href="/assets/themes/king/css/main-ie.min.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="/assets/themes/king/css/main-ie-part2.min.css" rel="stylesheet" type="text/css" media="screen" />
+	<![endif]-->
+</head>
+<body>
+
+	@RenderBody()
+
+	<!-- FOOTER -->
+	<footer class="footer">
+		版权所有 Copy right &copy; 2015 上海教育软件发展有限公司
+	</footer>
+	<!-- END FOOTER -->
+	<!-- Javascript -->
+	@Scripts.Render("~/js/jquery")
+	@Scripts.Render("~/js/bootstrap")
+	@Scripts.Render("~/js/modernizr")
+	@RenderSection("scripts", required: false)
+</body>
+</html>

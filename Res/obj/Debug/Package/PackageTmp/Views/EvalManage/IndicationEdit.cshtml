@@ -1,0 +1,92 @@
+﻿@model Indication
+@{
+	var id = this.ViewContext.RouteData.Values["id"];
+	ViewBag.Title = Model == null ? "添加评审指标" : "编辑评审指标";
+}
+
+<div class="modal-dialog" style="width:800px;">
+	<div class="modal-content">
+		<div class="color-line"></div>
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="firstModalLabel">@ViewBag.Title</h4>
+
+		</div>
+		@using (Html.BeginForm("IndicationEdit", "EvalManage", Model == null ? null : new { id = Model.IndicationId }, FormMethod.Post, new { id = "form1", role = "form", @class = "form-horizontal" }))
+		{
+			@Html.HiddenFor(m => m.IndicationId)
+
+			<div class="modal-body">
+				<div class="form-horizontal">
+
+					<div class="form-group">
+						<label class="control-label col-sm-3"> <span class="request">*</span> 项目名称</label>
+						<div class="col-sm-9">
+						@Html.DropDownListFor(i => i.ActiveId, (ViewBag.Actives as List<Active>).Select(x => new SelectListItem { Text = x.ActiveName, Value = x.ActiveId.ToString(), Selected = Model.ActiveId == Model.ActiveId }), "选择项目", new { @class = "form-control" })
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-sm-3"> <span class="request">*</span> 评审级别</label>
+						<div class="col-sm-9">
+							@Html.DropDownListFor(i => i.LevelPKID, IndicationHelper.Level.GetSelectList(), new { @class = "form-control" })
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-sm-3"> <span class="request">*</span> 评价项目</label>
+						<div class="col-sm-9">
+							@Html.DropDownListFor(i => i.TypePKID, IndicationHelper.Type.GetSelectList(), new { @class = "form-control" })
+						</div>
+					</div>
+	
+					<div class="form-group">
+						<label class="control-label col-sm-3"> <span class="request">*</span> 指标描述</label>
+						<div class="col-sm-9">
+							@Html.TextAreaFor(i => i.Description,10,1, new { @class = "form-control", maxlength = "255", placeholder = "指标描述" })
+							@Html.ValidationMessageFor(i => i.Description)
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-3"> <span class="request">*</span> 最大分值</label>
+						<div class="col-sm-9">
+							@Html.TextBoxFor(i=> i.Score, new { @class = "form-control", maxlength = "3", placeholder = "最大分值" })
+							@Html.ValidationMessageFor(i => i.Score)
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">取消</button>
+					<button type="submit" class="btn btn-primary btn-sm">保存</button>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+
+<script>
+	$.validator.unobtrusive.parse("#form1");
+
+	$('#form1').submit(function () {
+		var $form = $(this);
+		if (!$form.valid())
+			return false;
+
+		$.post($form.attr("action"), $form.serialize(), function (data, status) {
+			if (status == "success") {
+
+				if (data.error != 'none') {
+					alertify.error(data.msg);
+					return;
+				}
+
+				alertify.success(data.msg);
+				$('#inner-edit-form').modal('hide');
+				$('#bootgrid').bootgrid('reload');
+			}
+		});
+
+		return false;
+	});
+</script>

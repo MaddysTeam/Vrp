@@ -40,10 +40,16 @@
 						<input type="button" value="预览"  /></a>
 			@if (ResSettings.SettingsInSession.UserId == Convert.ToInt64(id))
 			{
-						<a href="@Url.Action("Upload", "CroMy", new { id = ResSettings.SettingsInSession.UserId, resid = item.CrosourceId })">
+					<a data-res-id="@item.CrosourceId" href="javascript:void(0)" class="public">
+						<input type="button" value="@item.PublicState" />
+					</a>
+					<a data-res-id="@item.CrosourceId" href="javascript:void(0)" class="download">
+						<input type="button" value="@item.DownloadState" />
+					</a>
+					<a href="@Url.Action("Upload", "CroMy", new { id = ResSettings.SettingsInSession.UserId, resid = item.CrosourceId })">
 						<input type="button" value="修改" />
 					</a>
-					<a href="@Url.Action("Delete", "CroMy",new { id = ResSettings.SettingsInSession.UserId, resid = item.CrosourceId })" onclick="{ if (confirm('确定要删除该资源吗')) { return true; } return false;}">
+					<a href="@Url.Action("Delete", "CroMy",new { id = ResSettings.SettingsInSession.UserId, resid = item.CrosourceId })" onclick="{ if (confirm('确定要删除该作品吗')) { return true; } return false;}">
 						<input type="button" value="删除" />
 					</a>
 			}
@@ -69,6 +75,21 @@
 	<script>
 		$(function () {
 			expandMy("resource");
+
+			var userid = '@ResSettings.SettingsInSession.UserId';
+
+			$('.download').on('click', function () {
+				$.post('@Url.Action("DownloadSetting", "CroMy")', { id: userid , resid:$(this).data('resId')}, function (data) {
+					location.href=location.href;
+				});
+			});
+
+			$('.public').on('click', function () {
+				$.post('@Url.Action("PublicSetting", "CroMy")', { id: userid, resid: $(this).data('resId') }, function (data) {
+					location.href=location.href;
+				});
+			});
+
 		})
 	</script>
 }
