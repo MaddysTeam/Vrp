@@ -179,7 +179,6 @@ namespace Res.Business
 
       public string DownloadState { get { return CroResourceHelper.DownloadState.GetName(DownloadStatePKID); } }
 
-
       [Display(Name = "资源路径")]
       [Required]
       public string GhostFileName { get; set; }
@@ -230,6 +229,8 @@ namespace Res.Business
       public string SummaryPreviewPath => string.IsNullOrEmpty(SummaryPath) ? string.Empty : SummaryPath.Replace(".DOC", ".html").Replace(".doc", ".html").Replace(".docx", ".html").Replace(".htmlx", ".html");
 
       public List<Exercises> Exercises { get; set; }
+
+      public int Star { get { if (StarCount == 0) return 0; return ThisApp.TotalStar / StarCount; } }
 
    }
 

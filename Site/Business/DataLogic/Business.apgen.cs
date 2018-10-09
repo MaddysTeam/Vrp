@@ -4109,6 +4109,8 @@ namespace Res.Business {
             
             private Int32APColumnDef _downCount;
             
+            private Int32APColumnDef _starCount;
+            
             public MicroCourseTableDef(string tableName) : 
                     base(tableName) {
             }
@@ -4277,6 +4279,19 @@ namespace Res.Business {
             }
             
             /// <summary>
+            /// StarCount ColumnDef
+            /// </summary>
+            public virtual Int32APColumnDef StarCount {
+                get {
+                    if (Object.ReferenceEquals(_starCount, null)) {
+                        _starCount = new Int32APColumnDef(this, "StarCount", false);
+                        _starCount.Display = "评分次数";
+                    }
+                    return _starCount;
+                }
+            }
+            
+            /// <summary>
             /// Default Index
             /// </summary>
             public virtual APSqlOrderPhrase DefaultOrder {
@@ -4308,6 +4323,7 @@ namespace Res.Business {
                 data.CharpterSortId = CharpterSortId.GetValue<long>(reader, throwIfValidColumnName);
                 data.PlayCount = PlayCount.GetValue<int>(reader, throwIfValidColumnName);
                 data.DownCount = DownCount.GetValue<int>(reader, throwIfValidColumnName);
+                data.StarCount = StarCount.GetValue<int>(reader, throwIfValidColumnName);
             }
             
             /// <summary>
@@ -6273,6 +6289,10 @@ namespace Res.Business {
             
             private Int64APColumnDef _resourceId;
             
+            private Int64APColumnDef _courseId;
+            
+            private Int64APColumnDef _starCount;
+            
             private Int32APColumnDef _score;
             
             private DateTimeAPColumnDef _occurTime;
@@ -6327,6 +6347,34 @@ namespace Res.Business {
             }
             
             /// <summary>
+            /// CourseId ColumnDef
+            /// </summary>
+            public virtual Int64APColumnDef CourseId {
+                get {
+                    if (Object.ReferenceEquals(_courseId, null)) {
+                        _courseId = new Int64APColumnDef(this, "CourseId", false);
+                        _courseId.Display = "微课ID";
+                        _courseId.Required = true;
+                    }
+                    return _courseId;
+                }
+            }
+            
+            /// <summary>
+            /// StarCount ColumnDef
+            /// </summary>
+            public virtual Int64APColumnDef StarCount {
+                get {
+                    if (Object.ReferenceEquals(_starCount, null)) {
+                        _starCount = new Int64APColumnDef(this, "StarCount", false);
+                        _starCount.Display = "评分星数";
+                        _starCount.Required = true;
+                    }
+                    return _starCount;
+                }
+            }
+            
+            /// <summary>
             /// Score ColumnDef
             /// </summary>
             public virtual Int32APColumnDef Score {
@@ -6376,6 +6424,8 @@ namespace Res.Business {
                 data.OccurId = OccurId.GetValue<long>(reader, throwIfValidColumnName);
                 data.UserId = UserId.GetValue<long>(reader, throwIfValidColumnName);
                 data.ResourceId = ResourceId.GetValue<long>(reader, throwIfValidColumnName);
+                data.CourseId = CourseId.GetValue<long>(reader, throwIfValidColumnName);
+                data.StarCount = StarCount.GetValue<long>(reader, throwIfValidColumnName);
                 data.Score = Score.GetValue<int>(reader, throwIfValidColumnName);
                 data.OccurTime = OccurTime.GetValue<System.DateTime>(reader, throwIfValidColumnName);
             }
@@ -8892,7 +8942,7 @@ namespace Res.Business {
                 if ((data.CourseId == 0)) {
                     data.CourseId = ((long)(GetNewId(APDBDef.MicroCourse.CourseId)));
                 }
-                var query = APQuery.insert(APDBDef.MicroCourse).values(APDBDef.MicroCourse.CourseId.SetValue(data.CourseId), APDBDef.MicroCourse.CourseTitle.SetValue(data.CourseTitle), APDBDef.MicroCourse.ResourceId.SetValue(data.ResourceId), APDBDef.MicroCourse.VideoId.SetValue(data.VideoId), APDBDef.MicroCourse.CoverId.SetValue(data.CoverId), APDBDef.MicroCourse.DesignId.SetValue(data.DesignId), APDBDef.MicroCourse.SummaryId.SetValue(data.SummaryId), APDBDef.MicroCourse.CoursewareId.SetValue(data.CoursewareId), APDBDef.MicroCourse.AttachmentId.SetValue(data.AttachmentId), APDBDef.MicroCourse.CharpterSortId.SetValue(data.CharpterSortId), APDBDef.MicroCourse.PlayCount.SetValue(data.PlayCount), APDBDef.MicroCourse.DownCount.SetValue(data.DownCount));
+                var query = APQuery.insert(APDBDef.MicroCourse).values(APDBDef.MicroCourse.CourseId.SetValue(data.CourseId), APDBDef.MicroCourse.CourseTitle.SetValue(data.CourseTitle), APDBDef.MicroCourse.ResourceId.SetValue(data.ResourceId), APDBDef.MicroCourse.VideoId.SetValue(data.VideoId), APDBDef.MicroCourse.CoverId.SetValue(data.CoverId), APDBDef.MicroCourse.DesignId.SetValue(data.DesignId), APDBDef.MicroCourse.SummaryId.SetValue(data.SummaryId), APDBDef.MicroCourse.CoursewareId.SetValue(data.CoursewareId), APDBDef.MicroCourse.AttachmentId.SetValue(data.AttachmentId), APDBDef.MicroCourse.CharpterSortId.SetValue(data.CharpterSortId), APDBDef.MicroCourse.PlayCount.SetValue(data.PlayCount), APDBDef.MicroCourse.DownCount.SetValue(data.DownCount), APDBDef.MicroCourse.StarCount.SetValue(data.StarCount));
                 ExecuteNonQuery(query);
             }
             
@@ -8900,7 +8950,7 @@ namespace Res.Business {
             /// Update Data.
             /// </summary>
             public virtual void Update(MicroCourse data) {
-                var query = APQuery.update(APDBDef.MicroCourse).values(APDBDef.MicroCourse.CourseTitle.SetValue(data.CourseTitle), APDBDef.MicroCourse.ResourceId.SetValue(data.ResourceId), APDBDef.MicroCourse.VideoId.SetValue(data.VideoId), APDBDef.MicroCourse.CoverId.SetValue(data.CoverId), APDBDef.MicroCourse.DesignId.SetValue(data.DesignId), APDBDef.MicroCourse.SummaryId.SetValue(data.SummaryId), APDBDef.MicroCourse.CoursewareId.SetValue(data.CoursewareId), APDBDef.MicroCourse.AttachmentId.SetValue(data.AttachmentId), APDBDef.MicroCourse.CharpterSortId.SetValue(data.CharpterSortId), APDBDef.MicroCourse.PlayCount.SetValue(data.PlayCount), APDBDef.MicroCourse.DownCount.SetValue(data.DownCount)).where((APDBDef.MicroCourse.CourseId == data.CourseId));
+                var query = APQuery.update(APDBDef.MicroCourse).values(APDBDef.MicroCourse.CourseTitle.SetValue(data.CourseTitle), APDBDef.MicroCourse.ResourceId.SetValue(data.ResourceId), APDBDef.MicroCourse.VideoId.SetValue(data.VideoId), APDBDef.MicroCourse.CoverId.SetValue(data.CoverId), APDBDef.MicroCourse.DesignId.SetValue(data.DesignId), APDBDef.MicroCourse.SummaryId.SetValue(data.SummaryId), APDBDef.MicroCourse.CoursewareId.SetValue(data.CoursewareId), APDBDef.MicroCourse.AttachmentId.SetValue(data.AttachmentId), APDBDef.MicroCourse.CharpterSortId.SetValue(data.CharpterSortId), APDBDef.MicroCourse.PlayCount.SetValue(data.PlayCount), APDBDef.MicroCourse.DownCount.SetValue(data.DownCount), APDBDef.MicroCourse.StarCount.SetValue(data.StarCount)).where((APDBDef.MicroCourse.CourseId == data.CourseId));
                 ExecuteNonQuery(query);
             }
             
@@ -10524,7 +10574,7 @@ namespace Res.Business {
                 if ((data.OccurId == 0)) {
                     data.OccurId = ((long)(GetNewId(APDBDef.CroStar.OccurId)));
                 }
-                var query = APQuery.insert(APDBDef.CroStar).values(APDBDef.CroStar.OccurId.SetValue(data.OccurId), APDBDef.CroStar.UserId.SetValue(data.UserId), APDBDef.CroStar.ResourceId.SetValue(data.ResourceId), APDBDef.CroStar.Score.SetValue(data.Score), APDBDef.CroStar.OccurTime.SetValue(data.OccurTime));
+                var query = APQuery.insert(APDBDef.CroStar).values(APDBDef.CroStar.OccurId.SetValue(data.OccurId), APDBDef.CroStar.UserId.SetValue(data.UserId), APDBDef.CroStar.ResourceId.SetValue(data.ResourceId), APDBDef.CroStar.CourseId.SetValue(data.CourseId), APDBDef.CroStar.StarCount.SetValue(data.StarCount), APDBDef.CroStar.Score.SetValue(data.Score), APDBDef.CroStar.OccurTime.SetValue(data.OccurTime));
                 ExecuteNonQuery(query);
             }
             
@@ -10532,7 +10582,7 @@ namespace Res.Business {
             /// Update Data.
             /// </summary>
             public virtual void Update(CroStar data) {
-                var query = APQuery.update(APDBDef.CroStar).values(APDBDef.CroStar.UserId.SetValue(data.UserId), APDBDef.CroStar.ResourceId.SetValue(data.ResourceId), APDBDef.CroStar.Score.SetValue(data.Score), APDBDef.CroStar.OccurTime.SetValue(data.OccurTime)).where((APDBDef.CroStar.OccurId == data.OccurId));
+                var query = APQuery.update(APDBDef.CroStar).values(APDBDef.CroStar.UserId.SetValue(data.UserId), APDBDef.CroStar.ResourceId.SetValue(data.ResourceId), APDBDef.CroStar.CourseId.SetValue(data.CourseId), APDBDef.CroStar.StarCount.SetValue(data.StarCount), APDBDef.CroStar.Score.SetValue(data.Score), APDBDef.CroStar.OccurTime.SetValue(data.OccurTime)).where((APDBDef.CroStar.OccurId == data.OccurId));
                 ExecuteNonQuery(query);
             }
             
@@ -21831,6 +21881,11 @@ namespace Res.Business {
         private int _downCount;
         
         /// <summary>
+        /// StarCount
+        /// </summary>
+        private int _starCount;
+        
+        /// <summary>
         /// Default constructor.
         /// </summary>
         public MicroCourseBase() {
@@ -21839,7 +21894,7 @@ namespace Res.Business {
         /// <summary>
         /// Constructor with all field values.
         /// </summary>
-        public MicroCourseBase(long courseId, string courseTitle, long resourceId, long videoId, long coverId, long designId, long summaryId, long coursewareId, long attachmentId, long charpterSortId, int playCount, int downCount) {
+        public MicroCourseBase(long courseId, string courseTitle, long resourceId, long videoId, long coverId, long designId, long summaryId, long coursewareId, long attachmentId, long charpterSortId, int playCount, int downCount, int starCount) {
             _courseId = courseId;
             _courseTitle = courseTitle;
             _resourceId = resourceId;
@@ -21852,6 +21907,7 @@ namespace Res.Business {
             _charpterSortId = charpterSortId;
             _playCount = playCount;
             _downCount = downCount;
+            _starCount = starCount;
         }
         
         /// <summary>
@@ -22121,6 +22177,28 @@ namespace Res.Business {
         }
         
         /// <summary>
+        /// StarCount
+        /// </summary>
+        [Display(Name="评分次数")]
+        public virtual int StarCount {
+            get {
+                return _starCount;
+            }
+            set {
+                _starCount = value;
+            }
+        }
+        
+        /// <summary>
+        /// StarCount APColumnDef
+        /// </summary>
+        public static Int32APColumnDef StarCountDef {
+            get {
+                return APDBDef.MicroCourse.StarCount;
+            }
+        }
+        
+        /// <summary>
         /// MicroCourseTableDef APTableDef
         /// </summary>
         public static APDBDef.MicroCourseTableDef TableDef {
@@ -22154,6 +22232,7 @@ namespace Res.Business {
             CharpterSortId = data.CharpterSortId;
             PlayCount = data.PlayCount;
             DownCount = data.DownCount;
+            StarCount = data.StarCount;
         }
         
         /// <summary>
@@ -22194,6 +22273,9 @@ namespace Res.Business {
                 return false;
             }
             if ((DownCount != data.DownCount)) {
+                return false;
+            }
+            if ((StarCount != data.StarCount)) {
                 return false;
             }
             return true;
@@ -22292,8 +22374,8 @@ namespace Res.Business {
         /// <summary>
         /// Constructor with all field values.
         /// </summary>
-        public MicroCourse(long courseId, string courseTitle, long resourceId, long videoId, long coverId, long designId, long summaryId, long coursewareId, long attachmentId, long charpterSortId, int playCount, int downCount) : 
-                base(courseId, courseTitle, resourceId, videoId, coverId, designId, summaryId, coursewareId, attachmentId, charpterSortId, playCount, downCount) {
+        public MicroCourse(long courseId, string courseTitle, long resourceId, long videoId, long coverId, long designId, long summaryId, long coursewareId, long attachmentId, long charpterSortId, int playCount, int downCount, int starCount) : 
+                base(courseId, courseTitle, resourceId, videoId, coverId, designId, summaryId, coursewareId, attachmentId, charpterSortId, playCount, downCount, starCount) {
         }
     }
     
@@ -25874,6 +25956,16 @@ namespace Res.Business {
         private long _resourceId;
         
         /// <summary>
+        /// CourseId
+        /// </summary>
+        private long _courseId;
+        
+        /// <summary>
+        /// StarCount
+        /// </summary>
+        private long _starCount;
+        
+        /// <summary>
         /// Score
         /// </summary>
         private int _score;
@@ -25892,10 +25984,12 @@ namespace Res.Business {
         /// <summary>
         /// Constructor with all field values.
         /// </summary>
-        public CroStarBase(long occurId, long userId, long resourceId, int score, System.DateTime occurTime) {
+        public CroStarBase(long occurId, long userId, long resourceId, long courseId, long starCount, int score, System.DateTime occurTime) {
             _occurId = occurId;
             _userId = userId;
             _resourceId = resourceId;
+            _courseId = courseId;
+            _starCount = starCount;
             _score = score;
             _occurTime = occurTime;
         }
@@ -25969,6 +26063,52 @@ namespace Res.Business {
         }
         
         /// <summary>
+        /// CourseId
+        /// </summary>
+        [Display(Name="微课ID")]
+        [Required()]
+        public virtual long CourseId {
+            get {
+                return _courseId;
+            }
+            set {
+                _courseId = value;
+            }
+        }
+        
+        /// <summary>
+        /// CourseId APColumnDef
+        /// </summary>
+        public static Int64APColumnDef CourseIdDef {
+            get {
+                return APDBDef.CroStar.CourseId;
+            }
+        }
+        
+        /// <summary>
+        /// StarCount
+        /// </summary>
+        [Display(Name="评分星数")]
+        [Required()]
+        public virtual long StarCount {
+            get {
+                return _starCount;
+            }
+            set {
+                _starCount = value;
+            }
+        }
+        
+        /// <summary>
+        /// StarCount APColumnDef
+        /// </summary>
+        public static Int64APColumnDef StarCountDef {
+            get {
+                return APDBDef.CroStar.StarCount;
+            }
+        }
+        
+        /// <summary>
         /// Score
         /// </summary>
         [Display(Name="分数")]
@@ -26038,6 +26178,8 @@ namespace Res.Business {
             OccurId = data.OccurId;
             UserId = data.UserId;
             ResourceId = data.ResourceId;
+            CourseId = data.CourseId;
+            StarCount = data.StarCount;
             Score = data.Score;
             OccurTime = data.OccurTime;
         }
@@ -26053,6 +26195,12 @@ namespace Res.Business {
                 return false;
             }
             if ((ResourceId != data.ResourceId)) {
+                return false;
+            }
+            if ((CourseId != data.CourseId)) {
+                return false;
+            }
+            if ((StarCount != data.StarCount)) {
                 return false;
             }
             if ((Score != data.Score)) {
@@ -26157,8 +26305,8 @@ namespace Res.Business {
         /// <summary>
         /// Constructor with all field values.
         /// </summary>
-        public CroStar(long occurId, long userId, long resourceId, int score, System.DateTime occurTime) : 
-                base(occurId, userId, resourceId, score, occurTime) {
+        public CroStar(long occurId, long userId, long resourceId, long courseId, long starCount, int score, System.DateTime occurTime) : 
+                base(occurId, userId, resourceId, courseId, starCount, score, occurTime) {
         }
     }
     

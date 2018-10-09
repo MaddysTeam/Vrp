@@ -62,6 +62,7 @@
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Logger\LogModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\Encrpytor.cs" />
     <Compile Include="ThirdParty\Aspose\WordConverter.cs" />
     <Compile Include="ThirdParty\WangsuCloud\FileUploader.cs" />
   </ItemGroup>
@@ -75,9 +76,7 @@
     <Content Include="ThirdParty\dll\WcsLib.dll" />
     <Content Include="ThirdParty\dll\WcsLib.pdb" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Security\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -300,6 +300,8 @@
 					<add name="FavoriteCount" type="int" display="收藏次数"/>
 					<add name="ViewCount" type="int" display="点击次数"/>
 					<add name="CommentCount" type="int" display="评论次数"/>
+					<!--<add name="StarCount" type="int" display="评分次数"/>
+					<add name="StarTotal" type="int" display="总评分"/>-->
 					<add name="EliteScore" type="int" display="加精分数"/>
 					<add name="PraiseCount" type="int" display="点赞次数" defaultValue="0"/>
 
@@ -336,6 +338,7 @@
 					<add name="CharpterSortId" type="long"/>
 					<add name="PlayCount" type="int" display="播放次数"/>
 					<add name="DownCount" type="int" display="下载次数"/>
+					<add name="StarCount" type="int" display="评分次数"/>
 				</columns>
 			</table>
 
@@ -486,6 +489,8 @@
 					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
 					<add name="UserId" type="long" required="true" display="用户ID"/>
 					<add name="ResourceId" type="long" required="true" display="作品ID"/>
+					<add name="CourseId" type="long" required="true" display="微课ID"/>
+					<add name="StarCount" type="long" required="true" display="评分星数"/>
 					<add name="Score" type="int" required="true" display="分数"/>
 					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
 				</columns>

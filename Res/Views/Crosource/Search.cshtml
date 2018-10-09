@@ -26,7 +26,11 @@
 
 		<div class="main-content">
 
-			<div style="margin-bottom:10px;"><a href="@Url.Action("Edit", "Crosource")" id="addUser" class="btn btn-danger btn-md">新增作品</a></div>
+			<div style="margin-bottom:10px;"><a href="@Url.Action("Edit", "Crosource")" id="addUser" class="btn btn-danger btn-md">新增作品</a>&nbsp;
+			<a href="#" id="addUser" class="btn btn-info btn-approve">审核</a>&nbsp;
+			<a href="#" id="addUser" class="btn btn-success btn-approve">设置奖项</a>&nbsp;
+			<a href="#" id="addUser" class="btn btn-primary btn-approve">公开设置</a>&nbsp;
+			<a href="#" id="addUser" class="btn btn-default btn-approve">下载设置</a></div>
 			<!-- widget -->
 			<div class="widget">
 				<div class="widget-header">
@@ -65,7 +69,7 @@
 						<table id="bootgrid" class="table table-striped table-hover">
 							<thead>
 								<tr>
-									<th data-column-id="Title" data-formatter="LookupResource" data-headercs="titlewidth">作品名称</th>
+									<th data-column-id="Title" data-formatter="LookupResource" >作品名称</th>
 									<th data-column-id="Author">上传作者</th>
 									<th data-column-id="Type">作品类型</th>
 									<th data-column-id="Province">省份</th>
@@ -142,6 +146,8 @@
 			};
 		}
 
+
+
 		function getGridOptions() {
 			var userType = '@user.UserTypePKID';
 			var isAdmin = userType != '@ResUserHelper.RegistedUser' && userType != '@ResUserHelper.Export';
@@ -206,6 +212,8 @@
 			var grid = $("#bootgrid")
 					.bootgrid(getGridOptions())
 					.on("loaded.rs.jquery.bootgrid", function () {
+
+						initTableCheckbox();
 
 						grid.find("tbody tr:has(button.iselite)").addClass("flagelite");
 						grid.find("tbody tr:has(button.isallow)").addClass("flagallow");
@@ -273,6 +281,8 @@
 							}).end();
 
 					});
+
+			
 
 			$('.search').css('width','310px');
 			$('.search input').prop('placeholder','作品名称，内容，作者名称或作者单位');

@@ -349,7 +349,7 @@ namespace Res.Business
          }
 
 
-         public static void CountingView(APDBDef db, long resourceId,long courseId, long userId)
+         public static void CountingView(APDBDef db, long resourceId, long courseId, long userId)
          {
             var t = APDBDef.CroResource;
 
@@ -360,13 +360,13 @@ namespace Res.Business
 
             //if (userId != 0)
             //{
-               db.CroViewDal.Insert(new CroView()
-               {
-                  UserId = userId,
-                  ResourceId = resourceId,
-                  CourseId=courseId,
-                  OccurTime = DateTime.Now
-               });
+            db.CroViewDal.Insert(new CroView()
+            {
+               UserId = userId,
+               ResourceId = resourceId,
+               CourseId = courseId,
+               OccurTime = DateTime.Now
+            });
             //}
          }
 
@@ -406,7 +406,7 @@ namespace Res.Business
                });
          }
 
-         public static void CountingDownload(APDBDef db, long resourceId,long courseId,long fileId, long userId)
+         public static void CountingDownload(APDBDef db, long resourceId, long courseId, long fileId, long userId)
          {
             var t = APDBDef.CroResource;
             var c = APDBDef.MicroCourse;
@@ -425,14 +425,14 @@ namespace Res.Business
                {
                   UserId = userId,
                   ResourceId = resourceId,
-                  CourseId=courseId,
-                  FileId=fileId,
+                  CourseId = courseId,
+                  FileId = fileId,
                   OccurTime = DateTime.Now
                });
          }
 
 
-         public static void CountingPraise(APDBDef db, long resourceId,long userId)
+         public static void CountingPraise(APDBDef db, long resourceId, long userId)
          {
             var t = APDBDef.CroResource;
 
@@ -447,6 +447,34 @@ namespace Res.Business
                   ResourceId = resourceId,
                   OccurTime = DateTime.Now
                });
+         }
+
+
+         public static void CountingStar(APDBDef db, int count, long resourceId, long couseId, long userId)
+         {
+            var t = APDBDef.MicroCourse;
+
+            if (userId != 0 && ResSettings.SettingsInSession.CanbeAuditResource)
+            {
+               APBplDef.MicroCourseBpl.UpdatePartial(couseId, new { StarCount = count });
+               //APQuery.update(t)
+               //   .set(t.StarCount,)
+               //   //.set(t.StarTotal, APSqlThroughExpr.Expr("StarTotal+" + score * 10))
+               //   .where(t.ResourceId == resourceId & t.CourseId==couseId)
+               //   .execute(db);
+            }
+
+            if (userId != 0)
+            {
+               db.CroStarDal.Insert(new CroStar()
+               {
+                  UserId = userId,
+                  ResourceId = resourceId,
+                  CourseId = couseId,
+                  StarCount = count,
+                  OccurTime = DateTime.Now
+               });
+            }
          }
 
 
@@ -469,7 +497,8 @@ namespace Res.Business
          /// <returns>CroResource</returns>
          public static CroResource GetResource(APDBDef db, long resourceId)
          {
-            var query = APQuery.select(cr.Asterisk, mc.Asterisk, et.Asterisk,eti.Asterisk, cr.DownCount.As("totalDownCount"), mc.DownCount.As("courseDownCount"),
+            var query = APQuery.select(cr.Asterisk, mc.Asterisk, et.Asterisk, eti.Asterisk, cr.DownCount.As("totalDownCount"),
+                                      mc.DownCount.As("courseDownCount"), mc.StarCount,
                                       vf.FileName.As("VideoName"), vf.FilePath.As("VideoPath"),
                                       cf.FileName.As("CoverName"), cf.FilePath.As("CoverPath"),
                                       df.FileName.As("DesignName"), df.FilePath.As("DesignPath"),
@@ -480,12 +509,12 @@ namespace Res.Business
                                .from(cr,
                                      mc.JoinLeft(cr.CrosourceId == mc.ResourceId),
                                      et.JoinLeft(et.CourseId == mc.CourseId),
-                                     eti.JoinLeft(eti.ExerciseId==et.ExerciseId),
+                                     eti.JoinLeft(eti.ExerciseId == et.ExerciseId),
                                      vf.JoinLeft(vf.FileId == mc.VideoId),
                                      cf.JoinLeft(cf.FileId == mc.CoverId),
                                      df.JoinLeft(df.FileId == mc.DesignId),
                                      sf.JoinLeft(sf.FileId == mc.SummaryId),
-                                     cwf.JoinLeft(cwf.FileId==mc.CoursewareId),
+                                     cwf.JoinLeft(cwf.FileId == mc.CoursewareId),
                                      atf.JoinLeft(atf.FileId == mc.AttachmentId)
                                      )
                                 .where(cr.CrosourceId == resourceId);
@@ -514,7 +543,7 @@ namespace Res.Business
                course.DesignName = df.FileName.GetValue(r, "DesignName");
                course.SummaryName = sf.FileName.GetValue(r, "SummaryName");
                course.CoursewareName = cwf.FileName.GetValue(r, "CoursewareName");
-               course.AttachmentName =  atf.FileName.GetValue(r, "AttachmentName");
+               course.AttachmentName = atf.FileName.GetValue(r, "AttachmentName");
                course.DownCount = cr.DownCount.GetValue(r, "courseDownCount");
 
                var exe = new Exercises();
@@ -558,7 +587,7 @@ namespace Res.Business
       public partial class MicroCourseBpl : MicroCourseBplBase
       {
 
-         public static void CountingPlay(APDBDef db, long userId,long resourceId,long courseId)
+         public static void CountingPlay(APDBDef db, long userId, long resourceId, long courseId)
          {
             var c = APDBDef.MicroCourse;
             APQuery.update(c)

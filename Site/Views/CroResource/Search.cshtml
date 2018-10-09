@@ -98,6 +98,10 @@
 				$("#searchbutton").trigger("click");
 			})
 
+			$('.hit').on('change',function(){
+				$("#searchbutton").trigger("click");
+			});
+
 			$(".sort a").on("click", function () {
 				var key = $(this).data("sort");
 				$("#Sort").val(key);

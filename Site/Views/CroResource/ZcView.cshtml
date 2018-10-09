@@ -44,6 +44,7 @@
 				{
 					<img style="width:100%" height="100%" src="@course.FitCoverPath" />
 				}
+
 				<div class="attr cb">
 					<div class="div " style="overflow-y:hidden; overflow-x:auto; white-space: nowrap;">
 						<h3><i class="fa fa-desktop"></i> 微课列表</h3>
@@ -58,7 +59,10 @@
 							}
 						</ul>
 					</div>
-
+					
+					<div class="source cb">
+						<p></p>
+					</div>
 					<div class="div ">
 						<h3><i class="fa fa-file"></i> 作品信息</h3>
 					</div>
@@ -76,8 +80,23 @@
 						<p>@Model.Description</p>
 						<h3><i class="fa fa-tencent-weibo"></i> 微课信息</h3>
 					</div>
+					
 					<div class="div ">
+						<p class="eval_star">
+							<b>点击评分：</b>
+							@for (int i = 0; i < 5; i++)
+							{
+								if (course.StarCount > i)
+								{
+									<span class="runtime_star yes" style="width:2%"></span>
+								}
+								else
+								{
+									<span class="runtime_star no" style="width:2%"></span>
+								}
+							}
 
+						</p>
 						<p><span>微课名称： @course.CourseTitle </span><span>&nbsp;&nbsp;练 习 题：<button class="btn btn-danger btn-sm" id="exercies">答 题</button></span></p>
 						<p>
 							<span>教学设计： <a href="@(course.DesignId > 0? course.DesignPreviewPath :"javascript:void(0)")" target="_blank" class="btn btn-info btn-sm">预 览</a></span><span>教学反思： <a href="@(course.SummaryId > 0? course.SummaryPreviewPath :"javascript:void(0)")" target="_blank" class="btn btn-info btn-sm">  预 览</a></span>
@@ -101,8 +120,6 @@
 					</div>
 
 				</div>
-
-
 
 				<div class="review">
 					<div class="comment_input">
@@ -338,6 +355,22 @@
 					alert('暂无文件可下载');
 				}
 			});
+
+			var canStar='@(Request.IsAuthenticated ? 1 : 0)';
+			if (canStar){
+				$(".eval_star .runtime_star").hover(function () {
+					$(this).prevAll().andSelf().addClass("hover_yes").removeClass("hover_no");
+					$(this).nextAll().addClass("hover_no").removeClass("hover_yes");
+				}, function(){
+					$(".eval_star .runtime_star").removeClass("hover_yes", "hover_no");
+				}).click(function () {
+					$(".eval_star .runtime_star").unbind('mouseenter mouseleave');
+					var star = 5 - $(this).nextAll().length;
+					$.post("/CroResource/Star", {id:id,courseId:'@course.CourseId', value:star}, function() {
+					});
+
+				});
+			}
 
 		});
 	</script>

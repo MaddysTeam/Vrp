@@ -327,8 +327,6 @@ namespace Res.Controllers
                title = r.Title.GetValue(rd),
                company = r.AuthorCompany.GetValue(rd),
                author = r.Author.GetValue(rd),
-               subject = "fuck",
-               grade = "二年级",
                isSelect = egr.GroupResourceId.GetValue(rd) > 0
             };
          }).ToList();

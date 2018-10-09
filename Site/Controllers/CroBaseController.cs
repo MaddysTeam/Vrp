@@ -438,12 +438,37 @@ namespace Res.Controllers
 			}).ToList();
 		}
 
+      #region [ 作品评分列表 ]
 
-		//活动活跃用户
+      public List<CroStar> CrostarList(long id)
+      {
 
-		#region [ 用户短查询 ]
+         var t = APDBDef.CroStar;
+         var query = APQuery.select(t.Score.Count().As("UserId"), t.ResourceId, t.Score)
+            .from(t)
+            .where(t.ResourceId == id)
+            .group_by(t.Score, t.ResourceId);
 
-		public List<ResActiveUser> CroHomeActiveUserList(out int total, int take, int skip = 0)
+
+         return db.Query(query, reader =>
+         {
+            return new CroStar()
+            {
+               UserId = t.UserId.GetValue(reader),
+               ResourceId = t.ResourceId.GetValue(reader),
+               Score = t.Score.GetValue(reader),
+
+            };
+         }).ToList();
+      }
+
+      #endregion
+
+      //活动活跃用户
+
+      #region [ 用户短查询 ]
+
+      public List<ResActiveUser> CroHomeActiveUserList(out int total, int take, int skip = 0)
 		{
 			var t = APDBDef.ResUser;
 			var t1 = APDBDef.CroFavorite;

@@ -72,7 +72,7 @@ namespace Res.Controllers
             where.Add(t.CompanyId == Int64.Parse(tmp));
          }
          ViewData["School"] = tmp;
-            
+
          if (!String.IsNullOrEmpty(tmp = Request.Params.Get("Keywords")) && tmp.Trim() != "")
          {
             where.Add(t.Keywords.Match(tmp) | t.Title.Match(tmp) | t.Author.Match(tmp) | t.Description.Match(tmp) | mc.CourseTitle.Match(tmp));
@@ -236,6 +236,7 @@ namespace Res.Controllers
          //右侧最新作品
          ViewBag.RankingROfNewCount = CroHomeRankingList(APDBDef.CroResource.CreatedTime.Desc, null, out total, 5, 0);
 
+
          return View(model);
       }
 
@@ -282,7 +283,7 @@ namespace Res.Controllers
       }
 
 
-      public ActionResult Download(long id,long courseId,long fileId)
+      public ActionResult Download(long id, long courseId, long fileId)
       {
          if (!Request.IsAuthenticated)
          {
@@ -295,7 +296,7 @@ namespace Res.Controllers
          else
          {
             var t = APDBDef.CroDownload;
-            APBplDef.CroResourceBpl.CountingDownload(db, id, courseId,fileId,Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0);
+            APBplDef.CroResourceBpl.CountingDownload(db, id, courseId, fileId, Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0);
             return Json(new
             {
                state = "ok",
@@ -366,16 +367,36 @@ namespace Res.Controllers
       //
 
       [HttpPost]
-      public ActionResult Play(long id,long courseId)
+      public ActionResult Play(long id, long courseId)
       {
          var userId = Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0;
-         APBplDef.MicroCourseBpl.CountingPlay(db,userId, id, courseId);
+         APBplDef.MicroCourseBpl.CountingPlay(db, userId, id, courseId);
 
          return Json(new
          {
             state = "ok",
             msg = "恭喜您，已经播放成功！"
          });
+      }
+
+
+      [HttpPost]
+      public ActionResult Star(long id, long courseId, int value)
+      {
+         if (Request.IsAuthenticated && Request.IsAjaxRequest())
+         {
+            var t = APDBDef.CroResource;
+            var t1 = APDBDef.CroStar;
+
+           // if (db.CroStarDal.ConditionQueryCount(t1.ResourceId == id & t1.UserId == ResSettings.SettingsInSession.UserId) == 0)
+          //  {
+               APBplDef.CroResourceBpl.CountingStar(db, value, id, courseId, Request.IsAuthenticated ? ResSettings.SettingsInSession.UserId : 0);
+           // }
+
+            return Content("allow");
+         }
+
+         return Content("deny");
       }
 
 

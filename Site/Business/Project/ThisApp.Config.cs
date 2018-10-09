@@ -20,7 +20,11 @@ namespace Res.Business
 		// Session 中缺省的缓存项时间（分钟）
 		public const int CacheMinutes = 5;
 
+      //默认密码
       public const string Default_Password = "teacher";
+
+      //默认评分星数
+      public const int TotalStar = 5;
 
 	}
 
