@@ -62,11 +62,9 @@ function ckplayerConfig() {
 			//需要支持的事件
 		},
 		menu: { //版权名称支持
-			ckkey: '',
-			name: 'aa',
-			link: 'aa',
-			version: 'aa',
-			domain: 'aa',
+			ckkey: ' ',
+			name: ' 刷新',
+			link: ' ',
 			more: []
 		},
 		style: { //风格部分内容配置，这里主要配置loading和logo以及广告的部分内容

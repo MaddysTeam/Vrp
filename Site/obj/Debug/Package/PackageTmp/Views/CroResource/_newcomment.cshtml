@@ -1,0 +1,30 @@
+﻿<div class="div_cont fr w100 mt_20">
+	<div class="title">
+		<b>最新微课</b><a href="@Url.Action("More", "CroResource", new { type = CroResourceHelper.Latest, mediumtypepkid = ViewBag.mediumtypepkid, FileExtName = ViewBag.FileExtName })" class="glyphicon glyphicon-option-horizontal fr more"></a>
+	</div>
+	<div class="d_user_list">
+		<ul class="new_res_list hot_res">
+	
+
+
+			@foreach (MicroCourseRanking item in ViewBag.RankingROfNewCount)
+			{
+				<li>
+					<a href="@Url.Action("ZcView", "CroResource", new { id = item.CrosourceId })">
+						<div>
+							<img src="@item.FitCoverPath" />
+						</div>
+						<p>@item.Title</p>
+						<p><span>作者：</span>@item.Author</p>
+						<p><span>单位：</span>@item.AuthorCompany</p>
+
+					</a>
+				</li>
+				
+	
+			}
+
+		</ul>
+	</div>
+</div>
+

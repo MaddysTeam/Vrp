@@ -64,6 +64,8 @@ namespace Res.Controllers
                case "Author": order = new APSqlOrderPhrase(u.RealName, co.Order); break;
                case "CreatedTime": order = new APSqlOrderPhrase(t.CreatedTime, co.Order); break;
                case "State": order = new APSqlOrderPhrase(t.StatePKID, co.Order); break;
+               case "Score": order = new APSqlOrderPhrase(t.Score, co.Order); break;
+               case "WinLevel":order = new APSqlOrderPhrase(t.WinLevelPKID, co.Order); break;
             }
          }
 
@@ -685,6 +687,9 @@ namespace Res.Controllers
 
       private void InitDropDownData()
       {
+         //删除单位的缓存信息
+         ResSettings.SettingsInSession.RemoveCache(typeof(List<ResCompany>));
+
          var user = ResSettings.SettingsInSession.User;
 
          var provinces = ResSettings.SettingsInSession.AllProvince();

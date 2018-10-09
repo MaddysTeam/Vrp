@@ -79,6 +79,9 @@ namespace Res.Controllers
 
       public ActionResult Edit(long? id)
       {
+         //删除单位的缓存信息
+         ResSettings.SettingsInSession.RemoveCache(typeof(List<ResCompany>));
+
          var user = ResSettings.SettingsInSession.User;
          var provinces = ResSettings.SettingsInSession.AllProvince();
          var areas = ResSettings.SettingsInSession.AllAreas();

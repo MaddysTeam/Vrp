@@ -1,0 +1,50 @@
+﻿<div class="div_cont fl w100">
+	<div class="title">
+		<b>@ViewBag.Title</b>
+	</div>
+	<div class="d_news">
+		
+
+			@foreach (MicroCourseRanking item in ViewBag.ListOfMore ?? new List<MicroCourseRanking>())
+			{
+	<div class="res">
+	
+		<img  src="@item.FitCoverPath"/>
+		<div class="i_res_text res_text ">
+			@*<p>
+				作品：<a href="@Url.Action("ZcView", "CroResource", new { id=item.CrosourceId,courseId=item.CourseId })"><span class="restitle">@item.ResourceTitle  </span></a>
+			</p>*@
+			<p>
+				<a href="@Url.Action("ZcView", "CroResource", new { id=item.CrosourceId,courseId=item.CourseId })"  title="@item.Title">@item.Title</a>
+			</p>
+			<p class="t">
+				描述：@item.Description
+			</p>
+			<p>
+			  市区：<b>@item.Area</b> &nbsp; 学校：<b>@item.School</b>  &nbsp;  	作者：<b>@item.Author</b>  &nbsp;   单位：<b>@item.AuthorCompany</b>   &nbsp;  上传日期：<b>@item.CreatedTime.ToShortDateString()</b> 
+
+			</p>
+		</div>
+	</div>
+
+			}
+
+
+
+		<div>
+			@Html.Pager((int)ViewBag.PageSize, (int)ViewBag.PageNumber, (int)ViewBag.TotalItemCount).Options(o => o
+							.DisplayTemplate("_Bootstrap3Pagination")
+						  .MaxNrOfPages(10)
+						  .AlwaysAddFirstPageNumber()
+						  .AddRouteValue("type", ViewBag.ParamType)
+							.AddRouteValue("mediumtypepkid", ViewBag.mediumtypepkid)
+							.AddRouteValue("FileExtName", ViewBag.FileExtName)
+		  )
+		</div>
+
+
+
+
+
+	</div>
+</div>

@@ -197,15 +197,15 @@ namespace Res.Controllers
          if (!string.IsNullOrEmpty(searchPhrase))
          {
             searchPhrase = searchPhrase.Trim();
-            query.where_and(u.RealName.Match(searchPhrase));
+            query.where_and(u.RealName.Match(searchPhrase) | u.UserName.Match(searchPhrase));
          }
 
-         // 角色数据范围过滤
+         //TODO: 角色数据范围过滤
 
-         if (user.ProvinceId > 0)
-            query.where_and(u.ProvinceId == user.ProvinceId);
-         if (user.AreaId > 0 && user.ProvinceId != ResCompanyHelper.Shanghai) //如果非上海，其他市区id都是areaId
-            query.where_and(u.AreaId == user.AreaId);
+         //if (user.ProvinceId > 0)
+         //   query.where_and(u.ProvinceId == user.ProvinceId);
+         //if (user.AreaId > 0 && user.ProvinceId != ResCompanyHelper.Shanghai) //如果非上海，其他市区id都是areaId
+         //   query.where_and(u.AreaId == user.AreaId);
 
 
          //排序条件表达式
@@ -287,12 +287,14 @@ namespace Res.Controllers
             query.where_and(r.Author.Match(searchPhrase));
          }
 
-         if (user.ProvinceId > 0)
-            query.where_and(r.ProvinceId == user.ProvinceId);
-         if (user.AreaId > 0)
-            query.where_and(r.AreaId == user.AreaId);
-         if (user.CompanyId > 0)
-            query.where_and(r.CompanyId == user.CompanyId);
+         //TODO:角色数据范围过滤
+
+         //if (user.ProvinceId > 0)
+         //   query.where_and(r.ProvinceId == user.ProvinceId);
+         //if (user.AreaId > 0)
+         //   query.where_and(r.AreaId == user.AreaId);
+         //if (user.CompanyId > 0)
+         //   query.where_and(r.CompanyId == user.CompanyId);
 
          //排序条件表达式
 

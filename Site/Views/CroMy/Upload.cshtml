@@ -164,6 +164,11 @@
 										微课 @Html.RadioButton("courseType", CroResourceHelper.MicroClass, true) &nbsp;&nbsp;&nbsp;微课程 @Html.RadioButton("courseType", CroResourceHelper.MicroCourse, false)
 									</div>
 								}
+								<div class="alert-info col-sm-9">
+									<p></p>
+									<p>* 微课是单节课。</p>
+									<p>* 微课程是有多个有关联的微课集合而成的一系列课程。</p>
+								</div>
 							</div>
 	
 							
@@ -522,8 +527,8 @@
 						maxFiles: 100,
 						acceptedFiles:mimeTypes,
 						thumbnailHeight: 200,
-						dictResponseError: "Video Upload Error.",
-						dictDefaultMessage: "上传视频文件",
+						dictResponseError: "上传文件失败",
+						dictDefaultMessage: "上传文件",
 						parallelUploads:5,
 						init:function(){
 							this
@@ -536,7 +541,6 @@
 						
 								})
 								.on('totaluploadprogress', function(i){
-
 								})
 								.on('removedfile', function() {
 								})
@@ -552,7 +556,7 @@
 									$uploader.find('.btn-cancel').removeClass('hidden').show();
 								})
 								.on('error', function (file, message) {
-									alert(message)
+									alert("文件上传失败！");
 								});
 						}
 					});
@@ -571,7 +575,7 @@
 			bindResourceUploader($('.designUploader'),'design','.doc,.docx');
 			bindResourceUploader($('.summaryUploader'),'summary','.doc,.docx');
 			bindResourceUploader($('.coursewareUploader'),'courseware','.doc,.docx');
-			bindResourceUploader($('.attachmentUploader'),'attachment','.doc,.docx,.txt,.wps,.rtf,.pdf,.rar,.zip,.ppt,.pptx,jpg,png,.gif.xls,.xlsx');
+			bindResourceUploader($('.attachmentUploader'),'attachment','.doc,.docx,.txt,.wps,.rtf,.pdf,.rar,.zip,.ppt,.pptx,jpg,.png,.gif,.xls,.xlsx');
 		}
 
 

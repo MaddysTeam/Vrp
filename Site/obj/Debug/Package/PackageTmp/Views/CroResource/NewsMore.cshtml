@@ -1,0 +1,47 @@
+﻿@{
+	Layout = "~/Views/Shared/_ZcLayout.cshtml";
+	ViewBag.Title = "首页";
+}
+<div class="row">
+	<div class="col-md-9">
+		<div class="div_cont fl w100">
+			<div class="title">
+				<b>活动公告</b>
+			</div>
+	
+
+				<table class="table table-striped">
+		
+					@foreach (CroBulletin item in ViewBag.NewsListMore)
+					{
+						<tr>
+							<td><a href="@Url.Action("NewsView", "CroResource", new { id = item.BulletinId })" title="@item.Title"><span class="restitle">@item.Title</span></a></td>
+						
+							<td>@item.CreatedTime.ToShortDateString()</td>
+						</tr>
+					}
+				</table>
+
+
+
+			<div>
+				@Html.Pager((int)ViewBag.PageSize, (int)ViewBag.PageNumber, (int)ViewBag.TotalItemCount).Options(o => o
+									.DisplayTemplate("_Bootstrap3Pagination")
+								  .MaxNrOfPages(10)
+								  .AlwaysAddFirstPageNumber()
+								  .AddRouteValue("type", ViewBag.ParamType)
+				  )
+			</div>
+
+		</div>
+	</div>
+	<div class="col-md-3">
+
+		@Html.Partial("../CroResource/_user")
+		<br />
+		@Html.Partial("../CroResource/_viewcount")
+
+
+	</div>
+</div>
+

@@ -538,8 +538,8 @@
 						maxFiles: 100,
 						acceptedFiles:mimeTypes,
 						thumbnailHeight: 200,
-						dictResponseError: "Video Upload Error.",
-						dictDefaultMessage: "上传视频文件",
+						dictResponseError: "上传文件失败",
+						dictDefaultMessage: "上传文件",
 						init:function(){
 							this
 								.on("processing", function(i){
@@ -566,7 +566,7 @@
 									$uploader.find('.btn-cancel').removeClass('hidden').show();
 								})
 								.on("error", function (file, message) {
-									alert(message)
+									alert("文件上传失败！");
 								});
 						}
 					});
