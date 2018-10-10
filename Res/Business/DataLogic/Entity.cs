@@ -191,6 +191,23 @@ namespace Res.Business
 			public string Content { get; set; }
 			public string CreatedTime { get; set; }
 		}
+
+
 	}
+
+
+   /// <summary>
+   /// 用户导入模型
+   /// </summary>
+   public class UserImportModel
+   {
+      public string UserName { get; set; }
+      public string RealName { get; set; }
+      public string UserType { get; set; }
+      //public string Email { get; set; }
+      public string Province { get; set; }
+      public string Area { get; set; }
+      public string Company { get; set; }
+   }
 
 }

@@ -16,6 +16,15 @@ namespace Res.Business
       {
          Gender = new PickListAPRptColumn(APDBDef.ResUser.GenderPKID, ThisApp.PLKey_Gender);
          UserType = new PickListAPRptColumn(APDBDef.ResUser.UserTypePKID,ThisApp.PLKey_UserType);
+         UserTypeDic = new Dictionary<string,long>
+         {
+            { UserType.GetName(RegistedUser),RegistedUser },
+            { UserType.GetName(Admin),Admin },
+            { UserType.GetName(Export), Export },
+            { UserType.GetName(ProvinceAdmin),ProvinceAdmin },
+            { UserType.GetName(CityAdmin),CityAdmin },
+            { UserType.GetName(SchoolAdmin),SchoolAdmin },
+         };
       }
 
       public static IEnumerable<System.Web.Mvc.SelectListItem> GetRoleSelectList(long userId)
@@ -46,6 +55,9 @@ namespace Res.Business
       public static long ProvinceAdmin = 10221;
       public static long CityAdmin = 10222;
       public static long SchoolAdmin = 10223;
+
+      // 用户角色字典
+      public static Dictionary<string,long> UserTypeDic;
    }
 
 }

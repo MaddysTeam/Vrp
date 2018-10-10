@@ -40,3 +40,11 @@ C:\project\教软公司项目\新版长三角微视频\Util\bin\Debug\WcsLib.pdb
 C:\project\教软公司项目\新版长三角微视频\Util\obj\Debug\Util.csprojResolveAssemblyReference.cache
 C:\project\教软公司项目\新版长三角微视频\Util\obj\Debug\Util.dll
 C:\project\教软公司项目\新版长三角微视频\Util\obj\Debug\Util.pdb
+C:\project\教软公司项目\新版长三角微视频\Util\bin\Debug\DocumentFormat.OpenXml.dll
+C:\project\教软公司项目\新版长三角微视频\Util\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\project\教软公司项目\新版长三角微视频\Util\bin\Debug\NPOI.dll
+C:\project\教软公司项目\新版长三角微视频\Util\bin\Debug\NPOI.OOXML.dll
+C:\project\教软公司项目\新版长三角微视频\Util\bin\Debug\NPOI.OpenXml4Net.dll
+C:\project\教软公司项目\新版长三角微视频\Util\bin\Debug\NPOI.OpenXmlFormats.dll
+C:\project\教软公司项目\新版长三角微视频\Util\bin\Debug\DocumentFormat.OpenXml.xml
+C:\project\教软公司项目\新版长三角微视频\Util\bin\Debug\NPOI.xml

@@ -23,7 +23,7 @@
 		</div>
 
 		<div class="main-content">
-			<div style="margin-bottom:10px;"><a href="javascript:void(0)"  id="addUser" class="btn btn-danger btn-md">新增用户</a>&nbsp;<a href="javascript:void(0)" id="addUser" class="btn btn-info btn-md">批量导入</a>&nbsp;<a href="javascript:void(0)" id="addUser" class="btn btn-primary btn-md">下载导入模板</a></div>
+			<div style="margin-bottom:10px;"><a href="javascript:void(0)"  id="addUser" class="btn btn-danger btn-md">新增用户</a>&nbsp;<a href="javascript:void(0)" id="import" class="btn btn-info btn-md">批量导入</a>&nbsp;<a href="javascript:void(0)" id="template" class="btn btn-primary btn-md">下载导入模板</a></div>
 			<!-- widget -->
 			<div class="widget">
 				<div class="widget-header">
@@ -83,7 +83,7 @@
 			<!-- modal frame -->
 				<div class="modal fade" id="inner-edit-form" tabindex="-1" role="dialog"></div>
 			<!-- end modal frame -->
-
+			<form action="@Url.Action("Import", "User")" class="dropzone import"></form>
 		</div>
 		<!-- /main-content -->
 	</div>
@@ -96,6 +96,7 @@
 @section Plugins {
 	@Scripts.Render("~/js/bootgrid")
 	@Scripts.Render("~/js/jstree")
+   @Scripts.Render("~/js/dropzone")
 }
 @section Scripts {
 	<script type="text/javascript">
@@ -204,6 +205,29 @@
 					   });
 
 				});
+
+
+		Dropzone.autoDiscover = false;
+		// init dropzone upload plugin.
+		$(".dropzone.import").dropzone({
+			addRemoveLinks: !0,
+			acceptedFiles: ".xlsx,.xls",
+			dictResponseError: "File Upload Error.",
+			init: function () {
+				this.on("success", function (file, data) {
+					alert('导入完成');
+					//$("#photo").attr("src", data.showPath);
+				});
+				this.on("error", function (file, message) {
+					alert(message)
+				});
+			}
+		});
+
+		// proxy click event to dropzone.
+		$("#import").on("click", function () {
+			$(".dropzone.import").trigger('click');
+		});
 
 	});
 

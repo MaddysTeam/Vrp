@@ -806,3 +806,7 @@ video {
 
 .details-courses ul li{display:inline-block;list-style-type: none;}
 .details-courses ul li img{width:184px; height:115px; border:2px solid #ddd;}
+
+.width30{
+	width:30px;
+}

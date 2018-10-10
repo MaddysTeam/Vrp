@@ -12,6 +12,8 @@ using Symber.Web.Data;
 using Res.Business;
 using Res.Business.Utils;
 using System.Collections.Generic;
+using System.IO;
+using Util.NPOI;
 
 namespace Res.Controllers
 {
@@ -86,7 +88,7 @@ namespace Res.Controllers
          var provinces = ResSettings.SettingsInSession.AllProvince();
          var areas = ResSettings.SettingsInSession.AllAreas();
          var schools = ResSettings.SettingsInSession.AllSchools();
-        
+
          var allRoles = ResUserHelper.UserType.GetItems();
          var roles = new List<ResPickListItem>();
          roles.AddRange(roles);
@@ -118,7 +120,7 @@ namespace Res.Controllers
 
          if (user.UserTypePKID == ResUserHelper.Admin)
             roles = allRoles;
-        
+
 
          ViewBag.Provinces = provinces;
          ViewBag.Areas = areas;
@@ -145,7 +147,7 @@ namespace Res.Controllers
       {
          var t = APDBDef.ResUser;
 
-         model.GenderPKID =  ResUserHelper.GenderMale;
+         model.GenderPKID = ResUserHelper.GenderMale;
 
          if (model.UserId == 0)
          {
@@ -403,6 +405,97 @@ namespace Res.Controllers
             return Json("error");
          }
       }
+
+      [HttpPost]
+      public ActionResult Import()
+      {
+         if (Request.IsAuthenticated)
+         {
+            var file = Request.Files[0];
+            if (file == null) throw new NullReferenceException();
+
+            Stream sm = file.InputStream;
+            ExecelOperator exporter = new ExecelOperator(sm);
+
+            var failedList = new List<UserImportModel>();
+            var allProvince = ResSettings.SettingsInSession.AllProvince();
+            var allArea = ResSettings.SettingsInSession.AllAreas();
+            var allSchools = ResSettings.SettingsInSession.AllSchools();
+            var allUsers = APBplDef.ResUserBpl.GetAll();
+            IList<UserImportModel> list = new List<UserImportModel>();
+            try
+            {
+               list = exporter.ExcelToList<UserImportModel>(new string[] { "UserName", "RealName", "UserType", "Province", "Area", "Company" });
+            }
+            catch
+            {
+               return Json("error");
+            }
+            foreach (var item in list)
+            {
+               if (null != allUsers && allUsers.Find(x => x.UserName.IndexOf(item.UserName) >= 0) != null)
+               {
+                  failedList.Add(item);
+                  continue;
+               }
+               try
+               {
+                  long ProvinceId = string.IsNullOrEmpty(item.Province) || string.IsNullOrWhiteSpace(item.Province) ? 0 : allProvince.Find(x => x.CompanyName.IndexOf(item.Province) >= 0).CompanyId;
+                  long AreaId = string.IsNullOrEmpty(item.Area) || string.IsNullOrWhiteSpace(item.Area) ? 0 : allArea.Find(x => x.CompanyName.IndexOf(item.Area) >= 0).CompanyId;
+                  long CompanyId = string.IsNullOrEmpty(item.Company) || string.IsNullOrWhiteSpace(item.Company) ? 0 : allSchools.Find(x => x.CompanyName.IndexOf(item.Company) >= 0).CompanyId;
+                  long uerType = ResUserHelper.UserTypeDic[item.UserType];
+                  if (uerType == ResUserHelper.ProvinceAdmin)
+                  {
+                     AreaId = 0;
+                     CompanyId = 0;
+                  }
+                  else if (uerType == ResUserHelper.CityAdmin)
+                  {
+                     CompanyId = 0;
+                  }
+
+                  APBplDef.ResUserBpl.Insert(new ResUser
+                  {
+                     UserName = item.UserName,
+                     Password = ThisApp.DefaultPassword,
+                     SecurityStamp = ThisApp.DefaultSecurityStmap,
+                     PasswordHash = ThisApp.DefaultPasswordHash,
+                     //Email = item.Email,
+                     ProvinceId = ProvinceId,
+                     AreaId = AreaId,
+                     CompanyId = CompanyId,
+                     Question = string.Empty,
+                     Answer = string.Empty,
+                     RealName = item.RealName,
+                     PhotoPath = string.Empty,
+                     GenderPKID = ResUserHelper.GenderMale,
+                     IDCard = string.Empty,
+                     Actived = true,
+                     RegisterTime = DateTime.Now,
+                     LastLoginTime = DateTime.Now,
+                     LoginCount = 0,
+                     UserTypePKID = ResUserHelper.UserTypeDic[item.UserType],
+                     MD5 = string.Empty,
+                  });
+               }
+               catch
+               {
+                  failedList.Add(item);
+               }
+            }
+
+            sm.Close();
+            sm.Dispose();
+
+            return Json(new {
+               rows= failedList
+            });
+         }
+
+         return Json("error");
+
+      }
+
    }
 
 }

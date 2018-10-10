@@ -20,6 +20,12 @@ namespace Res.Business
 		// Session 中缺省的缓存项时间（分钟）
 		public const int CacheMinutes = 5;
 
-	}
+      public const string DefaultPassword = "teacher";
+
+      public const string DefaultPasswordHash = "";
+
+      public const string DefaultSecurityStmap = "4686d385-f61e-4530-b904-2ecb2aba74ba";
+
+   }
 
 }

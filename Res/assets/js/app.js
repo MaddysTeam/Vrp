@@ -85,7 +85,7 @@ function joinBag(id) {
 
 function initTableCheckbox() {
 	var $thr = $('table thead tr');
-	var $checkAllTh = $('<th><input type="checkbox" id="checkAll" name="checkAll" /></th>');
+	var $checkAllTh = $('<th class="width30"><input type="checkbox" id="checkAll" name="checkAll" /></th>');
 	if ($('#checkAll').size() <= 0) {
 		/*将全选/反选复选框添加到表头最前，即增加一列*/
 		$thr.prepend($checkAllTh);

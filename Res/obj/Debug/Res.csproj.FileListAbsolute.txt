@@ -120,3 +120,9 @@ E:\项目文件(GitLab)\长三角新版\Res\bin\zh-Hans\Microsoft.Owin.Host.Syst
 E:\项目文件(GitLab)\长三角新版\Res\obj\Debug\Res.csprojResolveAssemblyReference.cache
 E:\项目文件(GitLab)\长三角新版\Res\obj\Debug\Res.dll
 E:\项目文件(GitLab)\长三角新版\Res\obj\Debug\Res.pdb
+C:\project\教软公司项目\新版长三角微视频\Res\bin\NPOI.dll
+C:\project\教软公司项目\新版长三角微视频\Res\bin\NPOI.OOXML.dll
+C:\project\教软公司项目\新版长三角微视频\Res\bin\ICSharpCode.SharpZipLib.dll
+C:\project\教软公司项目\新版长三角微视频\Res\bin\NPOI.OpenXmlFormats.dll
+C:\project\教软公司项目\新版长三角微视频\Res\bin\NPOI.OpenXml4Net.dll
+C:\project\教软公司项目\新版长三角微视频\Res\bin\NPOI.xml
