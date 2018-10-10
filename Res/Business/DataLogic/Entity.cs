@@ -139,16 +139,6 @@ namespace Res.Business
 		public string Description { get; set; }
 	}
 
-   /// <summary>
-   /// 作品获奖级别
-   /// </summary>
-   public class CroResourceLevel
-   {
-      public long LevelId { get; set; }
-      public string Name { get; set; }
-      public bool IsSelect { get; set; }
-   }
-
 
    /// <summary>
    /// 评审进度

@@ -26,11 +26,13 @@
 
 		<div class="main-content">
 
-			<div style="margin-bottom:10px;"><a href="@Url.Action("Edit", "Crosource")" id="addUser" class="btn btn-danger btn-md">新增作品</a>&nbsp;
-			<a href="#" id="addUser" class="btn btn-info btn-approve">审核</a>&nbsp;
-			<a href="#" id="addUser" class="btn btn-success btn-approve">设置奖项</a>&nbsp;
-			<a href="#" id="addUser" class="btn btn-primary btn-approve">公开设置</a>&nbsp;
-			<a href="#" id="addUser" class="btn btn-default btn-approve">下载设置</a></div>
+			<div style="margin-bottom:10px;">
+				<a href="@Url.Action("Edit", "Crosource")" id="addUser" class="btn btn-danger btn-md">新增作品</a>&nbsp;
+				<a href="#" id="approve" class="btn btn-info btn-approve" >审核</a>&nbsp;
+				<a href="#" id="winLevel" class="btn btn-success btn-winLevel">设置奖项</a>&nbsp;
+				<a href="#" id="public" class="btn btn-primary btn-public">公开设置</a>&nbsp;
+				<a href="#" id="download" class="btn btn-default btn-download">下载设置</a>
+			</div>
 			<!-- widget -->
 			<div class="widget">
 				<div class="widget-header">
@@ -69,7 +71,7 @@
 						<table id="bootgrid" class="table table-striped table-hover">
 							<thead>
 								<tr>
-									<th data-column-id="Title" data-formatter="LookupResource" >作品名称</th>
+									<th data-column-id="Title" data-formatter="LookupResource">作品名称</th>
 									<th data-column-id="Author">上传作者</th>
 									<th data-column-id="Type">作品类型</th>
 									<th data-column-id="Province">省份</th>
@@ -146,8 +148,6 @@
 			};
 		}
 
-
-
 		function getGridOptions() {
 			var userType = '@user.UserTypePKID';
 			var isAdmin = userType != '@ResUserHelper.RegistedUser' && userType != '@ResUserHelper.Export';
@@ -204,7 +204,7 @@
 			var provinces=@Html.Raw(Json.Encode(ViewBag.ProvincesDic));
 			var areas=@Html.Raw(Json.Encode(ViewBag.AreasDic));
 			var schools=@Html.Raw(Json.Encode(ViewBag.SchoolsDic));
-
+			var ids=[];
 			// relation select
 			RelationSelect($("#Province"), $("#Area"), areas, "选择地区");
 			RelationSelect($("#Area"), $("#Company"), schools, "选择学校");
@@ -242,7 +242,7 @@
 							// 设置作品奖项级别
 							.find(".cmd_elite").on("click", function (e) {
 								var id = $(this).data("row-id");
-								$.post("@Url.Action("WinLevel", "Crosource")", { id: id }, function (response) {
+								$.get("@Url.Action("WinLevel", "Crosource")", { id: id }, function (response) {
 									$("#inner-edit-form")
 										.html(response).modal("show");
 								});
@@ -278,11 +278,57 @@
 									if (data.cmd == "Updated") { alertify.success(data.msg); grid.bootgrid("reload"); }
 									else { alertify.error(data.msg); }
 								});
-							}).end();
+							}).end()
+
+							// 复选框
+							.find('.checkItem').click(function(){
+								ids=[];
+								$('.checkItem').each(function(){
+									if($(this).is(':checked')){
+										var id=$(this).parents('tr').find('button').data('rowId');
+										ids.push(id);
+									}
+								});
+								console.log(ids);
+							}).end()
+
+							// 全选
+							.find('#checkAll').click(function(){
+								ids=[];
+								grid.find('.cmd_approve').each(function(){
+									var id=$(this).parents('tr').find('.cmd_approve').data('rowId');
+									ids.push(id);
+								});
+								console.log(ids);
+							});
 
 					});
 
-			
+			// 批量审核
+			$('#approve').on('click',function(){
+				if(ids.length<=0){
+					alert('必须选择作品');
+					return false;
+				}
+
+				$.get("@Url.Action("Approve", "Crosource")",{ids:ids.join(',')}, function (response) {
+					$("#inner-edit-form")
+						.html(response).modal("show");
+				});
+			});
+
+			// 批量设置奖项
+			$('#winLevel').on('click',function(){
+				if(ids.length<=0){
+					alert('必须选择作品');
+					return false;
+				}
+
+				$.get("@Url.Action("MultiWinLevel", "Crosource")",{ids:ids.join(',')}, function (response) {
+					$("#inner-edit-form")
+						.html(response).modal("show");
+				});
+			});
 
 			$('.search').css('width','310px');
 			$('.search input').prop('placeholder','作品名称，内容，作者名称或作者单位');

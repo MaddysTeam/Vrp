@@ -1707,9 +1707,10 @@
     <Content Include="Views\Active\Edit.cshtml" />
     <Content Include="Views\Active\DwnRoleList.cshtml" />
     <Content Include="Views\EvalManage\EvalResultList.cshtml" />
-    <Content Include="Views\Crosource\WinLevel.cshtml" />
+    <Content Include="Views\Crosource\_winLevel.cshtml" />
     <Content Include="Views\EvalManage\EvalProgress.cshtml" />
     <Content Include="Views\Crosource\_exercies.cshtml" />
+    <Content Include="Views\Crosource\_approve.cshtml" />
     <None Include="xml.schema.definition\apgen.xsd">
       <SubType>Designer</SubType>
     </None>

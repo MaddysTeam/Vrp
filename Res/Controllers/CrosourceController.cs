@@ -65,7 +65,7 @@ namespace Res.Controllers
                case "CreatedTime": order = new APSqlOrderPhrase(t.CreatedTime, co.Order); break;
                case "State": order = new APSqlOrderPhrase(t.StatePKID, co.Order); break;
                case "Score": order = new APSqlOrderPhrase(t.Score, co.Order); break;
-               case "WinLevel":order = new APSqlOrderPhrase(t.WinLevelPKID, co.Order); break;
+               case "WinLevel": order = new APSqlOrderPhrase(t.WinLevelPKID, co.Order); break;
             }
          }
 
@@ -430,8 +430,43 @@ namespace Res.Controllers
 
       //
       //	作品 - 审核合格/不合格
+      // GET:    /Resource/Approve
+      // POST:		/Resource/MultiApprove
       // POST:		/Resource/Approve
       //
+
+      public ActionResult Approve(string ids)
+      {
+         var list = CroResourceHelper.DictApprove
+                          .Select(x => new SelectListItem { Text = x.Value, Value = x.Key.ToString() })
+                          .ToList();
+
+         ViewBag.ids = ids;
+
+         return PartialView("_approve", list);
+      }
+
+      [HttpPost]
+      public ActionResult MultiApprove(string ids, long state)
+      {
+         if (Request.IsAjaxRequest() && !string.IsNullOrEmpty(ids))
+         {
+            var cr = APDBDef.CroResource;
+           // var state = value ? CroResourceHelper.StateAllow : CroResourceHelper.StateDeny;
+            var array = ids.Split(',');
+            var idArray = new long[array.Length];
+            for (int i = 0; i < array.Length; i++)
+            {
+               idArray[i] = Convert.ToInt64(array[i]);
+            }
+
+            APQuery.update(cr).set(cr.StatePKID, state).where(cr.CrosourceId.In(idArray)).execute(db);
+
+            return Json(new { cmd = "Processed", value = state, msg = "批量审核完成。" });
+         }
+
+         return IsNotAjax();
+      }
 
       [HttpPost]
       public ActionResult Approve(long id, bool value, string opinion)
@@ -535,22 +570,35 @@ namespace Res.Controllers
       //
       // 设置奖项
       // GET:		/Crosource/WinLevel
-      // POST:    /Crosource/SetWinLevel
+      // GET:		/Crosource/MultiWinLevel
+      // POST:    /Crosource/MultiWinLevel
+      // POST:    /Crosource/WinLevel
 
-      [HttpPost]
       public ActionResult WinLevel(long id)
       {
          var crosource = APBplDef.CroResourceBpl.PrimaryGet(id);
 
          var list = CroResourceHelper.DictWinLevel
-                          .Select(x => new CroResourceLevel { LevelId = x.Key, IsSelect = x.Key == crosource.WinLevelPKID, Name = x.Value })
+                          .Select(x => new SelectListItem { Value = x.Key.ToString(), Selected = x.Key == crosource.WinLevelPKID, Text = x.Value })
                           .ToList();
 
-         return PartialView(list);
+         return PartialView("_winLevel", list);
+      }
+
+
+      public ActionResult MultiWinLevel(string ids)
+      {
+         var list = CroResourceHelper.DictWinLevel
+                          .Select(x => new SelectListItem { Text = x.Value, Value = x.Key.ToString() })
+                          .ToList();
+
+         ViewBag.ids = ids;
+
+         return PartialView("_winLevel", list);
       }
 
       [HttpPost]
-      public ActionResult EditWinLevel(long id, long levelId)
+      public ActionResult WinLevel(long id, long levelId)
       {
          ThrowNotAjax();
 
@@ -559,6 +607,28 @@ namespace Res.Controllers
 
          return Json(new { msg = "奖项设置成功" });
       }
+
+      [HttpPost]
+      public ActionResult MultiWinLevel(string ids, long levelId)
+      {
+         ThrowNotAjax();
+         if (Request.IsAjaxRequest() && !string.IsNullOrEmpty(ids))
+         {
+            var cr = APDBDef.CroResource;
+            var array = ids.Split(',');
+            var idArray = new long[array.Length];
+            for (int i = 0; i < array.Length; i++)
+            {
+               idArray[i] = Convert.ToInt64(array[i]);
+            }
+
+            APQuery.update(cr).set(cr.WinLevelPKID, levelId).where(cr.CrosourceId.In(idArray)).execute(db);
+
+            return Json(new { cmd = "Processed", msg = "批量奖项设置完成。" });
+         }
+          return IsNotAjax();
+      }
+
 
       //
       // 修改公开状态
