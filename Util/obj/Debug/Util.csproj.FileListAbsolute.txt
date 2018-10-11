@@ -48,3 +48,11 @@ C:\project\教软公司项目\新版长三角微视频\Util\bin\Debug\NPOI.OpenX
 C:\project\教软公司项目\新版长三角微视频\Util\bin\Debug\NPOI.OpenXmlFormats.dll
 C:\project\教软公司项目\新版长三角微视频\Util\bin\Debug\DocumentFormat.OpenXml.xml
 C:\project\教软公司项目\新版长三角微视频\Util\bin\Debug\NPOI.xml
+E:\项目文件(GitLab)\长三角新版\Util\bin\Debug\DocumentFormat.OpenXml.dll
+E:\项目文件(GitLab)\长三角新版\Util\bin\Debug\ICSharpCode.SharpZipLib.dll
+E:\项目文件(GitLab)\长三角新版\Util\bin\Debug\NPOI.dll
+E:\项目文件(GitLab)\长三角新版\Util\bin\Debug\NPOI.OOXML.dll
+E:\项目文件(GitLab)\长三角新版\Util\bin\Debug\NPOI.OpenXml4Net.dll
+E:\项目文件(GitLab)\长三角新版\Util\bin\Debug\NPOI.OpenXmlFormats.dll
+E:\项目文件(GitLab)\长三角新版\Util\bin\Debug\DocumentFormat.OpenXml.xml
+E:\项目文件(GitLab)\长三角新版\Util\bin\Debug\NPOI.xml

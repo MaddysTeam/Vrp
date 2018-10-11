@@ -126,3 +126,9 @@ C:\project\教软公司项目\新版长三角微视频\Res\bin\ICSharpCode.Sharp
 C:\project\教软公司项目\新版长三角微视频\Res\bin\NPOI.OpenXmlFormats.dll
 C:\project\教软公司项目\新版长三角微视频\Res\bin\NPOI.OpenXml4Net.dll
 C:\project\教软公司项目\新版长三角微视频\Res\bin\NPOI.xml
+E:\项目文件(GitLab)\长三角新版\Res\bin\NPOI.dll
+E:\项目文件(GitLab)\长三角新版\Res\bin\NPOI.OOXML.dll
+E:\项目文件(GitLab)\长三角新版\Res\bin\ICSharpCode.SharpZipLib.dll
+E:\项目文件(GitLab)\长三角新版\Res\bin\NPOI.OpenXmlFormats.dll
+E:\项目文件(GitLab)\长三角新版\Res\bin\NPOI.OpenXml4Net.dll
+E:\项目文件(GitLab)\长三角新版\Res\bin\NPOI.xml
