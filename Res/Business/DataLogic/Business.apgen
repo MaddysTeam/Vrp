@@ -367,10 +367,11 @@
 				<columns>
 					<add name="FileId" type="long" identityType="Provider" primaryKey="true" display="文件ID"/>
 					<add name="FileName" type="string" dataLength="100" display="文件名称"   required="true"/>
-					<add name="ExtName"  type="string" dataLength="10" display="后缀名称"  required="true"/>
+					<add name="ExtName"  type="string" dataLength="20" display="后缀名称"  required="true"/>
 					<add name="FilePath" type="string" dataLength="255" display="作品路径" required="true"/>
 					<add name="FileSize" type="long" display="文件大小" required="true"/>
 					<add name="Md5" type="string" dataLength="50" required="true"/>
+					<add name="Code" type="string" dataLength="20"/>
 				</columns>
 			</table>
 

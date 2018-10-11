@@ -1711,6 +1711,7 @@
     <Content Include="Views\EvalManage\EvalProgress.cshtml" />
     <Content Include="Views\Crosource\_exercies.cshtml" />
     <Content Include="Views\Crosource\_approve.cshtml" />
+    <Content Include="userTemplate.xlsx" />
     <None Include="xml.schema.definition\apgen.xsd">
       <SubType>Designer</SubType>
     </None>

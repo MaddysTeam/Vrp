@@ -24,3 +24,9 @@ $("textarea").keyup(function () {
         $(".img_ta_num").html((240 - $(this).val().length))
     }
 })
+
+function imageError(img) {
+	img.src = '/assets/img/cover.png';
+	img.onerror = null; 
+}
+

@@ -63,7 +63,12 @@
 						<div class="col-sm-2">
 							@Html.DropDownList("Subject", CroResourceHelper.Subject.GetSelectList(), "选择学科", new { @class = "form-control" })
 						</div>
-
+						<div class="col-sm-2" style="margin-top:10px;">
+							@Html.TextBox("MinScore",null,new { @class = "form-control", @placeholder = "得分最低分" })
+						</div>
+						<div class="col-sm-2" style="margin-top:10px;">
+							@Html.TextBox("MaxScore",null, new { @class = "form-control", @placeholder = "得分最高分" })
+						</div>
 					</div>
 
 					<!-- Grid -->

@@ -32,6 +32,12 @@ namespace Res.Controllers
          string tmp = "";
          List<ResCompany> schools = null, areas = null, provinces = null;
 
+         if (!String.IsNullOrEmpty(tmp = Request.Params.Get("Active")))
+         {
+            where.Add(t.ActiveId == Int64.Parse(tmp));
+         }
+         ViewData["Active"] = tmp;
+
          if (!String.IsNullOrEmpty(tmp = Request.Params.Get("CourseType")))
          {
             where.Add(t.CourseTypePKID == Int64.Parse(tmp));

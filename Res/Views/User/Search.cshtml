@@ -1,6 +1,7 @@
 ﻿@{
 	ViewBag.Title = "查询用户";
 }
+
 <div class="col-md-10 content-wrapper">
 	<div class="row">
 		<div class="col-lg-4 ">
@@ -83,7 +84,7 @@
 			<!-- modal frame -->
 				<div class="modal fade" id="inner-edit-form" tabindex="-1" role="dialog"></div>
 			<!-- end modal frame -->
-			<form action="@Url.Action("Import", "User")" class="dropzone import"></form>
+			<form action="@Url.Action("Import", "User")" class="dropzone import" hidden></form>
 		</div>
 		<!-- /main-content -->
 	</div>

@@ -23,17 +23,19 @@ namespace Res.Controllers
          var cf = APDBDef.Files;
          var rc = APDBDef.ResCompany;
 
+
          var query = APQuery.select(cr.CrosourceId, cr.Title, cr.Author, cr.FavoriteCount,cr.ProvinceId,cr.AreaId,cr.CompanyId,
-				cr.AuthorCompany, cr.Description, cr.CreatedTime,rc.Path, //cr.ViewCount, cr.CommentCount, cr.DownCount //cr.FileExtName
+				cr.AuthorCompany, cr.Description, cr.CreatedTime,rc.Path,//cr.ViewCount, cr.CommentCount, cr.DownCount //cr.FileExtName
             mc.CourseId, mc.CourseTitle, mc.PlayCount, cf.FilePath
             )
 				.from(cr,
                   mc.JoinInner(mc.ResourceId==cr.CrosourceId),
                   rc.JoinInner(rc.CompanyId == cr.CompanyId),
                   cf.JoinLeft(cf.FileId==mc.CoverId)
+                  //a.JoinInner(a.ActiveId==cr.ActiveId)
                   )    
 				.where(cr.StatePKID == CroResourceHelper.StateAllow & cr.PublicStatePKID==CroResourceHelper.Public) // 审核通过和公开的作品
-				.order_by(cr.CreatedTime.Desc, cr.CrosourceId.Asc)
+				.order_by(cr.ActiveId.Desc)
 				.primary(cr.CrosourceId)
 				.take(take);
 
@@ -41,9 +43,9 @@ namespace Res.Controllers
 				query.where_and(where);
 
 			if (order != null)
-				query.order_by(order).order_by_add(cr.CrosourceId.Asc);
+				query.order_by_add(order).order_by_add(cr.CrosourceId.Asc);
 			else
-				query.order_by(cr.CrosourceId.Asc);
+				query.order_by_add(cr.CrosourceId.Asc);
 
 			if (skip != -1)
 			{
@@ -325,16 +327,18 @@ namespace Res.Controllers
          var mc = APDBDef.MicroCourse;
          var cf = APDBDef.Files;
          var rc = APDBDef.ResCompany;
+         var a = APDBDef.Active;
 
          var query = APQuery.select(cr.CrosourceId, cr.Title, cr.Author, cr.FavoriteCount, cr.ProvinceId,cr.AreaId,cr.CompanyId ,//t.CoverPath,
-            cr.AuthorCompany, cr.CreatedTime,rc.Path, //cr.ViewCount, cr.CommentCount, cr.DownCount, //t.FileExtName, 
+            cr.AuthorCompany, cr.CreatedTime,rc.Path, a.IsCurrent, //cr.ViewCount, cr.CommentCount, cr.DownCount, //t.FileExtName, 
             cr.Description,mc.CourseId,mc.CourseTitle,mc.PlayCount,cf.FilePath)
 				.from(mc,
                   cr.JoinLeft(mc.ResourceId==cr.CrosourceId),
                   cf.JoinLeft(cf.FileId==mc.CoverId),
-                  rc.JoinInner(rc.CompanyId == cr.CompanyId)
+                  rc.JoinInner(rc.CompanyId == cr.CompanyId),
+                  a.JoinInner(cr.ActiveId==a.ActiveId)
                   )
-            .where(cr.StatePKID == CroResourceHelper.StateAllow & cr.PublicStatePKID==CroResourceHelper.Public)
+            .where(cr.StatePKID == CroResourceHelper.StateAllow & cr.PublicStatePKID==CroResourceHelper.Public & a.IsCurrent==true)
             .order_by(order, cr.CrosourceId.Asc)
 				.primary(mc.CourseId)
 				.take(take);

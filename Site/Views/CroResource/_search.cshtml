@@ -80,6 +80,8 @@
 						@Html.DropDownList("Subject", CroResourceHelper.Subject.GetSelectList(), "全部学科", new { @class = "hit" })
 						@Html.DropDownList("Grade", CroResourceHelper.Grade.GetSelectList(), "全部年级", new { @class = "hit", id = "GradePKID" })
 						@Html.DropDownList("CourseType", CroResourceHelper.CourseType.GetSelectList(), "作品类型", new { @class = "hit"})
+						@Html.DropDownList("Active", ResSettings.SettingsInSession.Actives.Select(a=>new SelectListItem { Text=a.ActiveName,Value=a.ActiveId.ToString() }), "全部活动", new { @class = "hit" })
+
 					</dd>
 				</dl>
 				<dl>

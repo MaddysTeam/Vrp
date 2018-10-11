@@ -165,6 +165,21 @@ namespace Res.Business
          }
       }
 
+      public List<Active> Actives
+      {
+         get
+         {
+            //_companys = GetCache(typeof(List<ResCompany>)) as List<ResCompany>;
+            //if (_companys == null)
+            //{
+            //   _companys = APBplDef.ResCompanyBpl.GetAll();
+            //   SetCache(_companys, typeof(List<ResCompany>));
+            //}
+
+            return APBplDef.ActiveBpl.GetAll();
+         }
+      }
+
       #endregion
 
 
