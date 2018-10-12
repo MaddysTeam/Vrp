@@ -49,19 +49,19 @@
 							@Html.DropDownList("Active", (ViewBag.Actives as List<Active>).Select(x => new SelectListItem { Text = x.ActiveName, Value = x.ActiveId.ToString() }), "选择项目", new { @class = "search-field form-control" })
 						</div>
 						<div class="col-sm-2">
-							@Html.DropDownList("Province", (ViewBag.Provinces as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择省份", new { @class = "search-field form-control" })
+							@Html.DropDownList("Province", (ViewBag.Provinces as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择省份", new { @class = "form-control province" })
 						</div>
 						<div class="col-sm-2">
-							@Html.DropDownList("Area", (ViewBag.Areas as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择地区", new { @class = "search-field form-control" })
+							@Html.DropDownList("Area", (ViewBag.Areas as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择地区", new { @class = "form-control area" })
 						</div>
 						<div class="col-sm-2">
-							@Html.DropDownList("Company", (ViewBag.Companies as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择单位", new { @class = "search-field form-control" })
+							@Html.DropDownList("Company", (ViewBag.Companies as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择单位", new { @class = "form-control company" })
 						</div>
 						<div class="col-sm-2">
-							@Html.DropDownList("Grade", CroResourceHelper.Grade.GetSelectList(), "选择年级", new { @class = "form-control" })
+							@Html.DropDownList("Grade", CroResourceHelper.Grade.GetSelectList(), "选择年级", new { @class = "form-control search-field" })
 						</div>
 						<div class="col-sm-2">
-							@Html.DropDownList("Subject", CroResourceHelper.Subject.GetSelectList(), "选择学科", new { @class = "form-control" })
+							@Html.DropDownList("Subject", CroResourceHelper.Subject.GetSelectList(), "选择学科", new { @class = "form-control search-field" })
 						</div>
 						<div class="col-sm-2" style="margin-top:10px;">
 							@Html.TextBox("MinScore",null,new { @class = "form-control", @placeholder = "得分最低分" })
@@ -219,6 +219,7 @@
 					.bootgrid(getGridOptions())
 					.on("loaded.rs.jquery.bootgrid", function () {
 
+						ids=[];
 						//复选框列初始化
 						initTableCheckbox();
 
@@ -318,6 +319,7 @@
 								console.log(ids);
 							});
 
+
 					});
 
 			// 批量审核
@@ -344,6 +346,12 @@
 					$("#inner-edit-form")
 						.html(response).modal("show");
 				});
+			});
+
+
+			$('.province,.area,.company,.search-field').on('change',function(){
+				$("#bootgrid").bootgrid('reload');
+				return false;
 			});
 
 			$('.search').css('width','310px');

@@ -24,7 +24,7 @@
 		</div>
 
 		<div class="main-content">
-			<div style="margin-bottom:10px;"><a href="javascript:void(0)"  id="addUser" class="btn btn-danger btn-md">新增用户</a>&nbsp;<a href="javascript:void(0)" id="import" class="btn btn-info btn-md">批量导入</a>&nbsp;<a href="javascript:void(0)" id="template" class="btn btn-primary btn-md">下载导入模板</a></div>
+			<div style="margin-bottom:10px;"><a href="javascript:void(0)"  id="addUser" class="btn btn-danger btn-md">新增用户</a>&nbsp;<a href="javascript:void(0)" id="import" class="btn btn-info btn-md">批量导入</a>&nbsp;<a href="http://cdncsj.sser.shdjg.net/2018/templates/UserTemplate.xlsx" id="template" class="btn btn-primary btn-md">下载导入模板</a></div>
 			<!-- widget -->
 			<div class="widget">
 				<div class="widget-header">
@@ -120,9 +120,9 @@
 				"cmd_edit": function (column, row) {
 					return "<button type='button' class='btn btn-xs cmd_edit' data-row-id='" + row.id + "' data-row-title='" + row.RealName + "' title='编辑'><span class='fa fa-pencil'></span></button>";
 				},
-				"cmd_actived": function (column, row) {
-					return "<button type='button' class='btn btn-xs " + (row["Actived"] == '有效' ? "isactived" : "") + " cmd_actived' data-row-id='" + row.id + "' data-row-title='" + row.RealName + "' title='有效/无效'><span class='fa fa-check-square-o'></span></button>";
-				},
+				//"cmd_actived": function (column, row) {
+				//	return "<button type='button' class='btn btn-xs " + (row["Actived"] == '有效' ? "isactived" : "") + " cmd_actived' data-row-id='" + row.id + "' data-row-title='" + row.RealName + "' title='有效/无效'><span class='fa fa-check-square-o'></span></button>";
+				//},
 				//"cmd_Approve": function (column, row) {
 				//	return "<button type='button' class='btn btn-xs cmd_Approve' data-row-id='" + row.id + "' data-row-title='" + row.RealName + "' title='用户授权'><span class='fa fa-key'></span></button>";
 				//},

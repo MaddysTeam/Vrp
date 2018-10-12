@@ -465,7 +465,7 @@ namespace Res.Controllers
          if (!string.IsNullOrEmpty(searchPhrase))
          {
             searchPhrase = searchPhrase.Trim();
-            query.where_and(i.IndicationName.Match(searchPhrase));
+            query.where_and(i.IndicationName.Match(searchPhrase) | i.Description.Match(searchPhrase));
          }
 
 

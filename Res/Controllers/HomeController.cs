@@ -15,6 +15,11 @@ namespace Res.Controllers
 
 		public ActionResult Index()
 		{
+         if (ResSettings.SettingsInSession.User.UserTypePKID == ResUserHelper.Export)
+         {
+            return RedirectToAction("Search", "Eval");
+         }
+
 			return View();
 		}
 

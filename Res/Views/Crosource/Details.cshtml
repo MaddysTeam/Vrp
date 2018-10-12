@@ -90,7 +90,7 @@
 											@foreach (var item in Model.Courses)
 											{
 												<li>
-													<a href="@Url.Action("Details","Crosource",new { id = Model.CrosourceId ,courseId = item.CourseId })"><img src="@item.FitCoverPath"/></a>
+													<a href="@Url.Action("Details","Crosource",new { id = Model.CrosourceId ,courseId = item.CourseId })"><img src="@item.FitCoverPath" onerror="imageError(this)"/></a>
 													<div class="text-center">@item.CourseTitle</div>
 												</li>
                                  }
@@ -190,14 +190,14 @@
 										@if(course.DesignId != 0)
 										{
 											<li  class="list-group-item">
-												<span>教学设计： <a href="@course.DesignPath.Replace(".DOC",".html").Replace(".doc",".html").Replace(".docx",".html").Replace(".htmlx",".html")" target="_blank" class="btn-info btn-sm">预 览</a></span>
+												<span>教学设计： <a href="@course.DesignPreviewPath" target="_blank" class="btn-info btn-sm">预 览</a></span>
 										   </li>
 										}
 
 										@if (course.SummaryId != 0)
 										{
 											<li  class="list-group-item">
-												<span>教学反思： <a href="@course.SummaryPath.Replace(".DOC",".html").Replace(".doc",".html").Replace(".docx",".html").Replace(".htmlx",".html")" target="_blank" class="btn-info btn-sm">预 览</a></span>
+												<span>教学反思： <a href="@course.SummaryPreviewPath" target="_blank" class="btn-info btn-sm">预 览</a></span>
 										   </li>
 										}
 

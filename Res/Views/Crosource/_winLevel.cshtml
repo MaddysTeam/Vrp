@@ -34,7 +34,6 @@
 <script>
 
 	$(function () {
-		alert(@id);
 		if ('@id' != '') {
 			$('.winlevel').on('click', function () {
 				$.post('@Url.Action("WinLevel", "Crosource")', { id: '@id', levelId: $(this).val() }, function (data) {

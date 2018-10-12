@@ -82,10 +82,6 @@ function joinBag(id) {
 	});
 }
 
-function imageError(img) {
-	alert();
-	img.src = '../../img/cover.png';
-}
 //$(function () {
 //	$(document).on("click", ".joinbag", function (e) {
 //		e.stopPropagation();

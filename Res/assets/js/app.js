@@ -162,6 +162,10 @@ function initTableCheckbox() {
 //}
 
 
+function imageError(img) {
+	img.src = '/assets/img/cover.png';
+	img.onerror = null;
+}
 
 $(function () {
 

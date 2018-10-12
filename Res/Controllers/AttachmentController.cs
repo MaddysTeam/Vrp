@@ -50,7 +50,7 @@ namespace Res.Controllers
                   var docFile = new UploadFile
                   {
                      Stream = docStream,
-                     FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{anotherName.Replace(".docx", ".html").Replace(".doc", ".html")}"
+                     FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{anotherName}{FileHelper.HtmlExtName}"
                   };
                   var docResult = FileUploader.SliceUpload(docFile);
                   if (null == docResult || null == docResult.FileUrl || !docResult.IsSuccess) return Content("word 转html失败");

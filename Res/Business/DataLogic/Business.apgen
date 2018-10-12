@@ -270,7 +270,7 @@
 					<add name="CrosourceId" type="long" identityType="Provider" primaryKey="true" display="作品ID"/>
 
 					<!-- Content -->
-					<add name="Title" type="string" dataLength="100" required="true" display="标题"/>
+					<add name="Title" type="string" dataLength="250" required="true" display="标题"/>
 					<add name="Author" type="string" dataLength="50" required="true" display="作者"/>
 					<add name="Keywords" type="string" dataLength="50"  required="true"  display="关键字"/>
 					<add name="Description" type="string" dataLength="30000" display="微课信息简介"/>
@@ -380,7 +380,7 @@
 				<columns>
 
 					<add name="IndicationId" columnName="ID" type="long" primaryKey="true" identityType="Provider" ></add>
-					<add name="IndicationName" columnName="Name" type="string"  dataLength="200" required="true" display="指标名称"/>
+					<add name="IndicationName" columnName="Name" type="string"  dataLength="50" required="true" display="指标子项"/>
 					<add name="Description" columnName="Description" type="string" dataLength="40000"  required="true" display="指标描述"/>
 					<add name="TypePKID" type="long" display="评价项目"></add>
 					<add name="LevelPKID" type="long"  display="评审级别"></add>

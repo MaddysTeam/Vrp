@@ -29,6 +29,8 @@ namespace Res.Business
          }
       }
 
+      public static string HtmlExtName=".HTML";
+
    }
 
 }

@@ -225,8 +225,8 @@ namespace Res.Business
       public string SummaryPath { get; set; }
       public string CoursewarePath { get; set; }
       public string AttachmentPath { get; set; }
-      public string DesignPreviewPath => string.IsNullOrEmpty(DesignPath) ? string.Empty : DesignPath.Replace(".DOC", ".html").Replace(".doc", ".html").Replace(".docx", ".html").Replace(".htmlx", ".html");
-      public string SummaryPreviewPath => string.IsNullOrEmpty(SummaryPath) ? string.Empty : SummaryPath.Replace(".DOC", ".html").Replace(".doc", ".html").Replace(".docx", ".html").Replace(".htmlx", ".html");
+      public string DesignPreviewPath => string.IsNullOrEmpty(DesignPath) ? string.Empty : DesignPath + FileHelper.HtmlExtName;
+      public string SummaryPreviewPath => string.IsNullOrEmpty(SummaryPath) ? string.Empty : SummaryPath + FileHelper.HtmlExtName;
 
       public List<Exercises> Exercises { get; set; }
 

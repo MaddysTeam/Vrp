@@ -105,57 +105,62 @@
 									</div>
 								</div>
 							   
-							   <div class="panel">
-										<div class="panel">
-									<div class="panel-body">
-										<table id="bootgrid" class="table table-striped table-hover">
-											<thead>
-												<tr>
-													<th>项目</th>
-													<th >级别</th>
-													<th class="width100" >评价项目</th>
-													<th data-headercs="titlewidth">指标描述</th>
-													<th>满分</th>
-													<th>得分</th>
-												</tr>
-											</thead>
-											<tbody>
-												@foreach(var item in indications)
-												{
-													<tr class="indication">
-														<td>@item.ActiveName</td>						
-														<td>@item.Level</td>
-														<td>@item.Type</td>
-														<td class="titlewidth">@item.Description</td>
-														<td><label class="form-control disabled">@item.Score</label></td>
-														<td>
-															<input value="@item.EvalScore"  class="form-control evalScore"/>
-															<input type="hidden" value="@item.IndicationId" class="indicationId"/>
-														</td>
-													</tr>
-												}
-												<tr>
-													<td colspan="6">
-														<strong>专家评语</strong>
-														<p></p>
-														@Html.TextArea("comment", comment, 6,6,new {@class="form-control" })
-													</td>
-												</tr>
-											</tbody>
-										</table>
-										@if ((bool)ViewBag.isSlef)
-										{
-										<a class="btn btn-block btn-danger btn-eval" href="#">确定评审</a>
-                              }
-									</div>
-								</div>
-								</div>
-
+							  
 							</div> <!-- row -->
 						</div>
 						<!-- end left side, main content -->
+
+						<div class="panel col-lg-3">
+							<div class="panel">
+								<div class="panel-body">
+									<table id="bootgrid" class="table table-striped table-hover">
+										<thead>
+											<tr>
+												@*<th>项目</th>
+								<th >级别</th>
+								<th class="width100" >评价项目</th>*@
+												<th data-headercs="titlewidth">指标描述</th>
+												<th>满分</th>
+												<th>得分</th>
+											</tr>
+										</thead>
+										<tbody>
+											@foreach (var item in indications)
+											{
+												<tr class="indication">
+													<td>@item.ActiveName</td>
+													<td>@item.Level</td>
+													<td>@item.Type</td>
+													<td class="titlewidth">@item.Description</td>
+													<td><label class="form-control disabled">@item.Score</label></td>
+													<td>
+														<input value="@item.EvalScore" class="form-control evalScore" />
+														<input type="hidden" value="@item.IndicationId" class="indicationId" />
+													</td>
+												</tr>
+}
+											<tr>
+												<td colspan="6">
+													<strong>专家评语</strong>
+													<p></p>
+													@Html.TextArea("comment", comment, 6, 6, new { @class = "form-control" })
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									@if ((bool)ViewBag.isSlef)
+									{
+										<a class="btn btn-block btn-danger btn-eval" href="#">确定评审</a>
+}
+								</div>
+							</div>
+						</div>
+
+
+
+
 						<!-- right side, main content -->
-						<div class="col-lg-3">
+						<div class="col-lg-9">
 							<div class="widget">
 								<div class="widget-header">
 									<h3><i class="fa fa-paperclip"></i> 详细信息</h3>
@@ -326,8 +331,8 @@
 			//IE11 用ckplayer
 			if (ua.match(/edge/) != null && hasVideo){
 				var videoObject = {
-					container: '#video',//“#”代表容器的ID，“.”或“”代表容器的class
-					variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
+					container: '#video',
+					variable: 'player',
 					poster:'@course.CoverPath',//封面图片
 					video:path
 				};

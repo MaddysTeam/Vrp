@@ -244,6 +244,8 @@ namespace Res.Business
       public string AttachmentName { get; set; }
       public string CoursewarePath { get; set; }
       public string AttachmentPath { get; set; }
+      public string DesignPreviewPath => string.IsNullOrEmpty(DesignPath) ? string.Empty : DesignPath + FileHelper.HtmlExtName;
+      public string SummaryPreviewPath => string.IsNullOrEmpty(SummaryPath) ? string.Empty : SummaryPath + FileHelper.HtmlExtName;
 
       public List<Exercises> Exercises { get; set; }
 
