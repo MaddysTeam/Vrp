@@ -26,26 +26,19 @@
 
 
 	<div class="main-content">
-		
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="col-sm-5">
-					<button class="btn btn-default dropdown-toggle" id="refresh"><i class="fa fa-refresh"></i> 刷新列表</button>
-					<button class="btn btn-custom-primary btn-md" id="addCompany"><i class="fa fa-plus-square"></i> 添加单位</button>
-					<button class="btn btn-custom-secondary btn-md" style="display:none;" id="EditCompany"><i class="fa fa-cogs"></i> 编辑单位</button>
-					<button class="btn btn-info btn-md"  id="importCompany"><i class="fa fa-cogs"></i> 导入单位</button>
-					<a href="javascript:void(0)" id="addUser" class="btn btn-primary btn-md">下载导入模板</a>
-					@*<button class="btn btn-custom-secondary btn-md" style="display:none;" id="RemoveCompany"><i class="fa fa-trash"></i> 删除单位</button>*@
-				</div>
-			</div>
+		<div class="buttons">
+			<button class="btn btn-default dropdown-toggle" id="refresh"><i class="fa fa-refresh"></i> 刷新列表</button>
+			<button class="btn btn-custom-primary btn-md" id="addCompany"><i class="fa fa-plus-square"></i> 添加单位</button>
+			<button class="btn btn-custom-secondary btn-md" style="display:none;" id="EditCompany"><i class="fa fa-cogs"></i> 编辑单位</button>
+			<button class="btn btn-info btn-md" id="importCompany"><i class="fa fa-cogs"></i> 导入单位</button>
+			<a href="http://cdncsj.sser.shdjg.net/templates/companyTemplate.xlsx" id="addUser" class="btn btn-primary btn-md">下载导入模板</a>
+			@*<button class="btn btn-custom-secondary btn-md" style="display:none;" id="RemoveCompany"><i class="fa fa-trash"></i> 删除单位</button>*@
 		</div>
 
 		@using (Html.BeginForm("Remove", "Company", FormMethod.Post, new { id = "form", style = "display:none;" }))
 		{
 			@Html.Hidden("CompanyId")
 		}
-
-		<hr />
 
 		<div class="widget">
 			<div class="widget-header">
@@ -68,6 +61,7 @@
 			</div>
 		</div>
 	</div>
+	<form action="@Url.Action("ImportPreview", "Company")" class="dropzone import" hidden></form>
 </div>
 
 
@@ -83,6 +77,7 @@
 @section Plugins {
 	@Scripts.Render("~/js/bootgrid")
 	@Scripts.Render("~/js/jstree")
+	@Scripts.Render("~/js/dropzone")
 }
 @section Scripts
 {
@@ -104,7 +99,7 @@
 			$('#jstree')
 				.on("click.jstree", function (e) {
 					e.stopImmediatePropagation();
-					
+
 				})
 				.on("changed.jstree", function (e, data) {
 					$("#companyName").val(data.instance.get_node(data.selected).id);
@@ -135,7 +130,7 @@
 				});
 
 			$("#addCompany").on("click", function () {
-				$.get("@Url.Action("Edit", "Company")" , function (response) {
+				$.get("@Url.Action("Edit", "Company")", function (response) {
 					$("#inner-edit-form")
 						.html(response).modal("show");
 				});
@@ -171,6 +166,30 @@
 				});
 
 				return false;
+			});
+
+
+			Dropzone.autoDiscover = false;
+			// init dropzone upload plugin.
+			$(".dropzone.import").dropzone({
+				addRemoveLinks: !0,
+				acceptedFiles: ".xlsx,.xls",
+				dictResponseError: "File Upload Error.",
+				init: function () {
+					this.on("success", function (file, data) {
+						//alert('导入完成');
+						//$("#photo").attr("src", data.showPath);
+						$('#inner-edit-form').html(data).modal('show');
+					});
+					this.on("error", function (file, message) {
+						alert(message)
+					});
+				}
+			});
+
+			// proxy click event to dropzone.
+			$("#importCompany").on("click", function () {
+				$(".dropzone.import").trigger('click');
 			});
 
 		});

@@ -19,11 +19,11 @@
 	<div class="content">
 		<div class="main-header">
 			<h2>@ViewBag.Title</h2>
-            <em>评审组列表</em>
+			<em>评审组列表</em>
 		</div>
 
 		<div class="main-content">
-			<div>
+			<div class="buttons">
 				<a href="javascript:void(0)" id="addGroup" class="btn btn-danger btn-add">新增分组</a>
 			</div>
 			<!-- widget -->
@@ -36,12 +36,17 @@
 				</div>
 
 				<div class="widget-content">
+					<div class="row">
+						<div class="col-sm-2">
+							@Html.DropDownList("Active", (ViewBag.Actives as List<Active>).Select(x => new SelectListItem { Text = x.ActiveName, Value = x.ActiveId.ToString() }), "选择项目", new { @class = "search-field form-control" })
+						</div>
+					</div>
 					<!-- Grid -->
 					<div id="table-responsive">
 						<table id="bootgrid" class="table table-striped table-hover">
 							<thead>
 								<tr>
-									<th data-column-id="activeName" >活动名称</th>
+									<th data-column-id="activeName">活动名称</th>
 									<th data-column-id="gropupName">评审组名称</th>
 									<th data-column-id="level">评审级别</th>
 									<th data-column-id="start" data-formatter="DateOnly">起始时间</th>
@@ -77,88 +82,99 @@
 @section Scripts {
 	<script type="text/javascript">
 
+		function getGlobalRequest() {
+			return {
+				activeId: $('#Active').val() == '' ? 0 : $('#Active').val(),
+			};
+		}
+		function getGridOptions() {
 
-	function getGridOptions() {
+			return $.extend(true, {}, gridOptions, {
 
-		return $.extend(true, {}, gridOptions, {
-
-			url: "@Url.Action("Search","EvalManage")",
-
-			formatters: {
-				'commands': function (column, row) {
-					var id = row.id;
-					return '<div class="btn-group btn-group-xs pull-right" data-row-id="' + row.id +'">' +
-											 '<button class="btn btn-success btn-edit">编辑</button>' +
-											 '<button class="btn btn-warning btn-pro">评审进度</button>' +
-											 '<button class="btn btn-info btn-exp">分配专家</button>' +
-						                '<button class="btn btn-primary btn-res">分配作品</button>'
-					'</div>';
+				url: "@Url.Action("Search","EvalManage")",
+				requestHandler: function (request) { return $.extend(true, request, getGlobalRequest()); },
+				formatters: {
+					'commands': function (column, row) {
+						var id = row.id;
+						return '<div class="btn-group btn-group-xs pull-right" data-active-id="'+row.activeId+'" data-row-id="' + row.id + '">' +
+												 '<button class="btn btn-success btn-edit">编辑</button>' +
+												 '<button class="btn btn-warning btn-pro">评审进度</button>' +
+												 '<button class="btn btn-info btn-exp">分配专家</button>' +
+												 '<button class="btn btn-primary btn-res">分配作品</button>'
+						'</div>';
+					},
 				},
-			},
 
-			//defaultSearch: decodeURI(window.location.search.substr(3)),
+				//defaultSearch: decodeURI(window.location.search.substr(3)),
 
-			labels: {
-				search: "名称搜索"
-			},
+				labels: {
+					search: "名称搜索"
+				},
 
-		});
-
-	}
-
-
-	$(function () {
-
-		var grid = $("#bootgrid")
-				.bootgrid(getGridOptions())
-				.on("loaded.rs.jquery.bootgrid", function () {
-
-					grid.find("tbody tr:has(button.iselite)").addClass("flagelite");
-					grid.find("tbody tr:has(button.isallow)").addClass("flagallow");
-
-					grid
-						.find('.btn-edit').on('click', function () {
-							var id = $(this).parent().data("row-id");
-							$.get('@Url.Action("Edit", "EvalManage")?id=' + id, function (response) {
-								$("#inner-edit-form")
-										.html(response).modal("show");
-							});
-						});
-					grid
-						.find('.btn-pro').on('click', function () {
-							var id = $(this).parent().data("row-id");
-							$.get('@Url.Action("EvalProgress", "EvalManage")?id=' + id, function (response) {
-								$("#inner-edit-form")
-										.html(response).modal("show");
-							});
-						});
-					grid
-						.find('.btn-exp').on('click', function () {
-					   	var id = $(this).parent().data("row-id");
-					   	$.get('@Url.Action("ExpList", "EvalManage")?id=' + id, function (response) {
-					   		$("#inner-edit-form")
-										.html(response).modal("show");
-					   	});
-						});
-					grid.find('.btn-res').on('click', function () {
-						var id = $(this).parent().data("row-id");
-						$.get('@Url.Action("ResList", "EvalManage")?id=' + id, function (response) {
-							$("#inner-edit-form")
-									.html(response).modal("show");
-						});
-					});
-				
-				});
-
-
-		$('#addGroup').on('click', function () {
-			$.get('@Url.Action("Edit", "EvalManage")', function (response) {
-				$("#inner-edit-form")
-						.html(response).modal("show");
 			});
-		});
 
-	});
+		}
+
+
+		$(function () {
+
+			var grid = $("#bootgrid")
+					.bootgrid(getGridOptions())
+					.on("loaded.rs.jquery.bootgrid", function () {
+
+						grid.find("tbody tr:has(button.iselite)").addClass("flagelite");
+						grid.find("tbody tr:has(button.isallow)").addClass("flagallow");
+
+						grid
+							.find('.btn-edit').on('click', function () {
+								var id = $(this).parent().data("row-id");
+								$.get('@Url.Action("Edit", "EvalManage")?id=' + id, function (response) {
+									$("#inner-edit-form")
+											.html(response).modal("show");
+								});
+							});
+						grid
+							.find('.btn-pro').on('click', function () {
+								var id = $(this).parent().data("row-id");
+								$.get('@Url.Action("EvalProgress", "EvalManage")?id=' + id, function (response) {
+									$("#inner-edit-form")
+											.html(response).modal("show");
+								});
+							});
+						grid
+							.find('.btn-exp').on('click', function () {
+								var id = $(this).parent().data("row-id");
+								$.get('@Url.Action("ExpList", "EvalManage")?id=' + id, function (response) {
+									$("#inner-edit-form")
+											.html(response).modal("show");
+								});
+							});
+						grid.find('.btn-res').on('click', function () {
+							var id = $(this).parent().data("row-id");
+							var activeId = $(this).parent().data("activeId");
+							$.get('@Url.Action("ResList", "EvalManage")?id=' + id + '&activeId=' + activeId, function (response) {
+								$("#inner-edit-form")
+										.html(response).modal("show");
+							});
+						});
+
+					});
+
+
+			$('#addGroup').on('click', function () {
+				$.get('@Url.Action("Edit", "EvalManage")', function (response) {
+					$("#inner-edit-form")
+							.html(response).modal("show");
+				});
+			});
+
+			$('#Active').on('change',function () {
+
+				$("#bootgrid").bootgrid('reload')
+
+			});
+
+		});
 
 	</script>
 }

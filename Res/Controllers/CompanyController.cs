@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Res;
 using Symber.Web.Data;
 using Res.Business;
+using Util.NPOI;
+using System.IO;
 
 namespace Res.Controllers
 {
@@ -112,6 +114,7 @@ namespace Res.Controllers
          });
       }
 
+
       [HttpPost]
       public ActionResult Remove(long CompanyId = 0)
       {
@@ -137,6 +140,137 @@ namespace Res.Controllers
                msg = "删除成功"
             });
          }
+      }
+
+
+      //
+      //	单位 - 导入
+      // POST:		/Company/ImportPreview
+      // POST:		/Company/Import
+      //
+      [HttpPost]
+      public ActionResult ImportPreview()
+      {
+         if (Request.IsAuthenticated)
+         {
+            var file = Request.Files[0];
+            if (file == null) throw new NullReferenceException();
+
+            Stream sm = file.InputStream;
+            ExecelOperator exporter = new ExecelOperator(sm);
+            var result = exporter.ExcelToList<CompanyImportModel>(new string[] { "CompanyName", "Address", "Province", "Area", "Phone" });
+
+            ResSettings.SettingsInSession.RemoveCache(result.GetType());
+            ResSettings.SettingsInSession.SetCache(result, result.GetType());
+
+            return PartialView("_preview");
+         }
+
+         return Json("error");
+      }
+
+      [HttpPost]
+      public ActionResult ImporPrevieList(int current, int rowCount, string searchPhrase)
+      {
+         if (Request.IsAuthenticated)
+         {
+            var cache = ResSettings.SettingsInSession.GetCache(typeof(List<CompanyImportModel>));
+
+            if (null != cache && cache is List<CompanyImportModel>)
+            {
+               var result = cache as List<CompanyImportModel>;
+               if (!string.IsNullOrEmpty(searchPhrase))
+               {
+                  Predicate<CompanyImportModel> paras = x => x.Address.IndexOf(searchPhrase) >= 0 || x.Province.IndexOf(searchPhrase) >= 0 || x.Area.IndexOf(searchPhrase) >= 0 || x.CompanyName.IndexOf(searchPhrase) >= 0;
+                  Func<CompanyImportModel, bool> paras2 = x => x.Address.IndexOf(searchPhrase) >= 0 || x.Province.IndexOf(searchPhrase) >= 0 || x.Area.IndexOf(searchPhrase) >= 0 || x.CompanyName.IndexOf(searchPhrase) >= 0;
+                  if (result.Exists(paras))
+                     result = result.Where(paras2).ToList();
+                  else
+                     result = new List<CompanyImportModel>();
+               }
+               var total = result.Count;
+               if (total > 0)
+               {
+                  result = result.Skip(rowCount * (current - 1)).Take(rowCount).ToList();
+               }
+
+               return Json(new
+               {
+                  rows = result,
+                  current,
+                  rowCount,
+                  total
+               });
+            }
+         }
+
+         return Json(new
+         {
+            error = "true",
+            msg = "导入预览失败"
+         });
+      }
+
+      [HttpPost]
+      public ActionResult Import()
+      {
+         if (Request.IsAuthenticated)
+         {
+            var errorList = new List<CompanyImportModel>();
+            var allprovince = ResSettings.SettingsInSession.AllProvince();
+            var allArea = ResSettings.SettingsInSession.AllAreas();
+            var allCompany = ResSettings.SettingsInSession.AllSchools();
+            var cache = ResSettings.SettingsInSession.GetCache(typeof(List<CompanyImportModel>));
+            ResCompany province, area, existCompany = null;
+
+            if (null != cache && cache is List<CompanyImportModel> && null != allprovince && null != allArea && null != allCompany)
+            {
+               var result = cache as List<CompanyImportModel>;
+               foreach (var item in result)
+               {
+                  try
+                  {
+                     province = allArea.Find(a => a.CompanyName == item.Area.Trim());
+                     if (null == province) throw new Exception("省市不匹配");
+                     area = allArea.Find(a => a.CompanyName == item.Area.Trim());
+                     if (null == area) throw new Exception("地区不匹配");
+                     existCompany = allCompany.Find(ac => ac.CompanyName.IndexOf(item.CompanyName.Trim()) >= 0);
+                     if (null != existCompany) throw new Exception("单位已经存在");
+
+                     var company = new ResCompany
+                     {
+                        Address = item.Address.Trim(),
+                        CompanyName = item.CompanyName.Trim(),
+                        Phone = item.Phone.Trim(),
+                        ParentId = area.CompanyId,
+                        Path = area.Path + String.Format("{0}\\", db.ResCompanyDal.GetNewId(APDBDef.ResCompany.CompanyId))
+                     };
+                     APBplDef.ResCompanyBpl.Insert(company);
+                  }
+                  catch (Exception e)
+                  {
+                     item.IsSuccess = false;
+                     item.FailReason = e.Message;
+                     errorList.Add(item);
+                  }
+               }
+
+               //清除导入缓存
+
+               return Json(new
+               {
+                  IsSuccess = true
+               });
+            }
+         }
+
+         //清除导入缓存
+         //ResSettings.SettingsInSession.RemoveCache(typeof(List<CompanyImportModel>));
+
+         return Json(new
+         {
+            msg = "您还未登录，请登录后再导入"
+         });
       }
 
       // 获取树形菜单

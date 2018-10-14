@@ -205,6 +205,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="2014.sql" />
     <Content Include="assets\css\app.css" />
     <Content Include="assets\css\audio.png" />
     <Content Include="assets\css\binary.png" />
@@ -1696,8 +1697,8 @@
     <Content Include="Views\Crosource\Courses.cshtml" />
     <Content Include="Views\EvalManage\Search.cshtml" />
     <Content Include="Views\EvalManage\Edit.cshtml" />
-    <Content Include="Views\EvalManage\ExpList.cshtml" />
-    <Content Include="Views\EvalManage\ResList.cshtml" />
+    <Content Include="Views\EvalManage\_expList.cshtml" />
+    <Content Include="Views\EvalManage\_resList.cshtml" />
     <Content Include="Views\EvalManage\IndicationList.cshtml" />
     <Content Include="Views\EvalManage\IndicationEdit.cshtml" />
     <Content Include="Views\Eval\Search.cshtml" />
@@ -1712,6 +1713,10 @@
     <Content Include="Views\Crosource\_exercies.cshtml" />
     <Content Include="Views\Crosource\_approve.cshtml" />
     <Content Include="userTemplate.xlsx" />
+    <Content Include="Views\Company\_preview.cshtml" />
+    <Content Include="Views\User\_preview.cshtml" />
+    <Content Include="Views\Crosource\_publicSetting.cshtml" />
+    <Content Include="Views\Crosource\_downloadSetting.cshtml" />
     <None Include="xml.schema.definition\apgen.xsd">
       <SubType>Designer</SubType>
     </None>

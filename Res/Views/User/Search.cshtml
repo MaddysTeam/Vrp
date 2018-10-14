@@ -24,7 +24,7 @@
 		</div>
 
 		<div class="main-content">
-			<div style="margin-bottom:10px;"><a href="javascript:void(0)"  id="addUser" class="btn btn-danger btn-md">新增用户</a>&nbsp;<a href="javascript:void(0)" id="import" class="btn btn-info btn-md">批量导入</a>&nbsp;<a href="http://cdncsj.sser.shdjg.net/2018/templates/UserTemplate.xlsx" id="template" class="btn btn-primary btn-md">下载导入模板</a></div>
+			<div class="buttons"><a href="javascript:void(0)"  id="addUser" class="btn btn-danger btn-md">新增用户</a>&nbsp;<a href="javascript:void(0)" id="import" class="btn btn-info btn-md">批量导入</a>&nbsp;<a href="http://cdncsj.sser.shdjg.net/2018/templates/UserTemplate.xlsx" id="template" class="btn btn-primary btn-md">下载导入模板</a></div>
 			<!-- widget -->
 			<div class="widget">
 				<div class="widget-header">
@@ -36,8 +36,22 @@
 				</div>
 
 				<div class="widget-content">
+					<div class="row">
+						<div class="col-sm-2">
+							@Html.DropDownList("Province", (ViewBag.Provinces as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择省份", new { @class = "form-control province" })
+						</div>
+						<div class="col-sm-2">
+							@Html.DropDownList("Area", (ViewBag.Areas as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择地区", new { @class = "form-control area" })
+						</div>
+						<div class="col-sm-2">
+							@Html.DropDownList("Company", (ViewBag.Companies as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择单位", new { @class = "form-control company" })
+						</div>
+						<div class="col-sm-2">
+							<button id="search" class="btn btn-info btn-search"><i class="fa fa-search"></i>查询</button>
+						</div>
+					</div>
 					<!-- Condition -->
-					<div class="col-sm-12">
+					@*<div class="col-sm-12">
 						<form class="pull-right condition col-sm-4">
 							<div class="input-group">
 								<input type="text" class="form-control" disabled id="companyName" aria-label="...">
@@ -49,7 +63,7 @@
 									</div><!-- /btn-group -->
 							</div><!-- /input-group -->
 						</form>
-					</div>
+					</div>*@
 					<!-- end Condition-->
 					<div class="col-sm-12">
 						<hr />
@@ -84,7 +98,7 @@
 			<!-- modal frame -->
 				<div class="modal fade" id="inner-edit-form" tabindex="-1" role="dialog"></div>
 			<!-- end modal frame -->
-			<form action="@Url.Action("Import", "User")" class="dropzone import" hidden></form>
+			<form action="@Url.Action("ImportPreview", "User")" class="dropzone import" hidden></form>
 		</div>
 		<!-- /main-content -->
 	</div>
@@ -92,19 +106,27 @@
 </div>
 @section Css {
 	@Styles.Render("~/css/bootgrid")
-	@Styles.Render("~/css/jstree")
+	@*@Styles.Render("~/css/jstree")*@
 }
 @section Plugins {
 	@Scripts.Render("~/js/bootgrid")
-	@Scripts.Render("~/js/jstree")
+	@*@Scripts.Render("~/js/jstree")*@
    @Scripts.Render("~/js/dropzone")
 }
 @section Scripts {
 	<script type="text/javascript">
 
-	function getGlobalRequest() {
-		return { companyId: $('#jstree').jstree("get_selected") | 0 };
-	}
+	//function getGlobalRequest() {
+	//	return { companyId: $('#jstree').jstree("get_selected") | 0 };
+		//}
+
+		function getGlobalRequest() {
+			return {
+				provinceId: $('#Province').val()=='' ? 0:$('#Province').val(),
+				areaId: $('#Area').val()=='' ? 0:$('#Area').val(),
+				companyId: $('#Company').val() == '' ? 0 : $('#Company').val()
+			}
+		}
 
 	function getGridOptions() {
 
@@ -143,38 +165,49 @@
 
 	$(function () {
 
+		var provinces=@Html.Raw(Json.Encode(ViewBag.ProvincesDic));
+		var areas=@Html.Raw(Json.Encode(ViewBag.AreasDic));
+		var schools=@Html.Raw(Json.Encode(ViewBag.SchoolsDic));
+		// relation select
+		RelationSelect($("#Province"), $("#Area"), areas, "选择地区");
+		RelationSelect($("#Area"), $("#Company"), schools, "选择学校");
+
 		$("#addUser").on("click", function () {
 			showModal();
 		});
 
-		$('#jstree')
-			.on("click.jstree", function (e) {
-				e.stopImmediatePropagation();
-			})
-			.on("changed.jstree", function (e, data) {
-				$("#companyName").val(data.instance.get_node(data.selected).text);
-				$("#bootgrid").bootgrid("reload");
-				data.instance.click();
-			})
-			.jstree({
-				"core": {
-					"animation": 0,
-					"multiple": false,
-					"check_callback": true,
-					"themes": {},
-					'data': {
-						'url': function (node) {
-							return '/Company/Tree';
-						},
-						'data': function (node) {
-							return { 'id': node.id };
-						}
-					}
-				},
-				"plugins": [
-					"wholerow"
-				]
-			});
+		$('#search').click(function () {
+			$("#bootgrid").bootgrid('reload');
+			return false;
+		});
+		//$('#jstree')
+		//	.on("click.jstree", function (e) {
+		//		e.stopImmediatePropagation();
+		//	})
+		//	.on("changed.jstree", function (e, data) {
+		//		$("#companyName").val(data.instance.get_node(data.selected).text);
+		//		$("#bootgrid").bootgrid("reload");
+		//		data.instance.click();
+		//	})
+		//	.jstree({
+		//		"core": {
+		//			"animation": 0,
+		//			"multiple": false,
+		//			"check_callback": true,
+		//			"themes": {},
+		//			'data': {
+		//				'url': function (node) {
+		//					return '/Company/Tree';
+		//				},
+		//				'data': function (node) {
+		//					return { 'id': node.id };
+		//				}
+		//			}
+		//		},
+		//		"plugins": [
+		//			"wholerow"
+		//		]
+		//	});
 
 		var grid = $("#bootgrid")
 				.bootgrid(getGridOptions())
@@ -216,8 +249,7 @@
 			dictResponseError: "File Upload Error.",
 			init: function () {
 				this.on("success", function (file, data) {
-					alert('导入完成');
-					//$("#photo").attr("src", data.showPath);
+					$('#inner-edit-form').html(data).modal('show');
 				});
 				this.on("error", function (file, message) {
 					alert(message)

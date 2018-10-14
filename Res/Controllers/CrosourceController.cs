@@ -37,14 +37,14 @@ namespace Res.Controllers
 
       public ActionResult Search()
       {
-         InitDropDownData();
+         InitAreaDropDownData();
 
          return View();
       }
 
       [HttpPost]
       public ActionResult Search(long activeId, long provinceId, long areaId, long companyId, long subjectId,
-                                 long gradeId, int current, int rowCount, string searchPhrase, FormCollection fc)
+                                 long gradeId, long maxScore,long minScore, int current, int rowCount, string searchPhrase, FormCollection fc)
       {
          var user = ResSettings.SettingsInSession.User;
 
@@ -84,6 +84,11 @@ namespace Res.Controllers
             where &= t.AreaId == (areaId > 0 ? areaId : user.AreaId);
          if (user.CompanyId > 0 || companyId > 0)
             where &= t.CompanyId == (companyId > 0 ? companyId : user.CompanyId);
+
+         if (maxScore > 0)
+            where &= t.Score <= maxScore;
+         if (minScore > 0)
+            where &= t.Score >= minScore;
 
          // 按项目，年级，学科数据过滤
          if (activeId > 0)
@@ -294,7 +299,7 @@ namespace Res.Controllers
 
       public ActionResult Edit(long? id)
       {
-         InitDropDownData();
+         InitAreaDropDownData();
 
          if (id == null)
          {
@@ -631,8 +636,10 @@ namespace Res.Controllers
 
 
       //
-      // 修改公开状态
-      // POST:		/My/PublicSettings
+      // 修改和批量修改公开状态
+      // POST:		/Crosource/PublicSetting
+      // GET:		/Crosource/MultiPublicSetting
+      // POST:		/Crosource/MultiPublicSetting
       //
 
       [HttpPost]
@@ -654,10 +661,44 @@ namespace Res.Controllers
          });
       }
 
+      public ActionResult MultiPublicSetting(string ids)
+      {
+         var list = CroResourceHelper.DictPublicSetting
+                          .Select(x => new SelectListItem { Text = x.Value, Value = x.Key.ToString() })
+                          .ToList();
+
+         ViewBag.ids = ids;
+
+         return PartialView("_publicSetting", list);
+      }
+
+      [HttpPost]
+      public ActionResult MultiPublicSetting(string ids, long settingId)
+      {
+         if (Request.IsAjaxRequest() && !string.IsNullOrEmpty(ids))
+         {
+            var cr = APDBDef.CroResource;
+            var array = ids.Split(',');
+            var idArray = new long[array.Length];
+            for (int i = 0; i < array.Length; i++)
+            {
+               idArray[i] = Convert.ToInt64(array[i]);
+            }
+
+            APQuery.update(cr).set(cr.PublicStatePKID, settingId).where(cr.CrosourceId.In(idArray)).execute(db);
+
+            return Json(new { cmd = "Processed", value = settingId, msg = "批量设定完成。" });
+         }
+
+         return IsNotAjax();
+      }
+
 
       //
-      // 修改下载状态
-      // POST:		/My/PublicSettings
+      // 修改和批量下载状态
+      // POST:		/Crosource/PublicSettings
+      // GET:		/Crosource/MultiDownloadSetting
+      // POST:		/Crosource/MultiDownloadSetting
       //
 
       [HttpPost]
@@ -677,6 +718,38 @@ namespace Res.Controllers
             cmd = "Updated",
             msg = "设置成功"
          });
+      }
+
+      public ActionResult MultiDownloadSetting(string ids)
+      {
+         var list = CroResourceHelper.DictDownloadSetting
+                          .Select(x => new SelectListItem { Text = x.Value, Value = x.Key.ToString() })
+                          .ToList();
+
+         ViewBag.ids = ids;
+
+         return PartialView("_downloadSetting", list);
+      }
+
+      [HttpPost]
+      public ActionResult MultiDownloadSetting(string ids, long settingId)
+      {
+         if (Request.IsAjaxRequest() && !string.IsNullOrEmpty(ids))
+         {
+            var cr = APDBDef.CroResource;
+            var array = ids.Split(',');
+            var idArray = new long[array.Length];
+            for (int i = 0; i < array.Length; i++)
+            {
+               idArray[i] = Convert.ToInt64(array[i]);
+            }
+
+            APQuery.update(cr).set(cr.DownloadStatePKID, settingId).where(cr.CrosourceId.In(idArray)).execute(db);
+
+            return Json(new { cmd = "Processed", value = settingId, msg = "批量设定完成。" });
+         }
+
+         return IsNotAjax();
       }
 
 
@@ -754,41 +827,6 @@ namespace Res.Controllers
          return array;
       }
 
-
-      private void InitDropDownData()
-      {
-         //删除单位的缓存信息
-         ResSettings.SettingsInSession.RemoveCache(typeof(List<ResCompany>));
-
-         var user = ResSettings.SettingsInSession.User;
-
-         var provinces = ResSettings.SettingsInSession.AllProvince();
-         var areas = ResSettings.SettingsInSession.AllAreas();
-         var schools = ResSettings.SettingsInSession.AllSchools();
-
-         if (user.ProvinceId > 0)
-         {
-            provinces = provinces.Where(x => x.CompanyId == user.ProvinceId).ToList();
-         }
-         if (user.AreaId > 0)
-         {
-            areas = areas.Where(x => x.CompanyId == user.AreaId).ToList();
-         }
-         if (user.CompanyId > 0)
-         {
-            schools = schools.Where(x => x.CompanyId == user.CompanyId).ToList();
-         }
-
-         ViewBag.Provinces = provinces;
-         ViewBag.Areas = areas;
-         ViewBag.Companies = schools;
-
-         ViewBag.Actives = APBplDef.ActiveBpl.GetAll();
-
-         ViewBag.ProvincesDic = CrosourceController.GetStrengthDict(areas);
-         ViewBag.AreasDic = CrosourceController.GetStrengthDict(areas);
-         ViewBag.SchoolsDic = CrosourceController.GetStrengthDict(schools);
-      }
 
    }
 

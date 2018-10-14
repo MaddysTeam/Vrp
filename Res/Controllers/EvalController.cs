@@ -99,7 +99,7 @@ namespace Res.Controllers
       // GET:		/Eval/Details
       //
 
-      public ActionResult Details(long id, long resId, long groupId, long? expertId)
+      public ActionResult Details(long id, long resId,long? courseId, long groupId, long? expertId)
       {
          var expert = expertId == null ? ResSettings.SettingsInSession.User : APBplDef.ResUserBpl.PrimaryGet(expertId.Value);
          if (expert == null) throw new ArgumentException("expert can not be null");
@@ -110,7 +110,7 @@ namespace Res.Controllers
 
          var model = APBplDef.CroResourceBpl.GetResource(db, resId);
 
-         var query = APQuery.select(i.IndicationId, i.Description, i.LevelPKID, i.Score,
+         var query = APQuery.select(i.IndicationId, i.Description, i.LevelPKID, i.Score,i.IndicationName,
                                     i.TypePKID, i.ActiveId, a.ActiveName, a.ActiveId,
                                     eri.ResultId, eri.Score.As("evalScore"),
                                     er.Comment, er.ExpertId)
@@ -138,6 +138,7 @@ namespace Res.Controllers
               expId = er.ExpertId.GetValue(r).ToString();
 
               var indication = new Indication();
+              indication.IndicationName = i.IndicationName.GetValue(r);
               indication.ActiveId = a.ActiveId.GetValue(r);
               indication.ActiveName = a.ActiveName.GetValue(r);
               indication.IndicationId = i.IndicationId.GetValue(r);
@@ -155,7 +156,7 @@ namespace Res.Controllers
 
          ViewBag.Comment = comment;
 
-         ViewBag.CurrentCourse = model.Courses[0];// courseId == null || courseId.Value == 0 ? model.Courses[0] : model.Courses.Find(c => c.CourseId == courseId);
+         ViewBag.CurrentCourse =  courseId == null || courseId.Value == 0 ? model.Courses[0] : model.Courses.Find(c => c.CourseId == courseId);
 
          return View(model);
       }

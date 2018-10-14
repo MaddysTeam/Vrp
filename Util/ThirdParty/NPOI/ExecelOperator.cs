@@ -66,48 +66,58 @@ namespace Util.NPOI
       /// <typeparam name="T">类型</typeparam>
       /// <param name="fields">字段数组</param>
       /// <returns>List集合</returns>
-      public IList<T> ExcelToList<T>(string[] fields) where T : class, new()
+      public List<T> ExcelToList<T>(string[] fields) where T : class, new()
       {
          return ExportToList<T>(_IWorkbook.GetSheetAt(0), fields);
       }
 
 
-      private IList<T> ExportToList<T>(ISheet sheet, string[] fields) where T : new()
+      private List<T> ExportToList<T>(ISheet sheet, string[] fields) where T : new()
       {
-         IList<T> list = new List<T>();
+         List<T> list = new List<T>();
 
          for (int i = sheet.FirstRowNum + 1, len = sheet.LastRowNum + 1; i < len; i++)
          {
             T t = new T();
             IRow row = sheet.GetRow(i);
-
-            for (int j = 0, len2 = fields.Length; j < len2; j++)
+            try
             {
-               ICell cell = row.GetCell(j);
-               object cellValue = null;
-
-               switch (cell.CellType)
+               for (int j = 0, len2 = fields.Length; j < len2; j++)
                {
-                  case CellType.String: 
-                     cellValue = cell.StringCellValue;
-                     break;
-                  case CellType.Numeric: 
-                     cellValue = Convert.ToInt32(cell.NumericCellValue);//Double转换为int
-                     break;
-                  case CellType.Boolean: 
-                     cellValue = cell.BooleanCellValue;
-                     break;
-                  case CellType.Blank: 
-                     cellValue = "";
-                     break;
-                  default:
-                     cellValue = "ERROR";
-                     break;
+                  ICell cell = row.GetCell(j);
+                  object cellValue = null;
+
+                  switch (cell.CellType)
+                  {
+                     case CellType.String:
+                        cellValue = cell.StringCellValue;
+                        break;
+                     case CellType.Numeric:
+                        cellValue =cell.NumericCellValue.ToString();//Double转换为stirng
+                        break;
+                     case CellType.Boolean:
+                        cellValue = cell.BooleanCellValue;
+                        break;
+                     case CellType.Blank:
+                        cellValue = "";
+                        break;
+                     default:
+                        cellValue = "ERROR";
+                        break;
+                  }
+
+                  typeof(T).GetProperty(fields[j]).SetValue(t, cellValue, null);
                }
 
-               typeof(T).GetProperty(fields[j]).SetValue(t, cellValue, null);
+               typeof(T).GetProperty("IsSuccess").SetValue(t, true, null);
+               list.Add(t);
             }
-            list.Add(t);
+            catch(Exception e)
+            {
+               typeof(T).GetProperty("FailReason").SetValue(t, e.Message, null);
+               typeof(T).GetProperty("IsSuccess").SetValue(t, false, null);
+               list.Add(t);
+            }
          }
 
          return list;

@@ -206,11 +206,13 @@ namespace Res.Controllers
 
       public ActionResult Search()
       {
+         InitAreaDropDownData();
+
          return View();
       }
 
       [HttpPost]
-      public ActionResult Search(int current, int rowCount, string searchPhrase, long companyId, FormCollection fc)
+      public ActionResult Search(long provinceId, long areaId, long companyId, int current, int rowCount, string searchPhrase, FormCollection fc)
       {
          var user = ResSettings.SettingsInSession.User;
 
@@ -392,13 +394,12 @@ namespace Res.Controllers
          var user = APBplDef.ResUserBpl.PrimaryGet(id.Value);
 
          var Token = await UserManager.GeneratePasswordResetTokenAsync(id.Value);
-         var result = await UserManager.ResetPasswordAsync(id.Value, Token, "111111");
-         //	var result = await UserManager.ChangePasswordAsync(id.Value, user.Password, "111111");
-         APBplDef.ResUserBpl.UpdatePartial(id.Value, new { Password = "111111" });
+         var result = await UserManager.ResetPasswordAsync(id.Value, Token, ThisApp.DefaultPassword);
+         APBplDef.ResUserBpl.UpdatePartial(id.Value, new { Password = ThisApp.DefaultPassword });
 
          if (result.Succeeded)
          {
-            return Json("用户密码已经被重置为6个1");
+            return Json("用户密码已经被重置为"+ ThisApp.DefaultPassword);
          }
          else
          {
@@ -406,8 +407,16 @@ namespace Res.Controllers
          }
       }
 
+
+      //
+      //	用户 - 导入
+      // POST:		/Company/ImportPreview
+      // POST:		/Company/ImportPreviewList
+      // POST:		/Company/Import
+      //
+
       [HttpPost]
-      public ActionResult Import()
+      public ActionResult ImportPreview()
       {
          if (Request.IsAuthenticated)
          {
@@ -416,30 +425,78 @@ namespace Res.Controllers
 
             Stream sm = file.InputStream;
             ExecelOperator exporter = new ExecelOperator(sm);
+            var result = exporter.ExcelToList<UserImportModel>(new string[] { "UserName", "RealName", "UserType", "Province", "Area", "Company"});
 
-            var failedList = new List<UserImportModel>();
+            ResSettings.SettingsInSession.RemoveCache(result.GetType());
+            ResSettings.SettingsInSession.SetCache(result, result.GetType());
+
+            return PartialView("_preview");
+         }
+
+         return Json("error");
+      }
+
+      [HttpPost]
+      public ActionResult ImportPreviewList(int current, int rowCount, string searchPhrase)
+      {
+         if (Request.IsAuthenticated)
+         {
+            var cache = ResSettings.SettingsInSession.GetCache(typeof(List<UserImportModel>));
+            if (null != cache && cache is List<UserImportModel>)
+            {
+               var result = cache as List<UserImportModel>;
+               if (!string.IsNullOrEmpty(searchPhrase))
+               {
+                  Predicate<UserImportModel> paras = x => x.UserName.IndexOf(searchPhrase) >= 0 || x.RealName.IndexOf(searchPhrase) >= 0;
+                  Func<UserImportModel, bool> paras2 = x => x.UserName.IndexOf(searchPhrase) >= 0 || x.RealName.IndexOf(searchPhrase) >= 0;
+                  if (result.Exists(paras))
+                     result = result.Where(paras2).ToList();
+                  else
+                     result = new List<UserImportModel>();
+               }
+
+               var total = result.Count;
+               if (total > 0)
+               {
+                  result = result.Skip(rowCount * (current - 1)).Take(rowCount).ToList();
+               }
+
+               return Json(new
+               {
+                  rows = result,
+                  current,
+                  rowCount,
+                  total
+               });
+            }
+         }
+
+         return Json(new
+         {
+            error = "true",
+            msg = "导入预览失败"
+         });
+      }
+
+      [HttpPost]
+      public ActionResult Import()
+      {
+         if (Request.IsAuthenticated)
+         {
+            var errorList = new List<UserImportModel>();
             var allProvince = ResSettings.SettingsInSession.AllProvince();
             var allArea = ResSettings.SettingsInSession.AllAreas();
             var allSchools = ResSettings.SettingsInSession.AllSchools();
             var allUsers = APBplDef.ResUserBpl.GetAll();
-            IList<UserImportModel> list = new List<UserImportModel>();
-            try
-            {
-               list = exporter.ExcelToList<UserImportModel>(new string[] { "UserName", "RealName", "UserType", "Province", "Area", "Company" });
-            }
-            catch
-            {
-               return Json("error");
-            }
+            var list = ResSettings.SettingsInSession.GetCache(typeof(List<UserImportModel>)) as List<UserImportModel>;
             foreach (var item in list)
             {
-               if (null != allUsers && allUsers.Find(x => x.UserName.IndexOf(item.UserName) >= 0) != null)
-               {
-                  failedList.Add(item);
-                  continue;
-               }
                try
                {
+                  if (null != allUsers && allUsers.Find(x => x.UserName.IndexOf(item.UserName.Trim()) >= 0) != null)
+                  {
+                     throw new Exception("用户名已经存在");
+                  }
                   long ProvinceId = string.IsNullOrEmpty(item.Province) || string.IsNullOrWhiteSpace(item.Province) ? 0 : allProvince.Find(x => x.CompanyName.IndexOf(item.Province) >= 0).CompanyId;
                   long AreaId = string.IsNullOrEmpty(item.Area) || string.IsNullOrWhiteSpace(item.Area) ? 0 : allArea.Find(x => x.CompanyName.IndexOf(item.Area) >= 0).CompanyId;
                   long CompanyId = string.IsNullOrEmpty(item.Company) || string.IsNullOrWhiteSpace(item.Company) ? 0 : allSchools.Find(x => x.CompanyName.IndexOf(item.Company) >= 0).CompanyId;
@@ -478,17 +535,17 @@ namespace Res.Controllers
                      MD5 = string.Empty,
                   });
                }
-               catch
+               catch(Exception e)
                {
-                  failedList.Add(item);
+                  item.IsSuccess = false;
+                  item.FailReason = e.Message;
+                  errorList.Add(item);
                }
             }
 
-            sm.Close();
-            sm.Dispose();
-
-            return Json(new {
-               rows= failedList
+            return Json(new
+            {
+               IsSuccess = true
             });
          }
 

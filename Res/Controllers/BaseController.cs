@@ -113,6 +113,48 @@ namespace Res.Controllers
 			}).ToList();
 		}
 
-	}
+
+      /// <summary>
+      /// Intial area drop down data
+      /// </summary>
+      protected void InitAreaDropDownData(bool filterByuser=false)
+      {
+         //删除单位的缓存信息
+         ResSettings.SettingsInSession.RemoveCache(typeof(List<ResCompany>));
+
+         var user = ResSettings.SettingsInSession.User;
+
+         var provinces = ResSettings.SettingsInSession.AllProvince();
+         var areas = ResSettings.SettingsInSession.AllAreas();
+         var schools = ResSettings.SettingsInSession.AllSchools();
+
+         if (filterByuser)
+         {
+            if (user.ProvinceId > 0)
+            {
+               provinces = provinces.Where(x => x.CompanyId == user.ProvinceId).ToList();
+            }
+            if (user.AreaId > 0)
+            {
+               areas = areas.Where(x => x.CompanyId == user.AreaId).ToList();
+            }
+            if (user.CompanyId > 0)
+            {
+               schools = schools.Where(x => x.CompanyId == user.CompanyId).ToList();
+            }
+         }
+
+         ViewBag.Provinces = provinces;
+         ViewBag.Areas = areas;
+         ViewBag.Companies = schools;
+
+         ViewBag.Actives = ResSettings.SettingsInSession.Actives;
+
+         ViewBag.ProvincesDic = CrosourceController.GetStrengthDict(areas);
+         ViewBag.AreasDic = CrosourceController.GetStrengthDict(areas);
+         ViewBag.SchoolsDic = CrosourceController.GetStrengthDict(schools);
+      }
+
+   }
 
 }

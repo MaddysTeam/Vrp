@@ -47,6 +47,16 @@ namespace Res.Business
             { StateAllow, State.GetName(StateAllow)},
             { StateDeny, State.GetName(StateDeny)}
          };
+         DictPublicSetting = new Dictionary<long, string>
+         {
+            { Public, PublicState.GetName(Public)},
+            { Private, PublicState.GetName(Private)}
+         };
+         DictDownloadSetting = new Dictionary<long, string>
+         {
+            { AllowDownload, DownloadState.GetName(AllowDownload)},
+            { DenyDownload, DownloadState.GetName(DenyDownload)}
+         };
       }
 
 
@@ -99,6 +109,11 @@ namespace Res.Business
       // 状态字典
       public static Dictionary<long, string> DictApprove;
 
+      // 公开设定字典
+      public static Dictionary<long, string> DictPublicSetting;
+
+      // 下载设定字典
+      public static Dictionary<long, string> DictDownloadSetting;
    }
 
 }

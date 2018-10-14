@@ -195,19 +195,36 @@ namespace Res.Business
 
 	}
 
+   public class ImportModel
+   {
+      public bool IsSuccess { get; set; }
+      public string FailReason { get; set; }
+   }
 
    /// <summary>
    /// 用户导入模型
    /// </summary>
-   public class UserImportModel
+   public class UserImportModel: ImportModel
    {
       public string UserName { get; set; }
       public string RealName { get; set; }
       public string UserType { get; set; }
-      //public string Email { get; set; }
       public string Province { get; set; }
       public string Area { get; set; }
       public string Company { get; set; }
+   }
+
+
+   /// <summary>
+   /// 单位导入模型
+   /// </summary>
+   public class CompanyImportModel: ImportModel
+   {
+      public string CompanyName { get; set; }
+      public string Address { get; set; }
+      public string Province { get; set; }
+      public string Area { get; set; }
+      public string Phone { get; set; }
    }
 
 }

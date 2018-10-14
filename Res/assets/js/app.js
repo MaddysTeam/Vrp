@@ -83,8 +83,9 @@ function joinBag(id) {
 }
 
 
-function initTableCheckbox() {
-	var $thr = $('table thead tr');
+function initTableCheckbox(tableId) {
+	var table = '#'+tableId;
+	var $thr = $(table+' thead tr');
 	var $checkAllTh = $('<th class="width30"><input type="checkbox" id="checkAll" name="checkAll" /></th>');
 	if ($('#checkAll').size() <= 0) {
 		/*将全选/反选复选框添加到表头最前，即增加一列*/
@@ -108,7 +109,7 @@ function initTableCheckbox() {
 	$checkAllTh.click(function () {
 		$(this).find('input').click();
 	});
-	var $tbr = $('table tbody tr');
+	var $tbr = $(table+' tbody tr');
 	var $checkItemTd = $('<td><input type="checkbox" name="checkItem" class="checkItem"/></td>');
 	/*每一行都在最前面插入一个选中复选框的单元格*/
 	$tbr.prepend($checkItemTd);
@@ -125,6 +126,30 @@ function initTableCheckbox() {
 	$tbr.click(function () {
 		$(this).find('input').click();
 	});
+}
+
+
+function RelationSelect(src, tat, rule, none, fixInit) {
+	var $src = $(src), $tat = $(tat);
+	function doit(init) {
+		var key = $src.val();
+		$tat.empty();
+		if (none) {
+			$tat.append($("<option>").val(0).text(none)).change();
+		}
+		$.each(rule, function (i, n) {
+			if (n.key == key) {
+				$tat.append($("<option>").val(n.id).text(n.name));
+			}
+		});
+		if (init) $tat.val(init);
+	}
+
+	$src.on("change", function () {
+		doit();
+	});
+
+	doit(fixInit || $tat.val());
 }
 //$(function () {
 //	$(document).on("click", ".joinbag", function (e) {

@@ -26,7 +26,7 @@
 
 		<div class="main-content">
 
-			<div style="margin-bottom:10px;">
+			<div class="buttons">
 				<a href="@Url.Action("Edit", "Crosource")" id="addUser" class="btn btn-danger btn-md">新增作品</a>&nbsp;
 				<a href="#" id="approve" class="btn btn-info btn-approve">审核</a>&nbsp;
 				<a href="#" id="winLevel" class="btn btn-success btn-winLevel">设置奖项</a>&nbsp;
@@ -64,10 +64,14 @@
 							@Html.DropDownList("Subject", CroResourceHelper.Subject.GetSelectList(), "选择学科", new { @class = "form-control search-field" })
 						</div>
 						<div class="col-sm-2" style="margin-top:10px;">
-							@Html.TextBox("MinScore",null,new { @class = "form-control", @placeholder = "得分最低分" })
+							@Html.TextBox("MinScore", null, new { @class = "form-control score", @placeholder = "大于得分" })
+
 						</div>
 						<div class="col-sm-2" style="margin-top:10px;">
-							@Html.TextBox("MaxScore",null, new { @class = "form-control", @placeholder = "得分最高分" })
+							@Html.TextBox("MaxScore", null, new { @class = "form-control score", @placeholder = "小于得分" })
+						</div>
+						<div class="col-sm-2 buttons">
+							<button id="search" class="btn btn-info btn-search"><i class="fa fa-search"></i>查询</button>
 						</div>
 					</div>
 
@@ -119,29 +123,6 @@
 @section Scripts {
 	<script type="text/javascript">
 
-		function RelationSelect(src, tat, rule, none, fixInit) {
-			var $src = $(src), $tat = $(tat);
-			function doit(init) {
-				var key = $src.val();
-				$tat.empty();
-				if (none) {
-					$tat.append($("<option>").val(0).text(none)).change();
-				}
-				$.each(rule, function (i, n) {
-					if (n.key == key) {
-						$tat.append($("<option>").val(n.id).text(n.name));
-					}
-				});
-				if (init) $tat.val(init);
-			}
-
-			$src.on("change", function () {
-				doit();
-			});
-
-			doit(fixInit || $tat.val());
-		}
-
 		function getGlobalRequest() {
 			return {
 				activeId: $('#Active').val()=='' ? 0:$('#Active').val(),
@@ -150,6 +131,8 @@
 				companyId: $('#Company').val()=='' ? 0:$('#Company').val(),
 				subjectId: $('#Subject').val()=='' ? 0:$('#Subject').val(),
 				gradeId: $('#Grade').val()=='' ? 0:$('#Grade').val(),
+				minScore:$('#MinScore').val()==''? 0:$('#MinScore').val(),
+				maxScore:$('#MaxScore').val()==''? 0:$('#MaxScore').val(),
 			};
 		}
 
@@ -185,7 +168,7 @@
 					},
 					"cmd_download": function (column, row) {
 						if (isAdmin) {
-							return "<button type='button' class='btn btn-xs  cmd_download' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='下载/禁止下载'><fa>" + (row["DownloadStatePKID"] == 10452 ? "下载" : "禁止下载") + "</fa></button>";
+							return "<button type='button' class='btn btn-xs  cmd_download' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='下载/禁止下载'><fa>" + (row["DownloadStatePKID"] == 10453 ? "下载" : "禁止下载") + "</fa></button>";
 						}
 					},
 					"cmd_delete": function (column, row) {
@@ -196,7 +179,7 @@
 				defaultSearch: decodeURI(window.location.search.substr(3)),
 
 				labels: {
-					search: "名称搜索"
+					search: "作品名称，内容，作者名称或作者单位"
 				},
 
 			});
@@ -221,7 +204,7 @@
 
 						ids=[];
 						//复选框列初始化
-						initTableCheckbox();
+						initTableCheckbox('bootgrid');
 
 						//绑定选中状态
 						$('.checkItem').each(function(){
@@ -316,9 +299,7 @@
 									var id=$(this).parents('tr').find('.cmd_approve').data('rowId');
 									ids.push(id);
 								});
-								console.log(ids);
 							});
-
 
 					});
 
@@ -348,14 +329,55 @@
 				});
 			});
 
+			// 批量设定公开状态
+			$('#public').on('click',function(){
+				if(ids.length<=0){
+					alert('必须选择作品');
+					return false;
+				}
 
-			$('.province,.area,.company,.search-field').on('change',function(){
+				$.get("@Url.Action("MultiPublicSetting", "Crosource")",{ids:ids.join(',')}, function (response) {
+					$("#inner-edit-form")
+						.html(response).modal("show");
+				});
+			});
+
+			// 批量设定下载状态
+			$('#download').on('click',function(){
+				if(ids.length<=0){
+					alert('必须选择作品');
+					return false;
+				}
+
+				$.get("@Url.Action("MultiDownloadSetting", "Crosource")",{ids:ids.join(',')}, function (response) {
+					$("#inner-edit-form")
+						.html(response).modal("show");
+				});
+			});
+
+			$('#search').click(function(){
 				$("#bootgrid").bootgrid('reload');
 				return false;
 			});
+			//$('.search-field').on('change',function(){
+			//	$("#bootgrid").bootgrid('reload');
+			//	return false;
+			//});
+
+			//$('.province,.area,.company').on('change',function(){
+
+			//});
+
+			//$('.score').on('blur',function(){
+			//	$("#bootgrid").bootgrid('reload');
+			//	return false;
+			//});
+			//$('.score').on('keyup',function(){
+			//	$(this).val($(this).val().replace(/[^0-9]/g,''));
+			//});
 
 			$('.search').css('width','310px');
-			$('.search input').prop('placeholder','作品名称，内容，作者名称或作者单位');
+			//$('.search input').prop('placeholder','作品名称，内容，作者名称或作者单位');
 
 		});
 

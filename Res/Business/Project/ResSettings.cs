@@ -167,6 +167,14 @@ namespace Res.Business
          }
       }
 
+      public List<Active> Actives
+      {
+         get
+         {
+            return APBplDef.ActiveBpl.GetAll();
+         }
+      }
+
       //public Active CurrentActive
       //{
       //   get

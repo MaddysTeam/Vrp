@@ -21,11 +21,13 @@ namespace Res.Controllers
 
       public ActionResult Search()
       {
+         ViewBag.Actives = ResSettings.SettingsInSession.Actives;
+
          return View();
       }
 
       [HttpPost]
-      public ActionResult Search(int current, int rowCount, string searchPhrase, FormCollection fc)
+      public ActionResult Search(int activeId,int current, int rowCount, string searchPhrase, FormCollection fc)
       {
          var user = ResSettings.SettingsInSession.User;
          var eg = APDBDef.EvalGroup;
@@ -47,6 +49,10 @@ namespace Res.Controllers
 
          if (user.CompanyId > 0)
             query.where_and(eg.CompanyId == user.CompanyId);
+
+         if (activeId > 0)
+            query.where_and(eg.ActiveId == activeId);
+
 
          query.primary(eg.GroupId)
               .skip((current - 1) * rowCount)
@@ -167,7 +173,8 @@ namespace Res.Controllers
 
       public ActionResult ExpList(int id)
       {
-         return PartialView(id);
+         InitAreaDropDownData(false);
+         return PartialView("_expList",id);
       }
 
       [HttpPost]
@@ -256,13 +263,16 @@ namespace Res.Controllers
       // GET: ExpManage/ResList
       // POST-Ajax: ExpManage/ResList
 
-      public ActionResult ResList(int id)
+      public ActionResult ResList(int id,int activeId)
       {
-         return PartialView(id);
+         InitAreaDropDownData(true);
+
+         return PartialView("_resList", id);
       }
 
       [HttpPost]
-      public ActionResult ResList(int current, int rowCount, string searchPhrase, int id)
+      public ActionResult ResList(long id,long activeId, long provinceId, long areaId, long companyId, long subjectId,
+                                 long gradeId, int current, int rowCount, string searchPhrase)
       {
          ThrowNotAjax();
 
@@ -272,11 +282,13 @@ namespace Res.Controllers
          var egr = APDBDef.EvalGroupResource;
 
          var query = APQuery.select(r.CrosourceId, r.Title, r.AuthorCompany, r.Author, r.SubjectPKID, r.GradePKID, egr.GroupResourceId)
-             .from(r, egr.JoinLeft(r.CrosourceId == egr.ResourceId & egr.GroupId == id))
+             .from(r,
+                   egr.JoinLeft(r.CrosourceId == egr.ResourceId & egr.GroupId == id)
+             )
+             .where_and(r.StatePKID==CroResourceHelper.StateAllow)
              .primary(r.CrosourceId)
              .skip((current - 1) * rowCount)
              .take(rowCount);
-
 
          //过滤条件
          //模糊搜索用户名、实名进行
@@ -284,17 +296,22 @@ namespace Res.Controllers
          if (!string.IsNullOrEmpty(searchPhrase))
          {
             searchPhrase = searchPhrase.Trim();
-            query.where_and(r.Author.Match(searchPhrase));
+            query.where_and(r.Author.Match(searchPhrase) | r.Description.Match(searchPhrase));
          }
 
-         //TODO:角色数据范围过滤
-
-         //if (user.ProvinceId > 0)
-         //   query.where_and(r.ProvinceId == user.ProvinceId);
-         //if (user.AreaId > 0)
-         //   query.where_and(r.AreaId == user.AreaId);
-         //if (user.CompanyId > 0)
-         //   query.where_and(r.CompanyId == user.CompanyId);
+         // 按项目，年级，学科,省市，地区，单位数据过滤
+         if (activeId > 0)
+            query.where_and(r.ActiveId == activeId);
+         if (subjectId > 0)
+            query.where_and(r.SubjectPKID == subjectId);
+         if (gradeId > 0)
+            query.where_and(r.GradePKID == gradeId);
+         if (provinceId > 0)
+            query.where_and(r.ProvinceId == provinceId);
+         if (areaId> 0)
+            query.where_and(r.AreaId == areaId);
+         if (companyId > 0)
+            query.where_and(r.CompanyId == companyId);
 
          //排序条件表达式
 
@@ -345,7 +362,9 @@ namespace Res.Controllers
       //
       // 分配评审组可打分的微课资源
       // POST:		/EvalManage/AssignResource
+      // POST:		/EvalManage/MulitAssignRes
       // POST:    /EvalManage/RemoveResource
+      // POST:    /EvalManage/MulitRemoveRes
 
       [HttpPost]
       public ActionResult AssignRes(long id, long resId)
@@ -368,6 +387,26 @@ namespace Res.Controllers
          });
       }
 
+      [HttpPost]
+      public  ActionResult MulitAssignRes(long id ,string ids)
+      {
+         var egr = APDBDef.EvalGroupResource;
+         var allRes = APBplDef.EvalGroupResourceBpl.GetAll();
+         var array = ids.Split(',');
+         foreach (var item in array)
+         {
+            var resId = Convert.ToInt64(item);
+            if (!allRes.Exists(a => a.GroupId == id && a.ResourceId == resId))
+            {
+               APBplDef.EvalGroupResourceBpl.Insert(new EvalGroupResource { ResourceId = resId, GroupId = id });
+            }
+         }
+
+         return Json(new
+         {
+            msg = "编辑成功"
+         });
+      }
 
       [HttpPost]
       public ActionResult RemoveRes(long id)
@@ -385,11 +424,34 @@ namespace Res.Controllers
          });
       }
 
+      [HttpPost]
+      public ActionResult MulitRemoveRes(long id,string ids)
+      {
+         var egr = APDBDef.EvalGroupResource;
+         var allRes = APBplDef.EvalGroupResourceBpl.GetAll();
+         var array = ids.Split(',');
+         foreach (var item in array)
+         {
+            var resId = Convert.ToInt64(item);
+            if (allRes.Exists(a => a.GroupId == id && a.ResourceId == resId))
+            {
+               APBplDef.EvalGroupResourceBpl.ConditionDelete(egr.ResourceId==resId & egr.GroupId==id);
+            }
+         }
+
+         return Json(new
+         {
+            msg = "编辑成功"
+         });
+      }
+
 
       //
       // 分配参与评审组的专家
       // POST:		/EvalManage/AssignExp
+      // POST:		/EvalManage/MulitAssignExp
       // POST:    /EvalManage/RemoveExp
+      // POST:		/EvalManage/MulitRemoveExp
 
       [HttpPost]
       public ActionResult AssignExp(long id, long expId)
@@ -412,6 +474,26 @@ namespace Res.Controllers
          });
       }
 
+      [HttpPost]
+      public ActionResult MulitAssignExp(long id,string ids)
+      {
+         var ege = APDBDef.EvalGroupExpert;
+         var allAssign = APBplDef.EvalGroupExpertBpl.GetAll();
+
+         var array = ids.Split(',');
+         foreach(var item in array)
+         {
+            var expertId = Convert.ToInt64(item);
+            if (!allAssign.Exists(a => a.GroupId==id && a.ExpertId== expertId))
+            {
+               APBplDef.EvalGroupExpertBpl.Insert(new EvalGroupExpert {  ExpertId=expertId, GroupId=id});
+            }
+         }
+
+         return Json(new {
+            msg = "编辑成功"
+         });
+      }
 
       [HttpPost]
       public ActionResult RemoveExp(long id)
@@ -425,6 +507,28 @@ namespace Res.Controllers
          return Json(new
          {
             error = "none",
+            msg = "编辑成功"
+         });
+      }
+
+      [HttpPost]
+      public ActionResult MulitRemoveExp(long id, string ids)
+      {
+         var ege = APDBDef.EvalGroupExpert;
+         var allAssign = APBplDef.EvalGroupExpertBpl.GetAll();
+
+         var array = ids.Split(',');
+         foreach (var item in array)
+         {
+            var expertId = Convert.ToInt64(item);
+            if (allAssign.Exists(a => a.GroupId == id && a.ExpertId == expertId))
+            {
+               APBplDef.EvalGroupExpertBpl.ConditionDelete(ege.GroupId==id & ege.ExpertId==expertId);
+            }
+         }
+
+         return Json(new
+         {
             msg = "编辑成功"
          });
       }
