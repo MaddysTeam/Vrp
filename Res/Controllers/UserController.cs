@@ -399,7 +399,7 @@ namespace Res.Controllers
 
          if (result.Succeeded)
          {
-            return Json("用户密码已经被重置为"+ ThisApp.DefaultPassword);
+            return Json("用户密码已经被重置为" + ThisApp.DefaultPassword);
          }
          else
          {
@@ -425,7 +425,7 @@ namespace Res.Controllers
 
             Stream sm = file.InputStream;
             ExecelOperator exporter = new ExecelOperator(sm);
-            var result = exporter.ExcelToList<UserImportModel>(new string[] { "UserName", "RealName", "UserType", "Province", "Area", "Company"});
+            var result = exporter.ExcelToList<UserImportModel>(new string[] { "UserName", "RealName", "UserType", "Province", "Area", "Company" });
 
             ResSettings.SettingsInSession.RemoveCache(result.GetType());
             ResSettings.SettingsInSession.SetCache(result, result.GetType());
@@ -497,17 +497,37 @@ namespace Res.Controllers
                   {
                      throw new Exception("用户名已经存在");
                   }
-                  long ProvinceId = string.IsNullOrEmpty(item.Province) || string.IsNullOrWhiteSpace(item.Province) ? 0 : allProvince.Find(x => x.CompanyName.IndexOf(item.Province) >= 0).CompanyId;
-                  long AreaId = string.IsNullOrEmpty(item.Area) || string.IsNullOrWhiteSpace(item.Area) ? 0 : allArea.Find(x => x.CompanyName.IndexOf(item.Area) >= 0).CompanyId;
-                  long CompanyId = string.IsNullOrEmpty(item.Company) || string.IsNullOrWhiteSpace(item.Company) ? 0 : allSchools.Find(x => x.CompanyName.IndexOf(item.Company) >= 0).CompanyId;
+
+                  var province = item.Province==null? null: allProvince.Find(x => x.CompanyName.IndexOf(item.Province) >= 0);
+                  if (province == null) throw new Exception("省市不存在，请先添加省市");
+                  var area = item.Area == null ? null : allArea.Find(x => x.CompanyName.IndexOf(item.Area) >= 0);
+                  if (area == null) throw new Exception("地区不存在，请先添加地区");
+                  var company = item.Company == null ? null : allSchools.Find(x => x.CompanyName.IndexOf(item.Company) >= 0);
+                  if (company == null) throw new Exception("单位不存在，请先添加单位");
+
+                  long ProvinceId = province.CompanyId;
+                  long AreaId = area.CompanyId;
+                  long CompanyId = company.CompanyId;
+                  if (!ResUserHelper.UserTypeDic.ContainsKey(item.UserType))
+                  {
+                     throw new Exception("用户类型有误");
+                  }
                   long uerType = ResUserHelper.UserTypeDic[item.UserType];
+                  if (uerType == ResUserHelper.RegistedUser || uerType == ResUserHelper.SchoolAdmin && (ProvinceId == 0 || AreaId == 0 || CompanyId == 0))
+                  {
+                     throw new Exception("注册用户或校管理员必须有省市，地区和单位");
+                  }
                   if (uerType == ResUserHelper.ProvinceAdmin)
                   {
+                     if (ProvinceId == 0)
+                        throw new Exception("省市管理员必须有省市和地区数据");
                      AreaId = 0;
                      CompanyId = 0;
                   }
                   else if (uerType == ResUserHelper.CityAdmin)
                   {
+                     if (AreaId == 0 || ProvinceId == 0)
+                        throw new Exception("地区管理员必须有省市和地区数据");
                      CompanyId = 0;
                   }
 
@@ -535,7 +555,7 @@ namespace Res.Controllers
                      MD5 = string.Empty,
                   });
                }
-               catch(Exception e)
+               catch (Exception e)
                {
                   item.IsSuccess = false;
                   item.FailReason = e.Message;

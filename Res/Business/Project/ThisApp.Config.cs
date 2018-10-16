@@ -22,9 +22,9 @@ namespace Res.Business
 
       public const string DefaultPassword = "123456";
 
-      public const string DefaultPasswordHash = "";
+      public const string DefaultPasswordHash = "AK+wLXNW7S/B7aGUl1RLIdhOKgfIuI1P+nUkU8+B6UOErgIcL0na05YtW0vrw4JzoA==";
 
-      public const string DefaultSecurityStmap = "4686d385-f61e-4530-b904-2ecb2aba74ba";
+      public const string DefaultSecurityStmap = "3f6a9a7e-3afe-4833-af34-ecdf88f6d761";
 
    }
 

@@ -2,7 +2,7 @@
 	var id = this.ViewContext.RouteData.Values["id"];
 	string act = (string)this.Request.RequestContext.RouteData.Values["action"];
 	var user = ResSettings.SettingsInSession.User;
-	var link = string.Format("http://localhost:17544/Account/AutoLogin?userName={0}&password={1}", user.UserName,Util.Security.Encrpytor.DESEncrypt(Util.Security.Encrpytor.KEY, user.Password));
+	var link = string.Format(ThisApp.AdminSystemUrl, user.UserName,Util.Security.Encrpytor.DESEncrypt(Util.Security.Encrpytor.KEY, user.Password));
 }
 <p>管理菜单</p>
 <ul class="nav navmanager @act">

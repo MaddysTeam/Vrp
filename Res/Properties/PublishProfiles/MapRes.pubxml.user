@@ -8,8 +8,11 @@
     <_PublishTargetUrl>C:\Users\JimmyPoor\Desktop\长三角\admin</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
+    <File Include="2014.sql">
+      <publishTime>10/15/2018 11:19:36</publishTime>
+    </File>
     <File Include="assets/css/app.css">
-      <publishTime>10/08/2018 09:16:59</publishTime>
+      <publishTime>10/15/2018 11:20:13</publishTime>
     </File>
     <File Include="assets/css/audio.png">
       <publishTime>09/21/2018 17:10:15</publishTime>
@@ -126,7 +129,7 @@
       <publishTime>09/21/2018 17:10:15</publishTime>
     </File>
     <File Include="assets/js/app.js">
-      <publishTime>09/21/2018 17:10:15</publishTime>
+      <publishTime>10/15/2018 11:20:13</publishTime>
     </File>
     <File Include="assets/plugins/alertify.js-0.3.11/.gitignore">
       <publishTime>09/21/2018 17:10:15</publishTime>
@@ -4475,6 +4478,9 @@
     <File Include="bin/Aspose.Words.dll">
       <publishTime>09/28/2018 17:06:37</publishTime>
     </File>
+    <File Include="bin/ICSharpCode.SharpZipLib.dll">
+      <publishTime>10/11/2018 08:59:22</publishTime>
+    </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>09/21/2018 17:10:17</publishTime>
     </File>
@@ -4508,14 +4514,26 @@
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>09/21/2018 17:10:18</publishTime>
     </File>
+    <File Include="bin/NPOI.dll">
+      <publishTime>10/11/2018 08:59:22</publishTime>
+    </File>
+    <File Include="bin/NPOI.OOXML.dll">
+      <publishTime>10/11/2018 08:59:22</publishTime>
+    </File>
+    <File Include="bin/NPOI.OpenXml4Net.dll">
+      <publishTime>10/11/2018 08:59:22</publishTime>
+    </File>
+    <File Include="bin/NPOI.OpenXmlFormats.dll">
+      <publishTime>10/11/2018 08:59:22</publishTime>
+    </File>
     <File Include="bin/Owin.dll">
       <publishTime>09/21/2018 17:10:18</publishTime>
     </File>
     <File Include="bin/Res.dll">
-      <publishTime>10/09/2018 10:20:23</publishTime>
+      <publishTime>10/16/2018 14:19:49</publishTime>
     </File>
     <File Include="bin/Res.pdb">
-      <publishTime>10/09/2018 10:20:23</publishTime>
+      <publishTime>10/16/2018 14:19:49</publishTime>
     </File>
     <File Include="bin/Symber.Web.APQuery.dll">
       <publishTime>09/21/2018 17:10:18</publishTime>
@@ -4542,10 +4560,10 @@
       <publishTime>09/21/2018 17:10:17</publishTime>
     </File>
     <File Include="bin/Util.dll">
-      <publishTime>10/09/2018 09:29:00</publishTime>
+      <publishTime>10/15/2018 17:38:11</publishTime>
     </File>
     <File Include="bin/Util.pdb">
-      <publishTime>10/09/2018 09:29:00</publishTime>
+      <publishTime>10/15/2018 17:38:11</publishTime>
     </File>
     <File Include="bin/WcsLib.dll">
       <publishTime>09/25/2018 09:13:20</publishTime>
@@ -4590,7 +4608,7 @@
       <publishTime>09/21/2018 17:10:17</publishTime>
     </File>
     <File Include="Business/DataLogic/Business.apgen">
-      <publishTime>10/09/2018 09:20:50</publishTime>
+      <publishTime>10/12/2018 16:32:49</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -4616,6 +4634,9 @@
     <File Include="Report/Def/APRptViewDef.xml">
       <publishTime>09/21/2018 17:10:15</publishTime>
     </File>
+    <File Include="userTemplate.xlsx">
+      <publishTime>10/11/2018 08:59:21</publishTime>
+    </File>
     <File Include="Views/Account/ChgPwd.cshtml">
       <publishTime>09/21/2018 17:10:15</publishTime>
     </File>
@@ -4632,7 +4653,7 @@
       <publishTime>09/26/2018 09:01:12</publishTime>
     </File>
     <File Include="Views/Active/Search.cshtml">
-      <publishTime>10/09/2018 09:19:45</publishTime>
+      <publishTime>10/15/2018 16:05:32</publishTime>
     </File>
     <File Include="Views/Bulletin/Edit.cshtml">
       <publishTime>09/21/2018 17:10:15</publishTime>
@@ -4647,7 +4668,10 @@
       <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/Company/Index.cshtml">
-      <publishTime>10/08/2018 09:16:59</publishTime>
+      <publishTime>10/16/2018 12:45:39</publishTime>
+    </File>
+    <File Include="Views/Company/_preview.cshtml">
+      <publishTime>10/15/2018 16:05:32</publishTime>
     </File>
     <File Include="Views/CroBulletin/Edit.cshtml">
       <publishTime>09/21/2018 17:10:15</publishTime>
@@ -4665,7 +4689,7 @@
       <publishTime>10/09/2018 09:19:45</publishTime>
     </File>
     <File Include="Views/Crosource/Details.cshtml">
-      <publishTime>10/09/2018 09:36:50</publishTime>
+      <publishTime>10/12/2018 15:10:59</publishTime>
     </File>
     <File Include="Views/Crosource/Edit.cshtml">
       <publishTime>10/09/2018 09:50:56</publishTime>
@@ -4677,16 +4701,28 @@
       <publishTime>09/21/2018 17:10:15</publishTime>
     </File>
     <File Include="Views/Crosource/Search.cshtml">
-      <publishTime>10/08/2018 09:16:59</publishTime>
+      <publishTime>10/15/2018 11:20:13</publishTime>
     </File>
     <File Include="Views/Crosource/WinLevel.cshtml">
       <publishTime>10/09/2018 09:19:45</publishTime>
     </File>
+    <File Include="Views/Crosource/_approve.cshtml">
+      <publishTime>10/12/2018 11:45:02</publishTime>
+    </File>
+    <File Include="Views/Crosource/_downloadSetting.cshtml">
+      <publishTime>10/15/2018 16:05:32</publishTime>
+    </File>
     <File Include="Views/Crosource/_exercies.cshtml">
       <publishTime>10/09/2018 09:19:45</publishTime>
     </File>
+    <File Include="Views/Crosource/_publicSetting.cshtml">
+      <publishTime>10/15/2018 16:05:32</publishTime>
+    </File>
+    <File Include="Views/Crosource/_winLevel.cshtml">
+      <publishTime>10/12/2018 16:04:47</publishTime>
+    </File>
     <File Include="Views/Eval/Details.cshtml">
-      <publishTime>10/09/2018 09:19:45</publishTime>
+      <publishTime>10/15/2018 16:05:32</publishTime>
     </File>
     <File Include="Views/Eval/Search.cshtml">
       <publishTime>09/26/2018 09:01:12</publishTime>
@@ -4704,16 +4740,22 @@
       <publishTime>09/29/2018 13:16:43</publishTime>
     </File>
     <File Include="Views/EvalManage/IndicationEdit.cshtml">
-      <publishTime>10/09/2018 09:19:45</publishTime>
+      <publishTime>10/15/2018 16:05:32</publishTime>
     </File>
     <File Include="Views/EvalManage/IndicationList.cshtml">
-      <publishTime>09/26/2018 09:01:12</publishTime>
+      <publishTime>10/15/2018 16:05:32</publishTime>
     </File>
     <File Include="Views/EvalManage/ResList.cshtml">
       <publishTime>09/25/2018 09:11:43</publishTime>
     </File>
     <File Include="Views/EvalManage/Search.cshtml">
-      <publishTime>10/09/2018 09:19:45</publishTime>
+      <publishTime>10/15/2018 16:05:32</publishTime>
+    </File>
+    <File Include="Views/EvalManage/_expList.cshtml">
+      <publishTime>10/15/2018 16:05:32</publishTime>
+    </File>
+    <File Include="Views/EvalManage/_resList.cshtml">
+      <publishTime>10/15/2018 16:05:32</publishTime>
     </File>
     <File Include="Views/Home/Dashboard.cshtml">
       <publishTime>09/21/2018 17:10:15</publishTime>
@@ -4800,7 +4842,10 @@
       <publishTime>10/08/2018 14:14:44</publishTime>
     </File>
     <File Include="Views/User/Search.cshtml">
-      <publishTime>09/30/2018 09:39:33</publishTime>
+      <publishTime>10/16/2018 12:56:47</publishTime>
+    </File>
+    <File Include="Views/User/_preview.cshtml">
+      <publishTime>10/16/2018 14:07:30</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>09/21/2018 17:10:15</publishTime>
@@ -4821,7 +4866,7 @@
       <publishTime>09/21/2018 17:10:15</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/09/2018 10:23:17</publishTime>
+      <publishTime>10/16/2018 13:17:54</publishTime>
     </File>
     <File Include="xml.schema.definition/apgen.xsx">
       <publishTime>09/21/2018 17:10:16</publishTime>

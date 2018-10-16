@@ -24,7 +24,14 @@
 		</div>
 
 		<div class="main-content">
+		@if (ResSettings.SettingsInSession.User.UserTypePKID == ResUserHelper.Admin)
+		{
 			<div class="buttons"><a href="javascript:void(0)"  id="addUser" class="btn btn-danger btn-md">新增用户</a>&nbsp;<a href="javascript:void(0)" id="import" class="btn btn-info btn-md">批量导入</a>&nbsp;<a href="http://cdncsj.sser.shdjg.net/2018/templates/UserTemplate.xlsx" id="template" class="btn btn-primary btn-md">下载导入模板</a></div>
+		}
+		else
+		{
+         <div class="buttons"><a href="javascript:void(0)" id="addUser" class="btn btn-danger btn-md">新增用户</a></div>
+		}
 			<!-- widget -->
 			<div class="widget">
 				<div class="widget-header">

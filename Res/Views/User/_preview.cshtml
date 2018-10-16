@@ -25,7 +25,7 @@
 							<th data-column-id="UserType">用户角色</th>
 							<th data-column-id="Province">省市</th>
 							<th data-column-id="Area">地区</th>
-							<th data-column-id="Compnay">单位</th>
+							<th data-column-id="Company">单位</th>
 							<th data-column-id="IsSuccess" data-formatter="status">导入检查</th>
 							<th data-column-id="FailReason">失败原因</th>
 							@*<th data-column-id="commands" data-formatter="commands">操作</th>*@
@@ -84,7 +84,6 @@
 				});
 
 		$('#importUser').on('click', function () {
-			alert();
 			$.post('@Url.Action("Import","User")', {}, function (data) {
 				if (data.IsSuccess) {
 					$('#bootgridPreview').bootgrid('reload');

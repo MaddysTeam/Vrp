@@ -230,9 +230,11 @@ namespace Res.Controllers
                {
                   try
                   {
-                     province = allArea.Find(a => a.CompanyName == item.Area.Trim());
+                     if (null==item.CompanyName) throw new Exception("单位不能为空");
+
+                     province = item.Province == null ? null : allprovince.Find(a => a.CompanyName == item.Province.Trim());
                      if (null == province) throw new Exception("省市不匹配");
-                     area = allArea.Find(a => a.CompanyName == item.Area.Trim());
+                     area = item.Area == null ? null : allArea.Find(a => a.CompanyName == item.Area.Trim());
                      if (null == area) throw new Exception("地区不匹配");
                      existCompany = allCompany.Find(ac => ac.CompanyName.IndexOf(item.CompanyName.Trim()) >= 0);
                      if (null != existCompany) throw new Exception("单位已经存在");

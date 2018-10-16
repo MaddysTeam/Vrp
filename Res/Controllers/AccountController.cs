@@ -61,15 +61,30 @@ namespace Res.Controllers
       //
       //	自动登录
       // GET:		/Account/AutoLogin
-
-      public Task<ActionResult> AutoLogin(string userName, string password, string returnUrl="")
+      [AllowAnonymous]
+      public async Task<ActionResult> AutoLogin(string userName, string password, string returnUrl="")
       {
-         return Login(new LoginViewModel
+         var model = new LoginViewModel
          {
             UserName = userName,
             Password =
-            Encrpytor.DESDecrypt(Encrpytor.KEY,password)
-         }, returnUrl);
+            Encrpytor.DESDecrypt(Encrpytor.KEY, password)
+         };
+         var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+         switch (result)
+         {
+            case SignInStatus.Success:
+               APBplDef.ResUserBpl.SetLastLoginTime(model.UserName);
+               return RedirectToLocal(returnUrl);
+            case SignInStatus.LockedOut:
+               return View("Lockout");
+            case SignInStatus.RequiresVerification:
+               return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+            case SignInStatus.Failure:
+            default:
+               ModelState.AddModelError("", "用户名或密码不正确。");
+               return View(model);
+         }
       }
 
       //

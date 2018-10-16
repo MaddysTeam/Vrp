@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 
@@ -20,12 +21,15 @@ namespace Res.Business
 		// Session 中缺省的缓存项时间（分钟）
 		public const int CacheMinutes = 5;
 
-      //默认密码
+      // 默认密码
       public const string Default_Password = "teacher";
 
-      //默认评分星数
+      // 默认评分星数
       public const int TotalStar = 5;
 
-	}
+      // 后台地址
+      public static string AdminSystemUrl = ConfigurationManager.AppSettings["adminSystemUrl"].ToString();
+
+   }
 
 }
