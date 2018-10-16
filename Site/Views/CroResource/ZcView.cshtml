@@ -207,7 +207,7 @@
 				image: '@course.FitCoverPath',
 			});
 			player.onPlay(function(){
-				$.post('@Url.Action("Play", "CroResource")',{resourceId:'@Model.CrosourceId',  courseId:'@course.CourseId'},function(){});
+				$.post('@Url.Action("Play", "CroResource")',{id:'@Model.CrosourceId',  courseId:'@course.CourseId'},function(){});
 			});
 		}
 	</script>
