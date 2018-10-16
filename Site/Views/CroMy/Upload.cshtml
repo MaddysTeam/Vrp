@@ -536,7 +536,9 @@
 									var i=0;
 									clock=setInterval(function(){
 										$uploader.find('.progress').show();
-										$uploader.find('.progress-bar').css('width', parseInt(++i)+"%").text(i+'%');
+										if(i<=99){
+											$uploader.find('.progress-bar').css('width', parseInt(++i)+"%").text(i+'%');
+										}
 									},1500)
 						
 								})

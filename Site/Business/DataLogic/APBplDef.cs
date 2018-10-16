@@ -450,27 +450,21 @@ namespace Res.Business
          }
 
 
-         public static void CountingStar(APDBDef db, int count, long resourceId, long couseId, long userId)
+         public static void CountingStar(APDBDef db, int count, long resourceId, long courseId, long userId)
          {
-            var t = APDBDef.MicroCourse;
-
-            if (userId != 0 && ResSettings.SettingsInSession.CanbeAuditResource)
+            var cs = APDBDef.CroStar;
+            var isExist = db.CroStarDal.ConditionQueryCount(cs.ResourceId==resourceId & cs.CourseId== courseId & cs.UserId==userId)>0;
+            if (isExist)
             {
-               APBplDef.MicroCourseBpl.UpdatePartial(couseId, new { StarCount = count });
-               //APQuery.update(t)
-               //   .set(t.StarCount,)
-               //   //.set(t.StarTotal, APSqlThroughExpr.Expr("StarTotal+" + score * 10))
-               //   .where(t.ResourceId == resourceId & t.CourseId==couseId)
-               //   .execute(db);
+               APQuery.update(cs).set(cs.StarCount,count).where(cs.ResourceId == resourceId & cs.CourseId == courseId & cs.UserId == userId).execute(db);
             }
-
-            if (userId != 0)
+            else if (userId != 0)
             {
                db.CroStarDal.Insert(new CroStar()
                {
                   UserId = userId,
                   ResourceId = resourceId,
-                  CourseId = couseId,
+                  CourseId = courseId,
                   StarCount = count,
                   OccurTime = DateTime.Now
                });
@@ -482,6 +476,7 @@ namespace Res.Business
          static APDBDef.MicroCourseTableDef mc = APDBDef.MicroCourse;
          static APDBDef.ExercisesTableDef et = APDBDef.Exercises;
          static APDBDef.ExercisesItemTableDef eti = APDBDef.ExercisesItem;
+         static APDBDef.CroStarTableDef cs = APDBDef.CroStar;
          static APDBDef.FilesTableDef vf = APDBDef.Files;
          static APDBDef.FilesTableDef cf = APDBDef.Files.As("CoverFile");
          static APDBDef.FilesTableDef df = APDBDef.Files.As("DesignFile");
@@ -498,7 +493,7 @@ namespace Res.Business
          public static CroResource GetResource(APDBDef db, long resourceId)
          {
             var query = APQuery.select(cr.Asterisk, mc.Asterisk, et.Asterisk, eti.Asterisk, cr.DownCount.As("totalDownCount"),
-                                      mc.DownCount.As("courseDownCount"), mc.StarCount,
+                                      mc.DownCount.As("courseDownCount"), mc.StarCount,cs.StarCount.As("StartCount"),
                                       vf.FileName.As("VideoName"), vf.FilePath.As("VideoPath"),
                                       cf.FileName.As("CoverName"), cf.FilePath.As("CoverPath"),
                                       df.FileName.As("DesignName"), df.FilePath.As("DesignPath"),
@@ -510,6 +505,7 @@ namespace Res.Business
                                      mc.JoinLeft(cr.CrosourceId == mc.ResourceId),
                                      et.JoinLeft(et.CourseId == mc.CourseId),
                                      eti.JoinLeft(eti.ExerciseId == et.ExerciseId),
+                                     cs.JoinLeft(cs.ResourceId==resourceId & cs.CourseId==mc.CourseId & cs.UserId==ResSettings.SettingsInSession.UserId),
                                      vf.JoinLeft(vf.FileId == mc.VideoId),
                                      cf.JoinLeft(cf.FileId == mc.CoverId),
                                      df.JoinLeft(df.FileId == mc.DesignId),
@@ -545,6 +541,7 @@ namespace Res.Business
                course.CoursewareName = cwf.FileName.GetValue(r, "CoursewareName");
                course.AttachmentName = atf.FileName.GetValue(r, "AttachmentName");
                course.DownCount = cr.DownCount.GetValue(r, "courseDownCount");
+               course.StarCount = (int)cs.StarCount.GetValue(r, "StartCount");
 
                var exe = new Exercises();
                et.Fullup(r, exe, false);

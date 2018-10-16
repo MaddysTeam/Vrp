@@ -545,6 +545,67 @@
 				</columns>
 			</table>
 
+			<!-- 微信业务相关表 -->
+
+			<table name="WeiXinUserInfo"  comment="微信用户">
+				<columns>
+					<add name="Id" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="OpenId"  type="string" dataLength="150" comment="微信用户OpenId" />
+					<add name="NickName"  type="string" dataLength="100"/>
+					<add name="Gender"  type="int"/>
+					<add name="Prov"  type="string" dataLength="100"/>
+					<add name="City"  type="string" dataLength="100"/>
+					<add name="Country"  type="string" dataLength="100"/>
+					<add name="CreateDate"  type="DateTime" display="CreateDate"/>
+				</columns>
+			</table>
+
+			<table name="WeiXinPraise"  comment="微课点赞">
+				<columns>
+					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="OpenId" type="string" dataLength="150" comment="微信用户OpenId" />
+					<add name="ResId"  type="long" comment="作品Id"/>
+					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
+				</columns>
+			</table>
+
+			<table name="WeiXinFavorite"  comment="微课收藏">
+				<columns>
+					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="OpenId" type="string" dataLength="150" comment="微信用户OpenId" />
+					<add name="ResId"  type="long" display="WksId" comment="作品Id"/>
+					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
+				</columns>
+			</table>
+
+			<table name="WeiXinPlayCount"  comment="微课点击">
+				<columns>
+					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="OpenId"  type="string" dataLength="150" comment="微信用户OpenId" />
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
+					<add name="CourseId" type="long" required="true" display="微课ID"/>
+					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
+				</columns>
+			</table>
+
+			<table name="Notice" comment="消息">
+				<columns>
+					<add name="NoticeId"  type="long" identityType="Provider" display="NoticeId"/>
+					<add name="Title" type="string" dataLength="150" comment="消息标题" />
+					<add name="Content"  type="string" dataLength="20000" comment="消息内容" />
+					<add name="PublishDate"  type="DateTime" display="发布日期"/>
+				</columns>
+			</table>
+
+			<!--Mapping Expert-->
+			<table name="WeiXinExpert" comment="微信专家表">
+				<columns>
+					<add name="WxExpertId" type="long" primaryKey="true" identityType="Provider"/>
+					<add name="OpenId" type="string" dataLength="150" comment="微信用户OpenId" display="OpenId" />
+					<add name="UserId" type="long"/>
+				</columns>
+			</table>
+
 		</tables>
 
 		<relations>
