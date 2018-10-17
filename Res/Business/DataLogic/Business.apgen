@@ -319,7 +319,11 @@
 
 					<!-- Eval -->
 					<add name="Score" type="double" display="作品得分"/>
-										
+
+					<!-- WeChat -->
+					<add name="WeiXinFavoriteCount" type="int" display="微信收藏次数"/>
+					<add name="WeiXInPraiseCount" type="int" display="微信点赞次数" defaultValue="0"/>
+				
 				</columns>
 			</table>
 
@@ -339,6 +343,8 @@
 					<add name="PlayCount" type="int" display="播放次数"/>
 					<add name="DownCount" type="int" display="下载次数"/>
 					<add name="StarCount" type="int" display="评分次数"/>
+					<!-- WeChat -->
+					<add name="WeiXinPlayCount" type="int" display="微信播放次数"/>
 				</columns>
 			</table>
 

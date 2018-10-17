@@ -1,0 +1,97 @@
+﻿@{
+	long provinceId = 0;
+	long areaId = 0;
+
+	if (!String.IsNullOrEmpty(Request["Province"])) {
+		provinceId = Int64.Parse((string)Request["Province"]);
+	}
+	if (!String.IsNullOrEmpty(Request["Area"])){
+		areaId = Int64.Parse((string)Request["Area"]);
+	}
+
+	var schools = ViewBag.Schools as List<ResCompany> ;
+}
+<!--微课检索-->
+<div class="block_panel blue_edge">
+	<p class="panel_title">
+		<span><img src="~/assets/img//ico_gift.png" />微课检索</span>
+	</p>
+
+		@using (Html.BeginForm("Search", "CroResource", FormMethod.Get,new {id="form" }))
+		{
+			<div class="category_hit">
+				<dl>
+					<dt>省 份：</dt>
+					<dd>
+						@Html.Hidden("Province", null)
+						<ul id="provinceChoose" class="items">
+							@if (0 == provinceId)
+							{
+								<li><a href="javascript:void(0)" class="actived" data-id="">全部</a></li>
+							}
+							else
+							{
+								<li><a href="javascript:void(0)" data-id="">全部</a></li>
+							}
+
+							@foreach (var item in ViewBag.Provinces as List<ResCompany>)
+							{
+								<li><a href="javascript:void(0)" class="@(provinceId==item.CompanyId? "actived":"")" data-id="@item.CompanyId">@item.CompanyName</a></li>
+							}
+						</ul>
+					</dd>
+				</dl>
+
+				@if (provinceId > 0)
+				{
+				<dl>
+					<dt>地 区：</dt>
+					<dd>
+						@Html.Hidden("Area", null)
+						<ul id="areaChoose" class="items">
+							@if (0 == areaId)
+							{
+								<li><a href="javascript:void(0)" class="actived" data-id="">全部</a></li>
+							}
+							else
+							{
+								<li><a href="javascript:void(0)" data-id="">全部</a></li>
+							}
+							 @foreach (var item in ViewBag.Areas as List<ResCompany>)
+							 {
+								<li><a href="javascript:void(0)" class="@(areaId==item.CompanyId? "actived":"")" data-id="@item.CompanyId">@item.CompanyName</a></li>
+							 }
+						</ul>
+					</dd>
+				</dl>
+				}
+
+				<dl>
+					<dt>过 滤：</dt>
+					<dd>
+						@if (provinceId > 0 ) //如果选择全部省市则不显示学校数据
+						{
+						 @Html.DropDownList("School", schools.Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "全部学校", new { @class = "hit", id = "SchoolId" })
+						}
+						else
+						{
+							@Html.DropDownList("School",new List<SelectListItem>(), "全部学校", new { @class = "hit", id = "SchoolId" })
+						}
+						@Html.DropDownList("Subject", CroResourceHelper.Subject.GetSelectList(), "全部学科", new { @class = "hit" })
+						@Html.DropDownList("Grade", CroResourceHelper.Grade.GetSelectList(), "全部年级", new { @class = "hit", id = "GradePKID" })
+						@Html.DropDownList("CourseType", CroResourceHelper.CourseType.GetSelectList(), "作品类型", new { @class = "hit"})
+						@Html.DropDownList("Active", ResSettings.SettingsInSession.Actives.Select(a=>new SelectListItem { Text=a.ActiveName,Value=a.ActiveId.ToString() }), "全部活动", new { @class = "hit" })
+
+					</dd>
+				</dl>
+				<dl>
+					<dt>搜 索：</dt>
+					<dd>
+						@Html.Hidden("Sort", null)
+						@Html.TextBox("Keywords", null, new { @class = "hit", placeholder = "输入关键字、作者、作品名称或描述进行搜索" })
+						<button id="searchbutton" type="submit">搜索</button>
+					</dd>
+				</dl>
+			</div>
+		}
+	</div>

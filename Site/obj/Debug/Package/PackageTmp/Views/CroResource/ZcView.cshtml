@@ -1,0 +1,377 @@
+﻿@{
+	Layout = "~/Views/Shared/_ZcLayout.cshtml";
+	ViewBag.Title = "首页";
+
+	var course = ViewBag.CurrentCourse as MicroCourse;
+}
+@model CroResource
+<style>
+	.btn-sm {
+		padding: 2px 10px;
+	}
+</style>
+<div class="row">
+	<div class="col-md-9">
+
+
+		<div class="div_cont fl w100">
+
+			<div class="show">
+				<div class="row">
+					<div class="col-md-8">
+						<h1>
+							@*<div class="@Model.FileType"></div>*@
+							@Model.Title
+						</h1>
+					</div>
+					<div class="btn-group pull-right" style="margin:13px;">
+						@if (ViewBag.CurrentVideoPath != null)
+						{
+							<button class="btn btn-info" id="download" data-url="@ViewBag.CurrentVideoPath">
+								<i class="fa fa-download"></i> 下载此文件
+							</button>
+						}
+						<button class="btn btn-danger" id="praise"><i class="fa fa-thumbs-up"></i> 点赞</button>
+						<button class="btn btn-success" id="favorite"><i class="fa fa-star-o"></i> 收藏</button>
+					</div>
+				</div>
+				@if (course.VideoPath != null)
+				{
+					<div id="video" class="carousel slide"  style="width:100%;height:500px">
+					</div>
+				}
+				else
+				{
+					<img style="width:100%" height="100%" src="@course.FitCoverPath" />
+				}
+
+				<div class="attr cb">
+					<div class="div " style="overflow-y:hidden; overflow-x:auto; white-space: nowrap;">
+						<h3><i class="fa fa-desktop"></i> 微课列表</h3>
+						<ul>
+							@foreach (var item in Model.Courses)
+							{
+								<li style="display:inline-block;list-style-type: none;">
+									<a href="@Url.Action("ZcView","CroResource",new { id = Model.CrosourceId ,courseId = item.CourseId })"><img src="@item.FitCoverPath" style="width:184px; height:115px;" /></a>
+									<div class="text-center">@item.CourseTitle</div>
+									<div class="text-center" style="font-size:11px;">播放次数：@item.PlayCount</div>
+								</li>
+							}
+						</ul>
+					</div>
+					
+					<div class="source cb">
+						<p></p>
+					</div>
+					<div class="div ">
+						<h3><i class="fa fa-file"></i> 作品信息</h3>
+					</div>
+
+					<div class="div ">
+						<p><span>关 键 字： @Model.Keywords </span><span><span>省　　份： @Model.Province</span></span></p>
+						<p><span>市　　区： @Model.Area</span><span>学　　校： @Model.School</span></p>
+						<p><span>下载设置： @Model.PublicState </span><span>下载设置： @Model.DownloadState</span></p>
+						<p><span>年　　级： @Html.ShowPKID(Model.Grade)</span><span>学　　科： @Html.ShowPKID(Model.Subject)</span></p>
+						<p><span>作品类型： @Model.CourseType</span><span>收藏次数： @Model.FavoriteCount 次</span></p>
+						<p><span>上传日期： @Model.CreatedTime.ToShortDateString()</span><span>浏览次数： @Model.ViewCount 次</span></p>	
+					</div>
+
+					<div class="div ">
+						<p>@Model.Description</p>
+						<h3><i class="fa fa-tencent-weibo"></i> 微课信息</h3>
+					</div>
+					
+					<div class="div ">
+						<p class="eval_star">
+							<b>点击评分：</b>
+							@for (int i = 0; i < 5; i++)
+							{
+								if (course.StarCount > i)
+								{
+									<span class="runtime_star yes" style="width:2%"></span>
+								}
+								else
+								{
+									<span class="runtime_star no" style="width:2%"></span>
+								}
+							}
+
+						</p>
+						<p><span>微课名称： @course.CourseTitle </span><span>&nbsp;&nbsp;练 习 题：<button class="btn btn-danger btn-sm" id="exercies">答 题</button></span></p>
+						<p>
+							<span>教学设计： <a href="@(course.DesignId > 0? course.DesignPreviewPath :"javascript:void(0)")" target="_blank" class="btn btn-info btn-sm">预 览</a></span><span>教学反思： <a href="@(course.SummaryId > 0? course.SummaryPreviewPath :"javascript:void(0)")" target="_blank" class="btn btn-info btn-sm">  预 览</a></span>
+						</p>
+
+						<p>
+							@if (Model.DownloadStatePKID == CroResourceHelper.AllowDownload)
+							{
+							<span>课&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件： <a href="@(course.CoursewareId > 0 ? course.CoursewarePath : "javascript:void(0)")" data-id="@course.CoursewareId" target="_blank" class="btn btn-info btn-sm btn-download">  下 载</a></span><span>其他附件： <a href="@(course.AttachmentId > 0 ? course.AttachmentPath : "javascript:void(0)")" data-id="@course.AttachmentId" target="_blank" class="btn btn-info btn-sm btn-download">  下 载</a></span>
+							}
+						</p>
+						<p><span>播放次数：@course.PlayCount </span><span>下载次数：@course.DownCount</span></p>
+
+						<h3><i class="fa fa-user"></i> 作者信息</h3>
+					</div>
+
+					<div class="div ">
+						<p><span>作　　者： @Model.Author</span><span>电　　话： @Model.AuthorPhone</span></p>
+						<p><span>单　　位： @Model.AuthorCompany</span><span>电子邮箱： @Model.AuthorEmail</span></p>
+						<p><span>地　　址： @Model.AuthorAddress</span></p>
+					</div>
+
+				</div>
+
+				<div class="review">
+					<div class="comment_input">
+						<h3>您的评论</h3>
+						<textarea></textarea>
+						<div class="img_ta_num">240</div>
+
+						@if (Request.IsAuthenticated)
+						{
+							<button type="submit" class="btn btn-op btn-info">发表评论</button>
+						}
+						else
+						{
+							<button type="button" disabled class="s_btn">登录后可发表评论</button>
+						}
+					</div>
+					<div class="review_page">
+
+						<span>共 <span id="comment_count">@ViewBag.CommentCount</span> 条评论</span>
+
+					</div>
+					<div class="comment_list">
+					</div>
+					<div class="comment_more">
+						<button id="getmore" class="btn btn-op btn-default">加载更多评论</button>
+					</div>
+
+
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+	<div class="col-md-3">
+		@*@Html.Partial("../CroResource/_relation", new { FileExtName = @Model.FileExtName, mediumtypepkid = @Model.MediumTypePKID })
+			@Html.Partial("../CroResource/_viewcount", new { mediumtypepkid = @Model.MediumTypePKID, FileExtName = @Model.FileExtName })
+
+			@Html.Partial("../CroResource/_newcomment", new { mediumtypepkid = @Model.MediumTypePKID, FileExtName = @Model.FileExtName })*@
+
+		@Html.Partial("../CroResource/_viewcount")
+
+		@Html.Partial("../CroResource/_newcomment")
+	</div>
+
+	<!-- modal frame -->
+	<div class="modal fade"  id="inner-edit-form" tabindex="-1" role="dialog" aria-hidden="true"></div>
+	<!-- end modal frame -->
+
+</div>
+@section Plugins {
+	@Scripts.Render("~/js/dot")
+}
+@section Scripts{
+
+	<script src="~/assets/plugins/ckplayer/ckplayer/ckplayer.js"></script>
+	<script src="~/assets/plugins/jwplayer/jwplayer.js"></script>
+	<script>
+		var hasVideo='@course.VideoPath'!='';
+		var path='@course.VideoPath';
+		var ua = navigator.userAgent;
+		ua = ua.toLocaleLowerCase();
+		//alert(ua);
+		//IE11 用ckplayer
+		if (ua.match(/edge/) != null || ua.match(/firefox/)!=null || ua.match(/Firefox/)!=null && hasVideo){
+			var videoObject = {
+				container: '#video',//“#”代表容器的ID，“.”或“”代表容器的class
+				variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
+				poster:'@course.FitCoverPath',//封面图片
+				video:path
+			};
+			var player=new ckplayer(videoObject);
+		}
+		else if(hasVideo){
+			var player=jwplayer("video").setup({
+				flashplayer:"../../assets/plugins/jwplayer/jwplayer.flash.swf",
+				file:path,//'http://movie.ks.js.cn/flv/other/1_0.flv',
+				width: 'auto',
+				height: 500,
+				controls: true ,
+				primary: "flash",
+				autostart:false,
+				image: '@course.FitCoverPath',
+			});
+			player.onPlay(function(){
+				$.post('@Url.Action("Play", "CroResource")',{id:'@Model.CrosourceId',  courseId:'@course.CourseId'},function(){});
+			});
+		}
+	</script>
+
+	<script id="tmpl-list" type="text/template">
+		{{ for(var i = 0, l = it.length; i < l; i++){ }}
+		<div class="media" data-id="{{= it[i].id }}">
+			<div class="review_list ba_f1">
+				<img class="media-object" src="{{= it[i].photoPath}}" width="80px" height="80px">
+
+
+				<div class=" text">
+					<p><span>{{= it[i].name }}</span> 发表于： {{= it[i].time }}</p>
+
+					<p>	{{= it[i].content }}</p>
+					{{? it[i].canDelete }}
+					<br /><br />
+					<a onclick="deleteComment(this)" class="btn btn-default btn-sm">删除该评论</a>
+					{{? }}
+				</div>
+			</div>
+		</div>
+		{{ } }}
+	</script>
+
+	<script type="text/javascript">
+
+		var id = @Model.CrosourceId;
+
+
+		function deleteComment(tgt) {
+			var b = $(tgt).parents(".media");
+			var cid = b.data("id");
+			b.remove();
+			$.post("/CroComment/Delete", {id:cid}, function(){});
+		}
+
+		var commentManager = {
+			begin : 0,
+			loadComment: function () {
+				$.get("/CroComment/CroCommentList", {resid:id, begin: this.begin}, function(response) {
+
+					var template = $('#tmpl-list').html();
+					var html = doT.template(template).apply(null, [response]);
+					$('.comment_list').append(html);
+
+					commentManager.begin += response.length;
+					if (response.length < 10)
+						$("#getmore").prop("disabled", true);
+				});
+			},
+
+			post: function() {
+			},
+
+			load: function() {
+
+				$("textarea").keyup(function () {
+					if ($(this).next().is(".img_ta_num")) {
+						$(".img_ta_num").html((240 - $(this).val().length))
+					}
+				})
+
+				$(".comment_input [type=submit]").on("click", function(){
+					if($.trim($("textarea").val())==""){
+						alert("请您输入评论内容!");
+						return false;
+					}
+
+					$.post("/CroComment/Submit",  {resid:id, content: $("textarea").val()}, function(data) {
+						var template = $('#tmpl-list').html();
+						var html = doT.template(template).apply(null, [[data]]);
+						$('.comment_list').prepend(html);
+						//alert("评论已经成功提交，等待管理员审核通过");
+						$("textarea").val("");
+					});
+				});
+
+				this.loadComment();
+			}
+		};
+
+		$(function () {
+
+
+			commentManager.load();
+
+		});
+
+	</script>
+
+	<script type="text/javascript">
+
+		var id = @Model.CrosourceId;
+		var auth = @(Request.IsAuthenticated ? 1 : 0);
+
+		$(function () {
+
+			$("#favorite").on("click", function () {
+				if (auth==0){
+					alert("请先登录！");
+					return false;
+				}
+				$.post("/CroResource/Favorite", { id: id }, function (data, status) {
+					alert(JSON.stringify(data.msg));
+				});
+			});
+
+			$("#download").on("click", function () {
+				var $this=$(this);
+				var videoUrl=$this.data('url');
+				if (auth==0){
+					alert("请先登录！");
+					return false;
+				}
+				$.post("/CroResource/Download", { id: id }, function (data, status) {
+					alert(JSON.stringify(data.msg));
+					location.href = videoUrl;
+				});
+			});
+
+			$("#praise").on("click", function () {
+				if (auth==0){
+					alert("请先登录！");
+					return false;
+				}
+				$.post("/CroResource/praise", { id: id }, function (data, status) {
+					alert(JSON.stringify(data.msg));
+				});
+			});
+
+			$('#exercies').on('click',function(){
+				$.post('/CroResource/ExerciesList',{courseId:'@course.CourseId'},function(response){
+					$('#inner-edit-form').html(response).modal("show")
+				});
+			});
+
+			$('.btn-download').on('click',function(){
+				var $this=$(this);
+				var fileId=$(this).data('id');
+				if(fileId>0){
+					$.post('/CroResource/Download',{id:'@Model.CrosourceId',  courseId:'@course.CourseId', fileId:fileId},function(response){});
+				}
+				else{
+					alert('暂无文件可下载');
+				}
+			});
+
+			var canStar='@(Request.IsAuthenticated ? 1 : 0)';
+			if (canStar){
+				$(".eval_star .runtime_star").hover(function () {
+					$(this).prevAll().andSelf().addClass("hover_yes").removeClass("hover_no");
+					$(this).nextAll().addClass("hover_no").removeClass("hover_yes");
+				}, function(){
+					$(".eval_star .runtime_star").removeClass("hover_yes", "hover_no");
+				}).click(function () {
+					$(".eval_star .runtime_star").unbind('mouseenter mouseleave');
+					var star = 5 - $(this).nextAll().length;
+					$.post("/CroResource/Star", {id:id,courseId:'@course.CourseId', value:star}, function() {
+					});
+
+				});
+			}
+
+		});
+	</script>
+}

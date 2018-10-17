@@ -1,0 +1,127 @@
+﻿@model ResUser
+@{
+	ViewBag.Title = "我的信息";
+}
+<ul class="nav nav-tabs my_nav">
+	<li class="active"><a>个人信息</a></li>
+	<li><a href="@Url.Action("Download", "My", new { id=Model.UserId})">我的下载</a></li>
+	<li><a href="@Url.Action("Favorite", "My", new { id = Model.UserId })">我的收藏</a></li>
+	<li><a href="@Url.Action("Comment", "My", new { id = Model.UserId })">我的评论</a></li>
+</ul>
+<div class="full_white">
+
+<!--作品列表 -->
+<div class="block_panel blue_edge">
+	<div class="panel_title nav">
+		<img src="~/assets/img/ico_my.png"> 个人信息
+	</div>
+	<div class="body">
+
+		<div class="my_info ">
+			<div class="t_title">
+				<span>@Model.RealName</span>
+				<b class="fl">上次登录时间：<i>@Model.LastLoginTime.ToShortDateString()</i></b>
+			@if (ResSettings.SettingsInSession.UserId==Model.UserId) {
+
+				<a href="javascript:;" id="cmd_photo">修改头像</a>
+				<a href="javascript:;" id="cmd_editpwd">修改个人密码</a>
+				<a href="javascript:;" id="cmd_edit">修改个人信息</a>
+			}
+
+			</div>
+
+
+			<div>
+				<div class="u_c">
+					<span>登录次数：@Model.LoginCount</span>
+					<span>收藏作品：@Model.FavoriteCount</span>
+					<span>下载次数：@Model.DownCount</span>
+					<span>评论次数：@Model.CommentCount</span>
+				</div>
+				<div class="u_t">
+					<img id="photo" src="@ResActiveUser.FitPhotoPathWithUser(Model)" />
+					<div class="u_text">
+						<p><span>用&nbsp;&nbsp;户&nbsp;&nbsp;名：@Model.UserName</span><span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：@Model.RealName</span></p>
+						<p><span>电子邮件：@Model.Email</span><span>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：@Model.Gender</span></p>
+						<p><span>单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位：@Model.CompanyName</span><span>注册时间：@Model.RegisterTime.ToShortDateString()</span></p>
+					</div>
+				</div>
+				<div class="cb"></div>
+			</div>
+
+			<div class="modal fade" id="inner-edit-form" tabindex="-1" role="dialog"></div>
+		</div>
+		<form action="@Url.Action("UploadPhoto", "Attachment")" class="dropzone photo"></form>
+
+	</div>
+</div>
+
+</div>
+@section Css {
+
+}
+@section Plugins {
+	@Scripts.Render("~/js/dropzone")
+}
+@section Scripts {
+	<script type="text/javascript">
+		function showModal(id) {
+
+			$.get("@Url.Action("Edit", "My")", { id: id }, function (response) {
+				$("#inner-edit-form")
+				.html(response).modal("show")
+				.find(".form-control").first().focus();
+			});
+		}
+
+		function showModalpwd(id) {
+
+			$.get("@Url.Action("ChgPwd", "My")", { id: id }, function (response) {
+				$("#inner-edit-form")
+				.html(response).modal("show")
+				.find(".form-control").first().focus();
+			});
+
+		}
+
+		$(function () {
+
+			$("#cmd_edit").on("click", function () {
+				var id=@Model.UserId;
+				showModal(id);
+				return false;
+			});
+
+			$("#cmd_editpwd").on("click", function () {
+				var id=@Model.UserId;
+				showModalpwd(id);
+				return false;
+			});
+
+			Dropzone.autoDiscover = false;
+			// init dropzone upload plugin.
+			$(".dropzone.photo").dropzone({
+				addRemoveLinks: !0,
+				maxFiles: 100,
+				acceptedFiles: "image/*",
+				dictResponseError: "File Upload Error.",
+				init: function () {
+					this.on("success", function (file, data) {
+						$("#photo").attr("src", data.showPath);
+					});
+					this.on("error", function (file, message) {
+						alert(message)
+					});
+				}
+			});
+
+			// proxy click event to dropzone.
+			$("#cmd_photo").on("click", function () {
+				$(".dropzone.photo").trigger('click');
+			});
+
+		});
+
+	</script>
+
+}
