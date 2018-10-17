@@ -206,7 +206,7 @@ namespace Res.Controllers
 
       public ActionResult Search()
       {
-         InitAreaDropDownData();
+         InitAreaDropDownData(true); //根据用户当前角色进行数据范围筛选
 
          return View();
       }

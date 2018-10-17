@@ -612,6 +612,15 @@
 				</columns>
 			</table>
 
+			<!--we chat system access token which will expire in 2 hours-->
+			<table name="WeiXinAccessToken" comment="存放accessToken">
+				<columns>
+					<add name="TokenId" type="long" primaryKey="true" identityType="Provider"/>
+					<add name="AccessToken" type="string" dataLength="150"  />
+					<add name="StartDate" type="DateTime"  comment="获取日期" />
+				</columns>
+			</table>
+
 		</tables>
 
 		<relations>

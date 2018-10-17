@@ -293,12 +293,14 @@
 							}).end()
 
 							// 全选
-							.find('#checkAll').click(function(){
+							.find('#checkAll').removeAttr('checked').click(function(){
 								ids=[];
-								grid.find('.cmd_approve').each(function(){
-									var id=$(this).parents('tr').find('.cmd_approve').data('rowId');
-									ids.push(id);
-								});
+								if($(this).is(':checked')){
+									grid.find('.cmd_approve').each(function(){
+										var id=$(this).parents('tr').find('.cmd_approve').data('rowId');
+										ids.push(id);
+									});
+								}
 							});
 
 					});
