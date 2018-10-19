@@ -1,0 +1,149 @@
+﻿@{
+	var pageTitle = ViewBag.Title = "评审结果查询";
+	var expertId = Request["expertId"]==null? ResSettings.SettingsInSession.UserId.ToString() : Request["expertId"];
+	var groupId = Request["groupId"] == null ? "0" : Request["groupId"];
+}
+
+<div class="col-md-10 content-wrapper"> 
+	<div class="row">
+		<div class="col-lg-4 ">
+			<ul class="breadcrumb">
+				<li>
+					<i class="fa fa-home"></i>
+					<a href="@Url.Action("Index", "Home")">首页</a>
+				</li>
+				<li class="active">@ViewBag.Title</li>
+			</ul>
+		</div>
+	</div>
+	<!-- main -->
+	<div class="content">
+		<div class="main-header">
+			<h2>@ViewBag.Title</h2>
+			<em>评审组列表</em>
+		</div>
+		<div class="main-content">
+
+			<!-- widget -->
+			<div class="widget">
+				<div class="widget-header">
+					<h3><i class="fa fa-paperclip"></i> @ViewBag.Title</h3>
+					<div class="btn-group widget-header-toolbar">
+						<a href="#" title="专注" class="btn-borderless btn-focus"><i class="fa fa-eye"></i></a>
+					</div>
+				</div>
+
+				<div class="widget-content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="col-sm-8">
+
+								@*<div class="form-group">
+									<form action="@Url.Action("Comment")" name="form">
+										<div class="col-sm-4">
+											@Html.DropDownList("", ViewBag.Activies as IEnumerable<SelectListItem>, "选择项目", new { @class = "search-field form-control" })
+										</div>
+										<div class="col-sm-4">
+											@Html.DropDownList("", ViewBag.Activies as IEnumerable<SelectListItem>, "选择评审组", new { @class = "search-field form-control" })
+										</div>
+										<div class="col-sm-4">
+											@Html.DropDownList("", ViewBag.Activies as IEnumerable<SelectListItem>, "选择专家", new { @class = "search-field form-control" })
+										</div>
+									</form>
+								</div>*@
+
+							</div>
+
+
+						</div>
+					</div>
+					<!-- Grid -->
+					<div id="table-responsive">
+
+						<table id="bootgridResource" class="table table-striped table-hover table-dark-header">
+							<thead>
+								<tr>
+									<th data-column-id="active">所属项目</th>
+									<th data-column-id="title">作品名称</th>
+									<th data-column-id="group">评审组</th>
+									<th data-column-id="expert">评审专家</th>
+									<th data-column-id="score">评分</th>
+									<th data-column-id="averageScore">作品总得分</th>
+									<th data-column-id="comment" class="titlewidth">专家评语</th>
+									<th data-column-id="commands" data-formatter="commands" data-sortable="false" data-header-Css-Class="width180">操作</th>
+								</tr>
+							</thead>
+						</table>
+
+					</div>
+					<!-- end Grid-->
+				</div>
+				<!-- end widget content -->
+			</div>
+			<!-- end widget -->
+		</div>
+		<!-- /main-content -->
+	</div>
+	<!-- /main -->
+	<input type="hidden" id="activeId" value="0" />
+	<input type="hidden" id="groupId" value="@groupId" />
+	<input type="hidden" id="expertId" value="@expertId" />
+</div>
+
+@section Css {
+	@Styles.Render("~/css/bootgrid")
+}
+@section Plugins {
+	@Scripts.Render("~/js/bootgrid")
+}
+@section Scripts{
+	<script>
+
+		function getRequest() {
+			return {
+				groupId: $('#groupId').val(),
+				activeId: $('#activeId').val(),
+				expertId: $('#expertId').val()
+			};
+		}
+
+		function getGridOptions3() {
+			return $.extend(true, {}, gridOptions, {
+
+				url: '@Url.Action("EvalResultList","EvalManage")',
+
+				requestHandler: function (request) { return $.extend(true, request, getRequest()); },
+
+				formatters: {
+					'commands': function (column, row) {
+						return '<div class="btn-group btn-group-xs pull-right">' +
+									 '<a target="_blank" class="btn btn-warning btn-remove" href="@Url.Action("Details", "Eval")?id=' + row.id + '&resId=' + row.sourceId + '&groupId=' + row.groupId+'&expertId='+row.expertId+'">考核详情</a>' +
+									 '</div>';
+					},
+				},
+			});
+		}
+		$(function () {
+			var resourceGrid = $('#bootgridResource');
+			resourceGrid.bootgrid(getGridOptions3())
+			.on('loaded.rs.jquery.bootgrid', function () {
+				//$(resourceGrid).find('.btn-assign').on('click', function () {
+				//	var url = $(this).data('url');
+				//	var resId = $(this).parent().data('row-id');
+				//	$.post(url, { id: groupId, resId: resId }, function (data) {
+				//		resourceGrid.bootgrid('reload');
+				//	});
+				//});
+
+				//$(resourceGrid).find('.btn-remove').on('click', function () {
+				//	var url = $(this).data('url');
+				//	var id = $(this).parent().data('row-id');
+				//	$.post(url, { id: id }, function (data) {
+				//		resourceGrid.bootgrid('reload');
+				//	});
+				//})
+			});
+		});
+
+	</script>
+}

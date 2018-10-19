@@ -4530,10 +4530,10 @@
       <publishTime>09/21/2018 17:10:18</publishTime>
     </File>
     <File Include="bin/Res.dll">
-      <publishTime>10/16/2018 14:19:49</publishTime>
+      <publishTime>10/19/2018 15:28:20</publishTime>
     </File>
     <File Include="bin/Res.pdb">
-      <publishTime>10/16/2018 14:19:49</publishTime>
+      <publishTime>10/19/2018 15:28:20</publishTime>
     </File>
     <File Include="bin/Symber.Web.APQuery.dll">
       <publishTime>09/21/2018 17:10:18</publishTime>
@@ -4560,10 +4560,10 @@
       <publishTime>09/21/2018 17:10:17</publishTime>
     </File>
     <File Include="bin/Util.dll">
-      <publishTime>10/15/2018 17:38:11</publishTime>
+      <publishTime>10/18/2018 11:13:05</publishTime>
     </File>
     <File Include="bin/Util.pdb">
-      <publishTime>10/15/2018 17:38:11</publishTime>
+      <publishTime>10/18/2018 11:13:05</publishTime>
     </File>
     <File Include="bin/WcsLib.dll">
       <publishTime>09/25/2018 09:13:20</publishTime>
@@ -4608,7 +4608,7 @@
       <publishTime>09/21/2018 17:10:17</publishTime>
     </File>
     <File Include="Business/DataLogic/Business.apgen">
-      <publishTime>10/12/2018 16:32:49</publishTime>
+      <publishTime>10/18/2018 11:13:05</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -4623,7 +4623,7 @@
       <publishTime>09/21/2018 17:10:15</publishTime>
     </File>
     <File Include="memo.txt">
-      <publishTime>09/21/2018 17:10:16</publishTime>
+      <publishTime>10/18/2018 17:52:35</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -4692,7 +4692,7 @@
       <publishTime>10/12/2018 15:10:59</publishTime>
     </File>
     <File Include="Views/Crosource/Edit.cshtml">
-      <publishTime>10/09/2018 09:50:56</publishTime>
+      <publishTime>10/17/2018 09:29:12</publishTime>
     </File>
     <File Include="Views/Crosource/Index.cshtml">
       <publishTime>10/08/2018 09:16:59</publishTime>
@@ -4701,7 +4701,7 @@
       <publishTime>09/21/2018 17:10:15</publishTime>
     </File>
     <File Include="Views/Crosource/Search.cshtml">
-      <publishTime>10/15/2018 11:20:13</publishTime>
+      <publishTime>10/18/2018 11:13:05</publishTime>
     </File>
     <File Include="Views/Crosource/WinLevel.cshtml">
       <publishTime>10/09/2018 09:19:45</publishTime>
@@ -4866,7 +4866,7 @@
       <publishTime>09/21/2018 17:10:15</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/16/2018 13:17:54</publishTime>
+      <publishTime>10/18/2018 15:26:35</publishTime>
     </File>
     <File Include="xml.schema.definition/apgen.xsx">
       <publishTime>09/21/2018 17:10:16</publishTime>

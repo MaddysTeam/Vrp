@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<gen xmlns="http://schemas.symber.com/apgen" namespace="Res.Business">
+	<genSections>
+		<sectionGroup name="code" type="Symber.Web.Compilation.APGenCodeSectionGroup, Symber.Web.APQuery, Version=4.0, Culture=neutral, PublicKeyToken=5f8081ae21b51971">
+			<section name="namespaces" type="Symber.Web.Compilation.APGenNamespacesSection, Symber.Web.APQuery, Version=4.0, Culture=neutral, PublicKeyToken=5f8081ae21b51971"/>
+			<section name="enums" type="Symber.Web.Compilation.APGenEnumsSection, Symber.Web.APQuery, Version=4.0, Culture=neutral, PublicKeyToken=5f8081ae21b51971"/>
+		</sectionGroup>
+		<section name="businessModel" type="Symber.Web.Compilation.APGenBusinessModelSection, Symber.Web.APQuery, Version=4.0, Culture=neutral, PublicKeyToken=5f8081ae21b51971"/>
+	</genSections>
+
+
+
+
+	<!-- Add APQuery.net Project Gen Code Here. -->
+
+	<!-- Like as -->
+	<code>
+		<namespaces>
+			<add import="System"/>
+			<add import="System.Collections"/>
+			<add import="System.Collections.Generic"/>
+		</namespaces>
+		<enums>
+			<enum name="DemoEnum" comment="Demo Enum">
+				<add name="Debug" comment="For Debug"/>
+				<add name="Release" comment="For Release"/>
+			</enum>
+		</enums>
+	</code>
+
+
+
+	<!-- Add APQuery.net Project Business Logic Here. -->
+	<!-- Like as -->
+	<businessModel autoSyncDatabase="true" autoInitDatabase="true" providerName="SqlAPDalProvider" >
+		<!--<provider
+			  name="DefaultAPDalProvider"
+			  type="Symber.Web.Data.SqlAPDalProvider"
+			  connectionString="Data Source=.;Initial Catalog=shserc;User ID=sa;Password=sa"
+			  providerName="System.Data.SqlClient"/>-->
+
+		<!--	
+			  <provider
+				  name="DefaultConnection"
+				  type="Symber.Web.Data.SqlAPDalProvider"
+				  connectionString="Data Source=192.168.10.3;Initial Catalog=shserc;User ID=sa;Password=sa"
+				  providerName="System.Data.SqlClient" />
+	-->
+		
+		<tables>
+
+			<!-- Defined 'ResPickList' DB table and auto generite db access codes.
+				-->
+			<table name="ResPickList" comment="选项列表">
+				<columns>
+					<add name="PickListId" type="long" primaryKey="true"  identityType="Provider"/>
+					<add name="InnerKey" type="string" dataLength="40"/>
+					<add name="Name" type="string" dataLength="255"/>
+					<add name="Adjustable" type="bool"/>
+					<add name="Strengthen" type="bool" />
+					<add name="Description" type="string" dataLength="1000"/>
+					<!-- Object Mark -->
+					<add name="Creator" type="long"/>
+					<add name="CreatedTime" type="DateTime"/>
+					<add name="LastModifier" type="long"/>
+					<add name="LastModifiedTime" type="DateTime"/>
+				</columns>
+			</table>
+
+			<!-- Defined 'ResPickListItem' DB table and auto generite db access codes.
+				-->
+			<table name="ResPickListItem" comment="选项列表项" >
+				<columns>
+					<add name="PickListItemId" type="long" primaryKey="true"  identityType="Provider"/>
+					<add name="PickListId" type="long" primaryKey="true" comment="Associated with CrmPickList.PickListId"/>
+					<add name="Name" type="string" dataLength="255"/>
+					<add name="StrengthenValue" type="long"/>
+					<add name="Code" type="string" dataLength="100"/>
+					<add name="IsDefault" type="bool"/>
+					<!-- Object Mark -->
+					<add name="Creator" type="long"/>
+					<add name="CreatedTime" type="DateTime"/>
+					<add name="LastModifier" type="long"/>
+					<add name="LastModifiedTime" type="DateTime"/>
+				</columns>
+			</table>
+
+			<!-- Defined 'ResUser' DB table and auto generite db access codes.
+				-->
+			<table name="ResUser" comment="用户">
+				<columns>
+					<add name="UserId" type="long" identityType="Provider" primaryKey="true" display="用户ID" />
+
+					<!-- Login -->
+					<add name="UserName" type="string" dataLength="255" required="true" display="用户名"/>
+					<add name="Password" type="string" dataLength="255" required="true" display="密码"/>
+					<add name="PasswordHash" type="string" dataLength="255" display="密码哈希"/>
+					<add name="SecurityStamp" type="string" dataLength="255" display="Salt"/>
+					<add name="Question" type="string" dataLength="255" display="密码问题"/>
+					<add name="Answer" type="string" dataLength="255" display="密码答案"/>
+					<add name="UserTypePKID" type="long" display="用户角色"/>
+					
+					<!-- Content -->
+					<add name="RealName" type="string" dataLength="255" required="false" display="实名"/>
+					<add name="PhotoPath" type="string" dataLength="255" display="头像"/>
+					<add name="GenderPKID" type="long" required="true" display="性别" comment="PickList - APEdu.net key is PLKey_Gender"/>
+					<add name="IDCard" type="string" dataLength="255"  required="false"  display="身份证"/>
+					<add name="Email" type="string" dataLength="255"  required="false" display="电子邮件"/>
+					<add name="CompanyId" type="long" comment="单位"/>
+					<add name="ProvinceId" type="long" comment="省份"/>
+					<add name="AreaId" type="long" comment="区县"/>
+
+					<!-- Logic -->
+					<add name="Actived" type="bool" display="有效"/>
+					<add name="Removed" type="bool" display="删除"/>
+					<add name="RegisterTime" type="DateTime" display="注册时间"/>
+					<add name="LastLoginTime" type="DateTime" display="最后登录时间"/>
+					<add name="LoginCount" type="int" display="登录次数"/>
+
+					<add name="MD5" type="string" dataLength="255" display="MD5"/>
+
+				</columns>
+			</table>
+
+			<!-- Defined 'ResRole' DB table and auto generite db access codes.
+				-->
+			<table name="ResRole" comment="角色">
+				<columns>
+					<add name="RoleId" type="long" identityType="Provider" primaryKey="true" display="角色ID"/>
+
+					<!-- Content -->
+					<add name="RoleName" type="string" dataLength="255" required="true" display="角色名"/>
+					<add name="Description" type="string" dataLength="255" required="true" display="描述"/>
+				</columns>
+			</table>
+
+			<!-- Defined 'ResRole' DB table and auto generite db access codes.
+				-->
+			<table name="ResUserRole" comment="用户角色">
+				<columns>
+					<add name="UserRoleId" type="long" identityType="Provider" primaryKey="true" display="用户角色ID"/>
+					<add name="UserId" type="long" required="true" display="用户ID"/>
+					<add name="RoleId" type="long" required="true" display="角色ID"/>
+				</columns>
+			</table>
+
+			<!-- Defined 'ResApprove' DB table and auto generite db access codes.
+				-->
+			<table name="ResApprove" comment="权限">
+				<columns>
+					<add name="ApproveId" type="long" identityType="Provider" primaryKey="true" display="权限ID"/>
+
+					<!-- Content -->
+					<add name="ApproveName" type="string" dataLength="255" required="true" display="权限名"/>
+					<add name="Scope" type="string" dataLength="255" required="true" display="作用域"/>
+					<add name="Description" type="string" dataLength="255" required="true" display="描述"/>
+				</columns>
+			</table>
+
+			<!-- Defined 'ResRoleApprove' DB table and auto generite db access codes.
+				-->
+			<table name="ResRoleApprove" comment="角色权限">
+				<columns>
+					<add name="RoleApproveId" type="long" identityType="Provider" primaryKey="true" display="角色权限ID"/>
+					<add name="RoleId" type="long" required="true" display="角色ID"/>
+					<add name="ApproveId" type="long" required="true" display="权限ID"/>
+				</columns>
+			</table>
+
+			<!-- Defined 'ResCompany' DB table and auto generite db access codes.
+				-->
+			<table name="ResCompany" comment="单位">
+				<columns>
+					<add name="CompanyId" type="long" identityType="Provider" primaryKey="true" display="单位ID"/>
+					<add name="ParentId" type="long" display="父ID"/>
+					<add name="Path" type="string" dataLength="500" required="true" display="路径"/>
+
+					<!-- Content -->
+					<add name="CompanyName" type="string" dataLength="255" required="true" display="单位名称"/>
+					<add name="Address" type="string" dataLength="255" required="false" display="地址"/>
+					<add name="Email" type="string" dataLength="255" display="电子邮件"/>
+					<add name="Phone" type="string" dataLength="255" display="电话"/>
+				</columns>
+			</table>
+
+			<!-- Defined 'ResRealName' DB table and auto generite db access codes.
+				-->
+			<table name="ResReal" comment="实名表">
+				<columns>
+					<add name="RealId" type="long" identityType="Provider" primaryKey="true" display="实名ID"/>
+
+					<!-- Content -->
+					<add name="RealName" type="string" dataLength="255" required="true" display="实名"/>
+					<add name="IDCard" type="string" dataLength="255" required="true" display="身份证"/>
+					<add name="Birthday" type="DateTime" display="出生日期"/>
+					<add name="CompanyId" type="long" comment="单位ID"/>
+					<add name="CardNo" type="string" dataLength="255" required="true" display="实名卡号"/>
+					<add name="CardPwd" type="string" dataLength="255" required="true"  display="实名卡密码"/>
+					<add name="State" type="bool" display="是否注册"/>
+
+				</columns>
+			</table>
+
+			
+			<table name="Active" comment="项目">
+				<columns>
+					<add name="ActiveId" columnName="id" type="long" identityType="Provider" primaryKey="true" display="项目ID"/>
+
+					<!-- Content -->
+					<add name="ActiveName" type="string" dataLength="100" required="true" display="项目名称"/>
+					<add name="Description" type="string" dataLength="255" required="true" display="描述"/>
+					<add name="Year" type="int"  display="项目年份" required="true"/>
+					
+					<add name="Company" type="string" dataLength="100" required="true" display="主办单位" />
+					<add name="LevelPKID" type="long"  display="项目级别"/>
+					<add name="SemesterPKID" type="long"  display="学期"/>
+					<add name="PublicStatePKID" type="long" display="公开设置"  defaultValue="10450" comment="PickList - APEdu.net key is PLKey_PublicState"/>
+					<add name="DownloadStatePKID" type="long" display="下载设置" defaultValue="10452" comment="PickList - APEdu.net key is PLKey_DownloadState"/>
+					
+					<add name="StartDate" columnName="StartDate" type="DateTime"  display="起始时间" />
+					<add name="EndDate" columnName="EndDate" type="DateTime"  display="结束时间" />
+					<add name="UploadStartDate" columnName="UploadStartDate" type="DateTime"  display="上传起始时间" />
+					<add name="UploadEndDate" columnName="UploadEndDate" type="DateTime"  display="上传结束时间" />
+					<add name="IsCurrent" columnName="IsCurrent" type="bool"  display="是否当前项目" />
+					
+				</columns>
+			</table>
+			
+			
+			<table name="ActivePublic" comment="项目-公开-设定">
+				<columns>
+					
+					<add name="ActivePublicId" columnName="id" type="long" identityType="Provider" primaryKey="true" />
+					<add name="ActiveId" columnName="ActiveId" type="long" required="true"   display="项目ID"/>
+					<add name="RoleId" columnName="RoleId" type="long"  required="true"  display="角色ID"/>
+				
+				</columns>
+			</table>
+			
+			
+			<table name="ActiveDownload" comment="项目-下载-设定">
+				<columns>
+					
+					<add name="ActiveDownloadId" columnName="id" type="long" identityType="Provider" primaryKey="true" />
+					<add name="ActiveId" columnName="ActiveId" type="long" required="true"  display="项目ID"/>
+					<add name="RoleId" columnName="RoleId" type="long" required="true"   display="角色ID"/>
+				
+				</columns>
+			</table>
+			
+			
+			<table name="CroBulletin" comment="众筹公告">
+				<columns>
+					<add name="BulletinId" type="long" identityType="Provider" primaryKey="true" display="公告ID"/>
+
+					<!-- Content -->
+					<add name="Title" type="string" dataLength="100" required="true" display="公告名称"/>
+					<add name="Content" type="string" dataLength="30000" required="true" display="公告内容"/>
+					<add name="ResourcePath" type="string" dataLength="255" display="文件路径"/>
+					<add name="FileExtName" type="string" dataLength="20" display="文件扩展名"/>
+					<add name="FileSize" type="long" display="文件大小"/>
+					<add name="Creator" type="long"/>
+					<add name="CreatedTime" type="DateTime"/>
+				</columns>
+			</table>
+
+
+			<table name="CroResource" comment="微课作品">
+				<columns>
+					<add name="CrosourceId" type="long" identityType="Provider" primaryKey="true" display="作品ID"/>
+
+					<!-- Content -->
+					<add name="Title" type="string" dataLength="250" required="true" display="标题"/>
+					<add name="Author" type="string" dataLength="50" required="true" display="作者"/>
+					<add name="Keywords" type="string" dataLength="50"  required="true"  display="关键字"/>
+					<add name="Description" type="string" dataLength="30000" display="微课信息简介"/>
+					<add name="ProvinceId" type="long" display="所属省份"/>
+					<add name="AreaId" type="long" display="所属地区"/>
+					<add name="CompanyId" type="long" display="所属学校"/>
+					<add name="ActiveId" type="long" display="所属项目"/>
+					
+					<add name="AuthorCompany" type="string" dataLength="50" required="true"  display="作者单位"/>
+					<add name="AuthorAddress" type="string" dataLength="50" display="指导教师"/>
+					<add name="AuthorEmail" type="string" dataLength="50" display="作者邮箱"/>
+					<add name="AuthorPhone" type="string" dataLength="50" display="作者电话"/>
+
+					<!-- Properties -->
+					<add name="StagePKID" type="long" required="true" display="学段" comment="PickList - APEdu.net key is PLKey_ResourceStage"/>
+					<add name="GradePKID" type="long" required="true" display="年级" comment="PickList - APEdu.net key is PLKey_ResourceGrade"/>
+					<add name="ResourceTypePKID" type="long" required="false" display="作品类型" comment="PickList - APEdu.net key is PLKey_ResourceType"/>
+					<add name="SubjectPKID" type="long" required="true" display="学科" comment="PickList - APEdu.net key is PLKey_ResourceSubject"/>
+					<add name="CourseTypePKID" type="long" required="true" display="微课类型" comment="PickList - APEdu.net key is PLKey_CourseType"/>
+					<add name="StatePKID" type="long" display="状态" comment="PickList - APEdu.net key is PLKey_ResourceState"/>
+					<add name="PublicStatePKID" type="long" display="公开设置"  defaultValue="10450" comment="PickList - APEdu.net key is PLKey_PublicState"/>
+					<add name="DownloadStatePKID" type="long" display="下载设置" defaultValue="10452" comment="PickList - APEdu.net key is PLKey_DownloadState"/>
+					<add name="WinLevelPKID" type="long" display="获奖等级" defaultValue="0" comment="PickList - APEdu.net key is PLKey_WinLevel"/>
+					
+					<!-- Count -->
+					<add name="DownCount" type="int" display="下载次数"/>
+					<add name="FavoriteCount" type="int" display="收藏次数"/>
+					<add name="ViewCount" type="int" display="点击次数"/>
+					<add name="CommentCount" type="int" display="评论次数"/>
+					<!--<add name="StarCount" type="int" display="评分次数"/>
+					<add name="StarTotal" type="int" display="总评分"/>-->
+					<add name="EliteScore" type="int" display="加精分数"/>
+					<add name="PraiseCount" type="int" display="点赞次数" defaultValue="0"/>
+
+					<!-- Logic -->
+
+					<add name="Auditor" type="long" display="审核人ID"/>
+					<add name="AuditedTime" type="DateTime" isNullable="true" display="审核时间"/>
+					<add name="AuditOpinion" type="string" dataLength="255" display="审核意见"/>
+
+					<!-- Object Mark -->
+					<add name="Creator" type="long"/>
+					<add name="CreatedTime" type="DateTime"/>
+					<add name="LastModifier" type="long"/>
+					<add name="LastModifiedTime" type="DateTime"/>
+
+					<!-- Eval -->
+					<add name="Score" type="double" display="作品得分"/>
+
+					<!-- WeChat -->
+					<add name="WeiXinFavoriteCount" type="int" display="微信收藏次数"/>
+					<add name="WeiXInPraiseCount" type="int" display="微信点赞次数" defaultValue="0"/>
+				
+				</columns>
+			</table>
+
+			<!-- 以下为微课程表  -->
+			<table name="MicroCourse" comment="课程">
+				<columns>
+					<add name="CourseId" type="long" identityType="Provider" primaryKey="true"/>
+					<add name="CourseTitle" type="string" dataLength="50" required="true" display="微课标题"/>
+					<add name="ResourceId" type="long" display="微课程作品"  required="true" />
+					<add name="VideoId" type="long" display="视频文件" required="true"/>
+					<add name="CoverId" type="long" display="封面文件"/>
+					<add name="DesignId" type="long" display="设计"/>
+					<add name="SummaryId" type="long" display="反思"/>
+					<add name="CoursewareId" type="long" display="课件"/>
+					<add name="AttachmentId" type="long" display="附件"/>
+					<add name="CharpterSortId" type="long"/>
+					<add name="PlayCount" type="int" display="播放次数"/>
+					<add name="DownCount" type="int" display="下载次数"/>
+					<add name="StarCount" type="int" display="评分次数"/>
+					<!-- WeChat -->
+					<add name="WeiXinPlayCount" type="int" display="微信播放次数"/>
+				</columns>
+			</table>
+
+			<!-- 以下为微课程习题表  -->
+			<table name="Exercises">
+				<columns>
+					<add name="ExerciseId" type="long" identityType="Provider" primaryKey="true"/>
+					<add name="CourseId" type="long" required="true"/>
+					<add name="Name" type="string" dataLength="1000" required="true"></add>
+					<add name="Answer" type="string" dataLength="100" required="true" />
+				</columns>
+			</table>
+
+			<!-- 以下为微课程习题明细表  -->
+			<table name="ExercisesItem">
+				<columns>
+					<add name="ItemId" type="long" identityType="Provider" primaryKey="true"/>
+					<add name="ExerciseId" type="long"  required="true" />
+					<add name="Item" type="string" dataLength="1000" required="true" ></add>
+					<add name="Code" type="string" dataLength="1000" required="true" />
+				</columns>
+			</table>
+
+			<!-- 以下为文件表  -->
+			<table name="Files">
+				<columns>
+					<add name="FileId" type="long" identityType="Provider" primaryKey="true" display="文件ID"/>
+					<add name="FileName" type="string" dataLength="100" display="文件名称"   required="true"/>
+					<add name="ExtName"  type="string" dataLength="20" display="后缀名称"  required="true"/>
+					<add name="FilePath" type="string" dataLength="255" display="作品路径" required="true"/>
+					<add name="FileSize" type="long" display="文件大小" required="true"/>
+					<add name="Md5" type="string" dataLength="50" required="true"/>
+					<add name="Code" type="string" dataLength="20"/>
+				</columns>
+			</table>
+
+
+			<table name="Indication" tableName="Indication" comment="评审指标">
+				<columns>
+
+					<add name="IndicationId" columnName="ID" type="long" primaryKey="true" identityType="Provider" ></add>
+					<add name="IndicationName" columnName="Name" type="string"  dataLength="50" required="true" display="指标子项"/>
+					<add name="Description" columnName="Description" type="string" dataLength="40000"  required="true" display="指标描述"/>
+					<add name="TypePKID" type="long" display="评价项目"></add>
+					<add name="LevelPKID" type="long"  display="评审级别"></add>
+					<add name="Score" type="int"  display="最大分值"></add>
+					<add name="Status" columnName="Status" type="int"></add>
+					<add name="ActiveId" columnName="ActiveId" type="long" display="所属活动"/>
+				
+				</columns>
+			</table>
+
+
+			<table name="EvalGroup" tableName="EvalGroup" comment="评审组">
+				<columns>
+
+					<add name="GroupId" columnName="ID" type="long" identityType="Provider" primaryKey="true" ></add>
+					<add name="GroupName" columnName="Name" type="string" dataLength="100" required="true"  display="组名称"></add>
+					<add name="LevelPKID" type="long" dataLength="100"  display="评审级别"></add>
+					<add name="StartDate" columnName="StartDate" type="DateTime"  display="起始时间" />
+					<add name="EndDate" columnName="EndDate" type="DateTime"  display="结束时间" />
+					<add name="ActiveId" columnName="ActiveId" type="long" display="所属活动"/>
+					<add name="ProvinceId" columnName="ProvinceId" type="long" display="省份"/>
+					<add name="AreaId" columnName="AreaId" type="long" display="地区"/>
+					<add name="CompanyId" columnName="CompanyId" type="long" display="单位"/>
+					
+				</columns>
+			</table>
+
+
+			<table name="EvalGroupExpert" comment="评审组-专家关联">
+				<columns>
+
+					<add name="GroupExpertId" columnName="ID" type="long" identityType="Provider"  primaryKey="true" display="评审人组成员ID" />
+					<add name="GroupId" type="long" display="评审组ID" comment="评审组ID"/>
+					<add name="ExpertId" type="long" display="评审人" comment="评审人ID"/>
+
+				</columns>
+			</table>
+
+
+			<table name="EvalGroupResource" comment="评审组-作品关联">
+				<columns>
+
+					<add name="GroupResourceId" columnName="ID" type="long"  identityType="Provider" primaryKey="true"  />
+					<add name="GroupId" type="long" display="评审组ID" comment="评审组ID"/>
+					<add name="ResourceId" type="long" display="评审人" comment="作品ID"/>
+
+				</columns>
+			</table>
+
+
+			<table name="EvalResult" comment="专家-考核结果">
+				<columns>
+
+					<add name="ResultId" columnName="ID" type="long" identityType="Provider" primaryKey="true"  display="评价结果ID"/>
+					<add name="ExpertId" type="long" display="评审人" comment="评审人ID"/>
+					<add name="GroupId" type="long" display="评审组ID"/>
+					<add name="ResourceId" type="long" display="被考核作品ID"/>
+					<add name="AccessDate" type="DateTime" display="评审时间"/>
+					<add name="Score" type="double" display="得分"/>
+					<add name ="Comment" type="string" dataLength="4000" required="false" display="专家评语"/>
+
+				</columns>
+			</table>
+
+
+			<table name="EvalResultItem" comment="考核-结果-结果项">
+				<columns>
+
+					<add name="ResultItemId" columnName="ID" type="long" identityType="Provider" primaryKey="true" display="结果项ID"/>
+					<add name="ResultId" columnName="ResultId" type="long"  display="所属考核结果ID"/>
+					<add name="IndicationId" columnName="IndicationId" type="long"  ></add>
+					<add name="Score" type="double" display="得分"/>
+
+				</columns>
+			</table>
+
+
+			<table name="CroFavorite" comment="收藏">
+				<columns>
+					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="UserId" type="long" required="true" display="用户ID"/>
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
+					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
+				</columns>
+			</table>
+
+			<!-- Defined 'CroComment' DB table and auto generite db access codes.
+				-->
+			<table name="CroComment" comment="评论">
+				<columns>
+					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="UserId" type="long" required="true" display="用户ID"/>
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
+					<add name="Content" type="string" dataLength="2000" required="true" display="内容"/>
+					<add name="Audittype" type="long" display="审核状态"  dbDefaultValue="0"/>
+					<!--0 未审 1审核通过 2审核未通过 -->
+					<add name="Auditor" type="long" display="审核人ID"/>
+					<add name="AuditedTime" type="DateTime" isNullable="true" display="审核时间"/>
+					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
+				</columns>
+			</table>
+
+			<!-- Defined 'CroStar' DB table and auto generite db access codes.
+				-->
+			<table name="CroStar" comment="评分">
+				<columns>
+					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="UserId" type="long" required="true" display="用户ID"/>
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
+					<add name="CourseId" type="long" required="true" display="微课ID"/>
+					<add name="StarCount" type="long" required="true" display="评分星数"/>
+					<add name="Score" type="int" required="true" display="分数"/>
+					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
+				</columns>
+			</table>
+
+			<!-- Defined 'CroView' DB table and auto generite db access codes.
+				-->
+			<table name="CroView" comment="浏览">
+				<columns>
+					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="UserId" type="long" required="true" display="用户ID"/>
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
+					<add name="CourseId" type="long" required="true" display="微课ID"/>
+					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
+				</columns>
+			</table>
+
+			<!-- Defined 'CroView' DB table and auto generite db access codes.
+				-->
+			<table name="CroPlay" comment="播放">
+				<columns>
+					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="UserId" type="long" required="true" display="用户ID"/>
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
+					<add name="CourseId" type="long" required="true" display="微课ID"/>
+					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
+				</columns>
+			</table>
+
+			<!-- Defined 'CroDownload' DB table and auto generite db access codes.
+				-->
+			<table name="CroDownload" comment="下载">
+				<columns>
+					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="UserId" type="long" required="true" display="用户ID"/>
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
+					<add name="CourseId" type="long" required="true" display="微课ID"/>
+					<add name="FileId" type="long" required="true" display="文件ID"/>
+					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
+				</columns>
+			</table>
+			
+			<!-- Defined 'CroPraise' DB table and auto generite db access codes.
+				-->
+			<table name="CroPraise" comment="点赞">
+				<columns>
+					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="UserId" type="long" required="true" display="用户ID"/>
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
+					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
+				</columns>
+			</table>
+
+			<!-- 微信业务相关表 -->
+
+			<table name="WeiXinUserInfo"  comment="微信用户">
+				<columns>
+					<add name="Id" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="OpenId"  type="string" dataLength="150" comment="微信用户OpenId" />
+					<add name="NickName"  type="string" dataLength="100"/>
+					<add name="Gender"  type="int"/>
+					<add name="Prov"  type="string" dataLength="100"/>
+					<add name="City"  type="string" dataLength="100"/>
+					<add name="Country"  type="string" dataLength="100"/>
+					<add name="CreateDate"  type="DateTime" display="CreateDate"/>
+				</columns>
+			</table>
+
+			<table name="WeiXinPraise"  comment="微课点赞">
+				<columns>
+					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="OpenId" type="string" dataLength="150" comment="微信用户OpenId" />
+					<add name="ResId"  type="long" comment="作品Id"/>
+					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
+				</columns>
+			</table>
+
+			<table name="WeiXinFavorite"  comment="微课收藏">
+				<columns>
+					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="OpenId" type="string" dataLength="150" comment="微信用户OpenId" />
+					<add name="ResId"  type="long" display="WksId" comment="作品Id"/>
+					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
+				</columns>
+			</table>
+
+			<table name="WeiXinPlayCount"  comment="微课点击">
+				<columns>
+					<add name="OccurId" type="long" identityType="Provider" primaryKey="true" display="ID"/>
+					<add name="OpenId"  type="string" dataLength="150" comment="微信用户OpenId" />
+					<add name="ResourceId" type="long" required="true" display="作品ID"/>
+					<add name="CourseId" type="long" required="true" display="微课ID"/>
+					<add name="OccurTime" type="DateTime" display="时间" comment="用于排序使用"/>
+				</columns>
+			</table>
+
+			<table name="Notice" comment="消息">
+				<columns>
+					<add name="NoticeId"  type="long" identityType="Provider" display="NoticeId"/>
+					<add name="Title" type="string" dataLength="150" comment="消息标题" />
+					<add name="Content"  type="string" dataLength="20000" comment="消息内容" />
+					<add name="PublishDate"  type="DateTime" display="发布日期"/>
+				</columns>
+			</table>
+
+			<!--Mapping Expert-->
+			<table name="WeiXinExpert" comment="微信专家表">
+				<columns>
+					<add name="WxExpertId" type="long" primaryKey="true" identityType="Provider"/>
+					<add name="OpenId" type="string" dataLength="150" comment="微信用户OpenId" display="OpenId" />
+					<add name="UserId" type="long"/>
+				</columns>
+			</table>
+
+			<!--we chat system access token which will expire in 2 hours-->
+			<table name="WeiXinAccessToken" comment="存放accessToken">
+				<columns>
+					<add name="TokenId" type="long" primaryKey="true" identityType="Provider"/>
+					<add name="AccessToken" type="string" dataLength="150"  />
+					<add name="StartDate" type="DateTime"  comment="获取日期" />
+				</columns>
+			</table>
+
+		</tables>
+
+		<relations>
+
+			<add name="Res_PickList_Item"
+				  masterTable="ResPickList" masterColumn="PickListId"
+				  slaveTable="ResPickListItem" slaveColumn="PickListId"
+				  cascadeType="Warning" comment="Relationship of ResPickList and ResPickListItem with field PickListId."/>
+
+		</relations>
+
+	</businessModel>
+
+</gen>

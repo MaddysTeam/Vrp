@@ -105,7 +105,7 @@
 						<p>
 							@if (Model.DownloadStatePKID == CroResourceHelper.AllowDownload)
 							{
-							<span>课&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件： <a href="@(course.CoursewareId > 0 ? course.CoursewarePath : "javascript:void(0)")" data-id="@course.CoursewareId" target="_blank" class="btn btn-info btn-sm btn-download">  下 载</a></span><span>其他附件： <a href="@(course.AttachmentId > 0 ? course.AttachmentPath : "javascript:void(0)")" data-id="@course.AttachmentId" target="_blank" class="btn btn-info btn-sm btn-download">  下 载</a></span>
+							<span>课&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件： <a href="@(course.CoursewareId > 0 ? course.CoursewarePath : "javascript:void(0)")" data-id="@course.CoursewareId"  class="btn btn-info btn-sm btn-download">  下 载</a></span><span>其他附件： <a href="@(course.AttachmentId > 0 ? course.AttachmentPath : "javascript:void(0)")" data-id="@course.AttachmentId"  class="btn btn-info btn-sm btn-download">  下 载</a></span>
 							}
 						</p>
 						<p><span>播放次数：@course.PlayCount </span><span>下载次数：@course.DownCount</span></p>
@@ -354,6 +354,7 @@
 				else{
 					alert('暂无文件可下载');
 				}
+				return false;
 			});
 
 			var canStar='@(Request.IsAuthenticated ? 1 : 0)';
@@ -364,11 +365,16 @@
 				}, function(){
 					$(".eval_star .runtime_star").removeClass("hover_yes", "hover_no");
 				}).click(function () {
-					$(".eval_star .runtime_star").unbind('mouseenter mouseleave');
-					var star = 5 - $(this).nextAll().length;
-					$.post("/CroResource/Star", {id:id,courseId:'@course.CourseId', value:star}, function() {
-					});
-
+					if(canStar>0){
+						$(".eval_star .runtime_star").unbind('mouseenter mouseleave');
+						var star = 5 - $(this).nextAll().length;
+						$.post("/CroResource/Star", {id:id,courseId:'@course.CourseId', value:star}, function() {
+						});
+					}
+					else{
+						alert('请先登录! ');
+						return false;
+					}
 				});
 			}
 

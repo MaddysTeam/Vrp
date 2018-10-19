@@ -157,8 +157,8 @@ namespace Res.Controllers
 
       public ActionResult Upload(long id, long? resid)
       {
+         ResSettings.SettingsInSession.CleanCompanyCache();
          var user = ResSettings.SettingsInSession.User;
-
          var provinces = ResSettings.SettingsInSession.AllProvince();
          var areas = ResSettings.SettingsInSession.AllAreas();
          var schools = ResSettings.SettingsInSession.AllSchools();

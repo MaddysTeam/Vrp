@@ -1,0 +1,59 @@
+﻿@model List<SelectListItem>
+@{ 
+	var id = Request["id"];
+}
+<div class="modal-dialog">
+
+	<!-- widget -->
+	<div class="widget">
+		<div class="widget-header">
+			<h3><i class="fa fa-paperclip"></i>选择获奖级别</h3>
+		</div>
+
+		<div class="widget-content">
+			<!-- Condition -->
+			<div class="row">
+					<div class="form-group center-block">
+						@foreach (var item in Model)
+						{
+						 <label class="control-label"> &nbsp;&nbsp;&nbsp;&nbsp; @item.Text</label> @Html.RadioButton("WinLevel", item.Value, item.Selected, new { @class = "winlevel" })
+						}
+
+						<label class="control-label"> &nbsp;&nbsp;&nbsp;&nbsp; 撤销奖项</label> @Html.RadioButton("WinLevel", 0, false, new { @class = "winlevel" })
+					</div>
+			</div>
+			<!-- end Grid-->
+		</div>
+		<!-- end widget content -->
+
+	</div>
+	<!-- end widget -->
+
+</div>
+
+<script>
+
+	$(function () {
+		if ('@id' != '') {
+			$('.winlevel').on('click', function () {
+				$.post('@Url.Action("WinLevel", "Crosource")', { id: '@id', levelId: $(this).val() }, function (data) {
+					$('#inner-edit-form').modal('hide');
+					$('#bootgrid').bootgrid('reload');
+
+					alertify.success(data.msg);
+				});
+			});
+		}
+		else {
+			$('.winlevel').on('click', function () {
+				$.post('@Url.Action("MultiWinLevel", "Crosource")', { ids: '@ViewBag.ids', levelId: $(this).val() }, function (data) {
+					$('#inner-edit-form').modal('hide');
+					$('#bootgrid').bootgrid('reload');
+
+					alertify.success(data.msg);
+				});
+			});
+		}
+	});
+</script>
+

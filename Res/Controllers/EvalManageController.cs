@@ -344,7 +344,9 @@ namespace Res.Controllers
                title = r.Title.GetValue(rd),
                company = r.AuthorCompany.GetValue(rd),
                author = r.Author.GetValue(rd),
-               isSelect = egr.GroupResourceId.GetValue(rd) > 0
+               isSelect = egr.GroupResourceId.GetValue(rd) > 0,
+               grade = CroResourceHelper.Grade.GetName(r.GradePKID.GetValue(rd)),
+               subject = CroResourceHelper.Subject.GetName(r.SubjectPKID.GetValue(rd))
             };
          }).ToList();
 

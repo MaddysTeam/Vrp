@@ -154,12 +154,12 @@ namespace Res.Business
       {
          get
          {
-            //_companys = GetCache(typeof(List<ResCompany>)) as List<ResCompany>;
-            //if (_companys == null)
-            //{
-            //   _companys = APBplDef.ResCompanyBpl.GetAll();
-            //   SetCache(_companys, typeof(List<ResCompany>));
-            //}
+            _companys = GetCache(typeof(List<ResCompany>)) as List<ResCompany>;
+            if (_companys == null)
+            {
+               _companys = APBplDef.ResCompanyBpl.GetAll();
+               SetCache(_companys, typeof(List<ResCompany>));
+            }
 
             return APBplDef.ResCompanyBpl.GetAll();
          }
@@ -201,13 +201,13 @@ namespace Res.Business
          return Companies.FindAll(x => x.Path.LastIndexOf(@"\") >= 9);
       }
 
-
+      public void CleanCompanyCache() => RemoveCache(typeof(List<ResCompany>));
 
       private void CheckCurrent()
       {
-         if (!HttpContext.Current.Request.IsAuthenticated)
-            throw new NotSupportedException(
-               "本系统的 SessionSettings 不支持非登录用户采样，请确保你书写的代码段不存在非登录用户访问的漏洞！");
+         //if (!HttpContext.Current.Request.IsAuthenticated)
+         //   throw new NotSupportedException(
+         //      "本系统的 SessionSettings 不支持非登录用户采样，请确保你书写的代码段不存在非登录用户访问的漏洞！");
          if (_user == null)
          {
             var u = APDBDef.ResUser;

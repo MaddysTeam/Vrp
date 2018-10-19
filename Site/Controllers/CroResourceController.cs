@@ -59,9 +59,10 @@ namespace Res.Controllers
          if (!String.IsNullOrEmpty(tmp = Request.Params.Get("Province")))
          {
             where.Add(rc.Path.Match(tmp));
-
-            areas = ResCompanyHelper.GetChildren(ResSettings.SettingsInSession.Companies, Int64.Parse(tmp));
-            schools = ResCompanyHelper.GetChildren(ResSettings.SettingsInSession.Companies, areas);
+            ResSettings.SettingsInSession.CleanCompanyCache();
+            var companies = ResSettings.SettingsInSession.Companies;
+            areas = ResCompanyHelper.GetChildren(companies, Int64.Parse(tmp));
+            schools = ResCompanyHelper.GetChildren(companies, areas);
          }
          ViewData["Province"] = tmp;
 

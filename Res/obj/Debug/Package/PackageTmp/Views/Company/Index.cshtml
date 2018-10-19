@@ -1,0 +1,200 @@
+﻿
+@{
+	ViewBag.Title = "单位管理";
+}
+
+<div class="col-md-10 content-wrapper">
+	<div class="row">
+		<div class="col-lg-4 ">
+			<ul class="breadcrumb">
+				<li>
+					<i class="fa fa-home"></i>
+					<a href="@Url.Action("Index", "Home")">首页</a>
+				</li>
+				<li><a href="@Url.Action("Index", "User")">用户</a></li>
+				<li class="active">@ViewBag.Title</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="content">
+		<div class="main-header">
+			<h2>@ViewBag.Title</h2>
+			<em>添加或修改单位信息</em>
+		</div>
+	</div>
+
+
+	<div class="main-content">
+		<div class="buttons">
+			<button class="btn btn-default dropdown-toggle" id="refresh"><i class="fa fa-refresh"></i> 刷新列表</button>
+			<button class="btn btn-custom-primary btn-md" id="addCompany"><i class="fa fa-plus-square"></i> 添加单位</button>
+			<button class="btn btn-custom-secondary btn-md" style="display:none;" id="EditCompany"><i class="fa fa-cogs"></i> 编辑单位</button>
+			@if (ResSettings.SettingsInSession.User.UserTypePKID == ResUserHelper.Admin)
+			{
+			<button class="btn btn-info btn-md" id="importCompany"><i class="fa fa-cogs"></i> 导入单位</button>
+			<a href="http://cdncsj.sser.shdjg.net/templates/companyTemplate.xlsx" id="addUser" class="btn btn-primary btn-md">下载导入模板</a>
+			}
+			@*<button class="btn btn-custom-secondary btn-md" style="display:none;" id="RemoveCompany"><i class="fa fa-trash"></i> 删除单位</button>*@
+		</div>
+
+		@using (Html.BeginForm("Remove", "Company", FormMethod.Post, new { id = "form", style = "display:none;" }))
+		{
+			@Html.Hidden("CompanyId")
+		}
+
+		<div class="widget">
+			<div class="widget-header">
+				<h3><i class="fa fa-paperclip"></i> @ViewBag.Title</h3>
+				<div class="btn-group widget-header-toolbar">
+					<a href="#" title="专注" class="btn-borderless btn-focus"><i class="fa fa-eye"></i></a>
+				</div>
+			</div>
+
+			<div class="widget-content">
+				<div class="col-sm-12">
+					<hr />
+				</div>
+				<div id="table-responsive">
+					<div class="input-group">
+						<input type="hidden" class="form-control" disabled id="companyName" aria-label="...">
+						<div id="jstree"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<form action="@Url.Action("ImportPreview", "Company")" class="dropzone import" hidden></form>
+</div>
+
+
+<!-- Modal start -->
+<div class="modal fade" id="inner-edit-form" tabindex="-1" role="dialog"></div>
+<!-- Modal end -->
+
+
+@section Css {
+	@Styles.Render("~/css/bootgrid")
+	@Styles.Render("~/css/jstree")
+}
+@section Plugins {
+	@Scripts.Render("~/js/bootgrid")
+	@Scripts.Render("~/js/jstree")
+	@Scripts.Render("~/js/dropzone")
+}
+@section Scripts
+{
+	<script>
+
+		//function getGlobalRequest() {
+		//	return { companyId: $('#jstree').jstree("get_selected") | 0 };
+		//}
+
+		$("#refresh").on("click", function () {
+			window.location.href = window.location.href;
+		})
+
+		$("#RemoveCompany").on("click", function () {
+			$("#form").submit();
+		});
+
+		$(function () {
+			$('#jstree')
+				.on("click.jstree", function (e) {
+					e.stopImmediatePropagation();
+
+				})
+				.on("changed.jstree", function (e, data) {
+					$("#companyName").val(data.instance.get_node(data.selected).id);
+					$("#bootgrid").bootgrid("reload");
+					$("#EditCompany").show();
+					$("#RemoveCompany").show();
+					$("#CompanyId").val(data.instance.get_node(data.selected).id);
+					data.instance.click();
+				})
+				.jstree({
+					"core": {
+						"animation": 0,
+						"multiple": false,
+						"check_callback": true,
+						"themes": {},
+						'data': {
+							'url': function (node) {
+								return '/Company/Tree';
+							},
+							'data': function (node) {
+								return { 'id': node.id };
+							}
+						}
+					},
+					"plugins": [
+						"wholerow"
+					]
+				});
+
+			$("#addCompany").on("click", function () {
+				$.get("@Url.Action("Edit", "Company")", function (response) {
+					$("#inner-edit-form")
+						.html(response).modal("show");
+				});
+			});
+
+
+			$("#EditCompany").on("click", function () {
+				$.get("@Url.Action("Edit", "Company")", { id: $("#companyName").val() }, function (response) {
+					$("#inner-edit-form")
+						.html(response).modal("show");
+				});
+			});
+
+
+			$.validator.unobtrusive.parse("#form");
+			$("#form").submit(function () {
+				var $form = $(this);
+				if (!$form.valid())
+					return false;
+
+				$.post($form.attr("action"), $form.serialize(), function (data, status) {
+					if (status == "success") {
+
+						if (data.error != 'none') {
+							alertify.error(data.msg);
+							return;
+						}
+
+						alertify.success(data.msg);
+						$('#inner-edit-form').modal('hide');
+						$("#jstree").jstree("refresh");
+					}
+				});
+
+				return false;
+			});
+
+
+			Dropzone.autoDiscover = false;
+			// init dropzone upload plugin.
+			$(".dropzone.import").dropzone({
+				addRemoveLinks: !0,
+				acceptedFiles: ".xlsx,.xls",
+				dictResponseError: "File Upload Error.",
+				init: function () {
+					this.on("success", function (file, data) {
+						//alert('导入完成');
+						//$("#photo").attr("src", data.showPath);
+						$('#inner-edit-form').html(data).modal('show');
+					});
+					this.on("error", function (file, message) {
+						alert(message)
+					});
+				}
+			});
+
+			// proxy click event to dropzone.
+			$("#importCompany").on("click", function () {
+				$(".dropzone.import").trigger('click');
+			});
+
+		});
+	</script>
+}
