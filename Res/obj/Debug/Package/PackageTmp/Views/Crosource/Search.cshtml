@@ -2,6 +2,17 @@
 	ViewBag.Title = "查询作品";
 
 	var user = ResSettings.SettingsInSession.User;
+	var deliverySelectList = new List<SelectListItem>();
+	if (user.UserTypePKID == ResUserHelper.ProvinceAdmin || user.UserTypePKID==ResUserHelper.Admin)
+	{
+		deliverySelectList.Add(new SelectListItem { Text= CroResourceHelper.ProviceDelivery, Value=CroResourceHelper.ProviceLevelDelivery.ToString() } );
+		deliverySelectList.Add(new SelectListItem { Text = CroResourceHelper.CityDelivery, Value = CroResourceHelper.CityLevelDelivery.ToString() });
+	}
+	else if (user.UserTypePKID == ResUserHelper.CityAdmin)
+	{
+		deliverySelectList.Add(new SelectListItem { Text = CroResourceHelper.CityDelivery, Value = CroResourceHelper.CityLevelDelivery.ToString() });
+	}
+	deliverySelectList.Insert(0, new SelectListItem { Text = CroResourceHelper.NotDelivery, Value = CroResourceHelper.NotDelivery });
 }
 <div class="col-md-10 content-wrapper">
 	<div class="row">
@@ -28,10 +39,18 @@
 
 			<div class="buttons">
 				<a href="@Url.Action("Edit", "Crosource")" id="addUser" class="btn btn-danger btn-md">新增作品</a>&nbsp;
-				<a href="#" id="approve" class="btn btn-info btn-approve">审核</a>&nbsp;
-				<a href="#" id="winLevel" class="btn btn-success btn-winLevel">设置奖项</a>&nbsp;
-				<a href="#" id="public" class="btn btn-primary btn-public">公开设置</a>&nbsp;
-				<a href="#" id="download" class="btn btn-default btn-download">下载设置</a>
+				@if (user.UserTypePKID == ResUserHelper.Admin)
+				{
+					<a href="#" id="approve" class="btn btn-info btn-approve">审核</a>
+					<a href="#" id="public" class="btn btn-primary btn-public">公开设置</a>
+					<a href="#" id="download" class="btn btn-default btn-download">下载设置</a>
+				}
+				else if (user.UserTypePKID == ResUserHelper.CityAdmin || user.UserTypePKID == ResUserHelper.ProvinceAdmin)
+				{
+					<a href="#" id="delivery" class="btn btn-primary btn-delivary">报送</a>
+					<a href="#" id="cancel" class="btn btn-default btn-cancel">取消报送</a>
+				}
+				<a href="#" id="winLevel" class="btn btn-success btn-winLevel">设置奖项</a>
 			</div>
 			<!-- widget -->
 			<div class="widget">
@@ -64,8 +83,10 @@
 							@Html.DropDownList("Subject", CroResourceHelper.Subject.GetSelectList(), "选择学科", new { @class = "form-control search-field" })
 						</div>
 						<div class="col-sm-2" style="margin-top:10px;">
+							@Html.DropDownList("Delivery", deliverySelectList, "报送状态", new { @class = "form-control search-field" })
+						</div>
+						<div class="col-sm-2" style="margin-top:10px;">
 							@Html.TextBox("MinScore", null, new { @class = "form-control score", @placeholder = "大于得分" })
-
 						</div>
 						<div class="col-sm-2" style="margin-top:10px;">
 							@Html.TextBox("MaxScore", null, new { @class = "form-control score", @placeholder = "小于得分" })
@@ -81,20 +102,16 @@
 							<thead>
 								<tr>
 									<th data-column-id="Title" data-formatter="LookupResource">作品名称</th>
-									<th data-column-id="Author">上传作者</th>
-									<th data-column-id="Type">作品类型</th>
-									<th data-column-id="Province">省份</th>
-									<th data-column-id="Area">地区</th>
-									<th data-column-id="School">单位</th>
+									<th data-column-id="Author" cmdwidth>上传作者</th>
+									<th data-column-id="Type" cmdwidth>作品类型</th>
+									<th data-column-id="Province" cmdwidth>省份</th>
+									<th data-column-id="Area" cmdwidth>地区</th>
+									<th data-column-id="School" cmdwidth>单位</th>
 									@*<th data-column-id="CreatedTime">上传日期</th>*@
-									<th data-column-id="WinLevel">获奖等级</th>
-									<th data-column-id="Score">作品得分</th>
-									<th data-column-id="State">状态</th>
-									<th data-column-id="cmd_approve" data-formatter="cmd_approve" data-sortable="false" data-headercs="cmdwidth"></th>
-									<th data-column-id="cmd_elite" data-formatter="cmd_elite" data-sortable="false" data-headercs="cmdwidth"></th>
-									<th data-column-id="cmd_public" data-formatter="cmd_public" data-sortable="false" data-headercs="cmdwidth"></th>
-									<th data-column-id="cmd_download" data-formatter="cmd_download" data-sortable="false" data-headercs="cmdwidth"></th>
-									<th data-column-id="cmd_delete" data-formatter="cmd_delete" data-sortable="false" data-headercs="cmdwidth"></th>
+									@*<th data-column-id="WinLevel">获奖等级</th>*@
+									<th data-column-id="Score" class="cmdwidth">作品得分</th>
+									<th data-column-id="State" class="cmdwidth">状态</th>
+									<th data-column-id="cmd_command" data-formatter="cmd_command" data-sortable="false" class="titlewidth"  >操作</th>
 								</tr>
 							</thead>
 						</table>
@@ -102,7 +119,6 @@
 					<!-- end Grid-->
 				</div>
 				<!-- end widget content -->
-
 			</div>
 			<!-- end widget -->
 			<!-- modal frame -->
@@ -133,13 +149,16 @@
 				gradeId: $('#Grade').val()=='' ? 0:$('#Grade').val(),
 				minScore:$('#MinScore').val()==''? 0:$('#MinScore').val(),
 				maxScore:$('#MaxScore').val()==''? 0:$('#MaxScore').val(),
+				deliveryId:$('#Delivery').val()==''? 0:$('#Delivery').val(),
 			};
 		}
 
 		function getGridOptions() {
 			var userType = '@user.UserTypePKID';
-			var isAdmin = userType != '@ResUserHelper.RegistedUser' && userType != '@ResUserHelper.Export';
-
+			var isAdmin = userType == '@ResUserHelper.Admin';
+			var isProvinceAdmin=userType == '@ResUserHelper.ProvinceAdmin';
+			var isCityAdmin=userType == '@ResUserHelper.CityAdmin';
+			var url='@Url.Action("Edit", "Crosource")';
 			return $.extend(true, {}, gridOptions, {
 
 				url: "/Crosource/Search",
@@ -147,33 +166,33 @@
 				requestHandler: function (request) { return $.extend(true, request, getGlobalRequest()); },
 
 				formatters: {
+					"cmd_command":function(column,row){
+						var str ="";
+						if (isAdmin) {
+							str+= "<button type='button' class='btn btn-xs " + (row["StatePKID"] == 10352 ? "isallow" : "") + " cmd_approve' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='审核合格/不合格'><span class='fa fa-gavel'></span></button>&nbsp;";
+						}
+						if (isAdmin || isProvinceAdmin || isCityAdmin) {
+							str+= "<button type='button' class='btn btn-xs " + (row["WinLevelPKID"] > 0 ? "iselite" : "") + " cmd_elite' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='设置奖项'><fa>奖</fa></button>&nbsp;";
+						}
+						if (isAdmin) {
+							str+= "<button type='button' class='btn btn-xs cmd_public' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='公开/不公开'><fa>" + (row["PublicStatePKID"] == 10450 ? "取消公开" : "公开") + "</fa></button>&nbsp;";
+						}
+						if (isAdmin) {
+							str+= "<button type='button' class='btn btn-xs  cmd_download' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='下载/禁止下载'><fa>" + (row["DownloadStatePKID"] == 10453 ? "下载" : "禁止下载") + "</fa></button>&nbsp;";
+						}
+					
+						return str;
+					},
+
 					"LookupResource": function (column, row) {
+						var str='';
 						var text = row[column.id], url = '/Crosource/Details/' + row["id"];
-						return "<span class='elitedot'>【奖】</span><a href='" + url + "'>" + text + "</a>";
+						str+= "<span class='elitedot'>【奖】</span>";
+						str+="<a href='" + url + "'>" + text + "</a>";
+						return str;
 					},
-					"cmd_approve": function (column, row) {
-						if (isAdmin) {
-							return "<button type='button' class='btn btn-xs " + (row["StatePKID"] == 10352 ? "isallow" : "") + " cmd_approve' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='审核合格/不合格'><span class='fa fa-gavel'></span></button>";
-						}
-					},
-					"cmd_elite": function (column, row) {
-						if (isAdmin) {
-							return "<button type='button' class='btn btn-xs " + (row["WinLevelPKID"] > 0 ? "iselite" : "") + " cmd_elite' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='设置奖项'><fa>奖</fa></button>";
-						}
-					},
-					"cmd_public": function (column, row) {
-						if (isAdmin) {
-							return "<button type='button' class='btn btn-xs cmd_public' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='公开/不公开'><fa>" + (row["PublicStatePKID"] == 10450 ? "取消公开" : "公开") + "</fa></button>";
-						}
-					},
-					"cmd_download": function (column, row) {
-						if (isAdmin) {
-							return "<button type='button' class='btn btn-xs  cmd_download' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='下载/禁止下载'><fa>" + (row["DownloadStatePKID"] == 10453 ? "下载" : "禁止下载") + "</fa></button>";
-						}
-					},
-					"cmd_delete": function (column, row) {
-						return "<button type='button' class='btn btn-xs cmd_delete' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='删除'><span class='fa fa-trash-o'></span></button>";
-					},
+
+
 				},
 
 				defaultSearch: decodeURI(window.location.search.substr(3)),
@@ -296,8 +315,8 @@
 							.find('#checkAll').removeAttr('checked').click(function(){
 								ids=[];
 								if($(this).is(':checked')){
-									grid.find('.cmd_approve').each(function(){
-										var id=$(this).parents('tr').find('.cmd_approve').data('rowId');
+									grid.find('tr:not(:first)').each(function(){
+										var id=$(this).find('button').data('rowId');
 										ids.push(id);
 									});
 								}
@@ -357,10 +376,37 @@
 				});
 			});
 
+			// 批量报送
+			$('#delivery').on('click',function(){
+				if(ids.length<=0){
+					alert('必须选择作品');
+					return false;
+				}
+
+				$.post("@Url.Action("MultiDelivery", "Crosource")",{ids:ids.join(',')}, function (response) {
+					alertify.success(response.msg);
+				});
+			});
+
+			// 取消批量报送
+			$('#cancel').on('click',function(){
+				if(ids.length<=0){
+					alert('必须选择作品');
+					return false;
+				}
+
+				$.post("@Url.Action("MultiDelivery", "Crosource")",{ids:ids.join(',')}, function (response) {
+					alertify.success(response.msg);
+				});
+			});
+
 			$('#search').click(function(){
 				$("#bootgrid").bootgrid('reload');
 				return false;
 			});
+
+
+
 			//$('.search-field').on('change',function(){
 			//	$("#bootgrid").bootgrid('reload');
 			//	return false;

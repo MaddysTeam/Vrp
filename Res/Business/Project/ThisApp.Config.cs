@@ -26,6 +26,8 @@ namespace Res.Business
 
       public const string DefaultSecurityStmap = "3f6a9a7e-3afe-4833-af34-ecdf88f6d761";
 
+      public static string DomainCookie = "csj_Admin";
+
    }
 
 }

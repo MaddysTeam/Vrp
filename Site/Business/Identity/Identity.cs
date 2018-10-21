@@ -116,30 +116,27 @@ namespace Res.Business
 		public string Password { get; set; }
 
 		[Required]
-		[Display(Name = "确认密码")]
-		[DataType(DataType.Password)]
-		[Compare("Password", ErrorMessage = "密码和确认密码不匹配。")]
-		public string ConfirmPassword { get; set; }
-
-		[Required]
+      [DataType(DataType.EmailAddress)]
 		[Display(Name = "电子邮箱")]
 		public string Email { get; set; }
-
-		//[Required]
-		//[Display(Name = "密码问题")]
-		//public string Question { get; set; }
-
-		//[Required]
-		//[Display(Name = "密码答案")]
-		//public string Answer { get; set; }
 
       [Required]
       [Display(Name = "真实姓名")]
       public string RealName { get; set; }
 
+
       [Required]
-      [Display(Name = "身份证")]
-      public string IDCard { get; set; }
+      [Display(Name = "省市")]
+      public long ProvinceId { get; set; }
+
+      [Required]
+      [Display(Name = "地区")]
+      public long AreaId { get; set; }
+
+      [Required]
+      [Display(Name = "单位")]
+      public long CompanyId { get; set; }
+
    }
 
 	public class ChgPwd

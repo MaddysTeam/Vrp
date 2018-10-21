@@ -95,6 +95,11 @@ namespace Res.Business
       /// </summary>
       public static readonly string PLKey_SemesterType = "PLKey_SemesterType";
 
+      /// <summary>
+      /// 项目 - 学期
+      /// </summary>
+      public static readonly string PLKey_DeliveryType = "PLKey_DeliveryType";
+
    }
 
 }

@@ -30,6 +30,8 @@ namespace Res.Business
       // 后台地址
       public static string AdminSystemUrl = ConfigurationManager.AppSettings["adminSystemUrl"].ToString();
 
+      public static string DomainCookie="csj";
+
    }
 
 }

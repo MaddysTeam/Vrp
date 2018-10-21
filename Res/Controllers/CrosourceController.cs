@@ -37,20 +37,24 @@ namespace Res.Controllers
 
       public ActionResult Search()
       {
-         InitAreaDropDownData();
+         InitAreaDropDownData(true);
+
 
          return View();
       }
 
       [HttpPost]
-      public ActionResult Search(long activeId, long provinceId, long areaId, long companyId, long subjectId,
-                                 long gradeId, long maxScore,long minScore, int current, int rowCount, string searchPhrase, FormCollection fc)
+      public ActionResult Search(long activeId, long provinceId, long areaId, 
+                                 long companyId, long subjectId,long deliveryId,
+                                 long gradeId, long maxScore,long minScore, 
+                                 int current, int rowCount, string searchPhrase, FormCollection fc)
       {
          var user = ResSettings.SettingsInSession.User;
 
          //----------------------------------------------------------
          var t = APDBDef.CroResource;
          var u = APDBDef.ResUser;
+         var dr = APDBDef.DeliveryRecord;
          APSqlOrderPhrase order = null;
          APSqlWherePhrase where = t.StatePKID != CroResourceHelper.StateDelete;
 
@@ -90,13 +94,20 @@ namespace Res.Controllers
          if (minScore > 0)
             where &= t.Score >= minScore;
 
-         // 按项目，年级，学科数据过滤
+         // 按项目，年级，学科,报送类型数据过滤
          if (activeId > 0)
             where &= t.ActiveId == activeId;
          if (subjectId > 0)
             where &= t.SubjectPKID == subjectId;
          if (gradeId > 0)
             where &= t.GradePKID == gradeId;
+
+         var subquery = APQuery.select(dr.ResourceId).from(dr).where(dr.DeliveryTypePKID == deliveryId);
+         // 按照报送类型过滤，当deliveryId小于0时为不报送类型
+         if (deliveryId < 0)
+            where &= t.CrosourceId.NotIn(subquery);
+         else if(deliveryId > 0)
+            where &= t.CrosourceId.In(subquery);
 
          int total;
          var list = APBplDef.CroResourceBpl.TolerantSearch(out total, current, rowCount, where, order);
@@ -173,17 +184,12 @@ namespace Res.Controllers
             {
                case "Title": order = new APSqlOrderPhrase(t.Title, co.Order); break;
                case "Author": order = new APSqlOrderPhrase(u.RealName, co.Order); break;
-               //case "MediumType": order = new APSqlOrderPhrase(t.MediumTypePKID, co.Order); break;
                case "CreatedTime": order = new APSqlOrderPhrase(t.CreatedTime, co.Order); break;
                case "State": order = new APSqlOrderPhrase(t.StatePKID, co.Order); break;
-
                case "ViewCount": order = new APSqlOrderPhrase(t.ViewCount, co.Order); break;
                case "DownCount": order = new APSqlOrderPhrase(t.DownCount, co.Order); break;
                case "FavoriteCount": order = new APSqlOrderPhrase(t.FavoriteCount, co.Order); break;
                case "CommentCount": order = new APSqlOrderPhrase(t.CommentCount, co.Order); break;
-               //case "StarTotal": order = new APSqlOrderPhrase(t.StarTotal, co.Order); break;
-
-
                case "cmd_elite": order = new APSqlOrderPhrase(t.EliteScore, co.Order); break;
 
             }
@@ -194,12 +200,7 @@ namespace Res.Controllers
          {
             switch (cond)
             {
-               //case "Domain": conds.Add(t.DomainPKID == Int64.Parse(fc[cond])); break;
                case "ResourceType": conds.Add(t.ResourceTypePKID == Int64.Parse(fc[cond])); break;
-               //case "MediumType": conds.Add(t.MediumTypePKID == Int64.Parse(fc[cond])); break;
-               //case "SchoolType": conds.Add(t.SchoolTypePKID == Int64.Parse(fc[cond])); break;
-               //case "Deformity": conds.Add(t.DeformityPKID == Int64.Parse(fc[cond])); break;
-               //case "LearnFrom": conds.Add(t.LearnFromPKID == Int64.Parse(fc[cond])); break;
                case "Stage": conds.Add(t.StagePKID == Int64.Parse(fc[cond])); break;
                case "Grade": conds.Add(t.GradePKID == Int64.Parse(fc[cond])); break;
                case "State": conds.Add(t.StatePKID == Int64.Parse(fc[cond])); break;
@@ -361,6 +362,7 @@ namespace Res.Controllers
                model.Score = current.Score;
                model.WinLevelPKID = current.WinLevelPKID;
                model.StatePKID = current.StatePKID;
+              // model.DeliveryTypePKID = current.DeliveryTypePKID;
             }
             else
             {
@@ -400,7 +402,7 @@ namespace Res.Controllers
 
             db.Commit();
          }
-         catch (Exception e)
+         catch
          {
             db.Rollback();
          }
@@ -678,12 +680,7 @@ namespace Res.Controllers
          if (Request.IsAjaxRequest() && !string.IsNullOrEmpty(ids))
          {
             var cr = APDBDef.CroResource;
-            var array = ids.Split(',');
-            var idArray = new long[array.Length];
-            for (int i = 0; i < array.Length; i++)
-            {
-               idArray[i] = Convert.ToInt64(array[i]);
-            }
+            var idArray = ConvertByString(ids);
 
             APQuery.update(cr).set(cr.PublicStatePKID, settingId).where(cr.CrosourceId.In(idArray)).execute(db);
 
@@ -737,12 +734,7 @@ namespace Res.Controllers
          if (Request.IsAjaxRequest() && !string.IsNullOrEmpty(ids))
          {
             var cr = APDBDef.CroResource;
-            var array = ids.Split(',');
-            var idArray = new long[array.Length];
-            for (int i = 0; i < array.Length; i++)
-            {
-               idArray[i] = Convert.ToInt64(array[i]);
-            }
+            var idArray = ConvertByString(ids);
 
             APQuery.update(cr).set(cr.DownloadStatePKID, settingId).where(cr.CrosourceId.In(idArray)).execute(db);
 
@@ -752,6 +744,43 @@ namespace Res.Controllers
          return IsNotAjax();
       }
 
+
+      //
+      // 批量报送和取消报送
+      // POST:		/Crosource/MultiDelivery
+      // POST:		/Crosource/MultiCancelDelivery
+      //
+
+      [HttpPost]
+      public ActionResult MultiDelivery(string ids)
+      {
+         var user = ResSettings.SettingsInSession.User;
+
+         long deliveryType = 0;
+         if (user.UserTypePKID == ResUserHelper.ProvinceAdmin)
+            deliveryType = CroResourceHelper.ProviceLevelDelivery;
+         else if(user.UserTypePKID == ResUserHelper.CityAdmin)
+            deliveryType = CroResourceHelper.CityLevelDelivery;
+
+         var idArray = ConvertByString(ids);
+         foreach (var id in idArray)
+         {
+            APBplDef.DeliveryRecordBpl.Insert(new DeliveryRecord { DeliveryTypePKID = deliveryType, Recorder = user.Id, ResourceId = id, AddTime = DateTime.Now });
+          }
+         return Json(new { cmd = "Processed", msg = "批量报送完成" });
+      }
+
+      [HttpPost]
+      public ActionResult MultiCancelDelivery(string ids)
+      {
+         var user = ResSettings.SettingsInSession.User;
+         var dr = APDBDef.DeliveryRecord;
+         var idArray = ConvertByString(ids);
+
+         APBplDef.DeliveryRecordBpl.ConditionDelete(dr.ResourceId.In(idArray) & dr.Recorder== user.Id );
+
+         return Json(new { cmd = "Processed", msg = "取消报送完成" });
+      }
 
       //
       // 在线答题列表
@@ -825,6 +854,18 @@ namespace Res.Controllers
             });
          }
          return array;
+      }
+
+      private long[] ConvertByString(string ids,char splitChar=',')
+      {
+         var array = ids.Split(splitChar);
+         var idArray = new long[array.Length];
+         for (int i = 0; i < array.Length; i++)
+         {
+            idArray[i] = Convert.ToInt64(array[i]);
+         }
+
+         return idArray;
       }
 
 

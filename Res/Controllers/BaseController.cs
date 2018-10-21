@@ -153,7 +153,11 @@ namespace Res.Controllers
          ViewBag.ProvincesDic = CrosourceController.GetStrengthDict(areas);
          ViewBag.AreasDic = CrosourceController.GetStrengthDict(areas);
          ViewBag.SchoolsDic = CrosourceController.GetStrengthDict(schools);
+         
       }
+
+
+      
 
    }
 

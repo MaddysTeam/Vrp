@@ -71,7 +71,7 @@ namespace Res.Business
       private ResRole _role;
       private long[] _approves;
       private List<ResCompany> _companys;
-      private Active _crrentActive;
+      //private Active _crrentActive;
 
       #endregion
 

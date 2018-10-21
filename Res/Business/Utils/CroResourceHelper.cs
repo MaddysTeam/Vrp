@@ -36,6 +36,7 @@ namespace Res.Business
          WinLevel = new PickListAPRptColumn(APDBDef.CroResource.WinLevelPKID, ThisApp.PLKey_WinLevel);
          PublicState = new PickListAPRptColumn(APDBDef.CroResource.PublicStatePKID, ThisApp.PLKey_PublicState);
          DownloadState = new PickListAPRptColumn(APDBDef.CroResource.DownloadStatePKID, ThisApp.PLKey_DownloadState);
+
          DictWinLevel = new Dictionary<long, string> {
             { WinLevelSpecial, WinLevel.GetName(WinLevelSpecial)},
             { WinLevel1, WinLevel.GetName(WinLevel1)},
@@ -102,6 +103,15 @@ namespace Res.Business
       public static long WinLevel1 = 205;
       public static long WinLevel2 = 206;
       public static long WinLevel3 = 207;
+
+      //报送类型
+      public static long CityLevelDelivery = 10457;
+      public static long ProviceLevelDelivery = 10456;
+      public static long NotSelect = -1;
+
+      public static string CityDelivery = "市级报送";
+      public static string ProviceDelivery = "省级报送";
+      public static string NotDelivery = "未报送";
 
       // 奖项级别字典
       public static Dictionary<long, string> DictWinLevel;

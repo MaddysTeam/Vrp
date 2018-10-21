@@ -33,7 +33,6 @@
 					@using (Html.BeginForm("Upload", "CroMy", Model == null ? null : new { id = id, resid = Model.CrosourceId }, FormMethod.Post, new { id = "form", role = "form", @class = "form-horizontal" }))
 					{
 						@Html.HiddenFor(m => m.CrosourceId)
-
 						<fieldset class="col-sm-11  fieldContainer">
 							
 							<div class="form-group ">
@@ -295,6 +294,7 @@
 			o.AreaId=$('#AreaId').val();
 			o.Courses=[];
 			o.ActiveId=$('#ActiveId').val();
+			o.DeliveryTypePKID=$('#DeliveryTypePKID').val();
 
 			$('.courseArea').each(function(i){
 				var $this=$(this);
@@ -343,29 +343,6 @@
 		var provinces=@Html.Raw(Json.Encode(ViewBag.ProvincesDic));
 		var areas=@Html.Raw(Json.Encode(ViewBag.AreasDic));
 		var schools=@Html.Raw(Json.Encode(ViewBag.SchoolsDic));
-
-		function RelationSelect(src, tat, rule, none, fixInit) {
-			var $src = $(src), $tat = $(tat);
-			function doit(init){
-				var key = $src.val();
-				$tat.empty();
-				if (none) {
-					$tat.append($("<option>").val(0).text(none)).change();
-				}
-				$.each(rule, function(i, n){
-					if (n.key == key) {
-						$tat.append($("<option>").val(n.id).text(n.name));
-					}
-				});
-				if (init) $tat.val(init);
-			}
-
-			$src.on("change", function() {
-				doit();
-			});
-
-			doit(fixInit || $tat.val());
-		}
 
 		$(function () {
 

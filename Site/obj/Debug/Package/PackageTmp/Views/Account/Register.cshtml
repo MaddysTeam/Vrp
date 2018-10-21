@@ -6,7 +6,7 @@
 
 <div class="page-login text-center">
 	<div class="login-box center-block">
-		@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form", @class = "form-horizontal" }))
+		@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @id="form", role = "form", @class = "form-horizontal" }))
 		{
 			@Html.AntiForgeryToken()
 			@Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -26,11 +26,22 @@
 					@Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="ConfirmPassword" class="control-label sr-only">确认密码</label>
+			<div class="form-group" id="province">
 				<div class="col-sm-12">
-					@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "确认密码" })
-					@Html.ValidationMessageFor(m => m.ConfirmPassword, null, new { @class = "text-danger" })
+					@Html.DropDownListFor(m => m.ProvinceId, (ViewBag.Provinces as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择省份", new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.ProvinceId, null, new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group" id="area">
+				<div class="col-sm-12">
+					@Html.DropDownListFor(m => m.AreaId, (ViewBag.Areas as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择地区", new { @class = "form-control" })
+				   @Html.ValidationMessageFor(m => m.AreaId, null, new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group" id="company">
+				<div class="col-sm-12">
+					@Html.DropDownListFor(m => m.CompanyId, (ViewBag.Companies as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择学校", new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.CompanyId, null, new { @class = "text-danger" })
 				</div>
 			</div>
 			<div class="form-group">
@@ -47,13 +58,7 @@
 					@Html.ValidationMessageFor(m => m.RealName, null, new { @class = "text-danger" })
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="Email" class="control-label sr-only">身份证件号</label>
-				<div class="col-sm-12">
-					@Html.TextBoxFor(m => m.IDCard, new { @class = "form-control", placeholder = "身份证件号" })
-					@Html.ValidationMessageFor(m => m.IDCard, null, new { @class = "text-danger" })
-				</div>
-			</div>
+
 			<button class="btn btn-block btn-login" type="submit">提交<i class="fa fa-sign-in fa-lg"></i></button>
 		}
 		<div class="links">
@@ -66,4 +71,51 @@
 
 @section Scripts {
 	@Scripts.Render("~/bundles/jqueryval")
+
+
+	<script>
+
+		function isEmpty(val){
+			return val==undefined || val == '' || val==0;
+		}
+
+		$(function () {
+
+			$.validator.unobtrusive.parse("#form");
+			$("#form").submit(function () {
+				if(isEmpty($('#ProvinceId').val()) || isEmpty($('#AreaId').val()) || isEmpty($('#CompanyId').val())){
+					alert('必须选择省市，地区和单位');
+					return false;
+				}
+	
+				var $form = $(this);
+				if (!$form.valid())
+					return false;
+
+				$.post($form.attr("action"), $form.serialize(), function (data, status) {
+					if (status == "success") {
+						if (data.error != 'none') {
+							alert(data.msg);
+							return false;
+						}
+
+						alert(data.msg);
+						if(data.returnUrl!=''){
+							location.href=data.returnUrl;
+						}
+					}
+				});
+
+				return false;
+			});
+
+
+			var areas=@Html.Raw(Json.Encode(ViewBag.AreasDic));
+			var schools=@Html.Raw(Json.Encode(ViewBag.SchoolsDic));
+			RelationSelect($("#ProvinceId"), $("#AreaId"), areas, "选择地区");
+			RelationSelect($("#AreaId"), $("#CompanyId"), schools, "选择学校");
+
+
+		});
+	</script>
 }

@@ -275,6 +275,7 @@
 					<add name="PublicStatePKID" type="long" display="公开设置" defaultValue="10450" comment="PickList - APEdu.net key is PLKey_ResourcePublicState"/>
 					<add name="DownloadStatePKID" type="long" display="下载设置"  defaultValue="10452" comment="PickList - APEdu.net key is PLKey_ResourceDownloadState"/>
 					<add name="WinLevelPKID" type="long" display="获奖等级" defaultValue="0" comment="PickList - APEdu.net key is PLKey_WinLevel"/>
+					<!--<add name="DeliveryTypePKID" type="long" display="报送类型" defaultValue="0" comment="PickList - APEdu.net key is PLKey_DeliveryType"/>-->
 					
 					<!-- Count -->
 					<add name="DownCount" type="int" display="下载次数"/>
@@ -306,6 +307,16 @@
 				</columns>
 			</table>
 
+			<!-- 以下为作品报送记录表  -->
+			<table name="DeliveryRecord">
+				<columns>
+					<add name="RecordId" type="long" identityType="Provider" primaryKey="true" display="报送ID"/>
+					<add name="ResourceId" type="long" display="微课程作品"  required="true" />
+					<add name="DeliveryTypePKID" type="long" display="报送类型" defaultValue="0" comment="PickList - APEdu.net key is PLKey_DeliveryType"/>
+					<add name="Recorder" type="long" display="报送者ID"/>
+					<add name="AddTime" type="DateTime" display="报送时间"/>
+				</columns>
+			</table>
 
 			<table name="MicroCourse"  comment="微课">
 				<columns>

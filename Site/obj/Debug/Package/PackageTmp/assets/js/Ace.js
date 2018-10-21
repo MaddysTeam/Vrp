@@ -30,3 +30,25 @@ function imageError(img) {
 	img.onerror = null; 
 }
 
+function RelationSelect(src, tat, rule, none, fixInit) {
+	var $src = $(src), $tat = $(tat);
+	function doit(init) {
+		var key = $src.val();
+		$tat.empty();
+		if (none) {
+			$tat.append($("<option>").val(0).text(none)).change();
+		}
+		$.each(rule, function (i, n) {
+			if (n.key == key) {
+				$tat.append($("<option>").val(n.id).text(n.name));
+			}
+		});
+		if (init) $tat.val(init);
+	}
+
+	$src.on("change", function () {
+		doit();
+	});
+
+	doit(fixInit || $tat.val());
+}

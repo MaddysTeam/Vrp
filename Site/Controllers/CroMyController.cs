@@ -249,6 +249,7 @@ namespace Res.Controllers
                model.Score = current.Score;
                model.WinLevelPKID = current.WinLevelPKID;
                model.StatePKID = current.StatePKID;
+              // model.DeliveryTypePKID = current.DeliveryTypePKID;
             }
             else
             {
@@ -288,7 +289,7 @@ namespace Res.Controllers
 
             db.Commit();
          }
-         catch (Exception e)
+         catch
          {
             db.Rollback();
          }

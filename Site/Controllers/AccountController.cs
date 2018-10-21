@@ -89,7 +89,7 @@ namespace Res.Controllers
          if (userInfo != null)
             model.Password = ThisApp.Default_Password;
 
-
+         
          //这不会计入到为执行帐户锁定而统计的登录失败次数中
          //若要在多次输入错误密码的情况下触发帐户锁定，请更改为 shouldLockout: true
          var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
@@ -137,6 +137,8 @@ namespace Res.Controllers
 
       public ActionResult Register()
       {
+         InitAreaDropDownData();
+
          return View();
       }
 
@@ -151,18 +153,16 @@ namespace Res.Controllers
          }
 
          model.Username = model.Username.Trim();
-         model.Password = model.Password.Trim();
-         model.ConfirmPassword = model.ConfirmPassword.Trim();
+         model.Password = model.Password.Trim();;
          model.Email = model.Email.Trim();
 
          var t = APDBDef.ResUser;
          if (APBplDef.ResUserBpl.ConditionQueryCount(t.UserName == model.Username) > 0)
          {
-            ModelState.AddModelError("Username", "登录名称已经被使用");
-            return View(model);
+            var errormsg = "登录名称已经被使用";
+            ModelState.AddModelError("Username", errormsg);
+            return !Request.IsAjaxRequest() ? View(model) : (ActionResult)Json(new {error="error", msg = errormsg });
          }
-
-         int g = model.IDCard[model.IDCard.Length - 2] - '0';
 
          var user = new ResUser
          {
@@ -171,9 +171,10 @@ namespace Res.Controllers
             Password = model.Password,
             RealName = model.RealName,
             PhotoPath = "",
-            GenderPKID = g % 2 == 0 ? ResUserHelper.GenderFemale : ResUserHelper.GenderMale,
-            //CompanyId = real.CompanyId,
-            IDCard = model.IDCard,
+            GenderPKID = ResUserHelper.GenderMale,
+            ProvinceId=model.ProvinceId,
+            AreaId=model.AreaId,
+            CompanyId=model.CompanyId,
             Actived = true,
             Removed = false,
             RegisterTime = DateTime.Now,
@@ -187,7 +188,10 @@ namespace Res.Controllers
             APBplDef.ResUserRoleBpl.Insert(new ResUserRole() { UserId = user.UserId, RoleId = 2 });
             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-            return RedirectToAction("Index", "CroHome");
+            if (!Request.IsAjaxRequest())
+               return RedirectToAction("Index", "CroHome");
+            else
+               return Json(new { error = "none", msg ="注册成功", returnUrl=Url.Action("Index", "CroHome") });
          }
 
          return View(model);
