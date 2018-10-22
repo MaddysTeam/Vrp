@@ -4,14 +4,14 @@
 <div class="courseArea">
 	<div class="courseRemove"><button class="btn btn-danger  btn-course-remove"><i class="fa fa-close"></i></button></div>
 	<div class="form-group">
-		<label class="control-label col-sm-3"> <span class="request">*</span>微课标题</label>
+		<label class="control-label col-sm-3"> <span class="request text-danger">*</span>微课标题</label>
 		<div class="col-sm-9">
 			@Html.TextBox("CourseTitle", Model.CourseTitle, new { @class = "form-control courseTitle", maxlength = "255", placeholder = "微课标题" })
 		</div>
 	</div>
 
 	<div class="form-group courseUploader uploader">
-		<label class="control-label col-sm-3"> <span class="request">*</span>微课视频</label>
+		<label class="control-label col-sm-3"> <span class="request text-danger">*</span>微课视频</label>
 
 		<div class="col-sm-9 video">
 			<div class="input-group">
@@ -31,7 +31,7 @@
 	</div>
 
 	<div class="form-group coverUploader uploader">
-		<label class="control-label col-sm-3"><span class="request">*</span>视频封面</label>
+		<label class="control-label col-sm-3">视频封面</label>
 		<div class="col-sm-9 coverImageArea">
 			@if (Model.CoverId > 0)
 			{
@@ -47,7 +47,7 @@
 	</div>
 
 	<div class="form-group designUploader uploader">
-		<label class="control-label col-sm-3"> <span class="request">*</span>教学设计</label>
+		<label class="control-label col-sm-3"> <span class="request text-danger">*</span>教学设计</label>
 
 		<div class="col-sm-9">
 			<div class="input-group">

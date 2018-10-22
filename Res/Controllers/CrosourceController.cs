@@ -44,9 +44,9 @@ namespace Res.Controllers
       }
 
       [HttpPost]
-      public ActionResult Search(long activeId, long provinceId, long areaId, 
-                                 long companyId, long subjectId,long deliveryId,
-                                 long gradeId, long maxScore,long minScore, 
+      public ActionResult Search(long activeId, long provinceId, long areaId,long publicId,
+                                 long companyId, long subjectId, long deliveryId,long downloadId,
+                                 long gradeId, long maxScore, long minScore,
                                  int current, int rowCount, string searchPhrase, FormCollection fc)
       {
          var user = ResSettings.SettingsInSession.User;
@@ -94,20 +94,29 @@ namespace Res.Controllers
          if (minScore > 0)
             where &= t.Score >= minScore;
 
-         // 按项目，年级，学科,报送类型数据过滤
+         // 按项目，年级，学科,报送类型,公开状态，下载状态数据过滤
          if (activeId > 0)
             where &= t.ActiveId == activeId;
          if (subjectId > 0)
             where &= t.SubjectPKID == subjectId;
          if (gradeId > 0)
             where &= t.GradePKID == gradeId;
+         if(publicId>0)
+            where &= t.PublicStatePKID == publicId;
+         if (downloadId > 0)
+            where &= t.DownloadStatePKID == downloadId;
 
-         var subquery = APQuery.select(dr.ResourceId).from(dr).where(dr.DeliveryTypePKID == deliveryId);
+         var subquery = APQuery.select(dr.ResourceId).from(dr);
          // 按照报送类型过滤，当deliveryId小于0时为不报送类型
          if (deliveryId < 0)
+         {
             where &= t.CrosourceId.NotIn(subquery);
-         else if(deliveryId > 0)
+         }
+         else if (deliveryId > 0)
+         {
+            subquery = subquery.where(dr.DeliveryTypePKID == (deliveryId < 0 ? 0 : deliveryId));
             where &= t.CrosourceId.In(subquery);
+         }
 
          int total;
          var list = APBplDef.CroResourceBpl.TolerantSearch(out total, current, rowCount, where, order);
@@ -362,7 +371,7 @@ namespace Res.Controllers
                model.Score = current.Score;
                model.WinLevelPKID = current.WinLevelPKID;
                model.StatePKID = current.StatePKID;
-              // model.DeliveryTypePKID = current.DeliveryTypePKID;
+               // model.DeliveryTypePKID = current.DeliveryTypePKID;
             }
             else
             {
@@ -459,7 +468,7 @@ namespace Res.Controllers
          if (Request.IsAjaxRequest() && !string.IsNullOrEmpty(ids))
          {
             var cr = APDBDef.CroResource;
-           // var state = value ? CroResourceHelper.StateAllow : CroResourceHelper.StateDeny;
+            // var state = value ? CroResourceHelper.StateAllow : CroResourceHelper.StateDeny;
             var array = ids.Split(',');
             var idArray = new long[array.Length];
             for (int i = 0; i < array.Length; i++)
@@ -633,7 +642,7 @@ namespace Res.Controllers
 
             return Json(new { cmd = "Processed", msg = "批量奖项设置完成。" });
          }
-          return IsNotAjax();
+         return IsNotAjax();
       }
 
 
@@ -759,14 +768,14 @@ namespace Res.Controllers
          long deliveryType = 0;
          if (user.UserTypePKID == ResUserHelper.ProvinceAdmin)
             deliveryType = CroResourceHelper.ProviceLevelDelivery;
-         else if(user.UserTypePKID == ResUserHelper.CityAdmin)
+         else if (user.UserTypePKID == ResUserHelper.CityAdmin)
             deliveryType = CroResourceHelper.CityLevelDelivery;
 
          var idArray = ConvertByString(ids);
          foreach (var id in idArray)
          {
             APBplDef.DeliveryRecordBpl.Insert(new DeliveryRecord { DeliveryTypePKID = deliveryType, Recorder = user.Id, ResourceId = id, AddTime = DateTime.Now });
-          }
+         }
          return Json(new { cmd = "Processed", msg = "批量报送完成" });
       }
 
@@ -777,7 +786,7 @@ namespace Res.Controllers
          var dr = APDBDef.DeliveryRecord;
          var idArray = ConvertByString(ids);
 
-         APBplDef.DeliveryRecordBpl.ConditionDelete(dr.ResourceId.In(idArray) & dr.Recorder== user.Id );
+         APBplDef.DeliveryRecordBpl.ConditionDelete(dr.ResourceId.In(idArray) & dr.Recorder == user.Id);
 
          return Json(new { cmd = "Processed", msg = "取消报送完成" });
       }
@@ -856,7 +865,7 @@ namespace Res.Controllers
          return array;
       }
 
-      private long[] ConvertByString(string ids,char splitChar=',')
+      private long[] ConvertByString(string ids, char splitChar = ',')
       {
          var array = ids.Split(splitChar);
          var idArray = new long[array.Length];

@@ -3968,7 +3968,7 @@ namespace Res.Business {
                 get {
                     if (Object.ReferenceEquals(_courseTypePKID, null)) {
                         _courseTypePKID = new Int64APColumnDef(this, "CourseTypePKID", false);
-                        _courseTypePKID.Display = "微课类型";
+                        _courseTypePKID.Display = "资源类型";
                         _courseTypePKID.Required = true;
                     }
                     return _courseTypePKID;
@@ -24933,7 +24933,7 @@ namespace Res.Business {
         /// <summary>
         /// PickList - APEdu.net key is PLKey_CourseType
         /// </summary>
-        [Display(Name="微课类型")]
+        [Display(Name="资源类型")]
         [Required()]
         public virtual long CourseTypePKID {
             get {

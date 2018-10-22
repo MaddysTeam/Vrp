@@ -1800,7 +1800,9 @@
     <Content Include="Views\Crosource\Edit.cshtml" />
     <Content Include="Views\Crosource\Index.cshtml" />
     <Content Include="Views\Crosource\Search.cshtml" />
-    <Content Include="Business\DataLogic\Business.apgen" />
+    <Content Include="Business\DataLogic\Business.apgen">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="assets\plugins\playease-master\playease-master\LICENSE" />
     <Content Include="assets\plugins\playease-master\playease-master\README.md" />
     <Content Include="assets\plugins\playease-master\playease-master\test\logo.psd" />

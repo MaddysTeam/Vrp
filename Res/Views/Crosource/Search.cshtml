@@ -12,7 +12,7 @@
 	{
 		deliverySelectList.Add(new SelectListItem { Text = CroResourceHelper.CityDelivery, Value = CroResourceHelper.CityLevelDelivery.ToString() });
 	}
-	deliverySelectList.Insert(0, new SelectListItem { Text = CroResourceHelper.NotDelivery, Value = CroResourceHelper.NotDelivery });
+	deliverySelectList.Insert(0, new SelectListItem { Text = CroResourceHelper.NotDelivery, Value = CroResourceHelper.NotSelect.ToString() });
 }
 <div class="col-md-10 content-wrapper">
 	<div class="row">
@@ -86,6 +86,12 @@
 							@Html.DropDownList("Delivery", deliverySelectList, "报送状态", new { @class = "form-control search-field" })
 						</div>
 						<div class="col-sm-2" style="margin-top:10px;">
+							@Html.DropDownList("Public", CroResourceHelper.PublicState.GetSelectList(), "选择公开状态", new { @class = "form-control search-field" })
+						</div>
+						<div class="col-sm-2" style="margin-top:10px;">
+							@Html.DropDownList("Download", CroResourceHelper.DownloadState.GetSelectList(), "选择下载状态", new { @class = "form-control search-field" })
+						</div>
+						<div class="col-sm-2" style="margin-top:10px;">
 							@Html.TextBox("MinScore", null, new { @class = "form-control score", @placeholder = "大于得分" })
 						</div>
 						<div class="col-sm-2" style="margin-top:10px;">
@@ -104,11 +110,11 @@
 									<th data-column-id="Title" data-formatter="LookupResource">作品名称</th>
 									<th data-column-id="Author" cmdwidth>上传作者</th>
 									<th data-column-id="Type" cmdwidth>作品类型</th>
-									<th data-column-id="Province" class="cmdwidth">省份</th>
-									<th data-column-id="Area" class="cmdwidth">地区</th>
+									@*<th data-column-id="Province" class="cmdwidth">省份</th>
+									<th data-column-id="Area" class="cmdwidth">地区</th>*@
 									<th data-column-id="School" class="cmdwidth">单位</th>
 									@*<th data-column-id="CreatedTime">上传日期</th>*@
-									@*<th data-column-id="WinLevel">获奖等级</th>*@
+									<th data-column-id="WinLevel">获奖等级</th>
 									<th data-column-id="Score" class="cmdwidth">作品得分</th>
 									<th data-column-id="State" class="cmdwidth">状态</th>
 									<th data-column-id="cmd_command" data-formatter="cmd_command" data-sortable="false" class="titlewidth"  >操作</th>
@@ -150,6 +156,8 @@
 				minScore:$('#MinScore').val()==''? 0:$('#MinScore').val(),
 				maxScore:$('#MaxScore').val()==''? 0:$('#MaxScore').val(),
 				deliveryId:$('#Delivery').val()==''? 0:$('#Delivery').val(),
+				publicId:$('#Public').val()==''? 0:$('#Public').val(),
+				downloadId:$('#Download').val()==''? 0:$('#Download').val(),
 			};
 		}
 
@@ -168,18 +176,22 @@
 				formatters: {
 					"cmd_command":function(column,row){
 						var str ="";
+						if (isAdmin || isProvinceAdmin || isCityAdmin) {
+							str+= "<a class='btn btn-xs' href='/Crosource/Details/" + row.id+"'><fa class='fa fa-eye'></fa></a>&nbsp;";
+							str+= "<a class='btn btn-xs' href='/Crosource/Edit/" + row.id+"' title='修改'><fa class='fa fa-pencil'></fa></a>&nbsp;";
+						}
 						if (isAdmin) {
 							str+= "<button type='button' class='btn btn-xs " + (row["StatePKID"] == 10352 ? "isallow" : "") + " cmd_approve' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='审核合格/不合格'><span class='fa fa-gavel'></span></button>&nbsp;";
 						}
 						if (isAdmin || isProvinceAdmin || isCityAdmin) {
 							str+= "<button type='button' class='btn btn-xs " + (row["WinLevelPKID"] > 0 ? "iselite" : "") + " cmd_elite' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='设置奖项'><fa>奖</fa></button>&nbsp;";
 						}
-						if (isAdmin) {
-							str+= "<button type='button' class='btn btn-xs cmd_public' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='公开/不公开'><fa>" + (row["PublicStatePKID"] == 10450 ? "取消公开" : "公开") + "</fa></button>&nbsp;";
-						}
-						if (isAdmin) {
-							str+= "<button type='button' class='btn btn-xs  cmd_download' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='下载/禁止下载'><fa>" + (row["DownloadStatePKID"] == 10453 ? "下载" : "禁止下载") + "</fa></button>&nbsp;";
-						}
+						//if (isAdmin) {
+						//	str+= "<button type='button' class='btn btn-xs cmd_public' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='公开/不公开'><fa>" + (row["PublicStatePKID"] == 10450 ? "取消公开" : "公开") + "</fa></button>&nbsp;";
+						//}
+						//if (isAdmin) {
+						//	str+= "<button type='button' class='btn btn-xs  cmd_download' data-row-id='" + row.id + "' data-row-title='" + row.Title + "' title='下载/禁止下载'><fa>" + (row["DownloadStatePKID"] == 10453 ? "下载" : "禁止下载") + "</fa></button>&nbsp;";
+						//}
 					
 						return str;
 					},
