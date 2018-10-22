@@ -175,10 +175,16 @@
 										<input type="radio" readonly checked="checked" /> 微课程
 									</div>
 								}
+								else if (Model.CourseTypePKID == CroResourceHelper.MicroExample)
+								{
+									<div class="col-sm-9">
+										@Html.RadioButtonFor(m => m.CourseTypePKID, CroResourceHelper.MicroExample) 课列
+									</div>
+								}
 								else
 								{
 									<div class="col-sm-9">
-										微课 @Html.RadioButton("courseType", CroResourceHelper.MicroClass, true) &nbsp;&nbsp;&nbsp;微课程 @Html.RadioButton("courseType", CroResourceHelper.MicroCourse, false)
+										微课 @Html.RadioButton("courseType", CroResourceHelper.MicroClass, true) &nbsp;&nbsp;&nbsp;微课程 @Html.RadioButton("courseType", CroResourceHelper.MicroCourse, false)&nbsp;&nbsp;&nbsp;课列 @Html.RadioButton("courseType", CroResourceHelper.MicroExample, false)
 									</div>
 								}
 							</div>

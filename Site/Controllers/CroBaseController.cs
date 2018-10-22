@@ -34,7 +34,7 @@ namespace Res.Controllers
                   cf.JoinLeft(cf.FileId==mc.CoverId)
                   //a.JoinInner(a.ActiveId==cr.ActiveId)
                   )    
-				.where(cr.StatePKID == CroResourceHelper.StateAllow & cr.PublicStatePKID==CroResourceHelper.Public) // 审核通过和公开的作品
+				.where(cr.StatePKID == CroResourceHelper.StateAllow & cr.PublicStatePKID==CroResourceHelper.Public & cr.ProvinceId== ResCompanyHelper.ShangHai) // TODO:审核通过和公开的作品 
 				.order_by(cr.ActiveId.Desc)
 				.primary(cr.CrosourceId)
 				.take(take);
@@ -338,7 +338,7 @@ namespace Res.Controllers
                   rc.JoinInner(rc.CompanyId == cr.CompanyId),
                   a.JoinInner(cr.ActiveId==a.ActiveId)
                   )
-            .where(cr.StatePKID == CroResourceHelper.StateAllow & cr.PublicStatePKID==CroResourceHelper.Public & a.IsCurrent==true)
+            .where(cr.StatePKID == CroResourceHelper.StateAllow & cr.PublicStatePKID==CroResourceHelper.Public & a.IsCurrent==true & cr.ProvinceId==ResCompanyHelper.ShangHai) //TODO:shanghai 
             .order_by(order, cr.CrosourceId.Asc)
 				.primary(mc.CourseId)
 				.take(take);
@@ -479,7 +479,7 @@ namespace Res.Controllers
 
 			var query = APQuery.select(t.UserId, t.RealName, t.GenderPKID, t.PhotoPath, t1.UserId.Count().As("ViewCount"))
 					.from(t, t1.JoinInner(t.UserId == t1.UserId))
-					.where(t.Actived == true)
+					.where(t.Actived == true & t.ProvinceId==ResCompanyHelper.ShangHai) //TODO:上海
 					.group_by(t.UserId, t.RealName, t.GenderPKID, t.PhotoPath)
 					.order_by(new APSqlOrderPhrase(t1.UserId.Count(), APSqlOrderAccording.Desc))
 					.primary(t.UserId)

@@ -156,11 +156,17 @@
 										@Html.RadioButtonFor(m => m.CourseTypePKID, CroResourceHelper.MicroCourse) 微课程
 									</div>
 								}
+								else if (Model.CourseTypePKID == CroResourceHelper.MicroExample)
+								{
+									<div class="col-sm-9">
+										@Html.RadioButtonFor(m => m.CourseTypePKID, CroResourceHelper.MicroExample) 课列
+									</div>
+								}
 								else
 								{
 									@Html.HiddenFor(m => m.CourseTypePKID)
 									<div class="col-sm-9">
-										微课 @Html.RadioButton("courseType", CroResourceHelper.MicroClass, true) &nbsp;&nbsp;&nbsp;微课程 @Html.RadioButton("courseType", CroResourceHelper.MicroCourse, false)
+										微课 @Html.RadioButton("courseType", CroResourceHelper.MicroClass, true) &nbsp;&nbsp;&nbsp;微课程 @Html.RadioButton("courseType", CroResourceHelper.MicroCourse, false) &nbsp;&nbsp;&nbsp;课列 @Html.RadioButton("courseType", CroResourceHelper.MicroExample, false)
 									</div>
 								}
 								<div class="alert-info col-sm-9">
@@ -347,7 +353,7 @@
 		$(function () {
 
 			// hide first course remove button
-			$(".courseRemove:first").remove(); 
+			$(".courseRemove:first").remove();
 			$("select option[value='']").val("0");
 
 			// relation select
@@ -365,7 +371,7 @@
 				$('.addCourse').hide();
 			}
 
-			
+
 			$("input[name='courseType']").on("click", function () {
 				var val = $(this).val();
 				if (val == '@CroResourceHelper.MicroCourse') {
@@ -509,7 +515,7 @@
 						parallelUploads:5,
 						init:function(){
 							this
-								.on('processing', function(i){	
+								.on('processing', function(i){
 									var i=0;
 									clock=setInterval(function(){
 										$uploader.find('.progress').show();
@@ -517,7 +523,7 @@
 											$uploader.find('.progress-bar').css('width', parseInt(++i)+"%").text(i+'%');
 										}
 									},1500)
-						
+
 								})
 								.on('totaluploadprogress', function(i){
 								})

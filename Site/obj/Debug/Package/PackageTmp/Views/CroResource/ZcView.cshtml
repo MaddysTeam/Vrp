@@ -38,6 +38,7 @@
 				@if (course.VideoPath != null)
 				{
 					<div id="video" class="carousel slide"  style="width:100%;height:500px">
+						<div id='player'></div>
 					</div>
 				}
 				else
@@ -177,23 +178,51 @@
 }
 @section Scripts{
 
-	<script src="~/assets/plugins/ckplayer/ckplayer/ckplayer.js"></script>
+	@*<script src="~/assets/plugins/ckplayer/ckplayer/ckplayer.js"></script>*@
 	<script src="~/assets/plugins/jwplayer/jwplayer.js"></script>
+   <script src="~/assets/plugins/playease-master/playease-master/playease.min.js"></script>
 	<script>
 		var hasVideo='@course.VideoPath'!='';
 		var path='@course.VideoPath';
+		var poster='@course.FitCoverPath';
 		var ua = navigator.userAgent;
 		ua = ua.toLocaleLowerCase();
-		//alert(ua);
-		//IE11 用ckplayer
-		if (ua.match(/edge/) != null || ua.match(/firefox/)!=null || ua.match(/Firefox/)!=null && hasVideo){
-			var videoObject = {
-				container: '#video',//“#”代表容器的ID，“.”或“”代表容器的class
-				variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
-				poster:'@course.FitCoverPath',//封面图片
-				video:path
-			};
-			var player=new ckplayer(videoObject);
+
+		var isfirefoxOrEdge=ua.match(/edge/) != null || ua.match(/firefox/)!=null || ua.match(/Firefox/)!=null || ua.match(/Safari/)!=null;
+		if (isfirefoxOrEdge && hasVideo){
+				var pw = document.getElementById('video');
+				var events = playease.events;
+				var player = playease('player');
+				player.setup({
+					width: 640,
+					height: 400,
+					aspectratio: '16:9',
+					file: path,
+					mode: 'vod',
+					controls: true,
+					autoplay: false,
+					retrydelay: 3000,
+					poster:poster,
+					logo: {
+						file: ''
+					},
+					bulletscreen: {
+						enable: false,
+						visible: false
+					},
+					render: {
+						name: 'flv',
+						//bufferLength: 4 * 1024 * 1024, // For flv render in vod mode only
+						swf: '../swf/playease.swf'
+					},
+					contextmenu: null,
+					events:{
+						onPlaying:function(){
+							$.post('@Url.Action("Play", "CroResource")',{id:'@Model.CrosourceId',  courseId:'@course.CourseId'},function(){});
+						}
+					}
+				});
+
 		}
 		else if(hasVideo){
 			var player=jwplayer("video").setup({
@@ -204,7 +233,7 @@
 				controls: true ,
 				primary: "flash",
 				autostart:false,
-				image: '@course.FitCoverPath',
+				image: poster,
 			});
 			player.onPlay(function(){
 				$.post('@Url.Action("Play", "CroResource")',{id:'@Model.CrosourceId',  courseId:'@course.CourseId'},function(){});

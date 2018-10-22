@@ -1,6 +1,6 @@
 ﻿@{
 	Layout = "~/Views/Shared/_ZcLayout.cshtml";
-	ViewBag.Title = "首页";
+	ViewBag.Title = "首页";	
 }
 <div class="row">
 	<div class="col-md-9">
@@ -60,46 +60,46 @@
 			</div>
 		</div>
 
-		<!--江苏省-->
+		<!--TODO:江苏省-->
 
-		<div class="div_cont fl w100 mt_20 green_edge">
+		@*<div class="div_cont fl w100 mt_20 green_edge">
 			<div class="title">
 				<b>江苏</b>
 				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = CroResourceHelper.Jiangsu })"></a>
 			</div>
 			<div class="d_res_list" id="contain_jiangsu">
 			</div>
-		</div>
+		</div>*@
 
-		<!--浙江省-->
-		<div class="div_cont fl w100 mt_20 green_edge">
+		<!--TODO:浙江省-->
+		@*<div class="div_cont fl w100 mt_20 green_edge">
 			<div class="title">
 				<b>浙江</b>
 				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = CroResourceHelper.Zhejiang })"></a>
 			</div>
 			<div class="d_res_list" id="contain_zhejiang">
 			</div>	
-		</div>
+		</div>*@
 
-		<!--上海市-->
-		<div class="div_cont fl w100 mt_20 green_edge">
+		<!-- TODO:上海市-->
+		@*<div class="div_cont fl w100 mt_20 green_edge">
 			<div class="title">
 				<b>上海</b>
 				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type =CroResourceHelper.Shanghai })"></a>
 			</div>
 			<div class="d_res_list" id="contain_shanghai">
 			</div>
-		</div>
+		</div>*@
 
-		<!--安徽省-->
-		<div class="div_cont fl w100 mt_20 green_edge">
+		<!-- TODO: 安徽省-->
+		@*<div class="div_cont fl w100 mt_20 green_edge">
 			<div class="title">
 				<b>安徽</b>
 				<a class="glyphicon glyphicon-option-horizontal fr more more_new" id="more_new" href="@Url.Action("More", "CroResource", new { type = CroResourceHelper.Anhui})"></a>
 			</div>
 			<div class="d_res_list" id="contain_anhui">
 			</div>
-		</div>
+		</div>*@
 
 	</div>
 	<div class="col-md-3">
@@ -128,6 +128,8 @@
 		}
 		else
 		{
+			var user = ResSettings.SettingsInSession.User;
+			var link = string.Format(ThisApp.AdminSystemUrl, user.UserName, Util.Security.Encrpytor.DESEncrypt(Util.Security.Encrpytor.KEY, user.Password));
 			<div class="block_panel2">
 				<div class="panel_title">
 					@ResSettings.SettingsInSession.RealName ，欢迎您！
@@ -135,6 +137,11 @@
 				<div class="tellme">
 					<a class="" href="@Url.Action("Index", "CroMy", new { id = ResSettings.SettingsInSession.UserId })">进入我的个人中心</a>
 					<br /><br />
+					@if (null != user && user.UserTypePKID != ResUserHelper.Teacher)
+					{
+					<a class="" href="@link">进入后台管理</a>
+					<br /><br />
+					}
 					<a class="" href="@Url.Action("LogOff2", "Account")">退出我的登录</a>
 				</div>
 			</div>

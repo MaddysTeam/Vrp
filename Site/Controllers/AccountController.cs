@@ -82,7 +82,7 @@ namespace Res.Controllers
             return View(model);
          }
 
-         // 如果市旧系统密码，则也让其登录
+         // 如果是旧系统密码，则也让其登录
          var md5 = BitConverter.ToString(MD5.Create().ComputeHash(Encoding.Default.GetBytes(model.Password))).Replace("-", "").Substring(0, 15);
          var u = APDBDef.ResUser;
          var userInfo = APBplDef.ResUserBpl.ConditionQuery(u.UserName == model.UserName & u.MD5 == md5, null).FirstOrDefault();

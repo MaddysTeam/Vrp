@@ -13,6 +13,8 @@ namespace Res.Business
    public static class ResCompanyHelper
    {
 
+      public static long ShangHai = 1161;
+
       public static List<ResCompany> GetChildren(List<ResCompany> all,long parentId)
       {
          if (all == null) return null;

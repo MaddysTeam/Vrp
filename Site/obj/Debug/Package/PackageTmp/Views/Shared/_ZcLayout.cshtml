@@ -1,7 +1,9 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Access-Control-Allow-Origin" content="*">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="renderer" content="webkit" />
 	<title>@ViewBag.Title - 长三角2018年微课教学评比活动</title>
@@ -16,11 +18,25 @@
 			<div class="div_ml_mr95">
 				@if (Request.IsAuthenticated)
 				{
+
+					var user = ResSettings.SettingsInSession.User;
+					var link = string.Format(ThisApp.AdminSystemUrl, user.UserName, Util.Security.Encrpytor.DESEncrypt(Util.Security.Encrpytor.KEY, user.Password));
+
 					<a class="top_s_text p_l0" href="@Url.Action("Index", "CroMy", new { id = ResSettings.SettingsInSession.UserId })">进入我的个人中心</a>
 					<span class="top_s_bo"></span>
+					if (null != user && user.UserTypePKID != ResUserHelper.Teacher)
+					{
+						<a class="top_s_text" href="@link">进入后台管理</a>
+						<span class="top_s_bo"></span>
+					}
 					<a class="top_s_text" href="@Url.Action("LogOff2", "Account")">退出我的登录</a>
 				}
-				@*<a class="top_s_text p_l0" href="@Url.Action("Register", "Account")">用户注册</a>*@
+				else
+				{
+				   <a class="top_s_text p_l0" href="@Url.Action("Register", "Account")">用户注册</a>
+					<span class="top_s_bo"></span>
+					<a class="top_s_text" href="@Url.Action("Login", "Account")">用户登录</a>
+				}
 				<span class="fr "><a class="top_s_text" href="@Url.Action("Index", "CroHome")">长三角2018年微课教学评比活动</a></span>
 			</div>
 		</div>
@@ -32,11 +48,12 @@
 		<div class="div_ml_mr96 d_nav">
 			<ul class="nav">
 				<li><a href="@Url.Action("Index", "CroHome")">首页</a></li>
-				
-				<li><a href="@Url.Action("Search", "CroResource", new { Province = CroResourceHelper.Jiangsu })">江苏省</a></li>
-				<li><a href="@Url.Action("Search", "CroResource", new { Province = CroResourceHelper.Zhejiang })">浙江省</a></li>
+				<!--TODO:shnghai-->
+				@*<li><a href="@Url.Action("Search", "CroResource", new { Province = CroResourceHelper.Jiangsu })">江苏省</a></li>
+				<li><a href="@Url.Action("Search", "CroResource", new { Province = CroResourceHelper.Zhejiang })">浙江省</a></li>*@
 				<li><a href="@Url.Action("Search", "CroResource", new { Province = CroResourceHelper.Shanghai })">上海市</a></li>
-				<li><a href="@Url.Action("Search", "CroResource", new { Province = CroResourceHelper.Anhui })">安徽省</a></li>
+				<!--TODO:shnghai-->
+				@*<li><a href="@Url.Action("Search", "CroResource", new { Province = CroResourceHelper.Anhui })">安徽省</a></li>*@
 				<li><a href="@Url.Action("Search", "CroResource")">分类搜索</a></li>
 			</ul>
 			@using (Html.BeginForm("Search", "CroResource", FormMethod.Get, new { name = "searchform" }))
@@ -73,5 +90,6 @@
 	@RenderSection("plugins", required: false)
 	@Scripts.Render("~/js/Ace")
 	@RenderSection("scripts", required: false)
+	
 </body>
 </html>

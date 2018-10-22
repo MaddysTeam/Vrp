@@ -83,6 +83,7 @@ namespace Res.Business
       // 作品类型
       public static long MicroClass = 5010;
       public static long MicroCourse = 5011;
+      public static long MicroExample = 5012;
 
       // 作品省份
       public static long Zhejiang = 1312;

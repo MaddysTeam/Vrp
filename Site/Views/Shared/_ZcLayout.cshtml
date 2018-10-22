@@ -48,11 +48,12 @@
 		<div class="div_ml_mr96 d_nav">
 			<ul class="nav">
 				<li><a href="@Url.Action("Index", "CroHome")">首页</a></li>
-				
-				<li><a href="@Url.Action("Search", "CroResource", new { Province = CroResourceHelper.Jiangsu })">江苏省</a></li>
-				<li><a href="@Url.Action("Search", "CroResource", new { Province = CroResourceHelper.Zhejiang })">浙江省</a></li>
+				<!--TODO:shnghai-->
+				@*<li><a href="@Url.Action("Search", "CroResource", new { Province = CroResourceHelper.Jiangsu })">江苏省</a></li>
+				<li><a href="@Url.Action("Search", "CroResource", new { Province = CroResourceHelper.Zhejiang })">浙江省</a></li>*@
 				<li><a href="@Url.Action("Search", "CroResource", new { Province = CroResourceHelper.Shanghai })">上海市</a></li>
-				<li><a href="@Url.Action("Search", "CroResource", new { Province = CroResourceHelper.Anhui })">安徽省</a></li>
+				<!--TODO:shnghai-->
+				@*<li><a href="@Url.Action("Search", "CroResource", new { Province = CroResourceHelper.Anhui })">安徽省</a></li>*@
 				<li><a href="@Url.Action("Search", "CroResource")">分类搜索</a></li>
 			</ul>
 			@using (Html.BeginForm("Search", "CroResource", FormMethod.Get, new { name = "searchform" }))

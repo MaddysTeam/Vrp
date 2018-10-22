@@ -17,8 +17,16 @@
 				<div class="div_ml_mr95">
 					@if (Request.IsAuthenticated)
 					{
+						var user = ResSettings.SettingsInSession.User;
+						var link = string.Format(ThisApp.AdminSystemUrl, user.UserName, Util.Security.Encrpytor.DESEncrypt(Util.Security.Encrpytor.KEY, user.Password));
+
 						<a class="top_s_text p_l0" href="@Url.Action("Index", "CroMy", new { id = ResSettings.SettingsInSession.UserId })">进入我的个人中心</a>
 						<span class="top_s_bo"></span>
+						if (null != user && user.UserTypePKID != ResUserHelper.Teacher)
+						{
+							<a class="top_s_text" href="@link">进入后台管理</a>
+							<span class="top_s_bo"></span>
+						}
 						<a class="top_s_text" href="@Url.Action("LogOff2", "Account")">退出我的登录</a>
 					}
 					<span class="fr "></span>

@@ -1,0 +1,316 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+	<title>PlayEase.JS</title>
+	
+	<meta charset="utf-8">
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="format-detection" content="telephone=no,email=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-touch-fullscreen" content="yes"/>
+	<meta name="x5-fullscreen" content="true">
+	<meta name="App-Config" content="fullscreen=yes, useHistoryState=yes, transition=yes"/>
+	
+	<style type='text/css' media='screen'>
+html {
+	font-size: 10px;
+}
+
+body {
+	margin: 0;
+	font-family: Karbon, Helvetica, Arial, sans-serif;
+	font-style: normal;
+	font-size: 14px;
+	line-height: 18px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: #E6E6E6;
+	background-color: #303030;
+}
+
+a {
+	color: #BDBDBD;
+	text-decoration: none;
+}
+a:active, a:focus, a:hover {
+	outline: 0;
+}
+
+input {
+	padding: 2px 6px;
+	font-family: sans-serif;
+	font-size: 14px;
+	border: none;
+	-webkit-appearance: none;
+}
+
+.btn {
+	padding: 6px 14px;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 16px;
+	text-align: center;
+	text-transform: uppercase;
+	white-space: nowrap;
+	word-spacing: normal;
+	border: none;
+	border-radius: 2px;
+	cursor: pointer;
+	display: inline-block;
+	-webkit-font-smoothing: subpixel-antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	transition: 150ms ease-in-out;
+	transition-property: background-color, color;
+}
+.btn.red {
+	color: #FFFFFF;
+	background-color: #FF0046;
+}
+.btn.red:hover {
+	background-color: #97052D;
+}
+
+.input-container {
+	margin: 10px auto 40px;
+	width: 100%;
+	height: 28px;
+	position: relative;
+	overflow: hidden;
+}
+.input-container span {
+	margin-right: 74px;
+	display: block;
+}
+.input-container span input {
+	padding: 2px 1%;
+	width: 98%;
+	height: 24px;
+	line-height: 24px;
+	background-color: #999999;
+}
+.input-container .btn {
+	width: 40px;
+	top: 0;
+	right: 0;
+	position: absolute;
+}
+	</style>
+	
+	<!--<script type='text/javascript' src='../playease.min.js'></script>-->
+	<script type='text/javascript' src='../cn/studease/playease.js'></script>
+	<script type='text/javascript' src='../cn/studease/utils/playease.utils.js'></script>
+	<script type='text/javascript' src='../cn/studease/utils/playease.utils.crypt.js'></script>
+	<script type='text/javascript' src='../cn/studease/utils/playease.utils.endian.js'></script>
+	<script type='text/javascript' src='../cn/studease/utils/playease.utils.buffer.js'></script>
+	<script type='text/javascript' src='../cn/studease/utils/playease.utils.css.js'></script>
+	<script type='text/javascript' src='../cn/studease/events/playease.events.js'></script>
+	<script type='text/javascript' src='../cn/studease/events/playease.events.eventdispatcher.js'></script>
+	<script type='text/javascript' src='../cn/studease/utils/playease.utils.filekeeper.js'></script>
+	<script type='text/javascript' src='../cn/studease/utils/playease.utils.timer.js'></script>
+	<script type='text/javascript' src='../cn/studease/utils/playease.utils.xml2json.js'></script>
+	<script type='text/javascript' src='../cn/studease/utils/playease.utils.manifest.js'></script>
+	<script type='text/javascript' src='../cn/studease/utils/matchers/playease.utils.matchers.js'></script>
+	<script type='text/javascript' src='../cn/studease/utils/matchers/playease.utils.matchers.datetime.js'></script>
+	<script type='text/javascript' src='../cn/studease/utils/matchers/playease.utils.matchers.duration.js'></script>
+	<script type='text/javascript' src='../cn/studease/utils/matchers/playease.utils.matchers.numeric.js'></script>
+	<script type='text/javascript' src='../cn/studease/utils/matchers/playease.utils.matchers.string.js'></script>
+	<script type='text/javascript' src='../cn/studease/api/playease.api.js'></script>
+	<script type='text/javascript' src='../cn/studease/io/playease.io.js'></script>
+	<script type='text/javascript' src='../cn/studease/io/playease.io.fetch-stream-loader.js'></script>
+	<script type='text/javascript' src='../cn/studease/io/playease.io.xhr-ms-stream-loader.js'></script>
+	<script type='text/javascript' src='../cn/studease/io/playease.io.xhr-moz-stream-loader.js'></script>
+	<script type='text/javascript' src='../cn/studease/io/playease.io.xhr-chunked-loader.js'></script>
+	<script type='text/javascript' src='../cn/studease/io/playease.io.websocket-loader.js'></script>
+	<script type='text/javascript' src='../cn/studease/muxer/playease.muxer.js'></script>
+	<script type='text/javascript' src='../cn/studease/muxer/playease.muxer.SPS.js'></script>
+	<script type='text/javascript' src='../cn/studease/muxer/playease.muxer.flv.js'></script>
+	<script type='text/javascript' src='../cn/studease/muxer/playease.muxer.mp4.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/playease.net.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/playease.net.responder.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/playease.net.netstatus.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/playease.net.netconnection.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/playease.net.netstream.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/playease.net.rtmp.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/playease.net.rtmp.AMF.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/playease.net.rtmp.handshaker.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/playease.net.rtmp.chunk.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/message/playease.net.rtmp.message.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/message/playease.net.rtmp.aggregatemessage.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/message/playease.net.rtmp.audiomessage.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/message/playease.net.rtmp.bandwidthmessage.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/message/playease.net.rtmp.commandmessage.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/message/playease.net.rtmp.datamessage.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/message/playease.net.rtmp.sharedobjectmessage.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/message/playease.net.rtmp.usercontrolmessage.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/message/playease.net.rtmp.videomessage.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/playease.net.rtmp.responder.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/playease.net.rtmp.netconnection.js'></script>
+	<script type='text/javascript' src='../cn/studease/net/rtmp/playease.net.rtmp.netstream.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/playease.core.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/playease.core.states.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/renders/playease.core.renders.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/renders/playease.core.renders.def.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/renders/playease.core.renders.flv.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/renders/playease.core.renders.rtmpmate.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/renders/playease.core.renders.wss.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/renders/playease.core.renders.dash.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/renders/playease.core.renders.flash.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/skins/playease.core.skins.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/skins/playease.core.skins.def.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/components/playease.core.components.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/components/playease.core.components.slider.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/components/playease.core.components.tooltip.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/components/playease.core.components.controlbar.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/components/playease.core.components.poster.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/components/playease.core.components.bulletscreen.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/components/playease.core.components.display.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/components/playease.core.components.logo.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/components/playease.core.components.contextmenu.js'></script>
+	<script type='text/javascript' src='../cn/studease/utils/playease.utils.playlist.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/playease.core.entity.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/playease.core.model.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/playease.core.view.js'></script>
+	<script type='text/javascript' src='../cn/studease/core/playease.core.controller.js'></script>
+	<script type='text/javascript' src='../cn/studease/embed/playease.embed.js'></script>
+	<script type='text/javascript' src='../cn/studease/embed/playease.embed.config.js'></script>
+	<script type='text/javascript' src='../cn/studease/embed/playease.embed.embedder.js'></script>
+</head>
+<body ontouchstart=''>
+	<div id='playwrap' style='margin: 40px auto 0; width: 100%; max-width: 640px; top: 0; left: 0;'>
+		<div id='player'></div>
+	</div>
+	<div class='input-container' style='width: 100%; max-width: 640px;'>
+		<span>
+			<input id='url-input' autocapitalize='off' value='http://studease.cn/vod/sample.flv'>
+		</span>
+		<a class='btn red' onclick='playTheURL();'>Play</a>
+	</div>
+	
+	<script type="text/javascript">
+		var pw = document.getElementById('playwrap');
+		if (playease.utils.isMobile()) {
+			pw.style.margin = '0 auto';
+		}
+		
+		var width = pw.clientWidth;
+		var height = width * 9 / 16 + 40;
+		
+		var events = playease.events;
+		var player = playease('player');
+		player.addEventListener(events.PLAYEASE_FULLPAGE, onFullpage);
+		player.addEventListener(events.RESIZE, onResize);
+		player.setup({
+			width: width,
+			height: height,
+			aspectratio: '16:9',
+			//file: 'rtmp://127.0.0.1/live/sample',
+			//file: 'ws://127.0.0.1/live/sample',
+			//file: 'ws://127.0.0.1/live/sample.flv',
+			//file: 'http://127.0.0.1/live/sample.m3u8',
+			file: 'http://127.0.0.1/vod/sample.flv',
+			/*sources: [{
+				file: 'http://127.0.0.1/live/sample.flv',
+				type: 'flv',
+				label: 'HTTP-FLV'
+			}, {
+				file: 'ws://127.0.0.1/live/sample.flv',
+				type: 'flv',
+				label: 'WS-FLV'
+			}, {
+				file: 'ws://127.0.0.1/live/sample',
+				type: 'rtmpmate',
+				label: 'WS-RTMPMATE'
+			}, {
+				file: 'ws://127.0.0.1/live/sample',
+				type: 'wss',
+				label: 'WS-fMP4'
+			}, {
+				file: 'http://127.0.0.1/live/sample/manifest.mpd',
+				type: 'dash',
+				label: 'MPEG-DASH'
+			}, {
+				file: 'rtmp://127.0.0.1/live/sample',
+				type: 'flash',
+				label: 'RTMP-STREAM'
+			}, {
+				file: 'http://127.0.0.1/live/sample/index.m3u8',
+				type: 'def'
+			}],*/
+			mode: 'vod',
+			bufferTime: 1,
+			maxretries: 0,
+			retrydelay: 3000,
+			controls: true,
+			autoplay: false,
+			//poster: 'sample.png',
+			//report: true,
+			loader: {
+				name: 'xhr-chunked-loader',
+				chunkSize: 2 * 1024 * 1024,
+				mode: 'cors'
+			},
+			logo: {
+				file: 'logo.png'
+			},
+			bulletscreen: {
+				enable: true,
+				visible: true
+			},
+			/*fullpage: {
+				visible: true
+			},*/
+			render: {
+				name: 'flv',
+				bufferLength: 4 * 1024 * 1024,
+				swf: '../swf/playease.swf'
+			}
+		});
+		
+		function onFullpage(e) {
+			pw.style.margin = e.exit ? '40px auto 0' : '0';
+			if (e.exit && playease.utils.isMobile()) {
+				pw.style.margin = '0 auto';
+			}
+			
+			pw.style.height = e.exit ? '' : '100%';
+			pw.style.position = e.exit ? '' : 'fixed';
+			pw.style.maxWidth = e.exit ? '640px' : '100%';
+			pw.style.zIndex = e.exit ? '' : '99';
+		}
+		
+		function onResize(e) {
+			if (playease.utils.isAndroid() && playease.utils.isQQBrowser()) {
+				var video = document.getElementById('player').firstChild.lastChild;
+				video.style.width = window.innerWidth + "px";
+				video.style.height = window.innerHeight + "px";
+				video.style['object-position'] = 'center top';
+				
+				var controlbar = document.getElementById('player').childNodes[1];
+				controlbar.style.top = e.height - 40 + "px";
+				controlbar.style.position = "absolute";
+				
+				var next = pw.parentNode.childNodes[3];
+				next.style.top = e.height + "px";
+				next.style.bottom = '0px';
+				next.style.position = "absolute";
+				next.style.zIndex = 999;
+			}
+		}
+		
+		if (playease.utils.isMobile()) {
+			window.addEventListener('resize', function(e) {
+				setTimeout(function() {
+					player.fullscreen(!playease.utils.isHorizontal());
+				}, 500);
+			});
+		}
+		
+		function playTheURL() {
+			var input = document.getElementById('url-input');
+			var url = input.value;
+			player.play(url);
+		}
+	</script>
+</body>
