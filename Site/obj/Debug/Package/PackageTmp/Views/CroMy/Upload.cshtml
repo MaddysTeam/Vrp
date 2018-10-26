@@ -36,14 +36,14 @@
 						<fieldset class="col-sm-11  fieldContainer">
 							
 							<div class="form-group ">
-								<label class="control-label col-sm-3"> <span class="request">*</span> 所属项目</label>
+								<label class="control-label col-sm-3"> <span class="request text-danger">*</span> 所属项目</label>
 								<div class="col-sm-9">
 									@Html.DropDownListFor(m => m.ActiveId, (ViewBag.Actives as List<Active>).Select(x => new SelectListItem { Text = x.ActiveName, Value = x.ActiveId.ToString(), Selected = Model.ActiveId == Model.ActiveId }), "选择项目", new { @class = "form-control" })
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="control-label col-sm-3"> <span class="request">*</span> 作品标题</label>
+								<label class="control-label col-sm-3"> <span class="request text-danger">*</span> 作品标题</label>
 								<div class="col-sm-9">
 									@Html.TextBoxFor(m => m.Title, new { @class = "form-control", maxlength = "255", placeholder = "作品标题" })
 									@Html.ValidationMessageFor(m => m.Title)
@@ -59,7 +59,7 @@
 							</div>
 
 							<div class="form-group">
-								<label class="control-label col-sm-3"> <span class="request">*</span> 关键词</label>
+								<label class="control-label col-sm-3"> <span class="request text-danger">*</span> 关键词</label>
 								<div class="col-sm-9">
 									@Html.TextBoxFor(m => m.Keywords, new { @class = "form-control gjz", maxlength = "255", placeholder = "关键词" })
 									@Html.ValidationMessageFor(m => m.Keywords)
@@ -68,41 +68,41 @@
 							</div>
 
 							<div class="form-group ">
-								<label class="control-label col-sm-3"> <span class="request">*</span> 省份</label>
+								<label class="control-label col-sm-3"> <span class="request text-danger">*</span> 省份</label>
 								<div class="col-sm-9">
 									@Html.DropDownListFor(m => m.ProvinceId, (ViewBag.Provinces as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择省份", new { @class = "form-control" })
 								</div>
 							</div>
 
 							<div class="form-group ">
-								<label class="control-label col-sm-3"> <span class="request">*</span> 地区</label>
+								<label class="control-label col-sm-3"> <span class="request text-danger">*</span> 地区</label>
 								<div class="col-sm-9">
 									@Html.DropDownListFor(m => m.AreaId, (ViewBag.Areas as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择地区", new { @class = "form-control" })
 								</div>
 							</div>
 
 							<div class="form-group ">
-								<label class="control-label col-sm-3"> <span class="request">*</span> 学校</label>
+								<label class="control-label col-sm-3"> <span class="request text-danger">*</span> 学校</label>
 								<div class="col-sm-9">
 									@Html.DropDownListFor(m => m.CompanyId, (ViewBag.Companies as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择学校", new { @class = "form-control" })
 								</div>
 							</div>
 							<div class="form-group ">
-								<label class="control-label col-sm-3"><span class="request">*</span>  年级</label>
+								<label class="control-label col-sm-3"><span class="request text-danger">*</span>  适用年级</label>
 								<div class="col-sm-9">
 									@Html.DropDownListFor(m => m.GradePKID, CroResourceHelper.Grade.GetSelectList(), "选择年级", new { @class = "form-control" })
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="control-label col-sm-3"><span class="request">*</span> 学科</label>
+								<label class="control-label col-sm-3"><span class="request text-danger">*</span> 适用学科</label>
 								<div class="col-sm-9">
 									@Html.DropDownListFor(m => m.SubjectPKID, CroResourceHelper.Subject.GetSelectList(), "选择学科", new { @class = "form-control" })
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="control-label col-sm-3"> <span class="request">*</span> 作者</label>
+								<label class="control-label col-sm-3"> <span class="request text-danger">*</span> 作者</label>
 								<div class="col-sm-9">
 									@Html.TextBoxFor(m => m.Author, new { @class = "form-control", maxlength = "100", placeholder = "作者" })
 									@Html.ValidationMessageFor(m => m.Author)
@@ -110,7 +110,7 @@
 							</div>
 
 							<div class="form-group">
-								<label class="control-label col-sm-3"> <span class="request">*</span> 作者单位</label>
+								<label class="control-label col-sm-3"> <span class="request text-danger">*</span> 作者单位</label>
 
 								<div class="col-sm-9">
 									@Html.TextBoxFor(m => m.AuthorCompany, new { @class = "form-control", maxlength = "255", placeholder = "作者所在单位" })
@@ -156,17 +156,11 @@
 										@Html.RadioButtonFor(m => m.CourseTypePKID, CroResourceHelper.MicroCourse) 微课程
 									</div>
 								}
-								else if (Model.CourseTypePKID == CroResourceHelper.MicroExample)
-								{
-									<div class="col-sm-9">
-										@Html.RadioButtonFor(m => m.CourseTypePKID, CroResourceHelper.MicroExample) 课列
-									</div>
-								}
 								else
 								{
 									@Html.HiddenFor(m => m.CourseTypePKID)
 									<div class="col-sm-9">
-										微课 @Html.RadioButton("courseType", CroResourceHelper.MicroClass, true) &nbsp;&nbsp;&nbsp;微课程 @Html.RadioButton("courseType", CroResourceHelper.MicroCourse, false) &nbsp;&nbsp;&nbsp;课列 @Html.RadioButton("courseType", CroResourceHelper.MicroExample, false)
+										微课 @Html.RadioButton("courseType", CroResourceHelper.MicroClass, true) &nbsp;&nbsp;&nbsp;微课程 @Html.RadioButton("courseType", CroResourceHelper.MicroCourse, false)
 									</div>
 								}
 								<div class="alert-info col-sm-9">
@@ -253,14 +247,25 @@
 				if($('#SubjectPKID').val()==0){
 					$('#SubjectPKID').after('<div class="error" style="color:#a94442">必须选择学科</div>');isValid= false;
 				}
-				$('.courseTitle, .exercises input').each(function(){
+
+				$('.courseTitle').each(function(i){
+					var $this=$(this);
+					var croType=$('#CourseTypePKID').val();
+					var isMicroClass=croType=='@CroResourceHelper.MicroClass' || croType=='0';
+					if(!isMicroClass && $this.val()==''){
+						isValid=false;
+						$this.after('<div class="error" style="color:#a94442">内容不能为空!</div>');
+					}
+				});
+				
+				$('.exercises input').each(function(){
 					var $this=$(this);
 					if($this.val()==''){
 						isValid=false;
-						$this.after('<div class="error" style="color:#a94442">内容不能为空</div>');
+						$this.after('<div class="error" style="color:#a94442">内容不能为空!</div>');
 					}
 				});
-			
+
 				$('.courseUploader .resource-path,.designUploader .resource-path').each(function(){
 					var $this=$(this);
 					if($this.val()==''){
@@ -349,9 +354,13 @@
 		var provinces=@Html.Raw(Json.Encode(ViewBag.ProvincesDic));
 		var areas=@Html.Raw(Json.Encode(ViewBag.AreasDic));
 		var schools=@Html.Raw(Json.Encode(ViewBag.SchoolsDic));
+		var courseType=@Model.CourseTypePKID;
 
 		$(function () {
 
+			if(courseType=='@CroResourceHelper.MicroClass' || courseType==0){
+				$('.courseTitleArea:first').hide();
+			}
 			// hide first course remove button
 			$(".courseRemove:first").remove();
 			$("select option[value='']").val("0");
@@ -376,8 +385,10 @@
 				var val = $(this).val();
 				if (val == '@CroResourceHelper.MicroCourse') {
 					$('.addCourse').show();
+					$('.courseTitleArea:first').show();
 				}
 				else {
+					$('.courseTitleArea:first').hide();
 					$('.addCourse').hide();
 					$('.courseArea').not(':first').remove();
 					$('.uploadForms').children().not('.uploaderForm0').remove();
@@ -405,8 +416,8 @@
 		});
 
 		function createCourseTitle(){
-			var title=	 $('<div class="form-group">'+
-							 '<label class="control-label col-sm-3" for="CourseTitle">微课标题</label>' +
+			var title=	 $('<div class="form-group courseTitleArea">'+
+							 '<label class="control-label col-sm-3" for="CourseTitle"><span class="request text-danger">*</span>微课标题</label>' +
 							 '<div class="col-sm-9">' +
 								  '<input class="form-control courseTitle" data-val="true" name="CourseTitle" placeholder="微课标题" type="text" >'+
 							 '</div>'+
@@ -414,8 +425,9 @@
 			return title;
 		}
 
-		function createUploder(name,title){
-			return $('<div class="form-group '+name+' uploader"><label class="control-label col-sm-3">'+title+'</label>'+
+		function createUploder(name,title,isRequired){
+			var star=isRequired? '<span class="request text-danger">*</span>' : '';
+			return $('<div class="form-group '+name+' uploader"><label class="control-label col-sm-3">'+star+title+'</label>'+
 				            '<div class="col-sm-9">'+
 									'<div class="input-group">'+
 											'<input type="text" class="form-control resource-path" readonly  placeholder = "添加'+title+'"/>'+
@@ -454,9 +466,9 @@
 		function createCourse(){
 			var course=$('<div class="courseArea"><div class="courseRemove"><button class="btn btn-danger btn-course-remove"><i class="fa fa-close"></i></button></div></div>');
 			course.append(createCourseTitle);
-			course.append(createUploder('courseUploader','微课视频'));
+			course.append(createUploder('courseUploader','微课视频',true));
 			course.append(creatCover());
-			course.append(createUploder('designUploader','教学设计'));
+			course.append(createUploder('designUploader','教学设计',true));
 			course.append(createUploder('summaryUploader','教学反思'));
 			course.append(createUploder('coursewareUploader','课件'));
 			course.append(createUploder('attachmentUploader','其他附件'));
@@ -505,7 +517,7 @@
 					$('.uploadForms').append($('<form action="'+action+'" class="'+dropzoneName+' uploaderForm'+i+'"></form>'));
 					$('.'+dropzoneName).dropzone({
 						addRemoveLinks: !0,
-						maxFilesize: 700,
+						maxFilesize: 200,
 						filesizeBase:100*1024,
 						maxFiles: 100,
 						acceptedFiles:mimeTypes,

@@ -236,6 +236,12 @@
     <File Include="assets/img/logo2.png">
       <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
+    <File Include="assets/img/logo2018.png">
+      <publishTime>10/23/2018 10:26:24</publishTime>
+    </File>
+    <File Include="assets/img/logo201802.png">
+      <publishTime>10/24/2018 16:21:55</publishTime>
+    </File>
     <File Include="assets/img/logo3.png">
       <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
@@ -378,10 +384,10 @@
       <publishTime>09/21/2018 17:10:16</publishTime>
     </File>
     <File Include="assets/js/flv.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/js/flv.min.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/js/jquery-1.11.2.min.js">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -1683,247 +1689,247 @@
       <publishTime>09/21/2018 17:10:17</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/api/playease.api.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/components/playease.core.components.bulletscreen.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/components/playease.core.components.contextmenu.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/components/playease.core.components.controlbar.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/components/playease.core.components.display.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/components/playease.core.components.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/components/playease.core.components.logo.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/components/playease.core.components.poster.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/components/playease.core.components.slider.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/components/playease.core.components.tooltip.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/playease.core.controller.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/playease.core.entity.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/playease.core.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/playease.core.model.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/playease.core.states.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/playease.core.view.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/renders/playease.core.renders.dash.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/renders/playease.core.renders.def.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/renders/playease.core.renders.flash.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/renders/playease.core.renders.flv.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/renders/playease.core.renders.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/renders/playease.core.renders.rtmpmate.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/renders/playease.core.renders.wss.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/skins/playease.core.skins.def.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/core/skins/playease.core.skins.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/embed/playease.embed.config.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/embed/playease.embed.embedder.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/embed/playease.embed.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/events/playease.events.eventdispatcher.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/events/playease.events.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/io/playease.io.fetch-stream-loader.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/io/playease.io.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/io/playease.io.websocket-loader.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/io/playease.io.xhr-chunked-loader.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/io/playease.io.xhr-moz-stream-loader.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/io/playease.io.xhr-ms-stream-loader.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/muxer/playease.muxer.flv.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/muxer/playease.muxer.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/muxer/playease.muxer.mp4.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/muxer/playease.muxer.SPS.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/playease.net.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/playease.net.netconnection.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/playease.net.netstatus.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/playease.net.netstream.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/playease.net.responder.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/message/playease.net.rtmp.aggregatemessage.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/message/playease.net.rtmp.audiomessage.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/message/playease.net.rtmp.bandwidthmessage.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/message/playease.net.rtmp.commandmessage.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/message/playease.net.rtmp.datamessage.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/message/playease.net.rtmp.message.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/message/playease.net.rtmp.sharedobjectmessage.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/message/playease.net.rtmp.usercontrolmessage.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/message/playease.net.rtmp.videomessage.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/playease.net.rtmp.AMF.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/playease.net.rtmp.chunk.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/playease.net.rtmp.handshaker.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/playease.net.rtmp.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/playease.net.rtmp.netconnection.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/playease.net.rtmp.netstream.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/net/rtmp/playease.net.rtmp.responder.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/playease.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/utils/matchers/playease.utils.matchers.datetime.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/utils/matchers/playease.utils.matchers.duration.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/utils/matchers/playease.utils.matchers.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/utils/matchers/playease.utils.matchers.numeric.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/utils/matchers/playease.utils.matchers.string.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/utils/playease.utils.buffer.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/utils/playease.utils.crypt.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/utils/playease.utils.css.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/utils/playease.utils.endian.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/utils/playease.utils.filekeeper.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/utils/playease.utils.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/utils/playease.utils.manifest.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/utils/playease.utils.playlist.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/utils/playease.utils.timer.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/cn/studease/utils/playease.utils.xml2json.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/LICENSE">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/playease.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/playease.min.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/24/2018 16:26:55</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/README.md">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/skins/bulletButton.png">
       <publishTime>10/22/2018 09:17:20</publishTime>
@@ -2034,7 +2040,7 @@
       <publishTime>10/22/2018 09:17:20</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/test/index.html">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/playease-master/playease-master/test/logo.png">
       <publishTime>10/22/2018 09:17:20</publishTime>
@@ -2046,16 +2052,16 @@
       <publishTime>10/22/2018 09:17:20</publishTime>
     </File>
     <File Include="assets/plugins/video-js/demo.captions.vtt">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/demo.html">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/font/vjs.eot">
       <publishTime>10/22/2018 09:17:20</publishTime>
     </File>
     <File Include="assets/plugins/video-js/font/vjs.svg">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/font/vjs.ttf">
       <publishTime>10/22/2018 09:17:20</publishTime>
@@ -2064,85 +2070,85 @@
       <publishTime>10/22/2018 09:17:20</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/ar.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/bg.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/ca.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/cs.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/de.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/es.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/fr.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/hu.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/it.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/ja.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/ko.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/nl.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/pt-BR.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/ru.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/tr.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/uk.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/vi.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/zh-CN.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/lang/zh-TW.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/video-js.css">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/video-js.less">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/video-js.min.css">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/video-js.swf">
       <publishTime>10/22/2018 09:17:20</publishTime>
     </File>
     <File Include="assets/plugins/video-js/video.dev.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/video.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/video.novtt.dev.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/video-js/video.novtt.js">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:31:41</publishTime>
     </File>
     <File Include="assets/plugins/zeroclipboard-2.2.0/ZeroClipboard.Core.js">
       <publishTime>09/21/2018 17:10:17</publishTime>
@@ -2232,10 +2238,10 @@
       <publishTime>09/21/2018 17:10:18</publishTime>
     </File>
     <File Include="bin/Res.dll">
-      <publishTime>10/22/2018 14:49:07</publishTime>
+      <publishTime>10/24/2018 17:49:54</publishTime>
     </File>
     <File Include="bin/Res.pdb">
-      <publishTime>10/22/2018 14:49:07</publishTime>
+      <publishTime>10/24/2018 17:49:54</publishTime>
     </File>
     <File Include="bin/stdole.dll">
       <publishTime>12/21/2009 11:40:04</publishTime>
@@ -2268,10 +2274,10 @@
       <publishTime>09/21/2018 17:10:18</publishTime>
     </File>
     <File Include="bin/Util.dll">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/24/2018 09:46:39</publishTime>
     </File>
     <File Include="bin/Util.pdb">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/24/2018 09:46:39</publishTime>
     </File>
     <File Include="bin/WcsLib.dll">
       <publishTime>09/25/2018 09:13:20</publishTime>
@@ -2316,7 +2322,7 @@
       <publishTime>09/21/2018 17:10:17</publishTime>
     </File>
     <File Include="Business/DataLogic/Business.apgen">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>10/23/2018 09:00:48</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -2385,7 +2391,7 @@
       <publishTime>09/21/2018 17:10:16</publishTime>
     </File>
     <File Include="Views/CroHome/Index.cshtml">
-      <publishTime>10/22/2018 14:52:12</publishTime>
+      <publishTime>10/24/2018 17:48:21</publishTime>
     </File>
     <File Include="Views/CroHome/_Favorite.cshtml">
       <publishTime>09/26/2018 09:01:12</publishTime>
@@ -2403,13 +2409,13 @@
       <publishTime>09/29/2018 09:00:11</publishTime>
     </File>
     <File Include="Views/CroMy/Comment.cshtml">
-      <publishTime>09/21/2018 17:10:16</publishTime>
+      <publishTime>10/23/2018 10:48:51</publishTime>
     </File>
     <File Include="Views/CroMy/CroMyComment.cshtml">
       <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroMy/CroMyCourses.cshtml">
-      <publishTime>10/09/2018 09:19:46</publishTime>
+      <publishTime>10/24/2018 14:50:18</publishTime>
     </File>
     <File Include="Views/CroMy/CroMyDownload.cshtml">
       <publishTime>10/08/2018 09:16:59</publishTime>
@@ -2448,7 +2454,7 @@
       <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroMy/Upload.cshtml">
-      <publishTime>10/22/2018 13:26:49</publishTime>
+      <publishTime>10/24/2018 16:15:04</publishTime>
     </File>
     <File Include="Views/CroResource/More.cshtml">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -2478,7 +2484,7 @@
       <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/CroResource/_search.cshtml">
-      <publishTime>10/22/2018 14:27:01</publishTime>
+      <publishTime>10/24/2018 15:50:54</publishTime>
     </File>
     <File Include="Views/CroResource/_user.cshtml">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -2559,10 +2565,10 @@
       <publishTime>09/21/2018 17:10:16</publishTime>
     </File>
     <File Include="Views/Shared/_CroLayout.cshtml">
-      <publishTime>10/22/2018 13:38:03</publishTime>
+      <publishTime>10/24/2018 16:26:45</publishTime>
     </File>
     <File Include="Views/Shared/_CroViewLayout.cshtml">
-      <publishTime>10/08/2018 09:16:59</publishTime>
+      <publishTime>10/24/2018 16:26:39</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
       <publishTime>10/08/2018 09:16:59</publishTime>
@@ -2571,19 +2577,19 @@
       <publishTime>10/08/2018 09:16:59</publishTime>
     </File>
     <File Include="Views/Shared/_mzLayout.cshtml">
-      <publishTime>10/08/2018 09:16:59</publishTime>
+      <publishTime>10/24/2018 16:26:33</publishTime>
     </File>
     <File Include="Views/Shared/_Row.cshtml">
-      <publishTime>09/25/2018 09:13:20</publishTime>
+      <publishTime>10/23/2018 10:48:43</publishTime>
     </File>
     <File Include="Views/Shared/_sidebar.cshtml">
       <publishTime>10/16/2018 13:16:19</publishTime>
     </File>
     <File Include="Views/Shared/_ZcLayout.cshtml">
-      <publishTime>10/22/2018 14:24:38</publishTime>
+      <publishTime>10/24/2018 17:46:47</publishTime>
     </File>
     <File Include="Views/Shared/_ZSLayout.cshtml">
-      <publishTime>10/08/2018 09:16:59</publishTime>
+      <publishTime>10/24/2018 16:26:11</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>09/21/2018 17:10:16</publishTime>
@@ -2604,7 +2610,7 @@
       <publishTime>09/21/2018 17:10:16</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/22/2018 13:54:26</publishTime>
+      <publishTime>10/23/2018 09:43:16</publishTime>
     </File>
   </ItemGroup>
 </Project>

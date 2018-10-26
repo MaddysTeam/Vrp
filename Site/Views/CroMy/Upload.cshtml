@@ -88,14 +88,14 @@
 								</div>
 							</div>
 							<div class="form-group ">
-								<label class="control-label col-sm-3"><span class="request text-danger">*</span>  年级</label>
+								<label class="control-label col-sm-3"><span class="request text-danger">*</span>  适用年级</label>
 								<div class="col-sm-9">
 									@Html.DropDownListFor(m => m.GradePKID, CroResourceHelper.Grade.GetSelectList(), "选择年级", new { @class = "form-control" })
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="control-label col-sm-3"><span class="request text-danger">*</span> 学科</label>
+								<label class="control-label col-sm-3"><span class="request text-danger">*</span> 适用学科</label>
 								<div class="col-sm-9">
 									@Html.DropDownListFor(m => m.SubjectPKID, CroResourceHelper.Subject.GetSelectList(), "选择学科", new { @class = "form-control" })
 								</div>
@@ -156,17 +156,11 @@
 										@Html.RadioButtonFor(m => m.CourseTypePKID, CroResourceHelper.MicroCourse) 微课程
 									</div>
 								}
-								else if (Model.CourseTypePKID == CroResourceHelper.MicroExample)
-								{
-									<div class="col-sm-9">
-										@Html.RadioButtonFor(m => m.CourseTypePKID, CroResourceHelper.MicroExample) 课例
-									</div>
-								}
 								else
 								{
 									@Html.HiddenFor(m => m.CourseTypePKID)
 									<div class="col-sm-9">
-										微课 @Html.RadioButton("courseType", CroResourceHelper.MicroClass, true) &nbsp;&nbsp;&nbsp;微课程 @Html.RadioButton("courseType", CroResourceHelper.MicroCourse, false) &nbsp;&nbsp;&nbsp;课例 @Html.RadioButton("courseType", CroResourceHelper.MicroExample, false)
+										微课 @Html.RadioButton("courseType", CroResourceHelper.MicroClass, true) &nbsp;&nbsp;&nbsp;微课程 @Html.RadioButton("courseType", CroResourceHelper.MicroCourse, false)
 									</div>
 								}
 								<div class="alert-info col-sm-9">
@@ -253,14 +247,25 @@
 				if($('#SubjectPKID').val()==0){
 					$('#SubjectPKID').after('<div class="error" style="color:#a94442">必须选择学科</div>');isValid= false;
 				}
-				$('.courseTitle, .exercises input').each(function(){
+
+				$('.courseTitle').each(function(i){
+					var $this=$(this);
+					var croType=$('#CourseTypePKID').val();
+					var isMicroClass=croType=='@CroResourceHelper.MicroClass' || croType=='0';
+					if(!isMicroClass && $this.val()==''){
+						isValid=false;
+						$this.after('<div class="error" style="color:#a94442">内容不能为空!</div>');
+					}
+				});
+				
+				$('.exercises input').each(function(){
 					var $this=$(this);
 					if($this.val()==''){
 						isValid=false;
-						$this.after('<div class="error" style="color:#a94442">内容不能为空</div>');
+						$this.after('<div class="error" style="color:#a94442">内容不能为空!</div>');
 					}
 				});
-			
+
 				$('.courseUploader .resource-path,.designUploader .resource-path').each(function(){
 					var $this=$(this);
 					if($this.val()==''){
@@ -349,12 +354,20 @@
 		var provinces=@Html.Raw(Json.Encode(ViewBag.ProvincesDic));
 		var areas=@Html.Raw(Json.Encode(ViewBag.AreasDic));
 		var schools=@Html.Raw(Json.Encode(ViewBag.SchoolsDic));
+		var courseType=@Model.CourseTypePKID;
+
 
 		$(function () {
 
+			if(courseType=='@CroResourceHelper.MicroClass' || courseType==0){
+				$('.courseTitleArea:first').hide();
+			}
 			// hide first course remove button
 			$(".courseRemove:first").remove();
 			$("select option[value='']").val("0");
+
+		   //TODO:
+			$("#ActiveId option[value='1']").remove();
 
 			// relation select
 			RelationSelect($("#ProvinceId"), $("#AreaId"), areas, "选择地区");
@@ -376,8 +389,10 @@
 				var val = $(this).val();
 				if (val == '@CroResourceHelper.MicroCourse') {
 					$('.addCourse').show();
+					$('.courseTitleArea:first').show();
 				}
 				else {
+					$('.courseTitleArea:first').hide();
 					$('.addCourse').hide();
 					$('.courseArea').not(':first').remove();
 					$('.uploadForms').children().not('.uploaderForm0').remove();
@@ -405,7 +420,7 @@
 		});
 
 		function createCourseTitle(){
-			var title=	 $('<div class="form-group">'+
+			var title=	 $('<div class="form-group courseTitleArea">'+
 							 '<label class="control-label col-sm-3" for="CourseTitle"><span class="request text-danger">*</span>微课标题</label>' +
 							 '<div class="col-sm-9">' +
 								  '<input class="form-control courseTitle" data-val="true" name="CourseTitle" placeholder="微课标题" type="text" >'+
@@ -506,7 +521,7 @@
 					$('.uploadForms').append($('<form action="'+action+'" class="'+dropzoneName+' uploaderForm'+i+'"></form>'));
 					$('.'+dropzoneName).dropzone({
 						addRemoveLinks: !0,
-						maxFilesize: 700,
+						maxFilesize: 200,
 						filesizeBase:100*1024,
 						maxFiles: 100,
 						acceptedFiles:mimeTypes,

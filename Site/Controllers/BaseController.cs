@@ -219,7 +219,7 @@ namespace Res.Controllers
       }
 
 
-      protected object GetStrengthDict(List<ResCompany> items)
+      public static object GetStrengthDict(List<ResCompany> items)
       {
          List<object> array = new List<object>();
          foreach (var item in items)
@@ -229,6 +229,22 @@ namespace Res.Controllers
                key = item.ParentId,
                id = item.CompanyId,
                name = item.CompanyName
+            });
+         }
+         return array;
+      }
+
+
+      public static object GetStrengthDict(List<ResPickListItem> items)
+      {
+         List<object> array = new List<object>();
+         foreach (var item in items)
+         {
+            array.Add(new
+            {
+               key = item.StrengthenValue,
+               id = item.PickListItemId,
+               name = item.Name
             });
          }
          return array;

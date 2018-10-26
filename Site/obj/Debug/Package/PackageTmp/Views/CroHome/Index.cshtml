@@ -28,10 +28,6 @@
 		<div class="div_cont fl w100 mt_20 green_edge">
 			<div class="title">
 				<b>热门微课</b>
-				@*<span>
-						<a href="javascript:;" class="blocktab tab1" data-cat="hot" data-type="1" data-url="@Url.Action("More", "CroResource", new { type = "rmyc", mediumtypepkid = "null", FileExtName = "null" })">原创</a>  |
-						<a href="javascript:;" class="blocktab" data-cat="hot" data-type="2" data-url="@Url.Action("More", "CroResource", new { type = "rmtj", mediumtypepkid = "null", FileExtName = "null" })">推荐</a>
-					</span>*@
 				<a class="glyphicon glyphicon-option-horizontal fr more" id="more_hot" href="@Url.Action("More", "CroResource", new { type = CroResourceHelper.Hot})"></a>
 			</div>
 			<div class="d_res_list" id="contain_hot">

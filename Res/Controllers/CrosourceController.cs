@@ -311,18 +311,25 @@ namespace Res.Controllers
       {
          InitAreaDropDownData();
 
-         if (id == null)
-         {
-            return View(
-               new CroResource { Courses = new List<MicroCourse> { new MicroCourse() } } // 新增时默认一个微课
-               );
-         }
-         else
-         {
-            var model = APBplDef.CroResourceBpl.GetResource(db, id.Value);
+         var user = ResSettings.SettingsInSession.User;
+         var model = id == null ?
+                       new CroResource { ProvinceId = user.ProvinceId, AreaId = user.AreaId, CompanyId = user.CompanyId, Courses = new List<MicroCourse> { new MicroCourse() } } :
+                       APBplDef.CroResourceBpl.GetResource(db, id.Value);
 
-            return View(model);
-         }
+         return View(model);
+
+         //if (id == null)
+         //{
+         //   return View(
+         //      new CroResource { Courses = new List<MicroCourse> { new MicroCourse() } } // 新增时默认一个微课
+         //      );
+         //}
+         //else
+         //{
+         //   var model = APBplDef.CroResourceBpl.GetResource(db, id.Value);
+
+         //   return View(model);
+         //}
       }
 
       [HttpPost]

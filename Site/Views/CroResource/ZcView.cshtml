@@ -378,7 +378,8 @@
 				var $this=$(this);
 				var fileId=$(this).data('id');
 				if(fileId>0){
-					$.post('/CroResource/Download',{id:'@Model.CrosourceId',  courseId:'@course.CourseId', fileId:fileId},function(response){});
+					$.post('/CroResource/Download',{id:'@Model.CrosourceId',  courseId:'@course.CourseId', fileId:fileId},function(response){
+					});
 				}
 				else{
 					alert('暂无文件可下载');

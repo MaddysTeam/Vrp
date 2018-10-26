@@ -123,38 +123,6 @@ namespace Res.Controllers
 
       //上传微课作品
 
-
-      public static object GetStrengthDict(List<ResPickListItem> items)
-      {
-         List<object> array = new List<object>();
-         foreach (var item in items)
-         {
-            array.Add(new
-            {
-               key = item.StrengthenValue,
-               id = item.PickListItemId,
-               name = item.Name
-            });
-         }
-         return array;
-      }
-
-
-      public static object GetStrengthDict(List<ResCompany> items)
-      {
-         List<object> array = new List<object>();
-         foreach (var item in items)
-         {
-            array.Add(new
-            {
-               key = item.ParentId,
-               id = item.CompanyId,
-               name = item.CompanyName
-            });
-         }
-         return array;
-      }
-
       public ActionResult Upload(long id, long? resid)
       {
          ResSettings.SettingsInSession.CleanCompanyCache();
@@ -188,18 +156,11 @@ namespace Res.Controllers
          ViewBag.ResTypes = GetStrengthDict(CroResourceHelper.ResourceType.GetItems());
          ViewBag.Actives = APBplDef.ActiveBpl.GetAll();
 
-         if (resid == null)
-         {
-            return View(
-               new CroResource { Courses = new List<MicroCourse> { new MicroCourse() } } // 新增时默认一个微课
-               );
-         }
-         else
-         {
-            var model = APBplDef.CroResourceBpl.GetResource(db, resid.Value);
+         var model= resid == null ? 
+                       new CroResource { ProvinceId=user.ProvinceId, AreaId=user.AreaId, CompanyId=user.CompanyId, Courses = new List<MicroCourse> { new MicroCourse() } } :
+                       APBplDef.CroResourceBpl.GetResource(db, resid.Value);
 
-            return View(model);
-         }
+         return View(model);
       }
 
 
@@ -249,7 +210,6 @@ namespace Res.Controllers
                model.Score = current.Score;
                model.WinLevelPKID = current.WinLevelPKID;
                model.StatePKID = current.StatePKID;
-              // model.DeliveryTypePKID = current.DeliveryTypePKID;
             }
             else
             {
@@ -261,6 +221,10 @@ namespace Res.Controllers
                model.DownloadStatePKID = CroResourceHelper.AllowDownload;
                model.PublicStatePKID = CroResourceHelper.Public;
             }
+
+            // 微课类型为微课时，微课标题为作品标题
+            if (model.CourseTypePKID == CroResourceHelper.MicroClass)
+               model.Courses[0].CourseTitle = model.Title;
 
             model.StatePKID = model.StatePKID == CroResourceHelper.StateDeny ? CroResourceHelper.StateWait : model.StatePKID;
             APBplDef.CroResourceBpl.Insert(model);

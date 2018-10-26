@@ -289,7 +289,7 @@
 					<add name="GradePKID" type="long" required="true" display="年级" comment="PickList - APEdu.net key is PLKey_ResourceGrade"/>
 					<add name="ResourceTypePKID" type="long" required="false" display="作品类型" comment="PickList - APEdu.net key is PLKey_ResourceType"/>
 					<add name="SubjectPKID" type="long" required="true" display="学科" comment="PickList - APEdu.net key is PLKey_ResourceSubject"/>
-					<add name="CourseTypePKID" type="long" required="true" display="微课类型" comment="PickList - APEdu.net key is PLKey_CourseType"/>
+					<add name="CourseTypePKID" type="long" required="true" display="资源类型" comment="PickList - APEdu.net key is PLKey_CourseType"/>
 					<add name="StatePKID" type="long" display="状态" comment="PickList - APEdu.net key is PLKey_ResourceState"/>
 					<add name="PublicStatePKID" type="long" display="公开设置"  defaultValue="10450" comment="PickList - APEdu.net key is PLKey_PublicState"/>
 					<add name="DownloadStatePKID" type="long" display="下载设置" defaultValue="10452" comment="PickList - APEdu.net key is PLKey_DownloadState"/>
