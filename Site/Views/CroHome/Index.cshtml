@@ -135,10 +135,10 @@
 					<br /><br />
 					@if (null != user && user.UserTypePKID != ResUserHelper.Teacher)
 					{
-					<a class="" href="@link">进入后台管理</a>
+					<a href="@link" target="_blank">进入后台管理</a>
 					<br /><br />
 					}
-					<a class="" href="@Url.Action("LogOff2", "Account")">退出我的登录</a>
+					<a  href="@Url.Action("LogOff2", "Account")">退出我的登录</a>
 				</div>
 			</div>
 		}
