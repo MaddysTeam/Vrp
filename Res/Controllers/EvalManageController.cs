@@ -115,7 +115,7 @@ namespace Res.Controllers
             model = APBplDef.EvalGroupBpl.PrimaryGet(id.Value);
          }
 
-         ViewBag.Actives = APBplDef.ActiveBpl.GetAll();
+         ViewBag.Actives = ResSettings.SettingsInSession.Actives;
 
          return PartialView(model);
       }
@@ -285,7 +285,8 @@ namespace Res.Controllers
              .from(r,
                    egr.JoinLeft(r.CrosourceId == egr.ResourceId & egr.GroupId == id)
              )
-             .where_and(r.StatePKID==CroResourceHelper.StateAllow)
+              //.where_and(r.StatePKID==CroResourceHelper.StateAllow)
+              .where_and(r.ActiveId == ThisApp.CurrentActiveId)
              .primary(r.CrosourceId)
              .skip((current - 1) * rowCount)
              .take(rowCount);
@@ -636,7 +637,7 @@ namespace Res.Controllers
             model = APBplDef.IndicationBpl.PrimaryGet(id.Value);
          }
 
-         ViewBag.Actives = APBplDef.ActiveBpl.GetAll();
+         ViewBag.Actives = ResSettings.SettingsInSession.Actives;
 
          return PartialView(model);
       }

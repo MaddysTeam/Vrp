@@ -56,7 +56,7 @@ namespace Res.Controllers
          var u = APDBDef.ResUser;
          var dr = APDBDef.DeliveryRecord;
          APSqlOrderPhrase order = null;
-         APSqlWherePhrase where = t.StatePKID != CroResourceHelper.StateDelete;
+         APSqlWherePhrase where = t.StatePKID != CroResourceHelper.StateDelete & t.ActiveId== ThisApp.CurrentActiveId; //TODO 只取2018
 
          // 取排序
          var co = GridOrder.GetSortDef(fc);
@@ -317,19 +317,6 @@ namespace Res.Controllers
                        APBplDef.CroResourceBpl.GetResource(db, id.Value);
 
          return View(model);
-
-         //if (id == null)
-         //{
-         //   return View(
-         //      new CroResource { Courses = new List<MicroCourse> { new MicroCourse() } } // 新增时默认一个微课
-         //      );
-         //}
-         //else
-         //{
-         //   var model = APBplDef.CroResourceBpl.GetResource(db, id.Value);
-
-         //   return View(model);
-         //}
       }
 
       [HttpPost]

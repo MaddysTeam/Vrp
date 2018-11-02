@@ -171,7 +171,7 @@ namespace Res.Business
       {
          get
          {
-            return APBplDef.ActiveBpl.GetAll();
+            return APBplDef.ActiveBpl.GetAll().FindAll(x=>x.IsCurrent);
          }
       }
 

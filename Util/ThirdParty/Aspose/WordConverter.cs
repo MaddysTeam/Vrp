@@ -43,6 +43,17 @@ namespace Util.ThirdParty.Aspose
          return stream;
       }
 
+      public static Stream ConvertoPdf(Stream source)
+      {
+
+         if (source == null) throw new ArgumentNullException("source stream can not be null");
+         //byte[] contentBytes = new byte[source.Length];
+         //source.Read(contentBytes, 0, contentBytes.Length);
+         var stream = ConvertRightNowAspose(source, SaveFormat.Pdf);
+
+         return stream;
+      }
+
 
       internal static Stream ConvertRightNowAspose(Stream stream, SaveFormat saveFormat)
       {
@@ -51,7 +62,7 @@ namespace Util.ThirdParty.Aspose
          var firstStream = new MemoryStream();
          if (saveFormat == SaveFormat.Html)
          {
-            HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.Html);
+            HtmlSaveOptions options = new HtmlSaveOptions(saveFormat);
             options.ImageSavingCallback = new HandleImageSaving();
             doc.Save(firstStream, options);
          }

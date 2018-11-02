@@ -4893,10 +4893,10 @@
       <publishTime>09/21/2018 17:10:18</publishTime>
     </File>
     <File Include="bin/Res.dll">
-      <publishTime>10/24/2018 16:03:27</publishTime>
+      <publishTime>11/02/2018 16:40:36</publishTime>
     </File>
     <File Include="bin/Res.pdb">
-      <publishTime>10/24/2018 16:03:27</publishTime>
+      <publishTime>11/02/2018 16:40:36</publishTime>
     </File>
     <File Include="bin/Symber.Web.APQuery.dll">
       <publishTime>09/21/2018 17:10:18</publishTime>
@@ -4923,10 +4923,10 @@
       <publishTime>09/21/2018 17:10:17</publishTime>
     </File>
     <File Include="bin/Util.dll">
-      <publishTime>10/24/2018 09:46:39</publishTime>
+      <publishTime>11/02/2018 16:40:35</publishTime>
     </File>
     <File Include="bin/Util.pdb">
-      <publishTime>10/24/2018 09:46:39</publishTime>
+      <publishTime>11/02/2018 16:40:35</publishTime>
     </File>
     <File Include="bin/WcsLib.dll">
       <publishTime>09/25/2018 09:13:20</publishTime>
@@ -5052,7 +5052,7 @@
       <publishTime>10/24/2018 15:59:22</publishTime>
     </File>
     <File Include="Views/Crosource/Details.cshtml">
-      <publishTime>10/22/2018 09:17:20</publishTime>
+      <publishTime>11/01/2018 16:25:02</publishTime>
     </File>
     <File Include="Views/Crosource/Edit.cshtml">
       <publishTime>10/24/2018 16:19:39</publishTime>
@@ -5064,7 +5064,7 @@
       <publishTime>09/21/2018 17:10:15</publishTime>
     </File>
     <File Include="Views/Crosource/Search.cshtml">
-      <publishTime>10/23/2018 09:00:48</publishTime>
+      <publishTime>10/24/2018 17:58:28</publishTime>
     </File>
     <File Include="Views/Crosource/WinLevel.cshtml">
       <publishTime>10/09/2018 09:19:45</publishTime>

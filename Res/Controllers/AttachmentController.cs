@@ -46,14 +46,14 @@ namespace Res.Controllers
                Stream docStream = null;
                try
                {
-                  docStream = Util.ThirdParty.Aspose.WordConverter.ConvertoHtml(hpf.InputStream);
+                  docStream = Util.ThirdParty.Aspose.WordConverter.ConvertoPdf(hpf.InputStream);
                   var docFile = new UploadFile
                   {
                      Stream = docStream,
-                     FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{anotherName}{FileHelper.HtmlExtName}"
+                     FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{anotherName}{FileHelper.PdfExtName}"
                   };
                   var docResult = FileUploader.SliceUpload(docFile);
-                  if (null == docResult || null == docResult.FileUrl || !docResult.IsSuccess) return Content("word 转html失败");
+                  if (null == docResult || null == docResult.FileUrl || !docResult.IsSuccess) return Content("word 转pdf失败");
                }
                catch { }
                finally

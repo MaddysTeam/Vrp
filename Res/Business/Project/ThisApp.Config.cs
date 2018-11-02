@@ -28,6 +28,8 @@ namespace Res.Business
 
       public static string DomainCookie = "csj_Admin";
 
+      public static long CurrentActiveId = 2;
+
    }
 
 }

@@ -356,6 +356,7 @@
 		var schools=@Html.Raw(Json.Encode(ViewBag.SchoolsDic));
 		var courseType=@Model.CourseTypePKID;
 
+
 		$(function () {
 
 			if(courseType=='@CroResourceHelper.MicroClass' || courseType==0){
@@ -364,6 +365,9 @@
 			// hide first course remove button
 			$(".courseRemove:first").remove();
 			$("select option[value='']").val("0");
+
+		   //TODO:
+			$("#ActiveId option[value='1']").remove();
 
 			// relation select
 			RelationSelect($("#ProvinceId"), $("#AreaId"), areas, "选择地区");
