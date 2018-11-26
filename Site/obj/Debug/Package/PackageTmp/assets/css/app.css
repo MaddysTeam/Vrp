@@ -1391,3 +1391,8 @@ a:hover {
 	width: 0%;
 	background-color: orange;
 }
+
+
+/** register page */
+.selection{text-align:left; font-size:14px;}
+.select2-container .select2-selection{height:44px;}

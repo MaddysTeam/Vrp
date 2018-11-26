@@ -40,9 +40,7 @@
 			</div>
 			<div class="form-group" id="company">
 				<div class="col-sm-12">
-					@Html.DropDownListFor(m => m.CompanyId, (ViewBag.Companies as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择学校", new { @class = "form-control" })	  
-					<div class="text-left"><font class="text-danger">*</font>长三角千校网络结对项目学校</div>
-					@*@Html.ValidationMessageFor(m => m.CompanyId, null, new { @class = "text-danger" })*@
+					@Html.DropDownListFor(m => m.CompanyId, (ViewBag.Companies as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择学校", new { @class = "form-control" })	 
 				</div>
 			</div>
 			<div class="form-group">
@@ -69,6 +67,14 @@
 		</div>
 	</div>
 </div>
+
+@section plugins{
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
+<style>
+	
+	</style>
+}
 
 @section Scripts {
 	@Scripts.Render("~/bundles/jqueryval")
@@ -111,12 +117,17 @@
 			});
 
 
+			$('#CompanyId,#ProvinceId,#AreaId').select2({ 
+				language:{
+					noResults:function(param){
+						return "暂无数据";
+				}} 
+			});
+
 			var areas=@Html.Raw(Json.Encode(ViewBag.AreasDic));
 			var schools=@Html.Raw(Json.Encode(ViewBag.SchoolsDic));
 			RelationSelect($("#ProvinceId"), $("#AreaId"), areas, "选择地区");
 			RelationSelect($("#AreaId"), $("#CompanyId"), schools, "选择学校");
-
-
 		});
 	</script>
 }

@@ -153,9 +153,9 @@ namespace Res.Business
       public int PlayCount { get; set; }
       public int FavoriteCount { get; set; }
       public string CompanyPath { get; set; }
-      //public int ViewCount { get; set; }
-      //public int CommentCount { get; set; }
-      //public int DownCount { get; set; }
+      public int ViewCount { get; set; }
+      public int CommentCount { get; set; }
+      public int DownCount { get; set; }
       public string FileExtName { get; set; }
       public string Description { get; set; }
    }

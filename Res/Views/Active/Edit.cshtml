@@ -14,7 +14,7 @@
 		@using (Html.BeginForm("Edit", "Active", Model == null ? null : new { id = Model.ActiveId }, FormMethod.Post, new { id = "form1", role = "form", @class = "form-horizontal" }))
 		{
 			@Html.HiddenFor(m => m.ActiveId)
-
+			@Html.HiddenFor(m=> m.IsCurrent)
 			<div class="modal-body">
 				<div class="form-horizontal">
 

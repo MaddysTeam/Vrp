@@ -100,7 +100,7 @@ namespace Res.Controllers
          if (file == null)
          {
             string ext = Path.GetExtension(hpf.FileName);
-            if (ext != ".mp4")
+            if (!string.Equals(ext,".mp4",StringComparison.InvariantCultureIgnoreCase))
                return Content("上传失败");
 
             // upload file to CDN Server

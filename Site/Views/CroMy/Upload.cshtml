@@ -552,7 +552,9 @@
 									$uploader.find('.fileId').val(data.fileId);
 									//如果是封面则显示
 									if(type =='cover'){
-										$uploader.find('.coverImageArea').html('').append('<img src="'+data.path+'" style="width:100%; height:100%" class="btn-upload">');
+										var $uploadedImg=$('<img src="'+data.path+'" style="width:100%; height:100%" class="btn-upload">');
+										$uploadedImg.on('click',function(){ $('.'+dropzoneName).trigger('click');});
+										$uploader.find('.coverImageArea').html('').append($uploadedImg);
 									}
 									$uploader.find('.btn-cancel').removeClass('hidden').show();
 								})

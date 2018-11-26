@@ -54,13 +54,13 @@
 						作品：<a href="@Url.Action("ZcView", "CroResource", new { id=item.CrosourceId,courseId=item.CourseId })"><span class="restitle">@item.ResourceTitle  </span></a>
 					</p>*@
 					<p>
-						<a href="@Url.Action("ZcView", "CroResource", new { id=item.CrosourceId,courseId=item.CourseId })" title="@item.Title">@item.Title</a>
+						<div><a href="@Url.Action("ZcView", "CroResource", new { id=item.CrosourceId,courseId=item.CourseId })" title="@item.Title">@item.Title</a> </div>
 					</p>
 					<p class="t">
 						@item.Description
 					</p>
 					<p>
-						省份：<b>@item.Province</b>   市区：<b>@item.Area</b>   学校：<b>@item.School</b> 	作者：<b>@item.Author</b>   单位：<b>@item.AuthorCompany</b>   上传日期：<b>@item.CreatedTime.ToShortDateString()</b> 
+						省份：<b>@item.Province</b>   &nbsp;市区：<b>@item.Area</b>   &nbsp;学校：<b>@item.School</b> 	&nbsp;作者：<b>@item.Author</b>   &nbsp;单位：<b>@item.AuthorCompany</b>   &nbsp;上传日期：<b>@item.CreatedTime.ToShortDateString()</b>  &nbsp;&nbsp;点击量: <b>@item.ViewCount</b> &nbsp; 下载次数: <b>@item.DownCount</b> &nbsp; 评论次数: <b>@item.CommentCount</b>
 					</p>
 				</div>
 			</div>

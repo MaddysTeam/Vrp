@@ -503,13 +503,15 @@ namespace Res.Business
                         u.RealName.As("Author"))
                 .from(t, u.JoinInner(t.Creator == u.UserId))
                 .where(where)
-                .order_by(t.ActiveId.Desc)
+                //.order_by(t.CrosourceId.Desc)
                 .primary(t.CrosourceId)
                 .skip((current - 1) * rowCount)
                 .take(rowCount);
 
             if (order != null)
                query.order_by_add(order);
+            else
+               query.order_by_add(t.CrosourceId.Desc);
 
             using (APDBDef db = new APDBDef())
             {

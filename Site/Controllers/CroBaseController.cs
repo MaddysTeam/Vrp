@@ -25,7 +25,7 @@ namespace Res.Controllers
 
 
          var query = APQuery.select(cr.CrosourceId, cr.Title, cr.Author, cr.FavoriteCount,cr.ProvinceId,cr.AreaId,cr.CompanyId,
-				cr.AuthorCompany, cr.Description, cr.CreatedTime,rc.Path,//cr.ViewCount, cr.CommentCount, cr.DownCount //cr.FileExtName
+				cr.AuthorCompany, cr.Description, cr.CreatedTime,rc.Path,cr.ViewCount, cr.CommentCount, cr.DownCount,//cr.FileExtName
             mc.CourseId, mc.CourseTitle, mc.PlayCount, cf.FilePath
             )
 				.from(cr,
@@ -78,9 +78,9 @@ namespace Res.Controllers
                ProvinceId= cr.ProvinceId.GetValue(reader),
                AreaId=cr.AreaId.GetValue(reader),
                SchoolId=cr.CompanyId.GetValue(reader),
-               //ViewCount = cr.ViewCouncr.GetValue(reader),
-               //CommentCount = cr.CommentCouncr.GetValue(reader),
-               //DownCount = cr.DownCouncr.GetValue(reader),
+               ViewCount = cr.ViewCount.GetValue(reader),
+               CommentCount = cr.CommentCount.GetValue(reader),
+               DownCount = cr.DownCount.GetValue(reader),
                //FileExtName = cr.FileExtName.GetValue(reader),
                Description = des,
             };
