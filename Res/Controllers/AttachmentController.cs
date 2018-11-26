@@ -144,14 +144,10 @@ namespace Res.Controllers
          HttpPostedFileBase hpf = Request.Files[0];
          var md5 = FileHelper.ConvertToMD5(hpf.InputStream);
          var file = Files.ConditionQuery(f.Md5 == md5, null).FirstOrDefault();
-         if (file == null)
+         if (null == file)
          {
-            var result = CutAndUploadCover(hpf, 480);
-
-            if (null == result || null == result.FileUrl) return Content("上传失败");
-
-            file = new Files { Md5 = md5, FileName = hpf.FileName, FilePath = result.FileUrl, ExtName = Path.GetExtension(hpf.FileName), FileSize = hpf.ContentLength };
-            db.FilesDal.Insert(file);
+            file = CutAndUploadCover(hpf, 480, md5);
+            if (null == file) return Content("upload failure");
          }
 
          if (Request.IsAjaxRequest())
@@ -176,7 +172,7 @@ namespace Res.Controllers
       /// <param name="hpf"></param>
       /// <param name="targetWidth"></param>
       /// <returns></returns>
-      protected UploadResult CutAndUploadCover(HttpPostedFileBase hpf, int targetWidth)
+      protected Files CutAndUploadCover(HttpPostedFileBase hpf, int targetWidth, string md5)
       {
          int width, height;
          Image original = Image.FromStream(hpf.InputStream);
@@ -186,7 +182,6 @@ namespace Res.Controllers
 
          if (width > 480)
          {
-            string filename = hpf.FileName.Substring(0, hpf.FileName.LastIndexOf('.')) + ".jpg";
             var img = new Bitmap(original, targetWidth, targetWidth * height / width);
             img.Save(ms, ImageFormat.Jpeg);
          }
@@ -195,13 +190,21 @@ namespace Res.Controllers
             ms = hpf.InputStream;
          }
 
-         var file = new UploadFile { Stream = ms, FileName = $"2018/pics/{DateTime.Today.ToString("yyyyMMdd")}/{hpf.FileName}" };
-         var result = FileUploader.Upload(file);
+         var filename = md5 + Path.GetExtension(hpf.FileName);
+         var file = new UploadFile { Stream = ms, FileName = $"2018/pics/{DateTime.Today.ToString("yyyyMMdd")}/{filename}" };
+         var result = FileUploader.SliceUpload(file);
+
+         Files files = null;
+         if (result.IsSuccess)
+         {
+            files = new Files { Md5 = md5, FileName = filename, FilePath = result.FileUrl, ExtName = Path.GetExtension(filename), FileSize = hpf.ContentLength };
+            db.FilesDal.Insert(files);
+         }
 
          ms.Close();
          ms.Dispose();
 
-         return result;
+         return files;
       }
 
    }

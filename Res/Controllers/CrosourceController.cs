@@ -378,6 +378,10 @@ namespace Res.Controllers
                model.PublicStatePKID = CroResourceHelper.Public;
             }
 
+            // 微课类型为微课时，微课标题为作品标题
+            if (model.CourseTypePKID == CroResourceHelper.MicroClass)
+               model.Courses[0].CourseTitle = model.Title;
+
             model.StatePKID = model.StatePKID == CroResourceHelper.StateDeny ? CroResourceHelper.StateWait : model.StatePKID;
             APBplDef.CroResourceBpl.Insert(model);
 
