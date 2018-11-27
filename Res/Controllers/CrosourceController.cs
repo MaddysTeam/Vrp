@@ -44,8 +44,8 @@ namespace Res.Controllers
       }
 
       [HttpPost]
-      public ActionResult Search(long activeId, long provinceId, long areaId,long publicId,
-                                 long companyId, long subjectId, long deliveryId,long downloadId,
+      public ActionResult Search(long activeId, long provinceId, long areaId,
+                                 long companyId, long subjectId, long deliveryId,long stateId,
                                  long gradeId, long maxScore, long minScore,
                                  int current, int rowCount, string searchPhrase, FormCollection fc)
       {
@@ -67,7 +67,7 @@ namespace Res.Controllers
                case "Title": order = new APSqlOrderPhrase(t.Title, co.Order); break;
                case "Author": order = new APSqlOrderPhrase(u.RealName, co.Order); break;
                case "CreatedTime": order = new APSqlOrderPhrase(t.CreatedTime, co.Order); break;
-               case "State": order = new APSqlOrderPhrase(t.StatePKID, co.Order); break;
+              // case "State": order = new APSqlOrderPhrase(t.StatePKID, co.Order); break;
                case "Score": order = new APSqlOrderPhrase(t.Score, co.Order); break;
                case "WinLevel": order = new APSqlOrderPhrase(t.WinLevelPKID, co.Order); break;
             }
@@ -101,10 +101,13 @@ namespace Res.Controllers
             where &= t.SubjectPKID == subjectId;
          if (gradeId > 0)
             where &= t.GradePKID == gradeId;
-         if(publicId>0)
-            where &= t.PublicStatePKID == publicId;
-         if (downloadId > 0)
-            where &= t.DownloadStatePKID == downloadId;
+         if (stateId>0)
+            where &= t.StatePKID == stateId;
+
+         //TODO:if(publicId>0)
+         //   where &= t.PublicStatePKID == publicId;
+         //if (downloadId > 0)
+         //   where &= t.DownloadStatePKID == downloadId;
 
          var subquery = APQuery.select(dr.ResourceId).from(dr);
          // 按照报送类型过滤，当deliveryId小于0时为不报送类型

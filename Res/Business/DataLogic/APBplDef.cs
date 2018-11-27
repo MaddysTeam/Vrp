@@ -483,6 +483,7 @@ namespace Res.Business
 
       public partial class CroResourceBpl : CroResourceBplBase
       {
+
          /// Return a list for admin UI list. 
          /// </summary>
          /// <param name="total"></param>
@@ -498,20 +499,21 @@ namespace Res.Business
 
             var query = APQuery
                 .select(t.CrosourceId, t.Title, t.CreatedTime, t.StatePKID,
-                        t.EliteScore, t.CourseTypePKID,t.ProvinceId,t.AreaId,t.CompanyId,t.WinLevelPKID,t.Score,
-                        t.PublicStatePKID,t.DownloadStatePKID,
+                        t.EliteScore, t.CourseTypePKID, t.ProvinceId, t.AreaId, t.CompanyId, t.WinLevelPKID, t.Score,
+                        t.PublicStatePKID, t.DownloadStatePKID,
                         u.RealName.As("Author"))
                 .from(t, u.JoinInner(t.Creator == u.UserId))
-                .where(where)
+                .where(where);
                 //.order_by(t.CrosourceId.Desc)
-                .primary(t.CrosourceId)
-                .skip((current - 1) * rowCount)
-                .take(rowCount);
 
             if (order != null)
                query.order_by_add(order);
             else
                query.order_by_add(t.CrosourceId.Desc);
+
+           query.primary(t.CrosourceId)
+                .skip((current - 1) * rowCount)
+                .take(rowCount);
 
             using (APDBDef db = new APDBDef())
             {

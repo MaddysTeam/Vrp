@@ -183,8 +183,8 @@ namespace Res.Controllers
          foreach (var item in model.Items)
          {
             var maxScore = list.Find(x => x.IndicationId == item.IndicationId).Score;
-            if (item.Score <= 0 || item.Score > maxScore)
-               return Request.IsAjaxRequest() ? (ActionResult)Json(new { msg = "分数设置不合理，请检查" }) : IsNotAjax();
+            if (item.Score < 0 || item.Score > maxScore)
+               return Request.IsAjaxRequest() ? (ActionResult)Json(new { error = "true", msg = "分数设置不合理，请检查" }) : IsNotAjax();
          }
 
          db.BeginTrans();

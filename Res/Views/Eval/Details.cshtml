@@ -119,7 +119,7 @@
 												@*<th>项目</th>
 								<th >级别</th>
 								<th class="width100" >评价项目</th>*@
-												<th class="width200">指标项</th>
+												<th class="width100">指标项</th>
 												<th class="width100">指标描述</th>
 												<th>满分</th>
 												<th>得分</th>
@@ -130,8 +130,6 @@
 											{
 												<tr class="indication">
 													<td>@item.IndicationName</td>
-													@*<td>@item.Level</td>
-													<td>@item.Type</td>*@
 													<td>@item.Description</td>
 													<td><label class="form-control disabled">@item.Score</label></td>
 													<td>
@@ -413,12 +411,12 @@
 				});
 
 				$.post('@Url.Action("Execute","Eval")',{model:o},function(data,status){
-					if (status == "success") {
+					if (data.error == "none") {
 						location.href="/Eval/Search";
 						alertify.success(data.msg);
 					}
 					else {
-						alertify.error(ajaxErrorMessage);
+						alertify.error(data.msg);
 					}
 				});
 			});

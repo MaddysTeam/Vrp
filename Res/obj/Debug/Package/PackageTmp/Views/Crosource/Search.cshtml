@@ -87,11 +87,11 @@
 						<div class="col-sm-2" style="margin-top:10px;">
 							@Html.DropDownList("Delivery", deliverySelectList, "报送状态", new { @class = "form-control search-field" })
 						</div>
-						<div class="col-sm-2" style="margin-top:10px;">
+						@*<div class="col-sm-2" style="margin-top:10px;">
 							@Html.DropDownList("Public", CroResourceHelper.PublicState.GetSelectList(), "选择公开状态", new { @class = "form-control search-field" })
-						</div>
+						</div>*@
 						<div class="col-sm-2" style="margin-top:10px;">
-							@Html.DropDownList("Download", CroResourceHelper.DownloadState.GetSelectList(), "选择下载状态", new { @class = "form-control search-field" })
+							@Html.DropDownList("State", CroResourceHelper.State.GetSelectList(), "状态", new { @class = "form-control search-field" })
 						</div>
 						<div class="col-sm-2" style="margin-top:10px;">
 							@Html.TextBox("MinScore", null, new { @class = "form-control score", @placeholder = "大于得分" })
@@ -158,8 +158,8 @@
 				minScore:$('#MinScore').val()==''? 0:$('#MinScore').val(),
 				maxScore:$('#MaxScore').val()==''? 0:$('#MaxScore').val(),
 				deliveryId:$('#Delivery').val()==''? 0:$('#Delivery').val(),
-				publicId:$('#Public').val()==''? 0:$('#Public').val(),
-				downloadId:$('#Download').val()==''? 0:$('#Download').val(),
+				//publicId:$('#Public').val()==''? 0:$('#Public').val(),
+				stateId:$('#State').val()==''? 0:$('#State').val(),
 			};
 		}
 
