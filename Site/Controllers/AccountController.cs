@@ -193,8 +193,15 @@ namespace Res.Controllers
             else
                return Json(new { error = "none", msg ="注册成功", returnUrl=Url.Action("Index", "CroHome") });
          }
+         else
+         {
+            if (!Request.IsAjaxRequest())
+               return RedirectToAction("Index", "CroHome");
+            else 
+            return Json(new { error = "true", msg = result.Errors.FirstOrDefault(), returnUrl = Url.Action("Index", "CroHome") });
+         }
 
-         return View(model);
+        // return View(model);
       }
 
 

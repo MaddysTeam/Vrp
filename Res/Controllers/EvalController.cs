@@ -21,6 +21,11 @@ namespace Res.Controllers
       static APDBDef.EvalResultTableDef er = APDBDef.EvalResult;
       static APDBDef.EvalResultItemTableDef eri = APDBDef.EvalResultItem;
 
+      public EvalController()
+      {
+         _pdfRender = new HtmlRender();
+      }
+
       //
       //	评审 - 查询
       // GET:		/Eval/Search
@@ -38,7 +43,7 @@ namespace Res.Controllers
          var user = ResSettings.SettingsInSession.User;
          var expertId = ResSettings.SettingsInSession.UserId;
          var query = APQuery.select(r.CrosourceId, r.Title, r.CourseTypePKID, r.Author, r.SubjectPKID, r.AuthorCompany, r.Keywords, r.GradePKID,
-                                   eg.GroupName, eg.GroupId.As("groupId"), er.Score, er.ResultId.As("resultId"))
+                                   eg.GroupName, eg.GroupId.As("groupId"), er.ResultId, er.Score, er.ResultId.As("resultId"))
                             .from(egr,
                                   r.JoinInner(egr.ResourceId == r.CrosourceId),
                                   eg.JoinInner(eg.GroupId == egr.GroupId),
@@ -51,7 +56,7 @@ namespace Res.Controllers
          {
             query.where(eg.GroupName.Match(searchPhrase));
          }
-         
+
          //TODO：只要加到组里的专家不用数据范围
          //if (user.ProvinceId > 0)
          //   query.where_and(r.ProvinceId == user.ProvinceId);
@@ -81,6 +86,7 @@ namespace Res.Controllers
                groupName = eg.GroupName.GetValue(rd),
                groupId = eg.GroupId.GetValue(rd, "groupId"),
                score = er.Score.GetValue(rd),
+               isEval = er.ResultId.GetValue(rd) > 0
             };
          }).ToList();
 
@@ -99,7 +105,7 @@ namespace Res.Controllers
       // GET:		/Eval/Details
       //
 
-      public ActionResult Details(long id, long resId,long? courseId, long groupId, long? expertId)
+      public ActionResult Details(long id, long resId, long? courseId, long groupId, long? expertId)
       {
          var expert = expertId == null ? ResSettings.SettingsInSession.User : APBplDef.ResUserBpl.PrimaryGet(expertId.Value);
          if (expert == null) throw new ArgumentException("expert can not be null");
@@ -110,7 +116,7 @@ namespace Res.Controllers
 
          var model = APBplDef.CroResourceBpl.GetResource(db, resId);
 
-         var query = APQuery.select(i.IndicationId, i.Description, i.LevelPKID, i.Score,i.IndicationName,
+         var query = APQuery.select(i.IndicationId, i.Description, i.LevelPKID, i.Score, i.IndicationName,
                                     i.TypePKID, i.ActiveId, a.ActiveName, a.ActiveId,
                                     eri.ResultId, eri.Score.As("evalScore"),
                                     er.Comment, er.ExpertId)
@@ -120,35 +126,28 @@ namespace Res.Controllers
                  er.JoinLeft(er.ResultId == eri.ResultId & er.ResultId == id)
             );
 
-         // 数据范围
+         string comment = string.Empty,
+                expId = string.Empty;
 
-         //if (expert.ProvinceId > 0)
-         //   query.where(i.LevelPKID == IndicationHelper.ProvinceLevel);
-         //else if (expert.AreaId > 0)
-         //   query.where(i.LevelPKID == IndicationHelper.CityLevel);
-         //else
-         //   query.where(i.LevelPKID == IndicationHelper.UnionLevel);
-
-
-         string comment = string.Empty, expId = string.Empty;
          // 指标列表
          var list = query.query(db, r =>
-           {
-              comment = er.Comment.GetValue(r);
-              expId = er.ExpertId.GetValue(r).ToString();
+         {
+            comment = er.Comment.GetValue(r);
+            expId = er.ExpertId.GetValue(r).ToString();
 
-              var indication = new Indication();
-              indication.IndicationName = i.IndicationName.GetValue(r);
-              indication.ActiveId = a.ActiveId.GetValue(r);
-              indication.ActiveName = a.ActiveName.GetValue(r);
-              indication.IndicationId = i.IndicationId.GetValue(r);
-              indication.Description = i.Description.GetValue(r);
-              indication.EvalScore = eri.Score.GetValue(r, "evalScore");
-              indication.Score = (int)eri.Score.GetValue(r);
-              indication.LevelPKID = i.LevelPKID.GetValue(r);
-              indication.TypePKID = i.TypePKID.GetValue(r);
-              return indication;
-           }).ToList();
+            var indication = new Indication();
+            indication.IndicationName = i.IndicationName.GetValue(r);
+            indication.ActiveId = a.ActiveId.GetValue(r);
+            indication.ActiveName = a.ActiveName.GetValue(r);
+            indication.IndicationId = i.IndicationId.GetValue(r);
+            indication.Description = i.Description.GetValue(r);
+            indication.EvalScore = eri.Score.GetValue(r, "evalScore");
+            indication.Score = (int)eri.Score.GetValue(r);
+            indication.LevelPKID = i.LevelPKID.GetValue(r);
+            indication.TypePKID = i.TypePKID.GetValue(r);
+            return indication;
+         }).ToList();
+
 
          ViewBag.isSlef = (string.IsNullOrEmpty(expId) ? 0 : Convert.ToInt32(expId)) == ResSettings.SettingsInSession.UserId || (id == 0 && expert.UserTypePKID == ResUserHelper.Export);
 
@@ -156,9 +155,82 @@ namespace Res.Controllers
 
          ViewBag.Comment = comment;
 
-         ViewBag.CurrentCourse =  courseId == null || courseId.Value == 0 ? model.Courses[0] : model.Courses.Find(c => c.CourseId == courseId);
+         ViewBag.CurrentCourse = courseId == null || courseId.Value == 0 ? model.Courses[0] : model.Courses.Find(c => c.CourseId == courseId.Value);
 
          return View(model);
+      }
+
+
+      //
+      //	评审 - 评审导出
+      // GET:		/Eval/Export
+      //
+      public ActionResult Export(long id, long resId, long groupId, long? expertId)
+      {
+         var expert = expertId == null ? ResSettings.SettingsInSession.User : APBplDef.ResUserBpl.PrimaryGet(expertId.Value);
+         if (expert == null) throw new ArgumentException("expert can not be null");
+
+         var i = APDBDef.Indication;
+         var a = APDBDef.Active;
+         var er = APDBDef.EvalResult;
+         var u = APDBDef.ResUser;
+         var ege = APDBDef.EvalGroupExpert;
+         var egr = APDBDef.EvalGroupResource;
+
+         var model = APBplDef.CroResourceBpl.GetResource(db, resId);
+         var query = APQuery.select(i.IndicationId, i.Description, i.LevelPKID, i.Score, i.IndicationName,
+                                    i.TypePKID, i.ActiveId, a.ActiveName, a.ActiveId,
+                                    eri.ResultId, eri.Score.As("evalScore"),
+                                    er.Comment, er.ExpertId)
+            .from(i,
+                 a.JoinInner(a.ActiveId == i.ActiveId),
+                 eri.JoinLeft(eri.IndicationId == i.IndicationId & eri.ResultId == id),
+                 er.JoinLeft(er.ResultId == eri.ResultId & er.ResultId == id)
+            );
+
+         string comment = string.Empty, expId = string.Empty;
+
+         // indication list
+
+         var list = query.query(db, r =>
+         {
+            comment = er.Comment.GetValue(r);
+            expId = er.ExpertId.GetValue(r).ToString();
+
+            var indication = new Indication();
+            indication.IndicationName = i.IndicationName.GetValue(r);
+            indication.ActiveId = a.ActiveId.GetValue(r);
+            indication.ActiveName = a.ActiveName.GetValue(r);
+            indication.IndicationId = i.IndicationId.GetValue(r);
+            indication.Description = i.Description.GetValue(r);
+            indication.EvalScore = eri.Score.GetValue(r, "evalScore");
+            indication.Score = (int)eri.Score.GetValue(r);
+            indication.LevelPKID = i.LevelPKID.GetValue(r);
+            indication.TypePKID = i.TypePKID.GetValue(r);
+            return indication;
+         }).ToList();
+
+
+         var subquery = APQuery.select(egr.GroupId).from(egr).where(egr.ResourceId == resId);
+
+         var experts = APQuery.select(u.UserId, u.RealName)
+             .from(
+                 u,
+                 ege.JoinLeft(ege.ExpertId == u.UserId)
+                 )
+             .where(ege.GroupId.In(subquery))
+             .group_by(u.UserId, u.RealName)
+             .query(db, r => u.RealName.GetValue(r))
+             .ToArray();
+
+         // Expert html to pdf
+
+         var htmlText = _pdfRender.RenderViewToString(this, "Export", new EvalExportViewModel { Experts = experts, Resource = model, Indications = list, EvalComment = comment });
+         byte[] pdfFile = FormatConverter.ConvertHtmlTextToPDF(htmlText);
+
+         return new BinaryContentResult($"【{model.Title}】评审结果.pdf", "application/pdf", pdfFile);
+
+         //return View(new EvalExportViewModel { Experts = experts, Resource = model, Indications = list, EvalComment = comment });
       }
 
 
@@ -173,6 +245,10 @@ namespace Res.Controllers
          if (model == null || model.Items == null || model.Items.Count <= 0)
          {
             return Request.IsAjaxRequest() ? (ActionResult)Json(new { msg = "系统参数异常，请联系管理员" }) : IsNotAjax();
+         }
+         if (string.IsNullOrEmpty(model.Comment))
+         {
+            return Request.IsAjaxRequest() ? (ActionResult)Json(new { error = "true", msg = "必须填写评语" }) : IsNotAjax();
          }
 
          // 评审打分记录
@@ -227,6 +303,9 @@ namespace Res.Controllers
 
          return Request.IsAjaxRequest() ? (ActionResult)Json(new { error = "none", msg = "操作成功" }) : IsNotAjax();
       }
+
+
+      private HtmlRender _pdfRender;
 
    }
 

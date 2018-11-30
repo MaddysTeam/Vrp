@@ -44,6 +44,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.13\lib\itextsharp.xmlworker.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
@@ -172,7 +180,10 @@
     <Compile Include="Business\Project\ThisApp.Config.cs" />
     <Compile Include="Business\Project\ThisApp.PickList.cs" />
     <Compile Include="Business\Utils\ActiveHelper.cs" />
+    <Compile Include="Business\Utils\BinaryContentResult.cs" />
     <Compile Include="Business\Utils\FileHelper.cs" />
+    <Compile Include="Business\Utils\FormatConverter.cs" />
+    <Compile Include="Business\Utils\HtmlRender.cs" />
     <Compile Include="Business\Utils\IndicationHelper.cs" />
     <Compile Include="Business\Utils\GridOrder.cs" />
     <Compile Include="Business\Utils\IDCardCheck.cs" />
@@ -1840,6 +1851,8 @@
     <Content Include="Views\User\_preview.cshtml" />
     <Content Include="Views\Crosource\_publicSetting.cshtml" />
     <Content Include="Views\Crosource\_downloadSetting.cshtml" />
+    <Content Include="Views\Eval\Export.cshtml" />
+    <Content Include="Views\Shared\_PDFLayout.cshtml" />
     <None Include="xml.schema.definition\apgen.xsd">
       <SubType>Designer</SubType>
     </None>

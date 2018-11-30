@@ -137,7 +137,7 @@ namespace Res.Controllers
 
          if (type == CroResourceHelper.Hot)
          {
-            ViewBag.ListOfMore = CroHomeRankingList(t.ViewCount.Desc, null, out total, 10, (page - 1) * 10);
+            ViewBag.ListOfMore = CroHomeRankingList(APDBDef.MicroCourse.PlayCount.Desc, null, out total, 10, (page - 1) * 10);
             ViewBag.Title = "热门微课";
          }
          else if (type == CroResourceHelper.Praise)
@@ -178,7 +178,7 @@ namespace Res.Controllers
          ViewBag.PageNumber = page;
          ViewBag.TotalItemCount = total;
          // 右侧热门作品
-         ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5);
+         ViewBag.RankingROfHotViewCount = CroHomeRankingList(APDBDef.MicroCourse.PlayCount.Desc, null, out total, 5);
          // 右侧最新作品
          ViewBag.RankingROfNewCount = CroHomeRankingList(APDBDef.CroResource.CreatedTime.Desc, null, out total, 5);
 

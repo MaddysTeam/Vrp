@@ -227,4 +227,12 @@ namespace Res.Business
       public string Phone { get; set; }
    }
 
+   public class EvalExportViewModel
+   {
+      public CroResource Resource { get; set; }
+      public List<Indication> Indications { get; set; }
+      public string EvalComment { get; set; }
+      public string[] Experts { get; set; }
+   }
+
 }

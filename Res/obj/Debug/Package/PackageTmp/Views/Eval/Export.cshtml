@@ -1,0 +1,89 @@
+﻿@model EvalExportViewModel
+@{
+	Layout = "~/Views/Shared/_PDFLayout.cshtml";
+
+	ViewBag.Title = "作品评审";
+
+	var indications = Model.Indications;
+}
+<style>
+	 td{ border:1px solid rgb(221,221,221); height:50px; font-weight:lighter; padding:10px;word-break:break-all;}
+	 .data td,.data-cell{font-size:13px; color:cornflowerblue;padding:10px}
+	 .sign td{border-left:0px; border-bottom:0px; border-right:0px;padding:10px}
+	 .title td{border:0px;}
+</style>
+<div class="col-md-10 content-wrapper" >
+	<table style="width:100%"  cellpadding="0" cellspacing="0">
+		<tr class="title">
+			<td colspan="5"  align="center">
+				<h3>上海市中小学机器人教学微视频评审意见表</h3>
+			</td>
+		</tr>
+		<tr>
+			<td valign="middle" align="center" >作品名称</td>
+			<td align="center" colspan="4">@Model.Resource.Title</td>
+		</tr>
+		@*<tr>
+			<td valign="middle" align="center"  style="width:130px;">作品描述</td>
+			<td colspan="4" class="data-cell">&nbsp;&nbsp;&nbsp;@Model.Resource.Description</td>
+		</tr>*@
+		<tr class="">
+			<td valign="middle" align="center" rowspan="2">作者信息</td>
+			<td align="center" style="width:150px">姓名</td>
+			<td align="center" colspan="3">所在单位</td>
+		</tr>
+		<tr class="data">
+			<td align="center">@Model.Resource.Author</td>
+			<td colspan="3" align="center">@Model.Resource.AuthorCompany</td>
+		</tr>
+		@*<tr class="title">
+			<td align="center" >电话</td>
+			<td align="center" colspan="3">邮箱</td>
+			
+		</tr>
+		<tr class="data">
+			<td align="center">@Model.Resource.AuthorPhone</td>
+			<td colspan="3" align="center">@Model.Resource.AuthorEmail</td>
+		</tr>*@
+		@*<tr>
+			<td align="center">专家组成员</td>
+			<td colspan="4" class="data-cell">
+				&nbsp;&nbsp;&nbsp; @string.Join(" , ",Model.Experts);	
+			</td>
+		</tr>*@
+		<tr class="">
+			<td valign="middle" align="center" rowspan="@(indications.Count+1)">评审指标</td>
+			<td align="center">评估指标</td>
+			<td align="center" style="width:20%">评估内容</td>
+			<td align="center" >权重</td>
+			<td align="center" >评分</td>
+		</tr>
+		@foreach (var item in indications)
+		{
+			<tr class="data">
+				<td valign="middle" align="center">@item.IndicationName</td>
+				<td valign="middle" align="left">@item.Description</td>
+				<td valign="middle" align="center">@item.Score</td>
+				<td valign="middle" align="center">@item.EvalScore</td>
+			</tr>
+		}
+		<tr class="">
+			<td valign="middle" align="center" colspan="3">合计分数(100)</td>
+			<td align="center" colspan="2" class="data-cell">@indications.Sum(x => x.EvalScore)</td>
+		</tr>
+		<tr class="">
+			<td valign="middle" align="center">评审意见</td>
+			<td colspan="4" class="data-cell">
+			&nbsp;&nbsp;&nbsp;	@Model.EvalComment
+			</td>
+		</tr>
+		<tr class="sign">
+			<td colspan="3" align="right">
+				评审专家:   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+			</td>
+			<td></td>
+			<td align="right"> 评审日期： &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
+		</tr>
+	</table>
+</div>
+

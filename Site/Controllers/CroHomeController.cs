@@ -32,7 +32,7 @@ namespace Res.Controllers
          // 首页--活跃用户
          ViewBag.RankingOfActiveUser =  CroHomeActiveUserList(out total, 9);
          // 首页--热门作品
-         ViewBag.RankingOfRMViewCount = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc, null, out total, 5);
+         ViewBag.RankingOfRMViewCount = CroHomeRankingList(APDBDef.MicroCourse.PlayCount.Desc, null, out total, 5);
          // 首页--公告
          ViewBag.RankingOfBulletin = HomeCroBulltinList(APDBDef.CroBulletin.CreatedTime.Desc, out total, 5);
          return View();
@@ -47,7 +47,7 @@ namespace Res.Controllers
          int total;
          var t = APDBDef.CroResource;
 
-         var list = CroHomeRankingList(APDBDef.CroResource.EliteScore.Desc,null, out total, 8);
+         var list = CroHomeRankingList(APDBDef.MicroCourse.PlayCount.Desc, null, out total, 8);
          return PartialView("_Hot", list);
       }
 

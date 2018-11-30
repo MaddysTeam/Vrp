@@ -931,16 +931,16 @@
     <Content Include="Views\My\ChgPwd.cshtml" />
     <Content Include="Views\Shared\_CroLayout.cshtml" />
     <Content Include="Views\Shared\_sidebar.cshtml" />
-    <Content Include="Views\CroMy\Comment.cshtml" />
-    <Content Include="Views\CroMy\Edit.cshtml" />
-    <Content Include="Views\CroMy\Favorite.cshtml" />
-    <Content Include="Views\CroMy\Index.cshtml" />
-    <Content Include="Views\CroMy\CroMyResource.cshtml" />
-    <Content Include="Views\CroMy\Upload.cshtml" />
-    <Content Include="Views\CroMy\More.cshtml" />
-    <Content Include="Views\CroMy\CroMyFavorite.cshtml" />
-    <Content Include="Views\CroMy\CroMyComment.cshtml" />
-    <Content Include="Views\CroMy\CroMyDownload.cshtml" />
+    <Content Include="Views\CroHome\CroMy\Comment.cshtml" />
+    <Content Include="Views\CroHome\CroMy\Edit.cshtml" />
+    <Content Include="Views\CroHome\CroMy\Favorite.cshtml" />
+    <Content Include="Views\CroHome\CroMy\Index.cshtml" />
+    <Content Include="Views\CroHome\CroMy\CroMyResource.cshtml" />
+    <Content Include="Views\CroHome\CroMy\Upload.cshtml" />
+    <Content Include="Views\CroHome\CroMy\More.cshtml" />
+    <Content Include="Views\CroHome\CroMy\CroMyFavorite.cshtml" />
+    <Content Include="Views\CroHome\CroMy\CroMyComment.cshtml" />
+    <Content Include="Views\CroHome\CroMy\CroMyDownload.cshtml" />
     <Content Include="Views\CroHome\Index.cshtml" />
     <Content Include="Views\CroHome\_Hot.cshtml" />
     <Content Include="Views\CroHome\_New.cshtml" />
@@ -954,7 +954,7 @@
     <Content Include="Views\CroResource\NewsMore.cshtml" />
     <Content Include="Views\CroResource\More.cshtml" />
     <Content Include="Views\CroResource\NewsView.cshtml" />
-    <Content Include="Views\CroMy\NewsView.cshtml" />
+    <Content Include="Views\CroHome\CroMy\NewsView.cshtml" />
     <Content Include="Business\DataLogic\Business.apgen">
       <SubType>Designer</SubType>
     </Content>
@@ -964,7 +964,7 @@
     <None Include="Properties\PublishProfiles\MapSite.pubxml" />
     <Content Include="Views\CroUser\MoreUser.cshtml" />
     <Content Include="Views\Shared\_CroViewLayout.cshtml" />
-    <Content Include="Views\CroMy\Declare.cshtml" />
+    <Content Include="Views\CroHome\CroMy\Declare.cshtml" />
     <Content Include="Views\Shared\_mzLayout.cshtml" />
     <Content Include="Views\CroBulletin\More.cshtml" />
     <Content Include="Views\CroBulletin\View.cshtml" />
@@ -972,12 +972,12 @@
     <Content Include="Views\Shared\_ZcLayout.cshtml" />
     <None Include="Properties\PublishProfiles\Site.pubxml" />
     <Content Include="Views\Shared\_ZSLayout.cshtml" />
-    <Content Include="Views\CroMy\CroMyCourses.cshtml" />
+    <Content Include="Views\CroHome\CroMy\CroMyCourses.cshtml" />
     <Content Include="Views\CroHome\_Favorite.cshtml" />
     <Content Include="Views\CroHome\_Province.cshtml" />
-    <Content Include="Views\CroMy\ChgPwd.cshtml" />
+    <Content Include="Views\CroHome\CroMy\ChgPwd.cshtml" />
     <Content Include="Views\CroResource\_exercies.cshtml" />
-    <Content Include="Views\CroMy\CroMyPraise.cshtml" />
+    <Content Include="Views\CroHome\CroMy\CroMyPraise.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

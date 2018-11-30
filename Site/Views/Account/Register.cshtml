@@ -28,19 +28,19 @@
 			</div>
 			<div class="form-group" id="province">
 				<div class="col-sm-12">
-					@Html.DropDownListFor(m => m.ProvinceId, (ViewBag.Provinces as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择省份", new { @class = "form-control" })
+					@Html.DropDownListFor(m => m.ProvinceId, (ViewBag.Provinces as List<ResCompany>?? new List<ResCompany>()).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择省份", new { @class = "form-control" })
 					@Html.ValidationMessageFor(m => m.ProvinceId, null, new { @class = "text-danger" })
 				</div>
 			</div>
 			<div class="form-group" id="area">
 				<div class="col-sm-12">
-					@Html.DropDownListFor(m => m.AreaId, (ViewBag.Areas as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择地区", new { @class = "form-control" })
+					@Html.DropDownListFor(m => m.AreaId, (ViewBag.Areas as List<ResCompany> ?? new List<ResCompany>()).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择地区", new { @class = "form-control" })
 				   @Html.ValidationMessageFor(m => m.AreaId, null, new { @class = "text-danger" })
 				</div>
 			</div>
 			<div class="form-group" id="company">
 				<div class="col-sm-12">
-					@Html.DropDownListFor(m => m.CompanyId, (ViewBag.Companies as List<ResCompany>).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择学校", new { @class = "form-control" })	 
+					@Html.DropDownListFor(m => m.CompanyId, (ViewBag.Companies as List<ResCompany> ?? new List<ResCompany>()).Select(x => new SelectListItem { Text = x.CompanyName, Value = x.CompanyId.ToString() }), "选择学校", new { @class = "form-control" })	 
 				</div>
 			</div>
 			<div class="form-group">

@@ -68,18 +68,28 @@
 						<!-- left side, main content -->
 						<div class="col-lg-7">
 							<div class="row">
-								<div class="col-sm-12">
-									@if (course.VideoPath != null)
+								@if (course.VideoPath != null)
+								{
+									if (course.VideoPath.IndexOf(".mp4") >= 0 || course.VideoPath.IndexOf(".flv") >= 0)
 									{
-										<div id="video"></div>
+										<div id="video" class="carousel slide" style="width:100%;height:500px">
+											<div id='player'></div>
+										</div>
 									}
-									else
+									else if (!string.IsNullOrEmpty(course.CoverPath))
 									{
 										<img style="width:100%" height="100%" src="@course.FitCoverPath" />
 									}
-									@*<img class="cover-img img-frame" src="@Model.CoverPath" />*@
-								</div>
 
+									<div style="margin:10px;">
+										<a href="@course.VideoPath" class="btn btn-lg btn-block btn-info"><i class="fa fa-download"></i> 下载课程文件</a>
+									</div>
+
+								}
+								else
+								{
+									<img style="width:100%" height="100%" src="@course.FitCoverPath" />
+								}
 							</div> <!-- row -->
 							<hr />
 							<div>
@@ -120,9 +130,9 @@
 								<th >级别</th>
 								<th class="width100" >评价项目</th>*@
 												<th class="width100">指标项</th>
-												<th class="width100">指标描述</th>
+												<th>指标描述</th>
 												<th>满分</th>
-												<th>得分</th>
+												<th style="width:90px;">得分</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -130,6 +140,8 @@
 											{
 												<tr class="indication">
 													<td>@item.IndicationName</td>
+													@*<td>@item.Level</td>
+													<td>@item.Type</td>*@
 													<td>@item.Description</td>
 													<td><label class="form-control disabled">@item.Score</label></td>
 													<td>
@@ -150,7 +162,7 @@
 									</table>
 									@if ((bool)ViewBag.isSlef)
 									{
-										<a class="btn btn-block btn-danger btn-eval" href="#">确定评审</a>
+										<a class="btn btn-block btn-danger btn-eval" href="#">提交</a>
                            }
 								</div>
 							</div>
@@ -356,8 +368,8 @@
 			$("#comment").keyup(function () {
 				$(".img_ta_num").html("评语还可以填写"+(150 - $(this).val().length)+"个字")
 			})
-
-			var hasVideo='@course.VideoPath'!='';
+			var videoPath='@course.VideoPath';
+			var hasVideo=videoPath!='' && (videoPath.indexOf('.mp4')>=0 || videoPath.indexOf('.flv')>=0 );
 			var id = @Model.CrosourceId;
 			var path='@course.VideoPath';
 			var ua = navigator.userAgent;
