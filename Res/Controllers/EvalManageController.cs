@@ -13,6 +13,8 @@ namespace Res.Controllers
    public class EvalManageController : BaseController
    {
 
+      static APDBDef.EvalResultTableDef er = APDBDef.EvalResult;
+
       //
       //	评审组 - 查询
       // GET:		/EvalManage/Search
@@ -27,7 +29,7 @@ namespace Res.Controllers
       }
 
       [HttpPost]
-      public ActionResult Search(int activeId,int current, int rowCount, string searchPhrase, FormCollection fc)
+      public ActionResult Search(int activeId, int current, int rowCount, string searchPhrase, FormCollection fc)
       {
          var user = ResSettings.SettingsInSession.User;
          var eg = APDBDef.EvalGroup;
@@ -174,7 +176,7 @@ namespace Res.Controllers
       public ActionResult ExpList(int id)
       {
          InitAreaDropDownData(false);
-         return PartialView("_expList",id);
+         return PartialView("_expList", id);
       }
 
       [HttpPost]
@@ -263,7 +265,7 @@ namespace Res.Controllers
       // GET: ExpManage/ResList
       // POST-Ajax: ExpManage/ResList
 
-      public ActionResult ResList(int id,int activeId)
+      public ActionResult ResList(int id, int activeId)
       {
          InitAreaDropDownData(true);
 
@@ -271,7 +273,7 @@ namespace Res.Controllers
       }
 
       [HttpPost]
-      public ActionResult ResList(long id,long activeId, long provinceId, long areaId, long companyId, long subjectId,
+      public ActionResult ResList(long id, long activeId, long provinceId, long areaId, long companyId, long subjectId,
                                  long gradeId, int current, int rowCount, string searchPhrase)
       {
          ThrowNotAjax();
@@ -297,7 +299,7 @@ namespace Res.Controllers
          if (!string.IsNullOrEmpty(searchPhrase))
          {
             searchPhrase = searchPhrase.Trim();
-            query.where_and(r.Author.Match(searchPhrase) | r.Description.Match(searchPhrase));
+            query.where_and(r.Author.Match(searchPhrase) | r.Description.Match(searchPhrase) | r.Title.Match(searchPhrase));
          }
 
          // 按项目，年级，学科,省市，地区，单位数据过滤
@@ -309,7 +311,7 @@ namespace Res.Controllers
             query.where_and(r.GradePKID == gradeId);
          if (provinceId > 0)
             query.where_and(r.ProvinceId == provinceId);
-         if (areaId> 0)
+         if (areaId > 0)
             query.where_and(r.AreaId == areaId);
          if (companyId > 0)
             query.where_and(r.CompanyId == companyId);
@@ -391,7 +393,7 @@ namespace Res.Controllers
       }
 
       [HttpPost]
-      public  ActionResult MulitAssignRes(long id ,string ids)
+      public ActionResult MulitAssignRes(long id, string ids)
       {
          var egr = APDBDef.EvalGroupResource;
          var allRes = APBplDef.EvalGroupResourceBpl.GetAll();
@@ -407,6 +409,7 @@ namespace Res.Controllers
 
          return Json(new
          {
+            error = "none",
             msg = "编辑成功"
          });
       }
@@ -414,10 +417,22 @@ namespace Res.Controllers
       [HttpPost]
       public ActionResult RemoveRes(long id)
       {
-         var isExists = APBplDef.EvalGroupResourceBpl.PrimaryGet(id) != null;
-         if (isExists)
+         var isExists = APBplDef.EvalGroupResourceBpl.PrimaryGet(id);
+         if (isExists != null)
          {
-            APBplDef.EvalGroupResourceBpl.PrimaryDelete(id);
+            var isEval = APBplDef.EvalResultBpl.ConditionQueryCount(er.GroupId == isExists.GroupId & er.ResourceId == isExists.ResourceId) > 0;
+            if (!isEval)
+            {
+               APBplDef.EvalGroupResourceBpl.PrimaryDelete(id);
+            }
+            else
+            {
+               return Json(new
+               {
+                  error = "error",
+                  msg = "无法取消分配已经执行考核的作品"
+               });
+            }
          }
 
          return Json(new
@@ -428,22 +443,34 @@ namespace Res.Controllers
       }
 
       [HttpPost]
-      public ActionResult MulitRemoveRes(long id,string ids)
+      public ActionResult MulitRemoveRes(long id, string ids)
       {
          var egr = APDBDef.EvalGroupResource;
          var allRes = APBplDef.EvalGroupResourceBpl.GetAll();
+         var allGroupEvaledRes = APBplDef.EvalResultBpl.ConditionQuery(er.GroupId == id, null);
          var array = ids.Split(',');
+         var removeIds = new List<long>();
+
          foreach (var item in array)
          {
             var resId = Convert.ToInt64(item);
             if (allRes.Exists(a => a.GroupId == id && a.ResourceId == resId))
             {
-               APBplDef.EvalGroupResourceBpl.ConditionDelete(egr.ResourceId==resId & egr.GroupId==id);
+               var resourceId = Convert.ToInt64(item);
+               var assigedRes = allRes.FindLast(a => a.GroupId == id && a.ResourceId == resourceId);
+               if (assigedRes != null && !allGroupEvaledRes.Exists(x => x.ResourceId == resourceId))
+               {
+                  removeIds.Add(assigedRes.GroupResourceId);
+               }
             }
          }
 
+         if(removeIds.Count>0)
+            APBplDef.EvalGroupResourceBpl.ConditionDelete(egr.GroupResourceId.In(removeIds.ToArray()));
+
          return Json(new
          {
+            error = "none",
             msg = "编辑成功"
          });
       }
@@ -478,22 +505,24 @@ namespace Res.Controllers
       }
 
       [HttpPost]
-      public ActionResult MulitAssignExp(long id,string ids)
+      public ActionResult MulitAssignExp(long id, string ids)
       {
          var ege = APDBDef.EvalGroupExpert;
          var allAssign = APBplDef.EvalGroupExpertBpl.GetAll();
 
          var array = ids.Split(',');
-         foreach(var item in array)
+         foreach (var item in array)
          {
             var expertId = Convert.ToInt64(item);
-            if (!allAssign.Exists(a => a.GroupId==id && a.ExpertId== expertId))
+            if (!allAssign.Exists(a => a.GroupId == id && a.ExpertId == expertId))
             {
-               APBplDef.EvalGroupExpertBpl.Insert(new EvalGroupExpert {  ExpertId=expertId, GroupId=id});
+               APBplDef.EvalGroupExpertBpl.Insert(new EvalGroupExpert { ExpertId = expertId, GroupId = id });
             }
          }
 
-         return Json(new {
+         return Json(new
+         {
+            error = "none",
             msg = "编辑成功"
          });
       }
@@ -501,10 +530,23 @@ namespace Res.Controllers
       [HttpPost]
       public ActionResult RemoveExp(long id)
       {
-         var isExists = APBplDef.EvalGroupExpertBpl.PrimaryGet(id) != null;
-         if (isExists)
+         var isExists = APBplDef.EvalGroupExpertBpl.PrimaryGet(id);
+         if (isExists != null)
          {
-            APBplDef.EvalGroupExpertBpl.PrimaryDelete(id);
+            var isEval = APBplDef.EvalResultBpl.ConditionQueryCount(er.GroupId == isExists.GroupId & er.ExpertId == isExists.ExpertId) > 0;
+            if (!isEval)
+            {
+               APBplDef.EvalGroupExpertBpl.PrimaryDelete(id);
+            }
+            else
+            {
+               return Json(new
+               {
+                  error = "error",
+                  msg = "无法取消分配已经执行考核的专家"
+               });
+            }
+
          }
 
          return Json(new
@@ -519,19 +561,25 @@ namespace Res.Controllers
       {
          var ege = APDBDef.EvalGroupExpert;
          var allAssign = APBplDef.EvalGroupExpertBpl.GetAll();
+         var allGroupExpEval = APBplDef.EvalResultBpl.ConditionQuery(er.GroupId == id, null);
 
          var array = ids.Split(',');
+         var removeIds = new List<long>();
          foreach (var item in array)
          {
             var expertId = Convert.ToInt64(item);
-            if (allAssign.Exists(a => a.GroupId == id && a.ExpertId == expertId))
+            var assigedExp = allAssign.FindLast(a => a.GroupId == id && a.ExpertId == expertId);
+            if (assigedExp != null && !allGroupExpEval.Exists(x => x.ExpertId == expertId))
             {
-               APBplDef.EvalGroupExpertBpl.ConditionDelete(ege.GroupId==id & ege.ExpertId==expertId);
+               removeIds.Add(assigedExp.GroupExpertId);
             }
          }
+         if (removeIds.Count > 0)
+            APBplDef.EvalGroupExpertBpl.ConditionDelete(ege.GroupExpertId.In(removeIds.ToArray()));
 
          return Json(new
          {
+            error = "none",
             msg = "编辑成功"
          });
       }
@@ -692,12 +740,12 @@ namespace Res.Controllers
          var cr = APDBDef.CroResource;
          var er = APDBDef.EvalResult;
 
-         var query = APQuery.select(er.ResultId, er.ExpertId, er.GroupId, er.AccessDate, er.Score,er.Comment,
+         var query = APQuery.select(er.ResultId, er.ExpertId, er.GroupId, er.AccessDate, er.Score, er.Comment,
                                     cr.CrosourceId, cr.Title, cr.Score.As("AverageScore"), u.UserName, u.UserId,
                                     g.GroupName, g.GroupId, a.ActiveName, a.ActiveId)
                           .from(er,
                                 cr.JoinInner(cr.CrosourceId == er.ResourceId),
-                                u.JoinInner(u.UserId == er.ExpertId),
+                                u.JoinInner(u.UserId == er.ExpertId & er.ExpertId == expertId),
                                 g.JoinInner(er.GroupId == g.GroupId),
                                 a.JoinInner(a.ActiveId == cr.ActiveId)
                                 );
@@ -705,8 +753,6 @@ namespace Res.Controllers
             query = query.where_and(cr.ActiveId == activeId);
          if (groupid > 0)
             query = query.where_and(er.GroupId == groupid);
-         if (expertId > 0)
-            query = query.where_and(er.ExpertId == expertId);
          if (user.ProvinceId > 0)
             query.where_and(cr.ProvinceId == user.ProvinceId);
          if (user.AreaId > 0)
@@ -725,6 +771,10 @@ namespace Res.Controllers
          {
             //query=query.
          }
+
+         query.primary(er.ResultId)
+            .skip(rowCount * (current - 1))
+            .take(rowCount);
 
 
          //获得查询的总数量
@@ -749,7 +799,7 @@ namespace Res.Controllers
                groupId = g.GroupId.GetValue(r),
                active = a.ActiveName.GetValue(r),
                activeId = a.ActiveId.GetValue(r),
-               comment=er.Comment.GetValue(r),
+               comment = er.Comment.GetValue(r),
             };
          }).ToList();
 

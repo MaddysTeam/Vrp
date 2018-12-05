@@ -85,14 +85,27 @@
 				var url = $(this).data('url');
 				var expId = $(this).parent().data('expId');
 				$.post(url, { id: groupId, expId: expId }, function (data) {
-					expertGrid.bootgrid("reload");
+					if (data.error == "none") {
+						alertify.success(data.msg);
+						expertGrid.bootgrid("reload");
+					}
+					else {
+						alertify.error(data.msg);
+					}
 				});
 			}).end()
 				.find('.btn-remove').on('click', function () {
 					var url = $(this).data('url');
 					var id = $(this).parent().data('id');
 					$.post(url, { id: id }, function (data) {
-						expertGrid.bootgrid("reload");
+						if (data.error == "none") {
+							alertify.success(data.msg);
+							expertGrid.bootgrid("reload");
+						}
+						else {
+							alertify.error(data.msg);
+						}
+						
 					});
 				}).end()
 			  // 复选框
@@ -127,9 +140,12 @@
 			}
 
 			$.post("@Url.Action("MulitAssignExp", "EvalManage")", { id: groupId, ids: expids.join(',') }, function (data) {
-				if (!data.error) {
+				if (data.error=="none") {
 					alertify.success(data.msg);
 					expertGrid.bootgrid('reload');
+				}
+				else {
+					alertify.error(data.msg);
 				}
 			});
 		});
@@ -141,9 +157,12 @@
 			}
 
 			$.post("@Url.Action("MulitRemoveExp", "EvalManage")", { id: groupId, ids: expids.join(',') }, function (data) {
-				if (!data.error) {
+				if (data.error == "none") {
 					alertify.success(data.msg);
 					expertGrid.bootgrid('reload');
+				}
+				else {
+					alertify.error(data.msg);
 				}
 			});
 		});

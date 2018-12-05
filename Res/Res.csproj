@@ -1853,6 +1853,7 @@
     <Content Include="Views\Crosource\_downloadSetting.cshtml" />
     <Content Include="Views\Eval\Export.cshtml" />
     <Content Include="Views\Shared\_PDFLayout.cshtml" />
+    <Content Include="Views\Eval\ExportAll.cshtml" />
     <None Include="xml.schema.definition\apgen.xsd">
       <SubType>Designer</SubType>
     </None>

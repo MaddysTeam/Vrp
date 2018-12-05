@@ -20,6 +20,7 @@ namespace Res.Controllers
       static APDBDef.ResUserTableDef u = APDBDef.ResUser;
       static APDBDef.EvalResultTableDef er = APDBDef.EvalResult;
       static APDBDef.EvalResultItemTableDef eri = APDBDef.EvalResultItem;
+      static APDBDef.IndicationTableDef idi = APDBDef.Indication;
 
       public EvalController()
       {
@@ -54,7 +55,11 @@ namespace Res.Controllers
 
          if (!string.IsNullOrEmpty(searchPhrase))
          {
-            query.where(eg.GroupName.Match(searchPhrase));
+            query.where(eg.GroupName.Match(searchPhrase)
+               | r.Title.Match(searchPhrase)
+               | r.AuthorCompany.Match(searchPhrase)
+               | r.Author.Match(searchPhrase)
+               );
          }
 
          //TODO：只要加到组里的专家不用数据范围
@@ -233,6 +238,87 @@ namespace Res.Controllers
          //return View(new EvalExportViewModel { Experts = experts, Resource = model, Indications = list, EvalComment = comment });
       }
 
+      //
+      //	评审 - 评审导出个人全部
+      // GET:		/Eval/Export
+      //
+      public ActionResult ExportAll()
+      {
+         var user = ResSettings.SettingsInSession.User;
+         var expertId = user.UserId;
+         var result = APQuery.select(r.CrosourceId, r.Title, r.Author, r.AuthorCompany,
+                                     er.ResultId, er.Score, er.Comment, eri.Score.As("detailScore"), idi.IndicationName)
+                            .from(
+                                  egr,
+                                  r.JoinLeft(egr.ResourceId == r.CrosourceId),
+                                  er.JoinLeft(er.ResourceId == r.CrosourceId & er.ExpertId == expertId),
+                                  eri.JoinLeft(er.ResultId == eri.ResultId),
+                                  idi.JoinLeft(idi.IndicationId == eri.IndicationId)
+                                  )
+                                  .query(db, rd =>
+                                  {
+                                     return new
+                                     {
+                                        id = r.CrosourceId.GetValue(rd),
+                                        title = r.Title.GetValue(rd),
+                                        Author = r.Author.GetValue(rd),
+                                        Compnay = r.AuthorCompany.GetValue(rd),
+                                        Score = er.Score.GetValue(rd),
+                                        IndicationScore = eri.Score.GetValue(rd, "detailScore"),
+                                        indicationName = idi.IndicationName.GetValue(rd),
+                                        comment = er.Comment.GetValue(rd),
+                                        IsEval = er.ResultId.GetValue(rd) > 0
+                                     };
+                                  }).ToList();
+
+         var models = new List<ExportAllScoreViewModel>();
+         var index = 1;
+         foreach (var item in result)
+         {
+            if (!models.Exists(x => x.Id == item.id))
+            {
+               models.Add(new ExportAllScoreViewModel
+               {
+                  Id = item.id,
+                  ResourceName = item.title,
+                  Author = item.Author,
+                  AuthorCompany = item.Compnay,
+                  Comment = item.comment,
+                  Score = item.Score,
+                  Score1 = item.IndicationScore,
+                  IsEval = item.IsEval
+               });
+            }
+            else
+            {
+               var model = models.Find(x => x.Id == item.id);
+               var dynamicColumnCount = typeof(ExportAllScoreViewModel)
+                  .GetProperties().ToList()
+                  .FindAll(x => x.Name.IndexOf("Score") == 0)
+                  .Count() - 1;
+               for (int i = 2; i <= dynamicColumnCount; i++)
+               {
+                  if (index == i || index % dynamicColumnCount == i)
+                  {
+                     model.GetType().GetProperty("Score" + i).SetValue(model, item.IndicationScore);
+                  }
+                  if (index == dynamicColumnCount || index % dynamicColumnCount == 0)
+                  {
+                     model.GetType().GetProperty("Score" + dynamicColumnCount).SetValue(model, item.IndicationScore);
+                  }
+               }
+            }
+
+            index++;
+         }
+
+         var indicaitons = db.IndicationDal.ConditionQuery(idi.ActiveId == ThisApp.CurrentActiveId, null, null, null);
+
+         var htmlText = _pdfRender.RenderViewToString(this, "ExportAll", new ExportAllViewModel { ScoreModels = models, IndicationModels = indicaitons });
+         byte[] pdfFile = FormatConverter.ConvertHtmlTextToPDF(htmlText);
+         return new BinaryContentResult($"专家：{user.UserName} 的评审结果.pdf", "application/pdf", pdfFile);
+      }
+
 
       //
       //	评审 - 执行评审
@@ -251,8 +337,20 @@ namespace Res.Controllers
             return Request.IsAjaxRequest() ? (ActionResult)Json(new { error = "true", msg = "必须填写评语" }) : IsNotAjax();
          }
 
+         var existEvalResource = APBplDef.EvalGroupResourceBpl.ConditionQueryCount(egr.GroupId == model.GroupId & egr.ResourceId == model.ResourceId);
+         if (existEvalResource <= 0)
+         {
+            return Request.IsAjaxRequest() ? (ActionResult)Json(new { error = "true", msg = "该资源考核参数疑似被篡改，请联系管理员" }) : IsNotAjax();
+         }
+
+         var exitsResult = APBplDef.EvalResultBpl.ConditionQuery(er.ExpertId == ResSettings.SettingsInSession.UserId & er.GroupId == model.GroupId & er.ResourceId == model.ResourceId, null);
+         if (exitsResult != null && exitsResult.Count > 0 && exitsResult.First().ResultId != model.ResultId)
+         {
+            return Request.IsAjaxRequest() ? (ActionResult)Json(new { error = "true", msg = "该资源考核疑似被篡改，请联系管理员" }) : IsNotAjax();
+         }
+
          // 评审打分记录
-         var er = APDBDef.EvalResult;
+         //var er = APDBDef.EvalResult;
          var evalRecords = APBplDef.EvalResultBpl.ConditionQuery(er.ResourceId == model.ResourceId, null);
 
          var list = APBplDef.IndicationBpl.GetAll();

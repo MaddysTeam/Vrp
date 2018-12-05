@@ -235,4 +235,25 @@ namespace Res.Business
       public string[] Experts { get; set; }
    }
 
+   public class ExportAllScoreViewModel
+   {
+      public long Id { get; set; }
+      public string ResourceName { get; set; }
+      public string Author { get; set; }
+      public string AuthorCompany { get; set; }
+      public double Score1 { get; set; }
+      public double Score2 { get; set; }
+      public double Score3 { get; set; }
+      public double Score4 { get; set; }
+      public double Score { get; set; }
+      public string Comment { get; set; }
+      public bool IsEval { get; set; }
+   }
+
+   public class ExportAllViewModel
+   {
+      public List<ExportAllScoreViewModel> ScoreModels { get; set; }
+      public List<Indication> IndicationModels { get; set; }
+   }
+
 }

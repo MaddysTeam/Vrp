@@ -22,6 +22,9 @@
 		</div>
 
 		<div class="main-content">
+			<div class="buttons">
+				<a href="@Url.Action("ExportAll", "Eval")" id="exportAll" class="btn btn-danger btn-md">导出</a>&nbsp;
+			</div>
 			<!-- widget -->
 			<div class="widget">
 				<div class="widget-header">
@@ -88,7 +91,6 @@
 					if (row.isEval) {
 						return '<div class="btn-group btn-group-xs pull-right" data-row-id="' + row.id + '">' +
 									'<a class="btn btn-warning btn-eval" target="blank" href="@Url.Action("Details","Eval")?id=' + row.id + '&resId=' + row.resId + '&groupId=' + row.groupId + '">继续评审</a>' +
-									'<a class="btn btn-info btn-export"  href="@Url.Action("Export","Eval")?id=' + row.id + '&resId=' + row.resId + '&groupId=' + row.groupId + '">导出</a>' +
 								'</div>';
 					}
 					else {

@@ -1,0 +1,83 @@
+﻿@model ExportAllViewModel
+@{
+	Layout = "~/Views/Shared/_PDFLayout.cshtml";
+
+	ViewBag.Title = "作品评审";
+}
+<style>
+	td {
+		border: 1px solid rgb(221,221,221);
+		font-weight: lighter;
+		padding: 10px;
+		word-break: break-all;
+		font-size: 14px;
+		height: 50px;
+	}
+
+	.data td, .data-cell {
+		font-size: 13px;
+		color: cornflowerblue;
+		padding: 10px;
+	}
+
+	.sign td {
+		border-left: 0px;
+		border-bottom: 0px;
+		border-right: 0px;
+	}
+
+	.title td {
+		border: 0px;
+	}
+</style>
+<div class="col-md-10 content-wrapper">
+	<table style="table-layout:fixed; word-break:break-all;" cellpadding="0" cellspacing="0">
+		<tr class="title">
+			<td colspan="10" align="center">
+				<h3>上海市中小学机器人教学微视频活动评审表</h3>
+			</td>
+		</tr>
+		<tr>
+			<td rowspan="2" align="center" style="width:30px">序号</td>
+			<td rowspan="2" align="center" style="width:130px">作品名称</td>
+			<td rowspan="2" align="center" style="width:50px">作者姓名</td>
+			<td rowspan="2" align="center" style="width:130px">单位名称</td>
+			<td colspan="4" align="center">评审指标</td>
+			<td rowspan="2" align="center" style="width:50px">总分</td>
+			<td rowspan="2" align="center" width="130px">评审意见</td>
+		</tr>
+		<tr>
+			@foreach (var item in Model.IndicationModels)
+			{
+				<td align="center" style="width:50px">@item.IndicationName (@item.Score)</td>
+			}
+			@*<td align="center" style="width:50px">教学设计</td>
+				<td align="center" style="width:50px">教学行为</td>
+				<td align="center" style="width:50px">教学效果</td>
+				<td align="center" style="width:50px">创新与实用</td>*@
+
+		</tr>
+		@{ var index = 0;
+			foreach (var item in Model.ScoreModels)
+			{
+				<tr class="data">
+					<td align="center">@(++index)</td>
+					<td>@item.ResourceName</td>
+					<td>@item.Author</td>
+					<td>@item.AuthorCompany</td>
+					<td align="center">@(item.IsEval ? item.Score1.ToString() : "")</td>
+					<td align="center">@(item.IsEval ? item.Score2.ToString() : "")</td>
+					<td align="center">@(item.IsEval ? item.Score3.ToString() : "")</td>
+					<td align="center">@(item.IsEval ? item.Score4.ToString() : "")</td>
+					<td align="center">@(item.IsEval ? item.Score.ToString() : "")</td>
+					<td>@item.Comment</td>
+				</tr>
+			}
+		}
+		<tr class="sign">
+			<td colspan="7" align="right">评审专家:   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
+			<td></td>
+			<td colspan="3	" align="center">评审时间:   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
+		</tr>
+	</table>
+</div>

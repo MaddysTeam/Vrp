@@ -27,7 +27,7 @@ namespace Res.Business
       public override void ExecuteResult(ControllerContext context)
       {
          var response = context.HttpContext.Response;
-         response.Cache.SetCacheability(HttpCacheability.Public);
+         response.Cache.SetCacheability(HttpCacheability.NoCache);
          response.ContentType = _contentType;
          response.AppendHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(_fileName, System.Text.Encoding.UTF8));
 
