@@ -287,8 +287,7 @@ namespace Res.Controllers
              .from(r,
                    egr.JoinLeft(r.CrosourceId == egr.ResourceId & egr.GroupId == id)
              )
-              //.where_and(r.StatePKID==CroResourceHelper.StateAllow)
-              .where_and(r.ActiveId == ThisApp.CurrentActiveId)
+             .where_and(r.StatePKID != CroResourceHelper.StateDelete & r.ActiveId == ThisApp.CurrentActiveId)
              .primary(r.CrosourceId)
              .skip((current - 1) * rowCount)
              .take(rowCount);

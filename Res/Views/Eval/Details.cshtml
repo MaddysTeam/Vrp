@@ -107,7 +107,8 @@
 											@foreach (var item in Model.Courses)
 											{
 												<li style="display:inline-block;list-style-type: none;">
-													<a href="@Url.Action("Details","Eval",new { id=resultId ,resId=Model.CrosourceId,courseId=course.CourseId, groupId=groupId })"><img src="@item.FitCoverPath" style="width:184px; height:115px;" /></a>
+													<a href="/Eval/Details/?id=@resultId&resId=@Model.CrosourceId&courseId=@course.CourseId&groupId=@groupId">
+													<img src="@item.FitCoverPath" style="width:184px; height:115px;" /></a>
 													<div class="text-center">@item.CourseTitle</div>
 												</li>
                                  }
@@ -218,10 +219,10 @@
 		
 										<li class="list-group-item">创建时间：@Model.CreatedTime.ToString("yyyy-MM-dd")</li>
 
-										@if (!string.IsNullOrEmpty(Model.Province))
+										@*@if (!string.IsNullOrEmpty(Model.Province))
 										{
 											<li class="list-group-item">审核意见：<span id="opinion" class="@(Model.StatePKID==10353?"text-danger":"text-info")">@Model.AuditOpinion</span></li>
-										}
+										}*@
 									
 											<li class="list-group-item">
 												<div class="switchs">
@@ -303,7 +304,7 @@
 										{
 										<li class="list-group-item">单位：@Model.AuthorCompany</li>
 										}
-										@if (@Model.AuthorEmail != "")
+										@*@if (@Model.AuthorEmail != "")
 										{
 										<li class="list-group-item">电子邮箱：@Model.AuthorEmail</li>
 										}
@@ -314,7 +315,7 @@
 										@if (@Model.AuthorAddress != "")
 										{
 										<li class="list-group-item">地址：@Model.AuthorAddress</li>
-										}
+										}*@
 									</ul>
 								</div>
 								</div>

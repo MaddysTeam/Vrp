@@ -31,31 +31,26 @@
 	}
 </style>
 <div class="col-md-10 content-wrapper">
-	<table style="table-layout:fixed; word-break:break-all;" cellpadding="0" cellspacing="0">
+	<table style="table-layout:fixed; word-break:break-all;" cellpadding="0" cellspacing="0" >
 		<tr class="title">
 			<td colspan="10" align="center">
 				<h3>上海市中小学机器人教学微视频活动评审表</h3>
 			</td>
 		</tr>
 		<tr>
-			<td rowspan="2" align="center" style="width:30px">序号</td>
-			<td rowspan="2" align="center" style="width:130px">作品名称</td>
-			<td rowspan="2" align="center" style="width:50px">作者姓名</td>
-			<td rowspan="2" align="center" style="width:130px">单位名称</td>
+			<td rowspan="2" align="center" width="30px">序号</td>
+			<td rowspan="2" align="center" width="90px">作品名称</td>
+			<td rowspan="2" align="center" width="75px">作者姓名</td>
+			<td rowspan="2" align="center" width="75px">单位名称</td>
 			<td colspan="4" align="center">评审指标</td>
-			<td rowspan="2" align="center" style="width:50px">总分</td>
+			<td rowspan="2" align="center" width="50px">总分</td>
 			<td rowspan="2" align="center" width="130px">评审意见</td>
 		</tr>
 		<tr>
 			@foreach (var item in Model.IndicationModels)
 			{
-				<td align="center" style="width:50px">@item.IndicationName (@item.Score)</td>
+				<td align="center" style="width:58px">@item.IndicationName (@item.Score)</td>
 			}
-			@*<td align="center" style="width:50px">教学设计</td>
-				<td align="center" style="width:50px">教学行为</td>
-				<td align="center" style="width:50px">教学效果</td>
-				<td align="center" style="width:50px">创新与实用</td>*@
-
 		</tr>
 		@{ var index = 0;
 			foreach (var item in Model.ScoreModels)

@@ -332,10 +332,12 @@ namespace Res.Controllers
          {
             return Request.IsAjaxRequest() ? (ActionResult)Json(new { msg = "系统参数异常，请联系管理员" }) : IsNotAjax();
          }
-         if (string.IsNullOrEmpty(model.Comment))
-         {
-            return Request.IsAjaxRequest() ? (ActionResult)Json(new { error = "true", msg = "必须填写评语" }) : IsNotAjax();
-         }
+
+         //TODO:20181213
+         //if (string.IsNullOrEmpty(model.Comment))
+         //{
+         //   return Request.IsAjaxRequest() ? (ActionResult)Json(new { error = "true", msg = "必须填写评语" }) : IsNotAjax();
+         //}
 
          var existEvalResource = APBplDef.EvalGroupResourceBpl.ConditionQueryCount(egr.GroupId == model.GroupId & egr.ResourceId == model.ResourceId);
          if (existEvalResource <= 0)
@@ -343,7 +345,10 @@ namespace Res.Controllers
             return Request.IsAjaxRequest() ? (ActionResult)Json(new { error = "true", msg = "该资源考核参数疑似被篡改，请联系管理员" }) : IsNotAjax();
          }
 
-         var exitsResult = APBplDef.EvalResultBpl.ConditionQuery(er.ExpertId == ResSettings.SettingsInSession.UserId & er.GroupId == model.GroupId & er.ResourceId == model.ResourceId, null);
+         var exitsResult = APBplDef.EvalResultBpl.ConditionQuery(
+            er.ExpertId == ResSettings.SettingsInSession.UserId 
+            & er.GroupId == model.GroupId 
+            & er.ResourceId == model.ResourceId, null);
          if (exitsResult != null && exitsResult.Count > 0 && exitsResult.First().ResultId != model.ResultId)
          {
             return Request.IsAjaxRequest() ? (ActionResult)Json(new { error = "true", msg = "该资源考核疑似被篡改，请联系管理员" }) : IsNotAjax();
