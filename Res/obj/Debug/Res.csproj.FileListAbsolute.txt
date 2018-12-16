@@ -202,3 +202,6 @@ E:\项目文件(GitLab)\长三角新版(github)\Res\obj\Debug\Res.pdb
 E:\项目文件(GitLab)\长三角新版(github)\Res\bin\itextsharp.dll
 E:\项目文件(GitLab)\长三角新版(github)\Res\bin\itextsharp.xmlworker.dll
 E:\项目文件(GitLab)\长三角新版(github)\Res\bin\itextsharp.xml
+C:\project\教软公司项目\新版长三角微视频\Res\bin\itextsharp.dll
+C:\project\教软公司项目\新版长三角微视频\Res\bin\itextsharp.xmlworker.dll
+C:\project\教软公司项目\新版长三角微视频\Res\bin\itextsharp.xml

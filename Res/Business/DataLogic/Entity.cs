@@ -248,12 +248,14 @@ namespace Res.Business
       public double Score { get; set; }
       public string Comment { get; set; }
       public bool IsEval { get; set; }
+      public string GroupName { get; set; }
    }
 
    public class ExportAllViewModel
    {
       public List<ExportAllScoreViewModel> ScoreModels { get; set; }
       public List<Indication> IndicationModels { get; set; }
+      public string GroupName { get; set; }
    }
 
 }

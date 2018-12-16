@@ -62,14 +62,6 @@ namespace Res.Controllers
                );
          }
 
-         //TODO：只要加到组里的专家不用数据范围
-         //if (user.ProvinceId > 0)
-         //   query.where_and(r.ProvinceId == user.ProvinceId);
-         //if (user.AreaId > 0)
-         //   query.where_and(r.AreaId == user.AreaId);
-         //if (user.CompanyId > 0)
-         //   query.where_and(r.CompanyId == user.CompanyId);
-
          query.primary(r.CrosourceId)
               .skip((current - 1) * rowCount)
               .take(rowCount);
@@ -240,21 +232,24 @@ namespace Res.Controllers
 
       //
       //	评审 - 评审导出个人全部
-      // GET:		/Eval/Export
+      // GET:/Eval/Export
       //
       public ActionResult ExportAll()
       {
          var user = ResSettings.SettingsInSession.User;
          var expertId = user.UserId;
-         var result = APQuery.select(r.CrosourceId, r.Title, r.Author, r.AuthorCompany,
+
+         var result = APQuery.select(r.CrosourceId, r.Title, r.Author, r.AuthorCompany, eg.GroupName,
                                      er.ResultId, er.Score, er.Comment, eri.Score.As("detailScore"), idi.IndicationName)
                             .from(
                                   egr,
-                                  r.JoinLeft(egr.ResourceId == r.CrosourceId),
+                                  r.JoinInner(egr.ResourceId == r.CrosourceId),
+                                  eg.JoinInner(eg.GroupId == egr.GroupId),
                                   er.JoinLeft(er.ResourceId == r.CrosourceId & er.ExpertId == expertId),
                                   eri.JoinLeft(er.ResultId == eri.ResultId),
                                   idi.JoinLeft(idi.IndicationId == eri.IndicationId)
                                   )
+                                  .where(egr.GroupId.In(APQuery.select(ege.GroupId).from(ege).where(ege.ExpertId == expertId)))
                                   .query(db, rd =>
                                   {
                                      return new
@@ -267,16 +262,19 @@ namespace Res.Controllers
                                         IndicationScore = eri.Score.GetValue(rd, "detailScore"),
                                         indicationName = idi.IndicationName.GetValue(rd),
                                         comment = er.Comment.GetValue(rd),
-                                        IsEval = er.ResultId.GetValue(rd) > 0
+                                        IsEval = er.ResultId.GetValue(rd) > 0,
+                                        groupName = eg.GroupName.GetValue(rd)
                                      };
                                   }).ToList();
 
          var models = new List<ExportAllScoreViewModel>();
          var index = 1;
+
          foreach (var item in result)
          {
             if (!models.Exists(x => x.Id == item.id))
             {
+
                models.Add(new ExportAllScoreViewModel
                {
                   Id = item.id,
@@ -286,7 +284,8 @@ namespace Res.Controllers
                   Comment = item.comment,
                   Score = item.Score,
                   Score1 = item.IndicationScore,
-                  IsEval = item.IsEval
+                  IsEval = item.IsEval,
+                  GroupName = item.groupName
                });
             }
             else
@@ -314,7 +313,13 @@ namespace Res.Controllers
 
          var indicaitons = db.IndicationDal.ConditionQuery(idi.ActiveId == ThisApp.CurrentActiveId, null, null, null);
 
-         var htmlText = _pdfRender.RenderViewToString(this, "ExportAll", new ExportAllViewModel { ScoreModels = models, IndicationModels = indicaitons });
+         var htmlText = _pdfRender.RenderViewToString(this, "ExportAll", new ExportAllViewModel
+         {
+            ScoreModels = models,
+            IndicationModels = indicaitons,
+            GroupName = models.Count() <= 0 ? string.Empty : models.First().GroupName
+         });
+
          byte[] pdfFile = FormatConverter.ConvertHtmlTextToPDF(htmlText);
          return new BinaryContentResult($"专家：{user.UserName} 的评审结果.pdf", "application/pdf", pdfFile);
       }
@@ -330,28 +335,32 @@ namespace Res.Controllers
       {
          if (model == null || model.Items == null || model.Items.Count <= 0)
          {
-            return Request.IsAjaxRequest() ? (ActionResult)Json(new { msg = "系统参数异常，请联系管理员" }) : IsNotAjax();
+            return Request.IsAjaxRequest() ? Json(new { msg = "系统参数异常，请联系管理员" }) : IsNotAjax();
          }
 
-         //TODO:20181213
-         //if (string.IsNullOrEmpty(model.Comment))
-         //{
-         //   return Request.IsAjaxRequest() ? (ActionResult)Json(new { error = "true", msg = "必须填写评语" }) : IsNotAjax();
-         //}
+         var group = APBplDef.EvalGroupBpl.PrimaryGet(model.GroupId);
+         if (group.EndDate < DateTime.Now)
+         {
+            return Request.IsAjaxRequest() ? Json(new { msg = "考核期已结束，无法在进行考核" }) : IsNotAjax();
+         }
+         if (group.StartDate > DateTime.Now)
+         {
+            return Request.IsAjaxRequest() ? Json(new { msg = "考核期未开始，无法在进行考核" }) : IsNotAjax();
+         }
 
          var existEvalResource = APBplDef.EvalGroupResourceBpl.ConditionQueryCount(egr.GroupId == model.GroupId & egr.ResourceId == model.ResourceId);
          if (existEvalResource <= 0)
          {
-            return Request.IsAjaxRequest() ? (ActionResult)Json(new { error = "true", msg = "该资源考核参数疑似被篡改，请联系管理员" }) : IsNotAjax();
+            return Request.IsAjaxRequest() ? Json(new { error = "true", msg = "该资源考核参数疑似被篡改，请联系管理员" }) : IsNotAjax();
          }
 
          var exitsResult = APBplDef.EvalResultBpl.ConditionQuery(
-            er.ExpertId == ResSettings.SettingsInSession.UserId 
-            & er.GroupId == model.GroupId 
+            er.ExpertId == ResSettings.SettingsInSession.UserId
+            & er.GroupId == model.GroupId
             & er.ResourceId == model.ResourceId, null);
          if (exitsResult != null && exitsResult.Count > 0 && exitsResult.First().ResultId != model.ResultId)
          {
-            return Request.IsAjaxRequest() ? (ActionResult)Json(new { error = "true", msg = "该资源考核疑似被篡改，请联系管理员" }) : IsNotAjax();
+            return Request.IsAjaxRequest() ? Json(new { error = "true", msg = "该资源考核疑似被篡改，请联系管理员" }) : IsNotAjax();
          }
 
          // 评审打分记录
@@ -363,7 +372,7 @@ namespace Res.Controllers
          {
             var maxScore = list.Find(x => x.IndicationId == item.IndicationId).Score;
             if (item.Score < 0 || item.Score > maxScore)
-               return Request.IsAjaxRequest() ? (ActionResult)Json(new { error = "true", msg = "分数设置不合理，请检查" }) : IsNotAjax();
+               return Request.IsAjaxRequest() ? Json(new { error = "true", msg = "分数设置不合理，请检查" }) : IsNotAjax();
          }
 
          db.BeginTrans();
