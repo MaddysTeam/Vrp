@@ -117,8 +117,8 @@ namespace Res.Controllers
          // 省市区学校
          ViewBag.Areas = areas ?? ResSettings.SettingsInSession.AllAreas();
          ViewBag.Schools = schools ?? ResSettings.SettingsInSession.AllSchools();
-        // ViewBag.Provinces = provinces ?? ResSettings.SettingsInSession.AllProvince(); 
-         ViewBag.Provinces = provinces ?? ResSettings.SettingsInSession.AllProvince().FindAll(x=>x.CompanyId==ResCompanyHelper.ShangHai); //TODO:ResSettings.SettingsInSession.AllProvince();
+         ViewBag.Provinces = provinces ?? ResSettings.SettingsInSession.AllProvince(); 
+        // ViewBag.Provinces = provinces ?? ResSettings.SettingsInSession.AllProvince().FindAll(x=>x.CompanyId==ResCompanyHelper.ShangHai); //TODO:ResSettings.SettingsInSession.AllProvince();
 
          return View();
       }

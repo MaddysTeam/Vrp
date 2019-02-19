@@ -121,15 +121,12 @@
 						</div>
 						<!-- end left side, main content -->
 
-						<div class="panel evalArea col-lg-5">
+						<div class="panel evalArea col-lg-5" style="height:800px;">
 							<div class="panel">
 								<div class="panel-body">
 									<table id="bootgrid" class="table table-striped table-hover">
 										<thead>
 											<tr>
-												@*<th>项目</th>
-								<th >级别</th>
-								<th class="width100" >评价项目</th>*@
 												<th class="width100">指标项</th>
 												<th>指标描述</th>
 												<th>满分</th>
@@ -141,8 +138,6 @@
 											{
 												<tr class="indication">
 													<td>@item.IndicationName</td>
-													@*<td>@item.Level</td>
-													<td>@item.Type</td>*@
 													<td>@item.Description</td>
 													<td><label class="form-control disabled">@item.Score</label></td>
 													<td>
@@ -169,10 +164,8 @@
 							</div>
 						</div>
 
-
-
-
 						<!-- right side, main content -->
+
 						<div class="col-lg-9 info">
 							<div class="row">
 
@@ -218,11 +211,6 @@
 										}
 		
 										<li class="list-group-item">创建时间：@Model.CreatedTime.ToString("yyyy-MM-dd")</li>
-
-										@*@if (!string.IsNullOrEmpty(Model.Province))
-										{
-											<li class="list-group-item">审核意见：<span id="opinion" class="@(Model.StatePKID==10353?"text-danger":"text-info")">@Model.AuditOpinion</span></li>
-										}*@
 									
 											<li class="list-group-item">
 												<div class="switchs">
@@ -254,10 +242,7 @@
 									   <li  class="list-group-item">
 											<span>下载次数： @course.DownCount</span>
 										</li>
-										<li  class="list-group-item">
-											练  习  题：&nbsp;&nbsp;<a href="javascript:void(0)" class="btn-danger btn-sm" id="exercies">答 题</a>
-										</li>
-								
+
 									
 										@if(course.DesignId != 0)
 										{
@@ -304,18 +289,6 @@
 										{
 										<li class="list-group-item">单位：@Model.AuthorCompany</li>
 										}
-										@*@if (@Model.AuthorEmail != "")
-										{
-										<li class="list-group-item">电子邮箱：@Model.AuthorEmail</li>
-										}
-										@if (@Model.AuthorPhone != "")
-										{
-										<li class="list-group-item">电话：@Model.AuthorPhone</li>
-										}
-										@if (@Model.AuthorAddress != "")
-										{
-										<li class="list-group-item">地址：@Model.AuthorAddress</li>
-										}*@
 									</ul>
 								</div>
 								</div>
@@ -323,6 +296,7 @@
 
 							</div>
 						</div>
+
 						<!-- end right side, main content -->
 
 					</div>

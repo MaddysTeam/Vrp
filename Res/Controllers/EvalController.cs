@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Res;
 using Symber.Web.Data;
 using Res.Business;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
 
 namespace Res.Controllers
 {
@@ -159,7 +161,7 @@ namespace Res.Controllers
 
 
       //
-      //	评审 - 评审导出
+      //	评审 - 评审导出至pdf
       // GET:		/Eval/Export
       //
       public ActionResult Export(long id, long resId, long groupId, long? expertId)
@@ -231,86 +233,14 @@ namespace Res.Controllers
       }
 
       //
-      //	评审 - 评审导出个人全部
-      // GET:/Eval/Export
+      //	评审 - 个人全部评审信息导出至pdf
+      // GET:/Eval/ExportAll
       //
       public ActionResult ExportAll()
       {
          var user = ResSettings.SettingsInSession.User;
          var expertId = user.UserId;
-
-         var result = APQuery.select(r.CrosourceId, r.Title, r.Author, r.AuthorCompany, eg.GroupName,
-                                     er.ResultId, er.Score, er.Comment, eri.Score.As("detailScore"), idi.IndicationName)
-                            .from(
-                                  egr,
-                                  r.JoinInner(egr.ResourceId == r.CrosourceId),
-                                  eg.JoinInner(eg.GroupId == egr.GroupId),
-                                  er.JoinLeft(er.ResourceId == r.CrosourceId & er.ExpertId == expertId),
-                                  eri.JoinLeft(er.ResultId == eri.ResultId),
-                                  idi.JoinLeft(idi.IndicationId == eri.IndicationId)
-                                  )
-                                  .where(egr.GroupId.In(APQuery.select(ege.GroupId).from(ege).where(ege.ExpertId == expertId)))
-                                  .query(db, rd =>
-                                  {
-                                     return new
-                                     {
-                                        id = r.CrosourceId.GetValue(rd),
-                                        title = r.Title.GetValue(rd),
-                                        Author = r.Author.GetValue(rd),
-                                        Compnay = r.AuthorCompany.GetValue(rd),
-                                        Score = er.Score.GetValue(rd),
-                                        IndicationScore = eri.Score.GetValue(rd, "detailScore"),
-                                        indicationName = idi.IndicationName.GetValue(rd),
-                                        comment = er.Comment.GetValue(rd),
-                                        IsEval = er.ResultId.GetValue(rd) > 0,
-                                        groupName = eg.GroupName.GetValue(rd)
-                                     };
-                                  }).ToList();
-
-         var models = new List<ExportAllScoreViewModel>();
-         var index = 1;
-
-         foreach (var item in result)
-         {
-            if (!models.Exists(x => x.Id == item.id))
-            {
-
-               models.Add(new ExportAllScoreViewModel
-               {
-                  Id = item.id,
-                  ResourceName = item.title,
-                  Author = item.Author,
-                  AuthorCompany = item.Compnay,
-                  Comment = item.comment,
-                  Score = item.Score,
-                  Score1 = item.IndicationScore,
-                  IsEval = item.IsEval,
-                  GroupName = item.groupName
-               });
-            }
-            else
-            {
-               var model = models.Find(x => x.Id == item.id);
-               var dynamicColumnCount = typeof(ExportAllScoreViewModel)
-                  .GetProperties().ToList()
-                  .FindAll(x => x.Name.IndexOf("Score") == 0)
-                  .Count() - 1;
-               for (int i = 2; i <= dynamicColumnCount; i++)
-               {
-                  if (index == i || index % dynamicColumnCount == i)
-                  {
-                     model.GetType().GetProperty("Score" + i).SetValue(model, item.IndicationScore);
-                  }
-                  if (index == dynamicColumnCount || index % dynamicColumnCount == 0)
-                  {
-                     model.GetType().GetProperty("Score" + dynamicColumnCount).SetValue(model, item.IndicationScore);
-                  }
-               }
-            }
-
-            index++;
-         }
-
+         var models = GetExpertScoreViewModels(expertId);
          var indicaitons = db.IndicationDal.ConditionQuery(idi.ActiveId == ThisApp.CurrentActiveId, null, null, null);
 
          var htmlText = _pdfRender.RenderViewToString(this, "ExportAll", new ExportAllViewModel
@@ -321,9 +251,31 @@ namespace Res.Controllers
          });
 
          byte[] pdfFile = FormatConverter.ConvertHtmlTextToPDF(htmlText);
+
          return new BinaryContentResult($"专家：{user.UserName} 的评审结果.pdf", "application/pdf", pdfFile);
       }
 
+
+      //
+      //	评审 - 个人全部评审信息导出至excel
+      // GET:/Eval/ExpoertAllToExcel
+      //
+      public ActionResult ExpoertAllToExcel()
+      {
+         var user = ResSettings.SettingsInSession.User;
+         var expertId = user.UserId;
+         var models = GetExpertScoreViewModels(expertId);
+         var book = NPOIHelper(models);
+
+         // 写入到客户端 
+         System.IO.MemoryStream ms = new System.IO.MemoryStream();
+         book.Write(ms);
+         ms.Seek(0, System.IO.SeekOrigin.Begin);
+         DateTime dt = DateTime.Now;
+         string dateTime = dt.ToString("yyyyMMdd");
+         string fileName = $"专家：{user.UserName} 的评审结果.xls";
+         return File(ms, "application/vnd.ms-excel", fileName);
+      }
 
       //
       //	评审 - 执行评审
@@ -418,6 +370,164 @@ namespace Res.Controllers
 
 
       private HtmlRender _pdfRender;
+
+      private List<ExportAllScoreViewModel> GetExpertScoreViewModels(long expertId)
+      {
+
+
+         var result = APQuery.select(r.CrosourceId, r.Title, r.Author, r.AuthorCompany, eg.GroupName,
+                            er.ResultId, er.Score, er.Comment, eri.Score.As("detailScore"), idi.IndicationName)
+                   .from(
+                         egr,
+                         r.JoinInner(egr.ResourceId == r.CrosourceId),
+                         eg.JoinInner(eg.GroupId == egr.GroupId),
+                         er.JoinLeft(er.ResourceId == r.CrosourceId & er.ExpertId == expertId),
+                         eri.JoinLeft(er.ResultId == eri.ResultId),
+                         idi.JoinLeft(idi.IndicationId == eri.IndicationId)
+                         )
+                         .where(egr.GroupId.In(APQuery.select(ege.GroupId).from(ege).where(ege.ExpertId == expertId)))
+                         .query(db, rd =>
+                         {
+                            return new
+                            {
+                               id = r.CrosourceId.GetValue(rd),
+                               title = r.Title.GetValue(rd),
+                               Author = r.Author.GetValue(rd),
+                               Compnay = r.AuthorCompany.GetValue(rd),
+                               Score = er.Score.GetValue(rd),
+                               IndicationScore = eri.Score.GetValue(rd, "detailScore"),
+                               indicationName = idi.IndicationName.GetValue(rd),
+                               comment = er.Comment.GetValue(rd),
+                               IsEval = er.ResultId.GetValue(rd) > 0,
+                               groupName = eg.GroupName.GetValue(rd)
+                            };
+                         }).ToList();
+
+         var models = new List<ExportAllScoreViewModel>();
+         var index = 1;
+
+         foreach (var item in result)
+         {
+            if (!models.Exists(x => x.Id == item.id))
+            {
+
+               models.Add(new ExportAllScoreViewModel
+               {
+                  Id = item.id,
+                  ResourceName = item.title,
+                  Author = item.Author,
+                  AuthorCompany = item.Compnay,
+                  Comment = item.comment,
+                  Score = item.Score,
+                  Score1 = item.IndicationScore,
+                  IsEval = item.IsEval,
+                  GroupName = item.groupName
+               });
+            }
+            else
+            {
+               var model = models.Find(x => x.Id == item.id);
+               var dynamicColumnCount = typeof(ExportAllScoreViewModel)
+                  .GetProperties().ToList()
+                  .FindAll(x => x.Name.IndexOf("Score") == 0)
+                  .Count() - 1;
+               for (int i = 2; i <= dynamicColumnCount; i++)
+               {
+                  if (index == i || index % dynamicColumnCount == i)
+                  {
+                     model.GetType().GetProperty("Score" + i).SetValue(model, item.IndicationScore);
+                  }
+                  if (index == dynamicColumnCount || index % dynamicColumnCount == 0)
+                  {
+                     model.GetType().GetProperty("Score" + dynamicColumnCount).SetValue(model, item.IndicationScore);
+                  }
+               }
+            }
+
+            index++;
+         }
+
+         return models;
+      }
+
+      private HSSFWorkbook NPOIHelper(List<ExportAllScoreViewModel> models)
+      {
+         //创建Excel文件的对象
+         NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+         //添加一个sheet
+         NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Sheet1");
+
+         ICellStyle cellstyle = book.CreateCellStyle();
+         cellstyle.VerticalAlignment = VerticalAlignment.Center;
+         cellstyle.Alignment = HorizontalAlignment.Center;
+         //sheet1.SetColumnWidth(0,100);
+         //sheet1.SetColumnWidth(1, 100);
+         //sheet1.SetColumnWidth(2, 100);
+         //sheet1.SetColumnWidth(3, 100);
+         //sheet1.SetColumnWidth(4, 100);
+         //sheet1.SetColumnWidth(5, 100);
+         //sheet1.SetColumnWidth(6, 100);
+
+         #region [头部设计]
+
+         //给sheet1添加第一行的头部标题
+         NPOI.SS.UserModel.IRow row1 = sheet1.CreateRow(0);
+         row1.CreateCell(0).SetCellValue("序号");
+         row1.CreateCell(1).SetCellValue("作品名称");
+         row1.CreateCell(2).SetCellValue("作者姓名");
+         row1.CreateCell(3).SetCellValue("单位名称");
+         row1.CreateCell(4).SetCellValue("评审指标");
+         row1.CreateCell(8).SetCellValue("总分");
+         row1.CreateCell(9).SetCellValue("评审意见");
+         row1.Cells.ForEach(ce=> {
+            ce.CellStyle = cellstyle;
+         });
+
+         //给sheet1添加第二行的头部标题
+         NPOI.SS.UserModel.IRow row2 = sheet1.CreateRow(1);
+         row2.CreateCell(4).SetCellValue("教学设计(25)");
+         row2.CreateCell(5).SetCellValue("教学行为(25)");
+         row2.CreateCell(6).SetCellValue("教学效果(25)");
+         row2.CreateCell(7).SetCellValue("创新与实用(25)");
+         row2.Cells.ForEach(ce => {
+            ce.CellStyle = cellstyle;
+         });
+
+         sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 1, 0, 0));  //	序号
+         sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 1, 1, 1));  //	作品名称
+         sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 1, 2, 2));  
+         sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 1, 3, 3));
+         sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, 4, 7));
+         sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 1, 8, 8));
+         sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 1, 9, 9));
+
+         #endregion
+
+         var i = 0;
+         foreach (var item in models)  
+         {
+            i++;
+            NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
+            rowtemp.CreateCell(0).SetCellValue(i);
+            rowtemp.CreateCell(1).SetCellValue(item.ResourceName);
+            rowtemp.CreateCell(2).SetCellValue(item.Author);
+            rowtemp.CreateCell(3).SetCellValue(item.AuthorCompany);
+            rowtemp.CreateCell(4).SetCellValue(item.Score1);
+            rowtemp.CreateCell(5).SetCellValue(item.Score2);
+            rowtemp.CreateCell(6).SetCellValue(item.Score3);
+            rowtemp.CreateCell(7).SetCellValue(item.Score4);
+            rowtemp.CreateCell(8).SetCellValue(item.Score);
+            rowtemp.CreateCell(9).SetCellValue(item.Comment);
+         }
+
+         NPOI.SS.UserModel.IRow rowtemp2 = sheet1.CreateRow(i + 3);
+         rowtemp2.CreateCell(1).SetCellValue("评审组:");
+         rowtemp2.CreateCell(2).SetCellValue(models.FirstOrDefault().GroupName);
+         rowtemp2.CreateCell(4).SetCellValue("评审专家:");
+         rowtemp2.CreateCell(8).SetCellValue("评审时间:");
+
+         return book;
+      }
 
    }
 

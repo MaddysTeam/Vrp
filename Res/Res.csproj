@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.0.0.999, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.0.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
       <Private>True</Private>
@@ -84,6 +88,26 @@
     <Reference Include="MvcPaging, Version=2.1.2.28, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MvcPaging.2.1.2\lib\net40\MvcPaging.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.OOXML.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.OpenXml4Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.OpenXmlFormats.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="O2S.Components.PDFRender4NET, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Business\Utils\MentalTools\dll\O2S.Components.PDFRender4NET.dll</HintPath>
     </Reference>
     <Reference Include="Symber.Web.APQuery, Version=4.0.3.5, Culture=neutral, PublicKeyToken=5f8081ae21b51971, processorArchitecture=MSIL">
       <HintPath>..\packages\Symber.Web.APQuery.4.0.3.5\lib\net40\Symber.Web.APQuery.dll</HintPath>
@@ -187,6 +211,7 @@
     <Compile Include="Business\Utils\IndicationHelper.cs" />
     <Compile Include="Business\Utils\GridOrder.cs" />
     <Compile Include="Business\Utils\IDCardCheck.cs" />
+    <Compile Include="Business\Utils\MentalTools\MentalConverter.cs" />
     <Compile Include="Business\Utils\ResCommentTypeHelper.cs" />
     <Compile Include="Business\Utils\ResCompanyHelper.cs" />
     <Compile Include="Business\Utils\ResModelBinder.cs" />
@@ -195,6 +220,7 @@
     <Compile Include="Business\Utils\ResUserHelper.cs" />
     <Compile Include="Business\Utils\EvalGroupHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DesignerController.cs" />
     <Compile Include="Controllers\AttachmentController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CroBulletinController.cs" />
@@ -1528,6 +1554,8 @@
     <Content Include="assets\themes\king\js\deliswitch.js" />
     <Content Include="assets\themes\king\js\king-common.js" />
     <Content Include="assets\themes\king\js\king-common.min.js" />
+    <Content Include="Attachments\second.htm" />
+    <Content Include="Business\Utils\MentalTools\dll\O2S.Components.PDFRender4NET.dll" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="HtmlPage2 - 复制.html" />
@@ -1868,7 +1896,6 @@
     <Folder Include="assets\plugins\jquery.bootgrid-1.1.4\demo\" />
     <Folder Include="assets\plugins\jquery.bootgrid-1.1.4\test\" />
     <Folder Include="assets\plugins\select2-4.0.0-beta.3\docs\dist\" />
-    <Folder Include="Attachments\" />
     <Folder Include="Views\Attachment\" />
   </ItemGroup>
   <ItemGroup>

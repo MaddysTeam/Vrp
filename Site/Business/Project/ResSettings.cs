@@ -188,8 +188,8 @@ namespace Res.Business
 
       public List<ResCompany> AllProvince()
       {
-         //return Companies.FindAll(x=>x.ParentId==0);
-         return Companies.FindAll(x => x.CompanyId == ResCompanyHelper.ShangHai);//TODO:shagnhai version
+         return Companies.FindAll(x=>x.ParentId==0);
+         //return Companies.FindAll(x => x.CompanyId == ResCompanyHelper.ShangHai);//TODO:shagnhai version
       }
 
       public List<ResCompany> AllAreas()

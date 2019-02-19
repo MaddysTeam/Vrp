@@ -1,0 +1,68 @@
+﻿
+@model ChgPwd
+@{
+	Layout = "~/Views/Shared/_CroLayout.cshtml";
+	ViewBag.Title = "修改个人密码";
+}
+
+<div class="menu">
+	<div class="fl">首页 ><a href="@Url.Action("Index", "CroMy",new { id=ResSettings.SettingsInSession.UserId})"><span>个人信息</span></a>> <span>修改个人信息</span></div>
+</div>
+<div class="user">
+	@using (Html.BeginForm("ChgPwd", "CroMy", FormMethod.Post, new { id = "form", role = "form", @class = "form-horizontal" }))
+	{
+		<div class="row">
+			<fieldset class="col-sm-12">
+
+				<div class="form-group">
+					<div class="control-label col-sm-3">新密码</div>
+					<div class="col-sm-9">
+						@Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "新密码" })
+						@Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="control-label col-sm-3">确认新密码</div>
+					<div class="col-sm-9">
+						@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "确认新密码" })
+						@Html.ValidationMessageFor(m => m.ConfirmPassword, null, new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9 col-lg-offset-3">
+						<button type="submit" id="submit" class="btn btn-primary btn-block"><i class="fa fa-check-circle"></i> 保存</button>
+						<button type="button" class="btn btn-default btn-block" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	}
+</div>
+
+
+@section Scripts{
+
+	<script type="text/javascript">
+		$(function () {
+
+			// add validate new form.
+			$.validator.unobtrusive.parse("#form");
+			$("#form").submit(function () {
+
+				var $form = $(this);
+				if (!$form.valid())
+					return false;
+
+				$.post($form.attr("action"), $form.serialize(), function (data, status) {
+					alert("修改成功");
+					window.location.reload(true);
+				});
+
+				return false;
+			});
+
+		});
+	</script>
+}
+

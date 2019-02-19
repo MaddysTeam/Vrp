@@ -48,22 +48,28 @@ namespace Util.Security
       /// <returns>已解密的字符串。</returns>
       public static string DESDecrypt(string key, string val)
       {
-         byte[] inputByteArray = Convert.FromBase64String(val);
-         using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
-         {
-            des.Key = ASCIIEncoding.ASCII.GetBytes(key);
-            des.IV = ASCIIEncoding.ASCII.GetBytes(key);
-            MemoryStream ms = new MemoryStream();
-            using (CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write))
+         try {
+            byte[] inputByteArray = Convert.FromBase64String(val);
+            using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
             {
-               cs.Write(inputByteArray, 0, inputByteArray.Length);
-               cs.FlushFinalBlock();
-               cs.Close();
+               des.Key = ASCIIEncoding.ASCII.GetBytes(key);
+               des.IV = ASCIIEncoding.ASCII.GetBytes(key);
+               MemoryStream ms = new MemoryStream();
+               using (CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write))
+               {
+                  cs.Write(inputByteArray, 0, inputByteArray.Length);
+                  cs.FlushFinalBlock();
+                  cs.Close();
+               }
+               string str = Encoding.UTF8.GetString(ms.ToArray());
+               ms.Close();
+               return str;
             }
-            string str = Encoding.UTF8.GetString(ms.ToArray());
-            ms.Close();
-            return str;
          }
+         catch {
+            return string.Empty;
+         }
+
       }
    }
 

@@ -183,7 +183,6 @@ E:\项目文件(GitLab)\长三角新版(github)\Res\bin\System.Web.WebPages.Razo
 E:\项目文件(GitLab)\长三角新版(github)\Res\bin\Antlr3.Runtime.pdb
 E:\项目文件(GitLab)\长三角新版(github)\Res\bin\Newtonsoft.Json.xml
 E:\项目文件(GitLab)\长三角新版(github)\Res\bin\Microsoft.Owin.Host.SystemWeb.xml
-E:\项目文件(GitLab)\长三角新版(github)\Res\bin\NPOI.xml
 E:\项目文件(GitLab)\长三角新版(github)\Res\bin\WcsLib.pdb
 E:\项目文件(GitLab)\长三角新版(github)\Res\bin\zh-Hans\Microsoft.AspNet.Identity.Core.resources.dll
 E:\项目文件(GitLab)\长三角新版(github)\Res\bin\zh-Hans\Microsoft.Owin.resources.dll
@@ -205,3 +204,5 @@ E:\项目文件(GitLab)\长三角新版(github)\Res\bin\itextsharp.xml
 C:\project\教软公司项目\新版长三角微视频\Res\bin\itextsharp.dll
 C:\project\教软公司项目\新版长三角微视频\Res\bin\itextsharp.xmlworker.dll
 C:\project\教软公司项目\新版长三角微视频\Res\bin\itextsharp.xml
+E:\项目文件(GitLab)\长三角新版(github)\Res\bin\ICSharpCode.SharpZipLib.xml
+E:\项目文件(GitLab)\长三角新版(github)\Res\bin\O2S.Components.PDFRender4NET.dll

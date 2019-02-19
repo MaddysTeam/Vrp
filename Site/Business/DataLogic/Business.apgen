@@ -306,6 +306,14 @@
 					<add name="WeiXInPraiseCount" type="int" display="微信点赞次数" defaultValue="0"/>
 				</columns>
 			</table>
+			
+			<table name="CroResourceMedal" comment="作品奖章">
+				<columns>
+					<add name="ResourceMedalId" type="long" identityType="Provider" primaryKey="true"  comment="作品奖状id" />
+					<add name="CrosourceId" type="long"  comment="作品ID"/>
+					<add name="FileId"  type="long"  comment="奖状文件ID"/>
+				</columns>
+			</table>
 
 			<!-- 以下为作品报送记录表  -->
 			<table name="DeliveryRecord">

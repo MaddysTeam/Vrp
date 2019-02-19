@@ -70,6 +70,10 @@ namespace Res.Controllers
             Password =
             Encrpytor.DESDecrypt(Encrpytor.KEY, password)
          };
+
+         AuthenticationManager.SignOut();
+         ResSettings.SettingsInSession.ResetCurrent();
+
          var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
          switch (result)
          {
@@ -82,8 +86,8 @@ namespace Res.Controllers
                return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
             case SignInStatus.Failure:
             default:
-               ModelState.AddModelError("", "用户名或密码不正确。");
-               return View(model);
+               return RedirectToAction("Login");
+              // return View(model);
          }
       }
 
