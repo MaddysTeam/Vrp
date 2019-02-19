@@ -41,7 +41,7 @@ namespace Res.Business
          //開啟Document文件 
          doc.Open();
          //使用XMLWorkerHelper把Html parse到PDF檔裡
-         XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, msInput, null, Encoding.UTF8, new UnicodeFontFactory());
+         XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, msInput, null, Encoding.UTF8);
          //將pdfDest設定的資料寫到PDF檔
          PdfAction action = PdfAction.GotoLocalPage(1, pdfDest, writer);
          writer.SetOpenAction(action);
@@ -64,7 +64,7 @@ namespace Res.Business
       /// <param name="imageFormat">设置所需图片格式</param>
       /// <param name="definition">设置图片的清晰度，数字越大越清晰</param>
       public static void ConvertPDF2Image(Stream stream, string imageOutputPath,
-          string imageName, int startPageNum, int endPageNum, ImageFormat imageFormat, Definition definition=Definition.One)
+          string imageName, int startPageNum, int endPageNum, ImageFormat imageFormat, Definition definition=Definition.Ten)
       {
          PDFFile pdfFile = PDFFile.Open(stream);
          if (!Directory.Exists(imageOutputPath))
@@ -89,7 +89,7 @@ namespace Res.Business
          // start to convert each page
          for (int i = startPageNum; i <= endPageNum; i++)
          {
-            Bitmap pageImage = pdfFile.GetPageImage(i - 1, 56 * (int)definition);
+            Bitmap pageImage = pdfFile.GetPageImage(i - 1, 40 * (int)definition);
             pageImage.Save(imageOutputPath + imageName + i.ToString() + "." + imageFormat.ToString(), imageFormat);
             pageImage.Dispose();
          }
@@ -103,25 +103,30 @@ namespace Res.Business
 
    }
 
-   public class UnicodeFontFactory : FontFactoryImp
-   {
+   //public class UnicokdeFontFactory : FontFactoryImp
+   //{
 
-      private static readonly string arialFontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "arialuni.ttf");
-      private static readonly string 標楷體Path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "KAIU.TTF");
+   //   private static readonly string arialFontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "simsun.ttc");
+   //   private static readonly string 標楷體Path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "KAIU.TTF");
 
-      public override iTextSharp.text.Font GetFont(
-         string fontname,
-         string encoding,
-         bool embedded,
-         float size,
-         int style,
-         BaseColor color,
-         bool cached)
-      {
-         BaseFont baseFont = BaseFont.CreateFont(arialFontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-         return new iTextSharp.text.Font(baseFont, size, style, color);
-      }
+   //   public override iTextSharp.text.Font GetFont(
+   //      string fontname,
+   //      string encoding,
+   //      bool embedded,
+   //      float size,
+   //      int style,
+   //      BaseColor color,
+   //      bool cached)
+   //   {
+   //      BaseFont basefont = BaseFont.CreateFont(@"c:\windows\fonts\simsun.ttc,1", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+   //      return new iTextSharp.text.Font(basefont, size, style, color);
+   //   }
 
-   }
+   //   public override void Register(string path)
+   //   {
+   //      base.Register(@"c:\windows\fonts\STLITI.TTF");
+   //   }
+
+   //}
 
 }

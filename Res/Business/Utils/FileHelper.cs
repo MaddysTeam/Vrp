@@ -31,7 +31,7 @@ namespace Res.Business
 
       public static string HtmlExtName = ".HTML";
       public static string PdfExtName = ".pdf";
-
+      public static string GifExtName = ".gif";
    }
 
 }

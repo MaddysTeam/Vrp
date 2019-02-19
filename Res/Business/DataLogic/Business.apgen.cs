@@ -50,6 +50,8 @@ namespace Res.Business {
         
         private static CroResourceTableDef _croResource;
         
+        private static CroResourceMedalTableDef _croResourceMedal;
+        
         private static DeliveryRecordTableDef _deliveryRecord;
         
         private static MicroCourseTableDef _microCourse;
@@ -131,6 +133,8 @@ namespace Res.Business {
         private APDalDef.CroBulletinDal _croBulletinDal;
         
         private APDalDef.CroResourceDal _croResourceDal;
+        
+        private APDalDef.CroResourceMedalDal _croResourceMedalDal;
         
         private APDalDef.DeliveryRecordDal _deliveryRecordDal;
         
@@ -355,6 +359,18 @@ namespace Res.Business {
                     _croResource = new CroResourceTableDef("CroResource");
                 }
                 return _croResource;
+            }
+        }
+        
+        /// <summary>
+        /// 作品奖章 TableDef
+        /// </summary>
+        public static CroResourceMedalTableDef CroResourceMedal {
+            get {
+                if ((_croResourceMedal == null)) {
+                    _croResourceMedal = new CroResourceMedalTableDef("CroResourceMedal");
+                }
+                return _croResourceMedal;
             }
         }
         
@@ -839,6 +855,18 @@ namespace Res.Business {
         }
         
         /// <summary>
+        /// 作品奖章 Dal
+        /// </summary>
+        public virtual APDalDef.CroResourceMedalDal CroResourceMedalDal {
+            get {
+                if ((_croResourceMedalDal == null)) {
+                    _croResourceMedalDal = new APDalDef.CroResourceMedalDal(this);
+                }
+                return _croResourceMedalDal;
+            }
+        }
+        
+        /// <summary>
         ///  Dal
         /// </summary>
         public virtual APDalDef.DeliveryRecordDal DeliveryRecordDal {
@@ -1167,6 +1195,7 @@ namespace Res.Business {
                 db.ActiveDownloadDal.InitData(db);
                 db.CroBulletinDal.InitData(db);
                 db.CroResourceDal.InitData(db);
+                db.CroResourceMedalDal.InitData(db);
                 db.DeliveryRecordDal.InitData(db);
                 db.MicroCourseDal.InitData(db);
                 db.ExercisesDal.InitData(db);
@@ -4579,6 +4608,138 @@ namespace Res.Business {
             /// </summary>
             public virtual List<CroResource> TolerantMapList(IDataReader reader) {
                 List<CroResource> list = new List<CroResource>();
+                try {
+                    for (; reader.Read(); ) {
+                        list.Add(TolerantMap(reader));
+                    }
+                }
+                finally {
+                    reader.Close();
+                }
+                return list;
+            }
+        }
+        
+        [Serializable()]
+        public partial class CroResourceMedalTableDef : APTableDef {
+            
+            private Int64APColumnDef _resourceMedalId;
+            
+            private Int64APColumnDef _crosourceId;
+            
+            private Int64APColumnDef _fileId;
+            
+            public CroResourceMedalTableDef(string tableName) : 
+                    base(tableName) {
+            }
+            
+            protected CroResourceMedalTableDef(string tableName, string alias) : 
+                    base(tableName, alias) {
+            }
+            
+            /// <summary>
+            /// ResourceMedalId ColumnDef
+            /// </summary>
+            public virtual Int64APColumnDef ResourceMedalId {
+                get {
+                    if (Object.ReferenceEquals(_resourceMedalId, null)) {
+                        _resourceMedalId = new Int64APColumnDef(this, "ResourceMedalId", false);
+                        _resourceMedalId.Display = "ResourceMedalId";
+                    }
+                    return _resourceMedalId;
+                }
+            }
+            
+            /// <summary>
+            /// CrosourceId ColumnDef
+            /// </summary>
+            public virtual Int64APColumnDef CrosourceId {
+                get {
+                    if (Object.ReferenceEquals(_crosourceId, null)) {
+                        _crosourceId = new Int64APColumnDef(this, "CrosourceId", false);
+                        _crosourceId.Display = "CrosourceId";
+                    }
+                    return _crosourceId;
+                }
+            }
+            
+            /// <summary>
+            /// FileId ColumnDef
+            /// </summary>
+            public virtual Int64APColumnDef FileId {
+                get {
+                    if (Object.ReferenceEquals(_fileId, null)) {
+                        _fileId = new Int64APColumnDef(this, "FileId", false);
+                        _fileId.Display = "FileId";
+                    }
+                    return _fileId;
+                }
+            }
+            
+            /// <summary>
+            /// Default Index
+            /// </summary>
+            public virtual APSqlOrderPhrase DefaultOrder {
+                get {
+                    return null;
+                }
+            }
+            
+            /// <summary>
+            /// Create a alias table
+            /// </summary>
+            public virtual CroResourceMedalTableDef As(string name) {
+                return new CroResourceMedalTableDef("CroResourceMedal", name);
+            }
+            
+            /// <summary>
+            /// Fill the data.
+            /// </summary>
+            public virtual void Fullup(IDataReader reader, CroResourceMedal data, bool throwIfValidColumnName) {
+                data.ResourceMedalId = ResourceMedalId.GetValue<long>(reader, throwIfValidColumnName);
+                data.CrosourceId = CrosourceId.GetValue<long>(reader, throwIfValidColumnName);
+                data.FileId = FileId.GetValue<long>(reader, throwIfValidColumnName);
+            }
+            
+            /// <summary>
+            /// Fill the data.
+            /// </summary>
+            public virtual CroResourceMedal Map(IDataReader reader) {
+                CroResourceMedal data = new CroResourceMedal();
+                Fullup(reader, data, true);
+                return data;
+            }
+            
+            /// <summary>
+            /// Fill the data.
+            /// </summary>
+            public virtual CroResourceMedal TolerantMap(IDataReader reader) {
+                CroResourceMedal data = new CroResourceMedal();
+                Fullup(reader, data, false);
+                return data;
+            }
+            
+            /// <summary>
+            /// Fill the data.
+            /// </summary>
+            public virtual List<CroResourceMedal> MapList(IDataReader reader) {
+                List<CroResourceMedal> list = new List<CroResourceMedal>();
+                try {
+                    for (; reader.Read(); ) {
+                        list.Add(Map(reader));
+                    }
+                }
+                finally {
+                    reader.Close();
+                }
+                return list;
+            }
+            
+            /// <summary>
+            /// Fill the data.
+            /// </summary>
+            public virtual List<CroResourceMedal> TolerantMapList(IDataReader reader) {
+                List<CroResourceMedal> list = new List<CroResourceMedal>();
                 try {
                     for (; reader.Read(); ) {
                         list.Add(TolerantMap(reader));
@@ -10852,6 +11013,142 @@ namespace Res.Business {
         }
         
         /// <summary>
+        /// 作品奖章 DalBase
+        /// </summary>
+        public partial class CroResourceMedalDalBase : APDal {
+            
+            public CroResourceMedalDalBase() {
+            }
+            
+            public CroResourceMedalDalBase(APDatabase db) : 
+                    base(db) {
+            }
+            
+            /// <summary>
+            /// Insert Data.
+            /// </summary>
+            public virtual void Insert(CroResourceMedal data) {
+                if ((data.ResourceMedalId == 0)) {
+                    data.ResourceMedalId = ((long)(GetNewId(APDBDef.CroResourceMedal.ResourceMedalId)));
+                }
+                var query = APQuery.insert(APDBDef.CroResourceMedal).values(APDBDef.CroResourceMedal.ResourceMedalId.SetValue(data.ResourceMedalId), APDBDef.CroResourceMedal.CrosourceId.SetValue(data.CrosourceId), APDBDef.CroResourceMedal.FileId.SetValue(data.FileId));
+                ExecuteNonQuery(query);
+            }
+            
+            /// <summary>
+            /// Update Data.
+            /// </summary>
+            public virtual void Update(CroResourceMedal data) {
+                var query = APQuery.update(APDBDef.CroResourceMedal).values(APDBDef.CroResourceMedal.CrosourceId.SetValue(data.CrosourceId), APDBDef.CroResourceMedal.FileId.SetValue(data.FileId)).where((APDBDef.CroResourceMedal.ResourceMedalId == data.ResourceMedalId));
+                ExecuteNonQuery(query);
+            }
+            
+            /// <summary>
+            /// Update Data.
+            /// </summary>
+            public virtual void UpdatePartial(long resourceMedalId, Object metadata) {
+                var query = APQuery.update(APDBDef.CroResourceMedal).values(APSqlSetPhraseSelector.Select(APDBDef.CroResourceMedal, metadata)).where((APDBDef.CroResourceMedal.ResourceMedalId == resourceMedalId));
+                ExecuteNonQuery(query);
+            }
+            
+            /// <summary>
+            /// Delete data by primary key.
+            /// </summary>
+            public virtual void PrimaryDelete(long resourceMedalId) {
+                var query = APQuery.delete(APDBDef.CroResourceMedal).where((APDBDef.CroResourceMedal.ResourceMedalId == resourceMedalId));
+                ExecuteNonQuery(query);
+            }
+            
+            /// <summary>
+            /// Delete data by condition.
+            /// </summary>
+            public virtual void ConditionDelete(APSqlWherePhrase condition) {
+                var query = APQuery.delete(APDBDef.CroResourceMedal).where(condition);
+                ExecuteNonQuery(query);
+            }
+            
+            /// <summary>
+            /// Query count by condition.
+            /// </summary>
+            public virtual int ConditionQueryCount(APSqlWherePhrase condition) {
+                var query = APQuery.select(APDBDef.CroResourceMedal.Asterisk.Count()).from(APDBDef.CroResourceMedal).where(condition);
+                return ExecuteCount(query);
+            }
+            
+            /// <summary>
+            /// Get data by PK.
+            /// </summary>
+            public virtual CroResourceMedal PrimaryGet(long resourceMedalId) {
+                var query = APQuery.select(APDBDef.CroResourceMedal.Asterisk).from(APDBDef.CroResourceMedal).where((APDBDef.CroResourceMedal.ResourceMedalId == resourceMedalId));
+                IDataReader reader = ExecuteReader(query);
+                try {
+                    if (reader.Read()) {
+                        return APDBDef.CroResourceMedal.Map(reader);
+                    }
+                    return null;
+                }
+                finally {
+                    reader.Close();
+                }
+            }
+            
+            /// <summary>
+            /// Query by condition.
+            /// </summary>
+            public virtual List<CroResourceMedal> ConditionQuery(APSqlWherePhrase condition, APSqlOrderPhrase orderBy, System.Nullable<int> take, System.Nullable<int> skip) {
+                var query = APQuery.select(APDBDef.CroResourceMedal.Asterisk).from(APDBDef.CroResourceMedal);
+                if ((condition != null)) {
+                    query.where(condition);
+                }
+                if ((orderBy != null)) {
+                    query.order_by(orderBy);
+                }
+                if ((take != null)) {
+                    query.take(take);
+                }
+                if ((skip != null)) {
+                    query.skip(skip);
+                }
+                query.primary(APDBDef.CroResourceMedal.ResourceMedalId);
+                IDataReader reader = ExecuteReader(query);
+                return APDBDef.CroResourceMedal.MapList(reader);
+            }
+            
+            /// <summary>
+            /// Get the initial data of the table.
+            /// </summary>
+            public virtual List<CroResourceMedal> GetInitData() {
+                return new List<CroResourceMedal>();
+            }
+            
+            /// <summary>
+            /// Initialize data.
+            /// </summary>
+            public virtual void InitData(APDBDef db) {
+                List<CroResourceMedal> list = GetInitData();
+                for (int i = 0; (i < list.Count); i = (i + 1)) {
+                    CroResourceMedal data = list[i];
+                    if ((PrimaryGet(data.ResourceMedalId) == null)) {
+                        Insert(data);
+                    }
+                }
+            }
+        }
+        
+        /// <summary>
+        /// 作品奖章 Dal
+        /// </summary>
+        public partial class CroResourceMedalDal : CroResourceMedalDalBase {
+            
+            public CroResourceMedalDal() {
+            }
+            
+            public CroResourceMedalDal(APDatabase db) : 
+                    base(db) {
+            }
+        }
+        
+        /// <summary>
         ///  DalBase
         /// </summary>
         public partial class DeliveryRecordDalBase : APDal {
@@ -16341,6 +16638,155 @@ namespace Res.Business {
         /// 微课作品 Dal
         /// </summary>
         public partial class CroResourceBpl : CroResourceBplBase {
+        }
+        
+        /// <summary>
+        /// 作品奖章 BplBase
+        /// </summary>
+        public partial class CroResourceMedalBplBase {
+            
+            /// <summary>
+            /// Insert Data.
+            /// </summary>
+            public static void Insert(CroResourceMedal data) {
+                APDBDef db = new APDBDef();
+                try {
+                    db.CroResourceMedalDal.Insert(data);
+                }
+                finally {
+                    db.Close();
+                }
+            }
+            
+            /// <summary>
+            /// Update Data.
+            /// </summary>
+            public static void Update(CroResourceMedal data) {
+                APDBDef db = new APDBDef();
+                try {
+                    db.CroResourceMedalDal.Update(data);
+                }
+                finally {
+                    db.Close();
+                }
+            }
+            
+            /// <summary>
+            /// Update Data.
+            /// </summary>
+            public static void UpdatePartial(long resourceMedalId, Object metadata) {
+                APDBDef db = new APDBDef();
+                try {
+                    db.CroResourceMedalDal.UpdatePartial(resourceMedalId, metadata);
+                }
+                finally {
+                    db.Close();
+                }
+            }
+            
+            /// <summary>
+            /// Delete data by primary key.
+            /// </summary>
+            public static void PrimaryDelete(long resourceMedalId) {
+                APDBDef db = new APDBDef();
+                try {
+                    db.CroResourceMedalDal.PrimaryDelete(resourceMedalId);
+                }
+                finally {
+                    db.Close();
+                }
+            }
+            
+            /// <summary>
+            /// Delete data by condition.
+            /// </summary>
+            public static void ConditionDelete(APSqlWherePhrase condition) {
+                APDBDef db = new APDBDef();
+                try {
+                    db.CroResourceMedalDal.ConditionDelete(condition);
+                }
+                finally {
+                    db.Close();
+                }
+            }
+            
+            /// <summary>
+            /// Query count by condition.
+            /// </summary>
+            public static int ConditionQueryCount(APSqlWherePhrase condition) {
+                APDBDef db = new APDBDef();
+                try {
+                    return db.CroResourceMedalDal.ConditionQueryCount(condition);
+                }
+                finally {
+                    db.Close();
+                }
+            }
+            
+            /// <summary>
+            /// Get data by PK.
+            /// </summary>
+            public static CroResourceMedal PrimaryGet(long resourceMedalId) {
+                APDBDef db = new APDBDef();
+                try {
+                    return db.CroResourceMedalDal.PrimaryGet(resourceMedalId);
+                }
+                finally {
+                    db.Close();
+                }
+            }
+            
+            /// <summary>
+            /// Query by condition.
+            /// </summary>
+            public static List<CroResourceMedal> ConditionQuery(APSqlWherePhrase condition, APSqlOrderPhrase orderBy, System.Nullable<int> take, System.Nullable<int> skip) {
+                APDBDef db = new APDBDef();
+                try {
+                    return db.CroResourceMedalDal.ConditionQuery(condition, orderBy, take, skip);
+                }
+                finally {
+                    db.Close();
+                }
+            }
+            
+            /// <summary>
+            /// Query by condition.
+            /// </summary>
+            public static List<CroResourceMedal> ConditionQuery(APSqlWherePhrase condition, APSqlOrderPhrase orderBy, System.Nullable<int> take) {
+                APDBDef db = new APDBDef();
+                try {
+                    return db.CroResourceMedalDal.ConditionQuery(condition, orderBy, take, null);
+                }
+                finally {
+                    db.Close();
+                }
+            }
+            
+            /// <summary>
+            /// Query by condition.
+            /// </summary>
+            public static List<CroResourceMedal> ConditionQuery(APSqlWherePhrase condition, APSqlOrderPhrase orderBy) {
+                APDBDef db = new APDBDef();
+                try {
+                    return db.CroResourceMedalDal.ConditionQuery(condition, orderBy, null, null);
+                }
+                finally {
+                    db.Close();
+                }
+            }
+            
+            /// <summary>
+            /// Get all data.
+            /// </summary>
+            public static List<CroResourceMedal> GetAll() {
+                return ConditionQuery(null, null);
+            }
+        }
+        
+        /// <summary>
+        /// 作品奖章 Dal
+        /// </summary>
+        public partial class CroResourceMedalBpl : CroResourceMedalBplBase {
         }
         
         /// <summary>
@@ -26646,6 +27092,246 @@ namespace Res.Business {
                     int weiXinFavoriteCount, 
                     int weiXInPraiseCount) : 
                 base(crosourceId, title, author, keywords, description, provinceId, areaId, companyId, activeId, authorCompany, authorAddress, authorEmail, authorPhone, stagePKID, gradePKID, resourceTypePKID, subjectPKID, courseTypePKID, statePKID, publicStatePKID, downloadStatePKID, winLevelPKID, downCount, favoriteCount, viewCount, commentCount, eliteScore, praiseCount, auditor, auditedTime, auditOpinion, creator, createdTime, lastModifier, lastModifiedTime, score, weiXinFavoriteCount, weiXInPraiseCount) {
+        }
+    }
+    
+    /// <summary>
+    /// 作品奖章 Base
+    /// </summary>
+    [Serializable()]
+    public abstract partial class CroResourceMedalBase {
+        
+        /// <summary>
+        /// 作品奖状id
+        /// </summary>
+        private long _resourceMedalId;
+        
+        /// <summary>
+        /// 作品ID
+        /// </summary>
+        private long _crosourceId;
+        
+        /// <summary>
+        /// 奖状文件ID
+        /// </summary>
+        private long _fileId;
+        
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public CroResourceMedalBase() {
+        }
+        
+        /// <summary>
+        /// Constructor with all field values.
+        /// </summary>
+        public CroResourceMedalBase(long resourceMedalId, long crosourceId, long fileId) {
+            _resourceMedalId = resourceMedalId;
+            _crosourceId = crosourceId;
+            _fileId = fileId;
+        }
+        
+        /// <summary>
+        /// 作品奖状id
+        /// </summary>
+        public virtual long ResourceMedalId {
+            get {
+                return _resourceMedalId;
+            }
+            set {
+                _resourceMedalId = value;
+            }
+        }
+        
+        /// <summary>
+        /// 作品奖状id APColumnDef
+        /// </summary>
+        public static Int64APColumnDef ResourceMedalIdDef {
+            get {
+                return APDBDef.CroResourceMedal.ResourceMedalId;
+            }
+        }
+        
+        /// <summary>
+        /// 作品ID
+        /// </summary>
+        public virtual long CrosourceId {
+            get {
+                return _crosourceId;
+            }
+            set {
+                _crosourceId = value;
+            }
+        }
+        
+        /// <summary>
+        /// 作品ID APColumnDef
+        /// </summary>
+        public static Int64APColumnDef CrosourceIdDef {
+            get {
+                return APDBDef.CroResourceMedal.CrosourceId;
+            }
+        }
+        
+        /// <summary>
+        /// 奖状文件ID
+        /// </summary>
+        public virtual long FileId {
+            get {
+                return _fileId;
+            }
+            set {
+                _fileId = value;
+            }
+        }
+        
+        /// <summary>
+        /// 奖状文件ID APColumnDef
+        /// </summary>
+        public static Int64APColumnDef FileIdDef {
+            get {
+                return APDBDef.CroResourceMedal.FileId;
+            }
+        }
+        
+        /// <summary>
+        /// CroResourceMedalTableDef APTableDef
+        /// </summary>
+        public static APDBDef.CroResourceMedalTableDef TableDef {
+            get {
+                return APDBDef.CroResourceMedal;
+            }
+        }
+        
+        /// <summary>
+        /// CroResourceMedalTableDef APSqlAsteriskExpr
+        /// </summary>
+        public static APSqlAsteriskExpr Asterisk {
+            get {
+                return APDBDef.CroResourceMedal.Asterisk;
+            }
+        }
+        
+        /// <summary>
+        /// Assignment.
+        /// </summary>
+        public virtual void Assignment(CroResourceMedal data) {
+            ResourceMedalId = data.ResourceMedalId;
+            CrosourceId = data.CrosourceId;
+            FileId = data.FileId;
+        }
+        
+        /// <summary>
+        /// Compare equals.
+        /// </summary>
+        public virtual bool CompareEquals(CroResourceMedal data) {
+            if ((ResourceMedalId != data.ResourceMedalId)) {
+                return false;
+            }
+            if ((CrosourceId != data.CrosourceId)) {
+                return false;
+            }
+            if ((FileId != data.FileId)) {
+                return false;
+            }
+            return true;
+        }
+        
+        /// <summary>
+        /// Insert Data.
+        /// </summary>
+        public virtual void Insert() {
+            APBplDef.CroResourceMedalBpl.Insert(((CroResourceMedal)(this)));
+        }
+        
+        /// <summary>
+        /// Update Data.
+        /// </summary>
+        public virtual void Update() {
+            APBplDef.CroResourceMedalBpl.Update(((CroResourceMedal)(this)));
+        }
+        
+        /// <summary>
+        /// Update Data.
+        /// </summary>
+        public static void UpdatePartial(long resourceMedalId, Object metadata) {
+            APBplDef.CroResourceMedalBpl.UpdatePartial(resourceMedalId, metadata);
+        }
+        
+        /// <summary>
+        /// Delete data by primary key.
+        /// </summary>
+        public static void PrimaryDelete(long resourceMedalId) {
+            APBplDef.CroResourceMedalBpl.PrimaryDelete(resourceMedalId);
+        }
+        
+        /// <summary>
+        /// Delete data by condition.
+        /// </summary>
+        public static void ConditionDelete(APSqlWherePhrase condition) {
+            APBplDef.CroResourceMedalBpl.ConditionDelete(condition);
+        }
+        
+        /// <summary>
+        /// Query count by condition.
+        /// </summary>
+        public static int ConditionQueryCount(APSqlWherePhrase condition) {
+            return APBplDef.CroResourceMedalBpl.ConditionQueryCount(condition);
+        }
+        
+        /// <summary>
+        /// Get data by PK.
+        /// </summary>
+        public static CroResourceMedal PrimaryGet(long resourceMedalId) {
+            return APBplDef.CroResourceMedalBpl.PrimaryGet(resourceMedalId);
+        }
+        
+        /// <summary>
+        /// Query by condition.
+        /// </summary>
+        public static List<CroResourceMedal> ConditionQuery(APSqlWherePhrase condition, APSqlOrderPhrase orderBy, int take, int skip) {
+            return APBplDef.CroResourceMedalBpl.ConditionQuery(condition, orderBy, take, skip);
+        }
+        
+        /// <summary>
+        /// Query by condition.
+        /// </summary>
+        public static List<CroResourceMedal> ConditionQuery(APSqlWherePhrase condition, APSqlOrderPhrase orderBy, int take) {
+            return APBplDef.CroResourceMedalBpl.ConditionQuery(condition, orderBy, take);
+        }
+        
+        /// <summary>
+        /// Query by condition.
+        /// </summary>
+        public static List<CroResourceMedal> ConditionQuery(APSqlWherePhrase condition, APSqlOrderPhrase orderBy) {
+            return APBplDef.CroResourceMedalBpl.ConditionQuery(condition, orderBy);
+        }
+        
+        /// <summary>
+        /// Get all data.
+        /// </summary>
+        public static List<CroResourceMedal> GetAll() {
+            return APBplDef.CroResourceMedalBpl.GetAll();
+        }
+    }
+    
+    /// <summary>
+    /// 作品奖章
+    /// </summary>
+    [Serializable()]
+    public partial class CroResourceMedal : CroResourceMedalBase {
+        
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public CroResourceMedal() {
+        }
+        
+        /// <summary>
+        /// Constructor with all field values.
+        /// </summary>
+        public CroResourceMedal(long resourceMedalId, long crosourceId, long fileId) : 
+                base(resourceMedalId, crosourceId, fileId) {
         }
     }
     

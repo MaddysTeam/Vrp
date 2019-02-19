@@ -49,7 +49,6 @@ C:\project\教软公司项目\新版长三角微视频\Res\bin\System.Web.WebPag
 C:\project\教软公司项目\新版长三角微视频\Res\bin\Antlr3.Runtime.pdb
 C:\project\教软公司项目\新版长三角微视频\Res\bin\Newtonsoft.Json.xml
 C:\project\教软公司项目\新版长三角微视频\Res\bin\Microsoft.Owin.Host.SystemWeb.xml
-C:\project\教软公司项目\新版长三角微视频\Res\bin\NPOI.xml
 C:\project\教软公司项目\新版长三角微视频\Res\bin\WcsLib.pdb
 C:\project\教软公司项目\新版长三角微视频\Res\bin\zh-Hans\Microsoft.AspNet.Identity.Core.resources.dll
 C:\project\教软公司项目\新版长三角微视频\Res\bin\zh-Hans\Microsoft.Owin.resources.dll
@@ -206,3 +205,5 @@ C:\project\教软公司项目\新版长三角微视频\Res\bin\itextsharp.xmlwor
 C:\project\教软公司项目\新版长三角微视频\Res\bin\itextsharp.xml
 E:\项目文件(GitLab)\长三角新版(github)\Res\bin\ICSharpCode.SharpZipLib.xml
 E:\项目文件(GitLab)\长三角新版(github)\Res\bin\O2S.Components.PDFRender4NET.dll
+C:\project\教软公司项目\新版长三角微视频\Res\bin\O2S.Components.PDFRender4NET.dll
+C:\project\教软公司项目\新版长三角微视频\Res\bin\ICSharpCode.SharpZipLib.xml

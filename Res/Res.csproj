@@ -1557,6 +1557,7 @@
     <Content Include="Attachments\second.htm" />
     <Content Include="Business\Utils\MentalTools\dll\O2S.Components.PDFRender4NET.dll" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="HtmlPage2 - 复制.html" />
     <Content Include="HtmlPage2.html" />
@@ -1845,6 +1846,10 @@
     <Content Include="assets\plugins\playease-master\playease-master\LICENSE" />
     <Content Include="assets\plugins\playease-master\playease-master\README.md" />
     <Content Include="assets\plugins\playease-master\playease-master\test\logo.psd" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Attachments\abc.html" />
     <None Include="Properties\PublishProfiles\Admin.pubxml" />
     <None Include="Properties\PublishProfiles\MapRes.pubxml" />
     <Content Include="Views\Comment\Comment.cshtml" />
