@@ -1554,7 +1554,6 @@
     <Content Include="assets\themes\king\js\deliswitch.js" />
     <Content Include="assets\themes\king\js\king-common.js" />
     <Content Include="assets\themes\king\js\king-common.min.js" />
-    <Content Include="Attachments\second.htm" />
     <Content Include="Business\Utils\MentalTools\dll\O2S.Components.PDFRender4NET.dll" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -1849,7 +1848,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Attachments\abc.html" />
+    <Content Include="Attachments\medal.html" />
     <None Include="Properties\PublishProfiles\Admin.pubxml" />
     <None Include="Properties\PublishProfiles\MapRes.pubxml" />
     <Content Include="Views\Comment\Comment.cshtml" />

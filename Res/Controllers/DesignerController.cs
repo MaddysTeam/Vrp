@@ -18,16 +18,15 @@ namespace Res.Controllers
 
       public ActionResult Design()
       {
-         //var filePath = Server.MapPath("~/Attachments/second.htm");
-         //MentalConverter.ConverHtmlToImage(filePath, @"D:\temp", "myImage");
+         CreateAndBindMedal();
 
-         //CreateAndBindMedal();e
+         //var filePath = Server.MapPath("~/Attachments/abc.html");
+         //var htmlStr = System.IO.File.ReadAllText(filePath).Replace("{{Auther}}", "test").Replace("{{ResourceTitle}}", "title");
+         //var pdfFile=FormatConverter.ConvertHtmlTextToPDF(htmlStr);
 
-         var filePath = Server.MapPath("~/Attachments/abc.html");
-         var htmlStr = System.IO.File.ReadAllText(filePath).Replace("{{Auther}}", "test").Replace("{{ResourceTitle}}", "title");
-         var pdfFile=FormatConverter.ConvertHtmlTextToPDF(htmlStr);
+         //return new BinaryContentResult($"aaa.pdf", "application/pdf", pdfFile);
 
-         return new BinaryContentResult($"aaa.pdf", "application/pdf", pdfFile);
+         return View();
       }
 
 
@@ -40,9 +39,12 @@ namespace Res.Controllers
          var i = 0;
          foreach (var item in winlevelResources)
          {
-            var filePath = Server.MapPath("~/Attachments/abc.html");
-            var htmlStr = System.IO.File.ReadAllText(filePath).Replace("{{Auther}}", item.Author).Replace("{{ResourceTitle}}", item.Title);
-            var fs = MentalConverter.ConverHtmlToImage(htmlStr, "myImage");
+            if (i > 1) break;
+
+            var md5 = string.Empty;
+            var filePath = Server.MapPath("~/Attachments/medal.html");
+            var htmlStr = System.IO.File.ReadAllText(filePath).Replace("{{Auther}}", item.Author).Replace("{{ResourceTitle}}", item.Title).Replace("{{WinLevel}}", item.WinLevel);
+            var fs = MentalConverter.ConverHtmlToImage(htmlStr, item.Title, out md5);
             using (fs)
             {
                if (fs.Length <= 0)
@@ -50,8 +52,7 @@ namespace Res.Controllers
                   Console.Write($"{item.Title} creat fail");
                   break;
                }
-               var md5 = FileHelper.ConvertToMD5(fs);
-
+              
                var fileIsExist = db.FilesDal.ConditionQueryCount(f.Md5 == md5)>0;
                if (fileIsExist)
                   break;
