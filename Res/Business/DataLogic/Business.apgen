@@ -327,12 +327,15 @@
 				
 				</columns>
 			</table>
+			
 
 			<table name="CroResourceMedal" comment="作品奖章">
 				<columns>
 					<add name="ResourceMedalId" type="long" identityType="Provider" primaryKey="true"  comment="作品奖状id" />
 					<add name="CrosourceId" type="long"  comment="作品ID"/>
 					<add name="FileId"  type="long"  comment="奖状文件ID"/>
+					<add name="ActiveId" type="long" comment="活动ID"/>
+					<add name="CreateDate" type="DateTime" comment="创建时间"/>
 				</columns>
 			</table>
 

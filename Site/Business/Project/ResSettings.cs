@@ -176,7 +176,7 @@ namespace Res.Business
             //   SetCache(_companys, typeof(List<ResCompany>));
             //}
 
-            return APBplDef.ActiveBpl.GetAll();
+            return APBplDef.ActiveBpl.GetAll().FindAll(x=>x.IsCurrent);
          }
       }
 

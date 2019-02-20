@@ -978,6 +978,7 @@
     <Content Include="Views\CroMy\ChgPwd.cshtml" />
     <Content Include="Views\CroResource\_exercies.cshtml" />
     <Content Include="Views\CroMy\CroMyPraise.cshtml" />
+    <Content Include="Views\CroMy\CroMyMedal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

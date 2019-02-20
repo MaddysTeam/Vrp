@@ -16,13 +16,13 @@ namespace Util.ThirdParty.WangsuCloud
    public class FileUploader
    {
 
-      public const string ACCESS_KEY = "57b89577283edae1d74e261b7b637f7055e29c08";
-      public const string SECURITY_KEY = "a5834d0469180f9c30d4b761aac90975cfc83d10";
-      public const string UPLOAD_DOMAIN = "tejiao.up28.v1.wcsapi.com";
-      public const string MANAGER_DOMAIN = "tejiao.mgr28.v1.wcsapi.com";
-      public const string SCOPE = "csj-zyk";
+      public const string ACCESS_KEY = "57b89577283edae1d74e261b7b637f7055e29c08"; // 必须
+      public const string SECURITY_KEY = "a5834d0469180f9c30d4b761aac90975cfc83d10";// 必须
+      public const string UPLOAD_DOMAIN = "tejiao.up28.v1.wcsapi.com";// 必须
+      public const string MANAGER_DOMAIN = "tejiao.mgr28.v1.wcsapi.com"; // 必须
+      public const string SCOPE = "csj-zyk"; //项目文件夹，如新项目需要登录创建
       public const string DEADLINE = "1546300800000";
-      public const string DOMAIN = "cdncsj.sser.shdjg.net";
+      public const string DOMAIN = "cdncsj.sser.shdjg.net"; 
 
       public static SimpleUpload SimpleUploader
       {

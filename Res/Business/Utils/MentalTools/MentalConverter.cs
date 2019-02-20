@@ -12,25 +12,11 @@ namespace Res.Business.Utils
    public class MentalConverter
    {
 
-      public static void ConverHtmlToImage(string htmlPath,string output,string imageName)
+      public static Stream ConverHtmlToImage(string htmlStr,string imageName)
       {
-         var htmlStr = ReadHtml(htmlPath);
          var bytes = FormatConverter.ConvertHtmlTextToPDF(htmlStr);
-
          var ms = new MemoryStream(bytes);
-         FormatConverter.ConvertPDF2Image(ms, output, imageName, 1, 1, ImageFormat.Gif);
-
-      }
-
-
-      private static string ReadHtml(string htmlFile)
-      {
-         if (!string.IsNullOrEmpty(htmlFile))
-         {
-            return File.ReadAllText(htmlFile);
-         }
-
-         return string.Empty;
+         return FormatConverter.ConvertPDF2Image(ms, imageName, 1, 1, ImageFormat.Gif);
       }
 
    }

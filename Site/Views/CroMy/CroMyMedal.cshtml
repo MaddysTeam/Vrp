@@ -1,0 +1,71 @@
+﻿
+@{
+	var id = this.ViewContext.RouteData.Values["id"];
+	Layout = "~/Views/Shared/_CroLayout.cshtml";
+	ViewBag.Title = "我的奖状";
+}
+
+<div class="menu">
+	<div class="fl">首页 > <span>@ViewBag.Title</span></div>
+</div>
+<div class="res_list">
+
+	@foreach (CroResourceMedal item in ViewBag.ListofMedals)
+	{
+
+
+
+		<div class="res">
+			<img class="cover" src="@item.FilePath" />
+			<div class="res_text">
+				<p>
+					@*<a href="@Url.Action("ZcView", "CroResource", new { id = item.CrosourceId })"><span class="restitle">@item.Title</span></a>*@
+				</p>
+				<p>
+					作者：<b>@item.Author</b>  奖项类别：<b>@item.WinLevel</b>   颁发时间：<b>@item.CreateDate</b> 奖状文件格式：<b>.gif</b>
+					<br />
+					<span class="fr">
+						<a id="Preview" class="btn-preview" data-file-path="@item.FilePath">
+							<input type="button" value="预览" />
+						</a>
+					</span>
+					<span class="fr">
+						<a href="@Url.Action("ZcView", "CroResource", new { id = item.CrosourceId })">
+							<input type="button" value="下载" />
+						</a>
+					</span>
+				</p>
+			</div>
+		</div>
+	}
+</div>
+
+<!-- modal frame -->
+<div class="modal fade" id="InnerEditForm" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" style="z-index:19999">
+		<img id="PrevImage"  style="width:100%; height:100%" />
+	</div>
+</div>
+<!-- end modal frame -->
+
+<div>
+	@Html.Pager((int)ViewBag.PageSize, (int)ViewBag.PageNumber, (int)ViewBag.TotalItemCount).Options(o => o
+							.DisplayTemplate("_Bootstrap3Pagination")
+						  .MaxNrOfPages(10)
+						  .AlwaysAddFirstPageNumber()
+						  .AddRouteValue("type", ViewBag.ParamType)
+		)
+</div>
+@section scripts{
+	<script>
+		$(function () {
+
+			$('.btn-preview').on('click', function () {
+				var filePath = $(this).data('filePath');
+				$('#InnerEditForm').find('#PrevImage').attr('src', filePath);
+				$('#InnerEditForm').modal('show');
+			});
+
+		})
+	</script>
+}

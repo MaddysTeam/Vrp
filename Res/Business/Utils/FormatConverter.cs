@@ -34,7 +34,8 @@ namespace Res.Business
          MemoryStream outputStream = new MemoryStream();//要把PDF寫到哪個串流
          byte[] data = Encoding.UTF8.GetBytes(htmlText);//字串轉成byte[]
          MemoryStream msInput = new MemoryStream(data);
-         Document doc = new Document();//要寫PDF的文件，建構子沒填的話預設直式A4
+
+         Document doc = new Document(PageSize.A3);//要寫PDF的文件，建構子沒填的話預設直式A4
          PdfWriter writer = PdfWriter.GetInstance(doc, outputStream);
          //指定文件預設開檔時的縮放為100%
          PdfDestination pdfDest = new PdfDestination(PdfDestination.XYZ, 0, doc.PageSize.Height, 1f);
@@ -57,20 +58,16 @@ namespace Res.Business
       /// 将PDF文档转换为图片的方法
       /// </summary>
       /// <param name="pdfInputPath">PDF文件路径</param>
-      /// <param name="imageOutputPath">图片输出路径</param>
       /// <param name="imageName">生成图片的名字</param>
       /// <param name="startPageNum">从PDF文档的第几页开始转换</param>
       /// <param name="endPageNum">从PDF文档的第几页开始停止转换</param>
       /// <param name="imageFormat">设置所需图片格式</param>
       /// <param name="definition">设置图片的清晰度，数字越大越清晰</param>
-      public static void ConvertPDF2Image(Stream stream, string imageOutputPath,
+      public static Stream ConvertPDF2Image(Stream stream,
           string imageName, int startPageNum, int endPageNum, ImageFormat imageFormat, Definition definition=Definition.Ten)
       {
          PDFFile pdfFile = PDFFile.Open(stream);
-         if (!Directory.Exists(imageOutputPath))
-         {
-            Directory.CreateDirectory(imageOutputPath);
-         }
+      
          // validate pageNum
          if (startPageNum <= 0)
          {
@@ -86,14 +83,19 @@ namespace Res.Business
             startPageNum = endPageNum;
             endPageNum = startPageNum;
          }
+
+         var ms = new MemoryStream();
          // start to convert each page
          for (int i = startPageNum; i <= endPageNum; i++)
          {
             Bitmap pageImage = pdfFile.GetPageImage(i - 1, 40 * (int)definition);
-            pageImage.Save(imageOutputPath + imageName + i.ToString() + "." + imageFormat.ToString(), imageFormat);
+            pageImage.Save(ms, imageFormat);
             pageImage.Dispose();
          }
+
          pdfFile.Dispose();
+
+         return ms;
       }
 
       public enum Definition

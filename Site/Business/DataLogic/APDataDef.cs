@@ -246,4 +246,17 @@ namespace Res.Business
 
    #endregion
 
+   #region [Mendals]
+
+   public partial class CroResourceMedal
+   {
+      public string Author { get; set; }
+      public string Title { get; set; }
+      public string FilePath { get; set; }
+      public string ActiveName { get; set; }
+      public string WinLevel { get; set; }
+   }
+
+   #endregion
+
 }

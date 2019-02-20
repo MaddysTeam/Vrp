@@ -326,7 +326,6 @@ namespace Res.Controllers
          return View(user);
       }
 
-
       //我的下载
       public ActionResult CroMyPraise(long id, int page = 1)
       {
@@ -343,6 +342,20 @@ namespace Res.Controllers
          return View(user);
       }
 
+      public ActionResult CroMyMedal(long id,int page= 1)
+      {
+         int total = 0;
+         ViewBag.ListofMedals = MyMedals(id, out total, 10, (page - 1) * 10);
+
+         // 分页器
+         ViewBag.PageSize = 10;
+         ViewBag.PageNumber = page;
+         ViewBag.TotalItemCount = total;
+
+         ResUser user = new ResUser();
+         user.UserId = id;
+         return View(user);
+      }
 
       //
       // 微课作品查看

@@ -22,6 +22,7 @@
 		<li><a class="a_CroMyComment" href="@Url.Action("CroMyComment", "CroMy", new { id = id })">评论列表</a></li>
 		<li><a class="a_CroMyFavorite" href="@Url.Action("CroMyFavorite", "CroMy", new { id = id })">收藏列表</a></li>
 		<li><a class="a_CroMyDownload" href="@Url.Action("CroMyPraise", "CroMy", new { id = id })">点赞列表</a></li>
+		<li><a class="a_CroMyMedal" href="@Url.Action("CroMyMedal", "CroMy", new { id = id })">我的奖状</a></li>
 	@if (user.UserTypePKID != ResUserHelper.Teacher)
 	{
    	<li><a class="a_CroMyDownload" href="@link" target="_blank">后台管理</a></li>
