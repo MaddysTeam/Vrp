@@ -211,7 +211,7 @@
     <Compile Include="Business\Utils\IndicationHelper.cs" />
     <Compile Include="Business\Utils\GridOrder.cs" />
     <Compile Include="Business\Utils\IDCardCheck.cs" />
-    <Compile Include="Business\Utils\MentalTools\MentalConverter.cs" />
+    <Compile Include="Business\Utils\MetalTools\MentalConverter.cs" />
     <Compile Include="Business\Utils\ResCommentTypeHelper.cs" />
     <Compile Include="Business\Utils\ResCompanyHelper.cs" />
     <Compile Include="Business\Utils\ResModelBinder.cs" />
@@ -1554,7 +1554,7 @@
     <Content Include="assets\themes\king\js\deliswitch.js" />
     <Content Include="assets\themes\king\js\king-common.js" />
     <Content Include="assets\themes\king\js\king-common.min.js" />
-    <Content Include="Business\Utils\MentalTools\dll\O2S.Components.PDFRender4NET.dll" />
+    <Content Include="Business\Utils\MetalTools\dll\O2S.Components.PDFRender4NET.dll" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

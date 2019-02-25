@@ -18,32 +18,26 @@ namespace Res.Controllers
 
       public ActionResult Design()
       {
-         CreateAndBindMedal();
-
-         //var filePath = Server.MapPath("~/Attachments/abc.html");
-         //var htmlStr = System.IO.File.ReadAllText(filePath).Replace("{{Auther}}", "test").Replace("{{ResourceTitle}}", "title");
-         //var pdfFile=FormatConverter.ConvertHtmlTextToPDF(htmlStr);
-
-         //return new BinaryContentResult($"aaa.pdf", "application/pdf", pdfFile);
-
          return View();
       }
-
 
       private void CreateAndBindMedal()
       {
          var c = APDBDef.CroResource;
          var f = APDBDef.Files;
 
-         var winlevelResources = db.CroResourceDal.ConditionQuery(c.WinLevelPKID > 0 & c.ActiveId == 2, null, null, null);
+         var winlevelResources = db.CroResourceDal.ConditionQuery(c.WinLevelPKID == 205 & c.ActiveId == 2, null, null, null);
          var i = 0;
          foreach (var item in winlevelResources)
          {
-            if (i > 1) break;
+            //if (i > 1) break;
 
             var md5 = string.Empty;
             var filePath = Server.MapPath("~/Attachments/medal.html");
-            var htmlStr = System.IO.File.ReadAllText(filePath).Replace("{{Auther}}", item.Author).Replace("{{ResourceTitle}}", item.Title).Replace("{{WinLevel}}", item.WinLevel);
+            var htmlStr = System.IO.File.ReadAllText(filePath).Replace("{{Auther}}", item.Author)
+               .Replace("{{ResourceTitle}}", item.MedalTitle)
+               .Replace("{{WinLevel}}", item.WinLevel)
+               .Replace("{{MedalCode}}", $"2018{CodeMappings[item.AreaId]}01{item.CrosourceId}");
             var fs = MentalConverter.ConverHtmlToImage(htmlStr, item.Title, out md5);
             using (fs)
             {
@@ -52,8 +46,8 @@ namespace Res.Controllers
                   Console.Write($"{item.Title} creat fail");
                   break;
                }
-              
-               var fileIsExist = db.FilesDal.ConditionQueryCount(f.Md5 == md5)>0;
+
+               var fileIsExist = db.FilesDal.ConditionQueryCount(f.Md5 == md5) > 0;
                if (fileIsExist)
                   break;
 
@@ -79,6 +73,26 @@ namespace Res.Controllers
             i++;
          }
       }
+
+      private Dictionary<long, string> CodeMappings = new Dictionary<long, string>()
+      {
+         { 1163,"310101"},
+         { 1164,"310104"},
+         { 1165,"310105"},
+         { 1166,"310106"},
+         { 1167,"310107"},
+         { 1169,"310109"},
+         { 1170,"310110"},
+         { 1171,"310112"},
+         { 1172,"310113"},
+         { 1173,"310114"},
+         { 1174,"310115"},
+         { 1175,"310116"},
+         { 1176,"310117"},
+         { 1177,"310118"},
+         { 1178,"310120"},
+         { 1180,"310151"},
+      };
 
    }
 

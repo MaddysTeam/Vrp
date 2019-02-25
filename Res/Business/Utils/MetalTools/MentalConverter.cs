@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Res.Business.Utils
+namespace Res.Business
 {
 
    public class MentalConverter

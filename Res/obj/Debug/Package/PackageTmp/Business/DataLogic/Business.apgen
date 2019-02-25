@@ -271,6 +271,7 @@
 
 					<!-- Content -->
 					<add name="Title" type="string" dataLength="250" required="true" display="标题"/>
+					<add name="MedalTitle" type="string" dataLength="250" isNullable="true" display="奖状标题"/>
 					<add name="Author" type="string" dataLength="50" required="true" display="作者"/>
 					<add name="Keywords" type="string" dataLength="50"  required="true"  display="关键字"/>
 					<add name="Description" type="string" dataLength="30000" display="微课信息简介"/>
@@ -325,6 +326,17 @@
 					<add name="WeiXinFavoriteCount" type="int" display="微信收藏次数"/>
 					<add name="WeiXInPraiseCount" type="int" display="微信点赞次数" defaultValue="0"/>
 				
+				</columns>
+			</table>
+			
+
+			<table name="CroResourceMedal" comment="作品奖章">
+				<columns>
+					<add name="ResourceMedalId" type="long" identityType="Provider" primaryKey="true"  comment="作品奖状id" />
+					<add name="CrosourceId" type="long"  comment="作品ID"/>
+					<add name="FileId"  type="long"  comment="奖状文件ID"/>
+					<add name="ActiveId" type="long" comment="活动ID"/>
+					<add name="CreateDate" type="DateTime" comment="创建时间"/>
 				</columns>
 			</table>
 

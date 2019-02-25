@@ -9,10 +9,10 @@
    <li><a href="@Url.Action("Index", "CroHome")">返回首页</a></li>
 	<li><a class="a_More" href="@Url.Action("More", "CroMy", new { id = id })" >通知公告</a></li>
 		<li><a class="a_Index" href="@Url.Action("Index", "CroMy", new { id = id })" >个人信息</a></li>
-	@if (HttpContext.Current.Request.IsAuthenticated & ResSettings.SettingsInSession.UserId == Convert.ToInt64(id))
+	@*@if (HttpContext.Current.Request.IsAuthenticated & ResSettings.SettingsInSession.UserId == Convert.ToInt64(id))
 	{ 
 		<li><a class="a_Upload" href="@Url.Action("Upload", "CroMy", new { id = id })">作品上传</a></li>
-	}
+	}*@
 		<li>
 			<a  class="a_btn a_CroMyResource a_CroMyRecommand">作品列表</a>
 			<ul class="sub_nav">
@@ -22,6 +22,7 @@
 		<li><a class="a_CroMyComment" href="@Url.Action("CroMyComment", "CroMy", new { id = id })">评论列表</a></li>
 		<li><a class="a_CroMyFavorite" href="@Url.Action("CroMyFavorite", "CroMy", new { id = id })">收藏列表</a></li>
 		<li><a class="a_CroMyDownload" href="@Url.Action("CroMyPraise", "CroMy", new { id = id })">点赞列表</a></li>
+		<li><a class="a_CroMyMedal" href="@Url.Action("CroMyMedal", "CroMy", new { id = id })">我的奖状</a></li>
 	@if (user.UserTypePKID != ResUserHelper.Teacher)
 	{
    	<li><a class="a_CroMyDownload" href="@link" target="_blank">后台管理</a></li>
