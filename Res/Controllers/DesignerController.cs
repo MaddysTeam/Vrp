@@ -18,6 +18,14 @@ namespace Res.Controllers
 
       public ActionResult Design()
       {
+         var filePath = Server.MapPath("~/Attachments/test.html");
+         var htmlStr = System.IO.File.ReadAllText(filePath).Replace("{{Auther}}", "test").Replace("{{ResourceTitle}}", "测试测试测试测试测试测试测试测试");
+         var pdfFile = FormatConverter.ConvertHtmlTextToPDF(htmlStr);
+
+         return new BinaryContentResult($"aaa.pdf", "application/pdf", pdfFile);
+
+         //CreateAndBindMedal();
+
          return View();
       }
 
@@ -30,13 +38,13 @@ namespace Res.Controllers
          var i = 0;
          foreach (var item in winlevelResources)
          {
-            //if (i > 1) break;
+            if (i > 10) break;
 
             var md5 = string.Empty;
             var filePath = Server.MapPath("~/Attachments/medal.html");
-            var htmlStr = System.IO.File.ReadAllText(filePath).Replace("{{Auther}}", item.Author)
-               .Replace("{{ResourceTitle}}", item.MedalTitle)
-               .Replace("{{WinLevel}}", item.WinLevel)
+            var htmlStr = System.IO.File.ReadAllText(filePath).Replace("{{Auther}}","郑伟珏")
+               .Replace("{{ResourceTitle}}", "我的老公是个帅哥")
+               .Replace("{{WinLevel}}", "超爱老公奖")
                .Replace("{{MedalCode}}", $"2018{CodeMappings[item.AreaId]}01{item.CrosourceId}");
             var fs = MentalConverter.ConverHtmlToImage(htmlStr, item.Title, out md5);
             using (fs)
@@ -65,7 +73,7 @@ namespace Res.Controllers
                }
                else
                {
-                  Console.Write($"{item.Title} nendal upload fail");
+                  Console.Write($"{item.Title} mendal upload fail");
                   break;
                }
             }

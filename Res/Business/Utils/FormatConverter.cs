@@ -35,7 +35,7 @@ namespace Res.Business
          byte[] data = Encoding.UTF8.GetBytes(htmlText);//字串轉成byte[]
          MemoryStream msInput = new MemoryStream(data);
 
-         Document doc = new Document(PageSize.A3);//要寫PDF的文件，建構子沒填的話預設直式A4
+         Document doc = new Document(PageSize.A4);//要寫PDF的文件，建構子沒填的話預設直式A4
          PdfWriter writer = PdfWriter.GetInstance(doc, outputStream);
          //指定文件預設開檔時的縮放為100%
          PdfDestination pdfDest = new PdfDestination(PdfDestination.XYZ, 0, doc.PageSize.Height, 1f);

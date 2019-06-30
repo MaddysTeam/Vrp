@@ -20,7 +20,7 @@
 				{
 
 					var user = ResSettings.SettingsInSession.User;
-					var link = string.Format(ThisApp.AdminSystemUrl, user.UserName, Util.Security.Encrpytor.DESEncrypt(Util.Security.Encrpytor.KEY, user.Password));
+					var link = string.Format(ThisApp.AdminSystemUrl, user.UserName, Util.Security.Encrpytor.DESEncrypt(Util.Security.Encrpytor.KEY, user.Password), "http://localhost/admin/home/index");
 
 					<a class="top_s_text p_l0" href="@Url.Action("Index", "CroMy", new { id = ResSettings.SettingsInSession.UserId })">进入我的个人中心</a>
 					<span class="top_s_bo"></span>

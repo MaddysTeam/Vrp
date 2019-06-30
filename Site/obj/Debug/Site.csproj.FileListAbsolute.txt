@@ -72,7 +72,6 @@ C:\project\教软公司项目\新版长三角微视频\Site\bin\zh-Hans\System.W
 C:\project\教软公司项目\新版长三角微视频\Site\bin\zh-Hans\System.Web.WebPages.resources.dll
 C:\project\教软公司项目\新版长三角微视频\Site\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll
 C:\project\教软公司项目\新版长三角微视频\Site\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
-C:\project\教软公司项目\新版长三角微视频\Site\obj\Debug\Site.csprojResolveAssemblyReference.cache
 C:\project\教软公司项目\新版长三角微视频\Site\obj\Debug\Res.dll
 C:\project\教软公司项目\新版长三角微视频\Site\obj\Debug\Res.pdb
 E:\项目文件(GitLab)\长三角新版\Site\bin\Res.dll.config
@@ -225,3 +224,6 @@ E:\项目文件(GitLab)\长三角新版(github)\Site\bin\zh-Hans\System.Web.WebP
 E:\项目文件(GitLab)\长三角新版(github)\Site\obj\Debug\Site.csprojResolveAssemblyReference.cache
 E:\项目文件(GitLab)\长三角新版(github)\Site\obj\Debug\Res.dll
 E:\项目文件(GitLab)\长三角新版(github)\Site\obj\Debug\Res.pdb
+C:\project\教软公司项目\新版长三角微视频\Site\obj\Debug\Site.csprojAssemblyReference.cache
+C:\project\教软公司项目\新版长三角微视频\Site\obj\Debug\Site.csproj.CoreCompileInputs.cache
+C:\project\教软公司项目\新版长三角微视频\Site\obj\Debug\Site.csproj.CopyComplete

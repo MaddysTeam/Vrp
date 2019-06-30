@@ -1554,6 +1554,7 @@
     <Content Include="assets\themes\king\js\deliswitch.js" />
     <Content Include="assets\themes\king\js\king-common.js" />
     <Content Include="assets\themes\king\js\king-common.min.js" />
+    <Content Include="Attachments\test.html" />
     <Content Include="Business\Utils\MetalTools\dll\O2S.Components.PDFRender4NET.dll" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

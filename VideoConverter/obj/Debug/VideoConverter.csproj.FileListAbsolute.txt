@@ -3,3 +3,8 @@ E:\项目文件(GitLab)\长三角新版(github)\VideoConverter\bin\Debug\VideoCo
 E:\项目文件(GitLab)\长三角新版(github)\VideoConverter\obj\Debug\VideoConverter.csprojResolveAssemblyReference.cache
 E:\项目文件(GitLab)\长三角新版(github)\VideoConverter\obj\Debug\VideoConverter.exe
 E:\项目文件(GitLab)\长三角新版(github)\VideoConverter\obj\Debug\VideoConverter.pdb
+C:\project\教软公司项目\新版长三角微视频\VideoConverter\bin\Debug\VideoConverter.exe
+C:\project\教软公司项目\新版长三角微视频\VideoConverter\bin\Debug\VideoConverter.pdb
+C:\project\教软公司项目\新版长三角微视频\VideoConverter\obj\Debug\VideoConverter.exe
+C:\project\教软公司项目\新版长三角微视频\VideoConverter\obj\Debug\VideoConverter.pdb
+C:\project\教软公司项目\新版长三角微视频\VideoConverter\obj\Debug\VideoConverter.csprojResolveAssemblyReference.cache

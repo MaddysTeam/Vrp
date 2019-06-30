@@ -130,6 +130,7 @@ namespace Util.ThirdParty.WangsuCloud
 
       private static SimpleUpload _simpleUploader;
       private static SliceUpload _sliceUploader;
+
    }
 
    public static class Certificate

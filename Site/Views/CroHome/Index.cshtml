@@ -125,7 +125,7 @@
 		else
 		{
 			var user = ResSettings.SettingsInSession.User;
-			var link = string.Format(ThisApp.AdminSystemUrl, user.UserName, Util.Security.Encrpytor.DESEncrypt(Util.Security.Encrpytor.KEY, user.Password));
+			var link = string.Format(ThisApp.AdminSystemUrl, user.UserName, Util.Security.Encrpytor.DESEncrypt(Util.Security.Encrpytor.KEY, user.Password),"http://localhost/admin/home/index");
 			<div class="block_panel2">
 				<div class="panel_title">
 					@ResSettings.SettingsInSession.RealName ，欢迎您！
