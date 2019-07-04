@@ -96,7 +96,7 @@ namespace Res.Controllers
          var t = APDBDef.CroResource;
          var userid = id;
          var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.PublicStatePKID, t.DownloadStatePKID, //t.CoverPath, t.FileExtName, 
-             t.Description, t.CreatedTime, t.AuditOpinion, t.StatePKID)
+             t.Description, t.CreatedTime, t.AuditOpinion, t.StatePKID,t.ActiveId)
             .from(t)
             .where(t.Creator == userid)
 
@@ -125,7 +125,8 @@ namespace Res.Controllers
                Description = des,
                OccurTime = t.CreatedTime.GetValue(reader),
                StatePKID = t.StatePKID.GetValue(reader),
-               AuditOpinion = t.AuditOpinion.GetValue(reader)
+               AuditOpinion = t.AuditOpinion.GetValue(reader),
+			   IsCurrentActive=t.ActiveId.GetValue(reader)==ThisApp.CurrentActiveId
             };
          }).ToList();
       }
@@ -189,11 +190,11 @@ namespace Res.Controllers
          var userid = id;
          var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.ActiveId,
                                     t.Description, t1.OccurTime, t1.OccurId, t1.Content,
-                                    t.ProvinceId, t.AreaId, t.CompanyId, a.ActiveName)
+                                    t.ProvinceId, t.AreaId, t.CompanyId, a.ActiveName,a.IsCurrent)
             .from(t,
                  t1.JoinInner(t.CrosourceId == t1.ResourceId),
                  a.JoinInner(a.ActiveId == t.ActiveId))
-            .where(t1.UserId == userid)
+            .where(t1.UserId == userid & a.IsCurrent==true)
             .order_by(t1.OccurTime.Desc)
             .primary(t1.OccurId)
             .take(take)
@@ -236,11 +237,11 @@ namespace Res.Controllers
          var userid = id;
          var query = APQuery.select(t.CrosourceId, t.Title, t.Author, t.ActiveId,
                                     t.Description, t.CreatedTime, t.StatePKID,
-                                    t.ProvinceId, t.AreaId, t.CompanyId, a.ActiveName, p.OccurId, p.OccurTime)
+                                    t.ProvinceId, t.AreaId, t.CompanyId, a.ActiveName, p.OccurId, p.OccurTime,a.IsCurrent)
             .from(t,
                   p.JoinInner(p.ResourceId == t.CrosourceId),
                   a.JoinInner(a.ActiveId == t.ActiveId))
-            .where(t.Creator == userid)
+            .where(t.Creator == userid & a.IsCurrent == true)
             .order_by(t.CreatedTime.Desc)
             .primary(t.CrosourceId)
             .take(take)
@@ -313,7 +314,7 @@ namespace Res.Controllers
       //}
       #endregion
 
-      #region 我的奖章
+      #region [我的奖章]
 
       public List<CroResourceMedal> MyMedals(long id, out int total, int take, int skip = 0)
       {

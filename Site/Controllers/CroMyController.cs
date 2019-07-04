@@ -147,14 +147,11 @@ namespace Res.Controllers
          ViewBag.Provinces = provinces;
          ViewBag.Areas = areas;
          ViewBag.Companies = schools;
-
-         ViewBag.Actives = APBplDef.ActiveBpl.GetAll();
-
+         ViewBag.Actives = APBplDef.ActiveBpl.GetAll().Where(x=>x.IsCurrent).ToList();
          ViewBag.ProvincesDic = GetStrengthDict(areas);
          ViewBag.AreasDic = GetStrengthDict(areas);
          ViewBag.SchoolsDic = GetStrengthDict(schools);
          ViewBag.ResTypes = GetStrengthDict(CroResourceHelper.ResourceType.GetItems());
-         ViewBag.Actives = APBplDef.ActiveBpl.GetAll();
 
          var model= resid == null ? 
                        new CroResource { ProvinceId=user.ProvinceId, AreaId=user.AreaId, CompanyId=user.CompanyId, Courses = new List<MicroCourse> { new MicroCourse() } } :

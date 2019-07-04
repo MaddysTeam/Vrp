@@ -153,10 +153,8 @@ E:\项目文件(GitLab)\长三角新版(github)\Site\bin\Res.dll.config
 E:\项目文件(GitLab)\长三角新版(github)\Site\bin\Res.dll
 E:\项目文件(GitLab)\长三角新版(github)\Site\bin\Res.pdb
 E:\项目文件(GitLab)\长三角新版(github)\Site\bin\Antlr3.Runtime.dll
-E:\项目文件(GitLab)\长三角新版(github)\Site\bin\DocumentFormat.OpenXml.dll
 E:\项目文件(GitLab)\长三角新版(github)\Site\bin\Microsoft.AspNet.Identity.Core.dll
 E:\项目文件(GitLab)\长三角新版(github)\Site\bin\Microsoft.AspNet.Identity.Owin.dll
-E:\项目文件(GitLab)\长三角新版(github)\Site\bin\Microsoft.Office.Interop.Word.dll
 E:\项目文件(GitLab)\长三角新版(github)\Site\bin\Microsoft.Owin.dll
 E:\项目文件(GitLab)\长三角新版(github)\Site\bin\Microsoft.Owin.Host.SystemWeb.dll
 E:\项目文件(GitLab)\长三角新版(github)\Site\bin\Microsoft.Owin.Security.Cookies.dll
@@ -182,8 +180,6 @@ E:\项目文件(GitLab)\长三角新版(github)\Site\bin\NPOI.dll
 E:\项目文件(GitLab)\长三角新版(github)\Site\bin\WcsLib.dll
 E:\项目文件(GitLab)\长三角新版(github)\Site\bin\Aspose.Words.dll
 E:\项目文件(GitLab)\长三角新版(github)\Site\bin\NPOI.OOXML.dll
-E:\项目文件(GitLab)\长三角新版(github)\Site\bin\office.dll
-E:\项目文件(GitLab)\长三角新版(github)\Site\bin\Microsoft.Vbe.Interop.dll
 E:\项目文件(GitLab)\长三角新版(github)\Site\bin\ICSharpCode.SharpZipLib.dll
 E:\项目文件(GitLab)\长三角新版(github)\Site\bin\NPOI.OpenXmlFormats.dll
 E:\项目文件(GitLab)\长三角新版(github)\Site\bin\NPOI.OpenXml4Net.dll

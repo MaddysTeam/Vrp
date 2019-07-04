@@ -9,10 +9,10 @@
    <li><a href="@Url.Action("Index", "CroHome")">返回首页</a></li>
 	<li><a class="a_More" href="@Url.Action("More", "CroMy", new { id = id })" >通知公告</a></li>
 		<li><a class="a_Index" href="@Url.Action("Index", "CroMy", new { id = id })" >个人信息</a></li>
-	@*@if (HttpContext.Current.Request.IsAuthenticated & ResSettings.SettingsInSession.UserId == Convert.ToInt64(id))
+	@if (HttpContext.Current.Request.IsAuthenticated & ResSettings.SettingsInSession.UserId == Convert.ToInt64(id))
 	{ 
 		<li><a class="a_Upload" href="@Url.Action("Upload", "CroMy", new { id = id })">作品上传</a></li>
-	}*@
+	}
 		<li>
 			<a  class="a_btn a_CroMyResource a_CroMyRecommand">作品列表</a>
 			<ul class="sub_nav">

@@ -125,7 +125,7 @@
 		else
 		{
 			var user = ResSettings.SettingsInSession.User;
-			var link = string.Format(ThisApp.AdminSystemUrl, user.UserName, Util.Security.Encrpytor.DESEncrypt(Util.Security.Encrpytor.KEY, user.Password),"http://localhost/admin/home/index");
+			var link = string.Format(ThisApp.AdminSystemUrl, user.UserName, Util.Security.Encrpytor.DESEncrypt(Util.Security.Encrpytor.KEY, user.Password));
 			<div class="block_panel2">
 				<div class="panel_title">
 					@ResSettings.SettingsInSession.RealName ，欢迎您！
@@ -209,8 +209,13 @@
 				<b>往期活动</b>
 			</div>
 			<div  class="center-block">
-				<a href="http://weikecheng.yrdedu.cn/" target="_blank">
+				<a href="http://weike.yrdedu.cn/CroResource/Search?Active=1" target="_blank">
 					<img src="~/assets/img/previouslink.jpg" style="width:99%;margin-bottom:10px;" />
+				</a>
+			</div>
+			<div class="center-block">
+				<a href="http://weike.yrdedu.cn/CroResource/Search?Active=2" target="_blank">
+					<img src="~/assets/img/2018Active.jpg" style="width:99%;margin-bottom:10px;" />
 				</a>
 			</div>
 		</div>

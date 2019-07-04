@@ -36,7 +36,7 @@ namespace Res.Controllers
             var ext = Path.GetExtension(hpf.FileName);
             var anotherName = md5 + ext;
             // upload file to CDN Server
-            var uploadFile = new UploadFile { Stream = hpf.InputStream, FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{anotherName}" };
+            var uploadFile = new UploadFile { Stream = hpf.InputStream, FileName = $"2019/files/{DateTime.Today.ToString("yyyyMMdd")}/{anotherName}" };
             var result = FileUploader.SliceUpload(uploadFile);
 
             if (null == result || null == result.FileUrl) return Content("上传失败");
@@ -50,7 +50,7 @@ namespace Res.Controllers
                   var docFile = new UploadFile
                   {
                      Stream = docStream,
-                     FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{anotherName}{FileHelper.PdfExtName}"
+                     FileName = $"2019/files/{DateTime.Today.ToString("yyyyMMdd")}/{anotherName}{FileHelper.PdfExtName}"
                   };
                   var docResult = FileUploader.SliceUpload(docFile);
                   if (null == docResult || null == docResult.FileUrl || !docResult.IsSuccess) return Content("word 转pdf失败");
@@ -104,7 +104,7 @@ namespace Res.Controllers
                return Content("上传失败");
 
             // upload file to CDN Server
-            var uploadFile = new UploadFile { Stream = hpf.InputStream, FileName = $"2018/videos/{DateTime.Today.ToString("yyyyMMdd")}/{md5 + ext}" };
+            var uploadFile = new UploadFile { Stream = hpf.InputStream, FileName = $"2019/videos/{DateTime.Today.ToString("yyyyMMdd")}/{md5 + ext}" };
             var result = FileUploader.SliceUpload(uploadFile);
             if (result.IsSuccess)
             {
@@ -191,7 +191,7 @@ namespace Res.Controllers
          }
 
          var filename = md5 + Path.GetExtension(hpf.FileName);
-         var file = new UploadFile { Stream = ms, FileName = $"2018/pics/{DateTime.Today.ToString("yyyyMMdd")}/{filename}" };
+         var file = new UploadFile { Stream = ms, FileName = $"2019/pics/{DateTime.Today.ToString("yyyyMMdd")}/{filename}" };
          var result = FileUploader.SliceUpload(file);
 
          Files files = null;

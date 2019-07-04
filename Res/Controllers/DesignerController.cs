@@ -62,7 +62,7 @@ namespace Res.Controllers
                var docFile = new UploadFile
                {
                   Stream = fs,
-                  FileName = $"2018/files/{DateTime.Today.ToString("yyyyMMdd")}/{md5}{FileHelper.GifExtName}"
+                  FileName = $"2019/files/{DateTime.Today.ToString("yyyyMMdd")}/{md5}{FileHelper.GifExtName}"
                };
                var docResult = FileUploader.SliceUpload(docFile);
                if (docResult.IsSuccess)

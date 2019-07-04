@@ -109,6 +109,8 @@ namespace Res.Business
             return CoverPath;
          }
       }
+
+		public bool IsCurrentActive { get; set; }
    }
 
 

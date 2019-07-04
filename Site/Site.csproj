@@ -247,6 +247,7 @@
     <Content Include="assets\ico\trainningadmin-favicon144x144.png" />
     <Content Include="assets\ico\trainningadmin-favicon57x57.png" />
     <Content Include="assets\ico\trainningadmin-favicon72x72.png" />
+    <Content Include="assets\img\2018Active.jpg" />
     <Content Include="assets\img\cover.png" />
     <Content Include="assets\img\d_btn.jpg" />
     <Content Include="assets\img\flie.jpg" />
@@ -281,6 +282,7 @@
     <Content Include="assets\img\logo2.png" />
     <Content Include="assets\img\logo2018.png" />
     <Content Include="assets\img\logo201802.png" />
+    <Content Include="assets\img\LOGO2019.png" />
     <Content Include="assets\img\logo3.png" />
     <Content Include="assets\img\l_nav.png" />
     <Content Include="assets\img\l_nav_s.png" />

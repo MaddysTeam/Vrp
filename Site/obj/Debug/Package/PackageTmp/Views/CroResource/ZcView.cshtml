@@ -188,7 +188,16 @@
 		var ua = navigator.userAgent;
 		ua = ua.toLocaleLowerCase();
 
-		var isfirefoxOrEdge=ua.match(/edge/) != null || ua.match(/firefox/)!=null || ua.match(/Firefox/)!=null || ua.match(/Safari/)!=null;
+		var isfirefoxOrEdge=ua.match(/edge/) != null
+			|| ua.match(/firefox/)!=null 
+			|| ua.match(/Firefox/)!=null 
+			|| ua.match(/Safari/)!=null 
+			|| ua.match(/safari/)!=null 
+			|| ua.match(/chrome/)!=null
+			|| ua.match(/Chrome/)!=null
+			|| ua.match(/Mozilla/)!=null
+			|| ua.match(/AppleWebKit/)!=null;
+
 		if (isfirefoxOrEdge && hasVideo){
 				var pw = document.getElementById('video');
 				var events = playease.events;
