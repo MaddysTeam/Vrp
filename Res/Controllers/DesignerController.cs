@@ -18,13 +18,13 @@ namespace Res.Controllers
 
       public ActionResult Design()
       {
-         var filePath = Server.MapPath("~/Attachments/test.html");
-         var htmlStr = System.IO.File.ReadAllText(filePath).Replace("{{Auther}}", "test").Replace("{{ResourceTitle}}", "测试测试测试测试测试测试测试测试");
-         var pdfFile = FormatConverter.ConvertHtmlTextToPDF(htmlStr);
+         //var filePath = Server.MapPath("~/Attachments/test.html");
+         //var htmlStr = System.IO.File.ReadAllText(filePath).Replace("{{Auther}}", "test").Replace("{{ResourceTitle}}", "测试测试测试测试测试测试测试测试");
+         //var pdfFile = FormatConverter.ConvertHtmlTextToPDF(htmlStr);
 
-         return new BinaryContentResult($"aaa.pdf", "application/pdf", pdfFile);
+        // return new BinaryContentResult($"aaa.pdf", "application/pdf", pdfFile);
 
-         //CreateAndBindMedal();
+         CreateAndBindMedal();
 
          return View();
       }
@@ -34,7 +34,7 @@ namespace Res.Controllers
          var c = APDBDef.CroResource;
          var f = APDBDef.Files;
 
-         var winlevelResources = db.CroResourceDal.ConditionQuery(c.WinLevelPKID == 205 & c.ActiveId == 2, null, null, null);
+         var winlevelResources = db.CroResourceDal.ConditionQuery(c.Author== "陆旻", null, null, null);
          var i = 0;
          foreach (var item in winlevelResources)
          {
@@ -42,9 +42,9 @@ namespace Res.Controllers
 
             var md5 = string.Empty;
             var filePath = Server.MapPath("~/Attachments/medal.html");
-            var htmlStr = System.IO.File.ReadAllText(filePath).Replace("{{Auther}}","郑伟珏")
-               .Replace("{{ResourceTitle}}", "我的老公是个帅哥")
-               .Replace("{{WinLevel}}", "超爱老公奖")
+            var htmlStr = System.IO.File.ReadAllText(filePath).Replace("{{Auther}}",item.Author)
+               .Replace("{{ResourceTitle}}", item.Title)
+               .Replace("{{WinLevel}}", "二等奖")
                .Replace("{{MedalCode}}", $"2018{CodeMappings[item.AreaId]}01{item.CrosourceId}");
             var fs = MentalConverter.ConverHtmlToImage(htmlStr, item.Title, out md5);
             using (fs)
@@ -67,9 +67,9 @@ namespace Res.Controllers
                var docResult = FileUploader.SliceUpload(docFile);
                if (docResult.IsSuccess)
                {
-                  var file = new Files { FileName = $"{item.Title}的奖章", FilePath = docResult.FileUrl, ExtName = FileHelper.GifExtName, Md5 = md5 };
-                  db.FilesDal.Insert(file);
-                  db.CroResourceMedalDal.Insert(new CroResourceMedal { FileId = file.FileId, CrosourceId = item.CrosourceId, ActiveId = 2, CreateDate = DateTime.Now });
+                  //var file = new Files { FileName = $"{item.Title}的奖章", FilePath = docResult.FileUrl, ExtName = FileHelper.GifExtName, Md5 = md5 };
+                  //db.FilesDal.Insert(file);
+                  //db.CroResourceMedalDal.Insert(new CroResourceMedal { FileId = file.FileId, CrosourceId = item.CrosourceId, ActiveId = 2, CreateDate = DateTime.Now });
                }
                else
                {
