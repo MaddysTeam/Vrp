@@ -294,7 +294,16 @@
 			var path='@course.VideoPath';
 			var poster='@course.FitCoverPath';
 			var ua = navigator.userAgent;
-			var isfirefoxOrEdge=ua.match(/edge/) != null || ua.match(/firefox/)!=null || ua.match(/Firefox/)!=null;
+			var isfirefoxOrEdge=ua.match(/edge/) != null
+			|| ua.match(/firefox/)!=null 
+			|| ua.match(/Firefox/)!=null 
+			|| ua.match(/Safari/)!=null 
+			|| ua.match(/safari/)!=null 
+			|| ua.match(/chrome/)!=null
+			|| ua.match(/Chrome/)!=null
+			|| ua.match(/Mozilla/)!=null
+			|| ua.match(/AppleWebKit/)!=null;
+
 			ua = ua.toLocaleLowerCase();
 
 			if (isfirefoxOrEdge && hasVideo){

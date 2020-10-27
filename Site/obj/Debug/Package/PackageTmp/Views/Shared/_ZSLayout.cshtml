@@ -27,11 +27,11 @@
 			}
 			else
 			{
-				<span class="fr">
+				@*<span class="fr">
 					<a href="@Url.Action("Login", "Account")">登录</a>
 					<span class="nav_s_bo"></span>
-					@*<a href="@Url.Action("Register", "Account")">注册</a>*@
-				</span>				
+					
+				</span>*@				
 			}
 			<a class="nav_s_text" href="@Url.Action("Index", "Home")" target="_blank">进入2019年中小学微课评选活动</a>
 			<span class="nav_s_bo"></span>
@@ -53,7 +53,7 @@
 					<ul class="nav">
 						<li class="@(Level == "品德与社会" ? "t_c" : "")"><a href="@Url.Action("Search", "ZSResource", new { Level = "品德与社会" })">品德与社会</a></li>
 						<li class="@(Level == "科普活动" ? "t_c" : "")"><a href="@Url.Action("Search", "ZSResource", new { Level = "科普活动" })">科普活动</a></li>
-					</ul>
+					</ull
 
 					@*@using (Html.BeginForm("Search", "CroResource", FormMethod.Get, new { name = "searchform", @class = "nav_f" }))
 					{
@@ -85,6 +85,12 @@
 		<div class="container d_b w_1230">
 			<p>版权所有 Copy right © 2015</p>
 			<p>上海市电化教育馆主管、上海教育软件发展有限公司技术支持</p>
+			<p>
+				沪ICP备11037386号-6
+			</p>
+			<p>
+				（ICP备案可在工信部网站 http://beian.miit.gov.cn查询）
+			</p>
 		</div>
 	</div>
 	@Scripts.Render("~/js/jquery")

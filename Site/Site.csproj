@@ -249,6 +249,8 @@
     <Content Include="assets\ico\trainningadmin-favicon72x72.png" />
     <Content Include="assets\img\2018Active.jpg" />
     <Content Include="assets\img\cover.png" />
+    <Content Include="assets\img\dy_banner.jpg" />
+    <Content Include="assets\img\dy_small_banner.jpg" />
     <Content Include="assets\img\d_btn.jpg" />
     <Content Include="assets\img\flie.jpg" />
     <Content Include="assets\img\gender_1001.jpg" />
@@ -307,6 +309,8 @@
     <Content Include="assets\img\rr5.jpg" />
     <Content Include="assets\img\star.png" />
     <Content Include="assets\img\s_btn.jpg" />
+    <Content Include="assets\img\thesis_banner.jpg" />
+    <Content Include="assets\img\thesis_small_banner.jpg" />
     <Content Include="assets\img\t_banner.jpg" />
     <Content Include="assets\img\u1.jpg" />
     <Content Include="assets\img\u2.jpg" />

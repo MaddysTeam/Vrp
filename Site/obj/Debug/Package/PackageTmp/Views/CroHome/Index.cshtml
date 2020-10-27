@@ -20,6 +20,16 @@
 				</ul>
 			</div>
 
+		</div>
+
+		<div class="div_cont fl w100 mt_20 green_edge">
+
+			<div class="d_news">
+				<a>
+					<img src="~/assets/img/thesis_banner.jpg" style="width:100%" />
+				</a>
+			</div>
+
 
 		</div>
 
@@ -102,23 +112,14 @@
 
 		@if (!Request.IsAuthenticated)
 		{
-			<div class="div_cont w100 fr">
-				<div class="title">
-					<b>用户登录</b>
-					<a  class="right" href="@Url.Action("Register","Account")" style="margin-left:50px;font-size:12px">用户注册</a>
-				</div>
-				<div class="d_login">
-					@using (Html.BeginForm("Login", "Account", new { returnUrl = "/CroHome/Index" }, FormMethod.Post))
-					{
-						@*@Html.AntiForgeryToken()*@
-
-						<input class="form-control" type="text" name="username" placeholder="用户名" />
-						<input class="form-control" type="password" name="password" placeholder="密码" />
-						@*<input name="rememberme" type="checkbox" value="true" />
-						<span>下次自动登录</span>*@
-						<input name="rememberme" type="hidden" value="false" />
-						<input type="submit" value="登 录" class="btn" /> 
-					}
+			@*<div class="title">
+				<b>2020长三角论文活动</b>
+			</div>*@
+			<div class="div_cont fr w100 mt_20">
+				<div class="center-block">
+					<a href="#" target="_blank">
+						<img src="~/assets/img/thesis_small_banner.jpg" style="width:99%;margin-bottom:10px;" />
+					</a>
 				</div>
 			</div>
 		}
@@ -157,7 +158,7 @@
 
 
 
-		<div class="div_cont fr w100 mt_20">
+		<div class="div_cont fr w100 mt_20 hidden">
 			<div class="title">
 				<b>活跃用户</b><a href="@Url.Action("MoreUser", "CroUser")" class="glyphicon glyphicon-option-horizontal fr more" target="_blank"></a>
 			</div>
@@ -181,7 +182,7 @@
 			</div>
 		</div>
 
-		<div class="div_cont fr w100 mt_20">
+		<div class="div_cont fr w100 mt_20 hidden">
 			<div class="title">
 				<b>热门微课</b><a href="@Url.Action("More", "CroResource", new { type = CroResourceHelper.Hot})" class="glyphicon glyphicon-option-horizontal fr more" target="_blank"></a>
 			</div>
